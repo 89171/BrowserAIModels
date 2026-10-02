@@ -70,17 +70,17 @@ export default async function HomePage({
         <h2 id="cats" className="font-mono text-2xl mb-6">
           {TAXONOMY.length} Categories
         </h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border border-black divide-y divide-x divide-black/20">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {TAXONOMY.map((cat, idx) => {
             const count = cat.subcategories.reduce(
               (s, x) => s + countModels(cat.slug, x.slug),
               0,
             );
             return (
-              <li key={cat.slug} className="bg-white">
+              <li key={cat.slug}>
                 <Link
                   href={`/${cat.slug}`}
-                  className="block p-6 h-full hover:bg-black hover:text-white transition-colors group"
+                  className="block border border-black p-6 h-full bg-white hover:bg-black hover:text-white transition-colors group"
                 >
                   <div className="font-mono text-xs uppercase tracking-widest text-black/60 group-hover:text-white/70">
                     {cat.slug}
