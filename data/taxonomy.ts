@@ -32,6 +32,7 @@ export const TAXONOMY: CategoryMeta[] = [
       { slug: 'segmentation' },
       { slug: 'ocr' },
       { slug: 'depth' },
+      { slug: 'image-restoration' },
     ],
   },
   {
@@ -45,6 +46,13 @@ export const TAXONOMY: CategoryMeta[] = [
       { slug: 'tts' },
       { slug: 'denoising' },
       { slug: 'source-separation' },
+    ],
+  },
+  {
+    slug: 'generative-audio',
+    subcategories: [
+      { slug: 'text-to-music' },
+      { slug: 'voice-cloning' },
     ],
   },
   {

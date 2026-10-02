@@ -24,7 +24,7 @@
     "aboutLead": "在浏览器里跑 AI 的时代已经悄然到来。得益于 WebGPU、WebAssembly 以及 Transformers.js、WebLLM、MediaPipe、ONNX Runtime Web、TensorFlow.js、Whisper.cpp 等项目,过去需要一整张 GPU 集群才能运行的模型,现在可以直接在网页里运行 —— 没有后端,无需 API Key,也不会上传任何用户数据。",
     "aboutBody": "Web AI Models 是一个精选的、仅供展示的浏览器端 AI 模型目录,面向工程师、研究者和产品团队。它帮你回答一个简单的问题:今天在浏览器客户端到底能做哪些事?每个模型条目都标注了体积、运行框架、开源协议、所支持的语言或任务,并附上演示与文档链接。本站点不运行任何推理 —— 一切点击都会跳回原始开源项目。",
     "whatTitle": "目录内容",
-    "whatLead": "覆盖现代浏览器 AI 技术栈的 9 大分类、25 个子分类。",
+    "whatLead": "覆盖现代浏览器 AI 技术栈的 10 大分类、28 个子分类。",
     "whatItems": [
       {
         "title": "文本与大语言模型",
@@ -42,10 +42,9 @@
         "title": "生成式视觉",
         "body": "Stable Diffusion Turbo、SDXL、FLUX、LaMa 修复等可在 WebGPU 上生成或编辑像素的扩散模型。"
       },
-      {
-        "title": "音频",
-        "body": "用于语音识别的 Whisper (Xenova/whisper-small & whisper-base),用于合成的 Kokoro 82M / Piper / Silero,用于降噪的 RNNoise / DeepFilterNet,以及用于音源分离的 HT Demucs(4 / 6 轨)。"
-      },
+      { "title": "音频", "body": "用于语音识别的 Whisper (Xenova/whisper-small & whisper-base),用于合成的 Kokoro 82M / Piper / Silero,用于降噪的 RNNoise / DeepFilterNet,以及用于音源分离的 HT Demucs(4 / 6 轨)。" },
+      { "title": "生成式音频", "body": "MusicGen、Riffusion 等文本生成音乐模型,以及 OpenVoice、Coqui XTTS 等可在浏览器中实现即时声音克隆的方案。" },
+      { "title": "视觉 · 图像复原", "body": "Real-ESRGAN、SwinIR 与 NAFNet —— 在本地运行的图像超分辨率、去噪与 JPEG 去块模型。" },
       {
         "title": "多模态",
         "body": "Moondream、LLaVA、PaliGemma 等视觉语言模型,以及 CLIP、SigLIP 和文档理解 Transformer。"
@@ -96,6 +95,8 @@
     "generative-visionDesc": "浏览器中的文生图与图像修复模型。",
     "audio": "音频",
     "audioDesc": "语音识别、合成、降噪与音源分离。",
+    "generative-audio": "生成式音频",
+    "generative-audioDesc": "浏览器中运行的文本生成音乐与声音克隆模型。",
     "multimodal": "多模态",
     "multimodalDesc": "视觉语言、CLIP 与文档理解模型。",
     "real-time": "实时感知",
@@ -117,12 +118,15 @@
     "segmentation": "图像分割",
     "ocr": "OCR",
     "depth": "深度估计",
+    "image-restoration": "图像复原",
     "text-to-image": "文生图",
     "inpainting": "图像修复",
     "asr": "语音识别",
     "tts": "语音合成",
     "denoising": "降噪",
     "source-separation": "音源分离",
+    "text-to-music": "文本生成音乐",
+    "voice-cloning": "声音克隆",
     "vlm": "视觉语言模型",
     "clip": "CLIP",
     "document-understanding": "文档理解",
@@ -509,6 +513,62 @@
     "mediapipe-classifier": {
       "name": "MediaPipe 视频分类器",
       "description": "通过 MediaPipe Tasks API 在端侧运行的视频动作分类器。"
+    },
+    "real-esrgan": {
+      "name": "Real-ESRGAN",
+      "description": "Real-ESRGAN 通用图像超分辨率模型,通过 onnxruntime-web 在 WebGPU 上完全本地运行。"
+    },
+    "swinir": {
+      "name": "SwinIR",
+      "description": "SwinIR —— 基于 Transformer 的图像复原模型,可用于超分辨率、去噪与 JPEG 去块。"
+    },
+    "nafnet-denoise": {
+      "name": "NAFNet (去噪)",
+      "description": "NAFNet —— 无非线性激活的图像去噪网络,在浏览器中本地推理。"
+    },
+    "musicgen-small": {
+      "name": "MusicGen Small",
+      "description": "Meta MusicGen small(300M) —— 通过 Transformers.js 在浏览器内完全本地运行的文本生成音乐模型。"
+    },
+    "musicgen-medium": {
+      "name": "MusicGen Medium (ONNX)",
+      "description": "Meta MusicGen medium(1.5B) —— 质量更高的版本,导出为 ONNX 用于浏览器侧生成。"
+    },
+    "riffusion": {
+      "name": "Riffusion (Stable Diffusion 频谱)",
+      "description": "Riffusion —— 使用 Stable Diffusion 在频谱图上做修复以生成音乐,可在浏览器中运行。"
+    },
+    "openvoice": {
+      "name": "OpenVoice v2",
+      "description": "OpenVoice v2 —— 支持音色控制的即时声音克隆,ONNX 移植版可本地推理。"
+    },
+    "coqui-xtts": {
+      "name": "Coqui XTTS v2",
+      "description": "Coqui XTTS v2 —— 基于短样本的声音克隆 TTS,社区 ONNX 移植版可在浏览器中运行。"
+    },
+    "vectra-wasm": {
+      "name": "Vectra (WASM)",
+      "description": "Vectra —— 用于 Node 与浏览器本地语义检索的向量索引,WASM 构建,无需服务器。"
+    },
+    "gemma-2-2b-it": {
+      "name": "Gemma 2 2B IT",
+      "description": "Google Gemma 2 2B 指令微调版本 —— 体积足够小,可通过 WebLLM 在 iOS Safari 上加载。"
+    },
+    "smollm2-1.7b": {
+      "name": "SmolLM2 1.7B Instruct",
+      "description": "Hugging Face SmolLM2 1.7B —— 极其紧凑的指令微调模型,适合浏览器对话。"
+    },
+    "deepseek-r1-distill-qwen-1.5b": {
+      "name": "DeepSeek R1 Distill (Qwen 1.5B)",
+      "description": "DeepSeek-R1 推理模型蒸馏到 Qwen 1.5B —— 可在浏览器中输出思维链。"
+    },
+    "florence-2": {
+      "name": "Florence-2",
+      "description": "Microsoft Florence-2 —— 统一的视觉基础模型,可用于图像描述、目标检测、OCR 与定位。"
+    },
+    "mediapipe-pose-landmarker": {
+      "name": "MediaPipe Pose Landmarker (Tasks API)",
+      "description": "MediaPipe Pose Landmarker —— 新版 Tasks API 的姿态估计,基于 BlazePose GHUM 3D 模型。"
     }
   }
 }

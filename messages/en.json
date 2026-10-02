@@ -24,7 +24,7 @@
     "aboutLead": "The era of running AI in the browser has quietly arrived. Thanks to WebGPU, WebAssembly, and projects like Transformers.js, WebLLM, MediaPipe, ONNX Runtime Web, TensorFlow.js and Whisper.cpp, models that used to require a GPU cluster now run inside a webpage — no backend, no API key, no telemetry.",
     "aboutBody": "Web AI Models is a curated, display-only catalog of those models. It is built for engineers, researchers and product teams who want to understand what's actually possible on the client today: which models exist, what they cost in MB, which framework they target, what license they ship under, and where to find the original demo or documentation. Nothing on this site runs inference — every entry links out to the upstream project so you can try it yourself.",
     "whatTitle": "What's inside",
-    "whatLead": "Nine categories and twenty-five subcategories covering the modern browser-AI stack.",
+    "whatLead": "Ten categories and twenty-eight subcategories covering the modern browser-AI stack.",
     "whatItems": [
       {
         "title": "Text & LLM",
@@ -42,10 +42,9 @@
         "title": "Generative Vision",
         "body": "Stable Diffusion Turbo, SDXL, FLUX, LaMa inpainting and other diffusion-style models that generate or edit pixels on WebGPU."
       },
-      {
-        "title": "Audio",
-        "body": "Whisper (Xenova/whisper-small & whisper-base) for speech recognition, Kokoro 82M / Piper / Silero for synthesis, RNNoise / DeepFilterNet for denoising and HT Demucs (4 / 6 stems) for source separation."
-      },
+      { "title": "Audio", "body": "Whisper (Xenova/whisper-small & whisper-base) for speech recognition, Kokoro 82M / Piper / Silero for synthesis, RNNoise / DeepFilterNet for denoising and HT Demucs (4 / 6 stems) for source separation." },
+      { "title": "Generative Audio", "body": "MusicGen, Riffusion and other text-to-music models, plus OpenVoice and Coqui XTTS for instant voice cloning in the browser." },
+      { "title": "Vision · Restoration", "body": "Real-ESRGAN, SwinIR and NAFNet — image super-resolution, denoising and JPEG deblocking running locally." },
       {
         "title": "Multimodal",
         "body": "Vision-language models like Moondream, LLaVA, PaliGemma, plus CLIP, SigLIP and document understanding transformers."
@@ -96,6 +95,8 @@
     "generative-visionDesc": "Text-to-image and inpainting models in the browser.",
     "audio": "Audio",
     "audioDesc": "Speech recognition, synthesis, denoising and source separation.",
+    "generative-audio": "Generative Audio",
+    "generative-audioDesc": "Text-to-music and voice cloning models running in the browser.",
     "multimodal": "Multimodal",
     "multimodalDesc": "Vision-language, CLIP and document understanding models.",
     "real-time": "Real-time",
@@ -117,12 +118,15 @@
     "segmentation": "Segmentation",
     "ocr": "OCR",
     "depth": "Depth",
+    "image-restoration": "Image Restoration",
     "text-to-image": "Text-to-Image",
     "inpainting": "Inpainting",
     "asr": "ASR",
     "tts": "TTS",
     "denoising": "Denoising",
     "source-separation": "Source Separation",
+    "text-to-music": "Text-to-Music",
+    "voice-cloning": "Voice Cloning",
     "vlm": "VLM",
     "clip": "CLIP",
     "document-understanding": "Document Understanding",
@@ -509,6 +513,62 @@
     "mediapipe-classifier": {
       "name": "MediaPipe Video Classifier",
       "description": "On-device video action classification via the MediaPipe Tasks API."
+    },
+    "real-esrgan": {
+      "name": "Real-ESRGAN",
+      "description": "Real-ESRGAN general-purpose image super-resolution; runs entirely on WebGPU via onnxruntime-web."
+    },
+    "swinir": {
+      "name": "SwinIR",
+      "description": "SwinIR — transformer-based image restoration (super-resolution, denoising, JPEG deblocking)."
+    },
+    "nafnet-denoise": {
+      "name": "NAFNet (Denoise)",
+      "description": "NAFNet — nonlinear activation free network for image denoising in the browser."
+    },
+    "musicgen-small": {
+      "name": "MusicGen Small",
+      "description": "Meta MusicGen small (300M) — text-conditioned music generation that runs entirely in the browser via Transformers.js."
+    },
+    "musicgen-medium": {
+      "name": "MusicGen Medium (ONNX)",
+      "description": "Meta MusicGen medium (1.5B) — better quality, exported to ONNX for browser-side generation."
+    },
+    "riffusion": {
+      "name": "Riffusion (Stable Diffusion spectrogram)",
+      "description": "Riffusion — generates music by inpainting spectrograms with a Stable Diffusion model; runs in the browser."
+    },
+    "openvoice": {
+      "name": "OpenVoice v2",
+      "description": "OpenVoice v2 — instant voice cloning with tone-color control; ONNX port runs locally."
+    },
+    "coqui-xtts": {
+      "name": "Coqui XTTS v2",
+      "description": "Coqui XTTS v2 — short-clone voice cloning TTS; community ONNX port runs in the browser."
+    },
+    "vectra-wasm": {
+      "name": "Vectra (WASM)",
+      "description": "Vectra — local vector index for semantic search in Node and the browser. WASM build, no server."
+    },
+    "gemma-2-2b-it": {
+      "name": "Gemma 2 2B IT",
+      "description": "Google Gemma 2 2B instruction-tuned — small enough to load on iOS Safari via WebLLM."
+    },
+    "smollm2-1.7b": {
+      "name": "SmolLM2 1.7B Instruct",
+      "description": "Hugging Face SmolLM2 1.7B — extremely compact instruct model for browser chat."
+    },
+    "deepseek-r1-distill-qwen-1.5b": {
+      "name": "DeepSeek R1 Distill (Qwen 1.5B)",
+      "description": "DeepSeek-R1 reasoning model distilled into Qwen 1.5B — runs in the browser with chain-of-thought output."
+    },
+    "florence-2": {
+      "name": "Florence-2",
+      "description": "Microsoft Florence-2 — unified vision foundation model for captioning, detection, OCR and grounding in the browser."
+    },
+    "mediapipe-pose-landmarker": {
+      "name": "MediaPipe Pose Landmarker (Tasks API)",
+      "description": "MediaPipe Pose Landmarker — modern Tasks API successor to MediaPipe Pose, with BlazePose GHUM 3D model."
     }
   }
 }
