@@ -291,8 +291,12 @@
       "description": "MobileNetV2 backbone with SSD head, packaged for tfjs-models."
     },
     "imgly-bg-removal": {
-      "name": "IMG.LY Background Removal (standard)",
-      "description": "IMG.LY @imgly/background-removal@1.7.0 — fast small/medium variants (isnet_quint8 / isnet_fp16) for background removal in the browser."
+      "name": "IMG.LY Background Removal (fast)",
+      "description": "IMG.LY @imgly/background-removal@1.7.0 small variant (isnet_quint8) — fast background removal in the browser."
+    },
+    "imgly-bg-removal-balanced": {
+      "name": "IMG.LY Background Removal (balanced)",
+      "description": "IMG.LY @imgly/background-removal@1.7.0 medium variant (isnet_fp16) — balanced quality / size background removal in the browser."
     },
     "imgly-bg-removal-hd": {
       "name": "IMG.LY Background Removal (HD)",

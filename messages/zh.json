@@ -291,8 +291,12 @@
       "description": "MobileNetV2 主干 + SSD 头,通过 tfjs-models 提供。"
     },
     "imgly-bg-removal": {
-      "name": "IMG.LY 背景移除(标准)",
-      "description": "IMG.LY @imgly/background-removal@1.7.0 —— 浏览器中快速背景移除,提供 isnet_quint8 / isnet_fp16 两种小/中规模变体。"
+      "name": "IMG.LY 背景移除(快速)",
+      "description": "IMG.LY @imgly/background-removal@1.7.0 小型变体(isnet_quint8) —— 浏览器中的快速背景移除。"
+    },
+    "imgly-bg-removal-balanced": {
+      "name": "IMG.LY 背景移除(均衡)",
+      "description": "IMG.LY @imgly/background-removal@1.7.0 中型变体(isnet_fp16) —— 浏览器中质量与体积更均衡的背景移除。"
     },
     "imgly-bg-removal-hd": {
       "name": "IMG.LY 背景移除(HD)",
@@ -360,11 +364,11 @@
     },
     "whisper-small": {
       "name": "Whisper Small (Transformers.js)",
-      "description": "Xenova/whisper-small 通过 Transformers.js 运行 —— 高精度默认模型,使用量化后的 encoder + 合并 decoder ONNX。"
+      "description": "Xenova/whisper-small 通过 Transformers.js 运行 —— 高精度默认模型,使用量化后的 encoder + 合并 decoder ONNX。toolgarden 的音频转文本默认采用此模型。"
     },
     "whisper-base": {
       "name": "Whisper Base (Transformers.js)",
-      "description": "Xenova/whisper-base 通过 Transformers.js 运行 —— balanced 模式,encoder/decoder 体积更小。"
+      "description": "Xenova/whisper-base 通过 Transformers.js 运行 —— balanced 模式,encoder/decoder 体积更小。toolgarden 的音频转文本可切换到此模型。"
     },
     "whisper-tiny-wasm": {
       "name": "Whisper Tiny (WASM)",
