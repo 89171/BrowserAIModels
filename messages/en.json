@@ -1,0 +1,510 @@
+{
+  "site": {
+    "name": "Web AI Models",
+    "shortName": "WebAI",
+    "tagline": "A curated catalog of browser-side AI models",
+    "description": "Discover, compare and learn about AI models that run entirely in the browser. No servers. No tracking. Just open standards.",
+    "footer": ""
+  },
+  "nav": {
+    "home": "Home",
+    "categories": "Categories",
+    "skipToContent": "Skip to content"
+  },
+  "languages": {
+    "en": "English",
+    "zh": "中文"
+  },
+  "home": {
+    "title": "Browser-side AI models",
+    "subtitle": "An open catalog of AI models you can run in the browser — for display and comparison only.",
+    "explore": "Explore categories",
+    "modelsCount": "{count} models",
+    "aboutTitle": "Why this catalog",
+    "aboutLead": "The era of running AI in the browser has quietly arrived. Thanks to WebGPU, WebAssembly, and projects like Transformers.js, WebLLM, MediaPipe, ONNX Runtime Web, TensorFlow.js and Whisper.cpp, models that used to require a GPU cluster now run inside a webpage — no backend, no API key, no telemetry.",
+    "aboutBody": "Web AI Models is a curated, display-only catalog of those models. It is built for engineers, researchers and product teams who want to understand what's actually possible on the client today: which models exist, what they cost in MB, which framework they target, what license they ship under, and where to find the original demo or documentation. Nothing on this site runs inference — every entry links out to the upstream project so you can try it yourself.",
+    "whatTitle": "What's inside",
+    "whatLead": "Nine categories and twenty-five subcategories covering the modern browser-AI stack.",
+    "whatItems": [
+      {
+        "title": "Text & LLM",
+        "body": "Classical NLP (classification, translation, summarization) and on-device large language models for chat, structured output and code."
+      },
+      {
+        "title": "Search & RAG",
+        "body": "Embedding, cross-encoder reranking and ANN indexes that power semantic search and retrieval-augmented generation entirely in JavaScript."
+      },
+      {
+        "title": "Vision",
+        "body": "Object detection, segmentation, OCR and monocular depth from YOLO, MediaPipe, SAM, Tesseract, MiDaS and more."
+      },
+      {
+        "title": "Generative Vision",
+        "body": "Stable Diffusion Turbo, SDXL, FLUX, LaMa inpainting and other diffusion-style models that generate or edit pixels on WebGPU."
+      },
+      {
+        "title": "Audio",
+        "body": "Whisper (Xenova/whisper-small & whisper-base) for speech recognition, Kokoro 82M / Piper / Silero for synthesis, RNNoise / DeepFilterNet for denoising and HT Demucs (4 / 6 stems) for source separation."
+      },
+      {
+        "title": "Multimodal",
+        "body": "Vision-language models like Moondream, LLaVA, PaliGemma, plus CLIP, SigLIP and document understanding transformers."
+      },
+      {
+        "title": "Real-time",
+        "body": "MediaPipe and TensorFlow.js pipelines for face, pose, hand and 3D-object tracking — the perceptual layer for any in-browser AR or analytics product."
+      },
+      {
+        "title": "Video",
+        "body": "VideoCLIP, X-CLIP, VideoMAE and MediaPipe Video Classifier for action recognition and video retrieval."
+      }
+    ]
+  },
+  "category": {
+    "title": "{name}",
+    "subtitle": "Browse all subcategories and models under {name}.",
+    "subcategories": "Subcategories",
+    "viewSubcategory": "View subcategory"
+  },
+  "subcategory": {
+    "title": "{name}",
+    "description": "Models commonly used for {name} tasks on the web.",
+    "backToCategory": "Back to {category}",
+    "noModels": "No models have been catalogued for this subcategory yet."
+  },
+  "table": {
+    "title": "Model comparison",
+    "name": "Model",
+    "framework": "Framework",
+    "size": "Size",
+    "license": "License",
+    "languages": "Languages / Tasks",
+    "links": "Links",
+    "demo": "Demo",
+    "docs": "Docs"
+  },
+  "categories": {
+    "text": "Text",
+    "textDesc": "Classical NLP tasks running locally in the browser.",
+    "llm": "LLM",
+    "llmDesc": "Large language models and code assistants on the web.",
+    "search-rag": "Search & RAG",
+    "search-ragDesc": "Embedding, reranking and semantic retrieval in JavaScript.",
+    "vision": "Vision",
+    "visionDesc": "Classical computer vision: detection, segmentation, OCR, depth.",
+    "generative-vision": "Generative Vision",
+    "generative-visionDesc": "Text-to-image and inpainting models in the browser.",
+    "audio": "Audio",
+    "audioDesc": "Speech recognition, synthesis, denoising and source separation.",
+    "multimodal": "Multimodal",
+    "multimodalDesc": "Vision-language, CLIP and document understanding models.",
+    "real-time": "Real-time",
+    "real-timeDesc": "On-device perception for face, pose, hand and tracking.",
+    "video": "Video",
+    "videoDesc": "Video understanding models running in the browser."
+  },
+  "subcategories": {
+    "classification": "Classification",
+    "translation": "Translation",
+    "summarization": "Summarization",
+    "chat": "Chat",
+    "structured-output": "Structured Output",
+    "code": "Code",
+    "embedding": "Embedding",
+    "reranker": "Reranker",
+    "semantic-search": "Semantic Search",
+    "detection": "Detection",
+    "segmentation": "Segmentation",
+    "ocr": "OCR",
+    "depth": "Depth",
+    "text-to-image": "Text-to-Image",
+    "inpainting": "Inpainting",
+    "asr": "ASR",
+    "tts": "TTS",
+    "denoising": "Denoising",
+    "source-separation": "Source Separation",
+    "vlm": "VLM",
+    "clip": "CLIP",
+    "document-understanding": "Document Understanding",
+    "face": "Face",
+    "pose": "Pose",
+    "hand": "Hand",
+    "tracking": "Tracking",
+    "video-understanding": "Video Understanding"
+  },
+  "frameworks": {
+    "transformersjs": "Transformers.js",
+    "mediapipe": "MediaPipe",
+    "onnxruntime-web": "ONNX Runtime Web",
+    "tensorflowjs": "TensorFlow.js",
+    "webllm": "WebLLM",
+    "whisper-wasm": "Whisper.cpp WASM",
+    "opencvjs": "OpenCV.js",
+    "tflite": "TFLite",
+    "transformers": "Transformers"
+  },
+  "licenses": {
+    "apache-2-0": "Apache-2.0",
+    "mit": "MIT",
+    "bsd-3": "BSD-3-Clause",
+    "cc-by-4-0": "CC-BY-4.0",
+    "cc-by-sa-4-0": "CC-BY-SA-4.0",
+    "openrail": "OpenRAIL",
+    "custom": "Custom",
+    "other": "Other"
+  },
+  "models": {
+    "distilbert-sst2": {
+      "name": "DistilBERT (SST-2)",
+      "description": "Compact BERT variant fine-tuned for binary sentiment classification."
+    },
+    "xlm-roberta-base": {
+      "name": "XLM-RoBERTa Base",
+      "description": "Multilingual masked language model; used for zero-shot text classification."
+    },
+    "toxic-bert": {
+      "name": "Toxic-BERT",
+      "description": "Detects toxic comments across multiple labels."
+    },
+    "mobilenet-bert": {
+      "name": "MobileBERT",
+      "description": "Compact BERT optimized for mobile / browser inference."
+    },
+    "nllb-200": {
+      "name": "NLLB-200 Distilled",
+      "description": "No Language Left Behind — multilingual translation distilled for the browser."
+    },
+    "opus-mt-en-zh": {
+      "name": "Opus-MT (en↔zh)",
+      "description": "MarianMT-based English ↔ Chinese translation pair."
+    },
+    "m2m100-418m": {
+      "name": "M2M-100 (418M)",
+      "description": "Many-to-many translation model runnable in the browser via ONNX."
+    },
+    "t5-small": {
+      "name": "T5 Small",
+      "description": "Lightweight T5 variant for short text summarization."
+    },
+    "bart-large-cnn": {
+      "name": "BART Large CNN",
+      "description": "BART fine-tuned on CNN/DailyMail — strong abstractive summarization."
+    },
+    "pegasus-xsum": {
+      "name": "PEGASUS XSum",
+      "description": "Abstractive summarization model trained on XSum."
+    },
+    "llama-3-8b-instruct": {
+      "name": "Llama-3 8B Instruct",
+      "description": "Meta Llama 3 chat-tuned 8B; runs in the browser with WebGPU via WebLLM."
+    },
+    "phi-3-mini": {
+      "name": "Phi-3 Mini (3.8B)",
+      "description": "Microsoft Phi-3 small language model with WebGPU inference."
+    },
+    "qwen2-1.5b": {
+      "name": "Qwen2 1.5B Instruct",
+      "description": "Compact Qwen2 chat model for resource-constrained browsers."
+    },
+    "tinyllama-1.1b": {
+      "name": "TinyLlama 1.1B",
+      "description": "Small open-source Llama; works in Transformers.js with WASM."
+    },
+    "jsonformer-llama": {
+      "name": "JSONFormer (Llama)",
+      "description": "Constrained decoding that guarantees valid JSON output."
+    },
+    "instructor-xl": {
+      "name": "Instructor-XL",
+      "description": "Embedding + generation model that follows structured instructions."
+    },
+    "outline-llama": {
+      "name": "Outline (JSON mode)",
+      "description": "Outline-style guided generation for schema-conformant output."
+    },
+    "codellama-7b": {
+      "name": "CodeLlama 7B",
+      "description": "Meta CodeLlama — code completion and infill in the browser."
+    },
+    "starcoder2-3b": {
+      "name": "StarCoder2 3B",
+      "description": "BigCode StarCoder2 — modern code LLM with permissive licensing."
+    },
+    "deepseek-coder-1.3b": {
+      "name": "DeepSeek Coder 1.3B",
+      "description": "Compact DeepSeek Coder model for browser-side code generation."
+    },
+    "all-minilm-l6-v2": {
+      "name": "all-MiniLM-L6-v2",
+      "description": "Tiny but high-quality sentence embeddings for semantic search."
+    },
+    "bge-small-en": {
+      "name": "BGE Small EN",
+      "description": "BAAI BGE small embedding model, strong on retrieval benchmarks."
+    },
+    "gte-small": {
+      "name": "GTE Small",
+      "description": "Alibaba GTE small embedding model."
+    },
+    "bge-m3": {
+      "name": "BGE-M3",
+      "description": "Multilingual, multi-granularity, multi-function embedding model."
+    },
+    "ms-marco-minilm": {
+      "name": "MS MARCO MiniLM Cross-Encoder",
+      "description": "Cross-encoder reranker trained on MS MARCO."
+    },
+    "bge-reranker-base": {
+      "name": "BGE Reranker Base",
+      "description": "BAAI BGE reranker — strong out-of-the-box reranker."
+    },
+    "cohere-rerank-wasm": {
+      "name": "Cohere Rerank (ONNX)",
+      "description": "ONNX port of a Cohere-style reranker for client-side use."
+    },
+    "hnswlib-wasm": {
+      "name": "hnswlib.js",
+      "description": "HNSW ANN index compiled to WebAssembly — used to do semantic search on top of embeddings."
+    },
+    "voyager-wasm": {
+      "name": "Voyager (WASM)",
+      "description": "Microsoft Voyager ANN index compiled to WebAssembly."
+    },
+    "lancedb-js": {
+      "name": "LanceDB JS",
+      "description": "Embedded vector DB with WASM build for the browser."
+    },
+    "yolov8n": {
+      "name": "YOLOv8n",
+      "description": "Ultralytics YOLOv8 nano — fast real-time object detection in the browser."
+    },
+    "yolov5s": {
+      "name": "YOLOv5s",
+      "description": "Classic YOLOv5 small model widely ported to ONNX."
+    },
+    "mediapipe-objectdetection": {
+      "name": "MediaPipe Object Detection",
+      "description": "MediaPipe Tasks API — EfficientDet-Lite for object detection."
+    },
+    "ssd-mobilenet": {
+      "name": "SSD MobileNet v2",
+      "description": "MobileNetV2 backbone with SSD head, packaged for tfjs-models."
+    },
+    "imgly-bg-removal": {
+      "name": "IMG.LY Background Removal (standard)",
+      "description": "IMG.LY @imgly/background-removal@1.7.0 — fast small/medium variants (isnet_quint8 / isnet_fp16) for background removal in the browser."
+    },
+    "imgly-bg-removal-hd": {
+      "name": "IMG.LY Background Removal (HD)",
+      "description": "Hugging Face BiRefNet model pinned at revision 4a3c40c, fp16 ONNX. High-detail hair-edge matting for portraits and products."
+    },
+    "sam-tiny": {
+      "name": "SAM Tiny (ONNX)",
+      "description": "Segment Anything Model — quantized mobile variant for the browser."
+    },
+    "mediapipe-selfie": {
+      "name": "MediaPipe Selfie Segmentation",
+      "description": "Lightweight binary segmentation for people in close-up shots."
+    },
+    "tesseractjs": {
+      "name": "Tesseract.js",
+      "description": "WebAssembly port of Tesseract OCR with broad language coverage."
+    },
+    "easy-ocr": {
+      "name": "EasyOCR (ONNX)",
+      "description": "Community ONNX port of EasyOCR for the browser."
+    },
+    "paddle-ocr": {
+      "name": "PaddleOCR PP-OCRv5 Mobile (Browser)",
+      "description": "PaddleOCR PP-OCRv5 mobile, loaded via @paddleocr/paddleocr-js and run on ONNX Runtime Web (WASM) inside the browser."
+    },
+    "mediapipe-text": {
+      "name": "MediaPipe Text Detector",
+      "description": "DBNet-based text detector running entirely on-device."
+    },
+    "midas-small": {
+      "name": "MiDaS v2 Small",
+      "description": "Robust monocular depth estimation for the browser."
+    },
+    "depth-anything-small": {
+      "name": "Depth Anything v2 Small",
+      "description": "State-of-the-art monocular depth, ported to Transformers.js."
+    },
+    "mediapipe-depth": {
+      "name": "MediaPipe Objectron (depth hints)",
+      "description": "Provides 3D bounding boxes and rough depth from a single image."
+    },
+    "sdxl-turbo": {
+      "name": "SDXL-Turbo",
+      "description": "Real-time distilled SDXL; runs on WebGPU with onnxruntime-web."
+    },
+    "sd-turbo": {
+      "name": "SD-Turbo",
+      "description": "Smaller distilled Stable Diffusion variant."
+    },
+    "flux-schnell": {
+      "name": "FLUX.1 Schnell (WebGPU)",
+      "description": "Fast FLUX diffusion model — community ONNX/WebGPU builds."
+    },
+    "mi-gan-watermark": {
+      "name": "MI-GAN Watermark Removal",
+      "description": "MI-GAN — single-file ONNX watermark remover (~28 MB). Fast mode for clean backgrounds."
+    },
+    "lama-watermark": {
+      "name": "LaMa Watermark Removal (FP32)",
+      "description": "LaMa inpainting FP32 ONNX (~208 MB) for high-quality balanced / HD watermark removal."
+    },
+    "sdxl-inpaint": {
+      "name": "SDXL Inpaint",
+      "description": "SDXL variant fine-tuned for mask-based inpainting."
+    },
+    "whisper-small": {
+      "name": "Whisper Small (Transformers.js)",
+      "description": "Xenova/whisper-small via Transformers.js — high-precision default; quantized encoder + merged decoder ONNX."
+    },
+    "whisper-base": {
+      "name": "Whisper Base (Transformers.js)",
+      "description": "Xenova/whisper-base via Transformers.js — balanced mode; smaller encoder/decoder footprint."
+    },
+    "whisper-tiny-wasm": {
+      "name": "Whisper Tiny (WASM)",
+      "description": "OpenAI Whisper Tiny compiled to WASM via whisper.cpp — fastest ASR variant in the browser."
+    },
+    "kokoro-82m-fp32": {
+      "name": "Kokoro TTS (FP32, 82M voices)",
+      "description": "Kokoro 82M FP32 ONNX with 4 bundled voices (zf_001, zm_009, af_maple, bf_vale). Loaded with its own tokenizer, model config and on-demand voice.bin files."
+    },
+    "piper-tts": {
+      "name": "Piper TTS (ONNX)",
+      "description": "Fast on-device Piper TTS — many open voices."
+    },
+    "silero-tts": {
+      "name": "Silero TTS",
+      "description": "Compact Silero TTS models with several built-in speakers."
+    },
+    "bark-wasm": {
+      "name": "Bark (WASM)",
+      "description": "Suno Bark — generative audio / speech with non-verbal cues."
+    },
+    "rnnoise-wasm": {
+      "name": "RNNoise (WASM)",
+      "description": "Xiph.org RNNoise — real-time speech denoising in the browser."
+    },
+    "deepfilternet": {
+      "name": "DeepFilterNet",
+      "description": "DeepFilterNet — modern speech enhancement via ONNX."
+    },
+    "facebook-denoiser": {
+      "name": "Facebook Denoiser (ONNX)",
+      "description": "FAIR real-time speech denoiser ported to ONNX."
+    },
+    "htdemucs-4-stem": {
+      "name": "HT Demucs (4 stems)",
+      "description": "Hybrid Transformer Demucs 4-stem model (~166 MB ONNX) — fast mode of toolgarden audio stem splitter."
+    },
+    "htdemucs-6-stem": {
+      "name": "HT Demucs (6 stems, default)",
+      "description": "Hybrid Transformer Demucs 6-stem model (~136 MB ONNX) — default balanced mode of toolgarden audio stem splitter."
+    },
+    "open-unmix": {
+      "name": "Open-Unmix",
+      "description": "Open-Unmix — reference open-source music source separation."
+    },
+    "moondream2": {
+      "name": "Moondream 2",
+      "description": "Tiny VLM for visual question answering and captioning."
+    },
+    "llava-1.5-7b": {
+      "name": "LLaVA 1.5 7B",
+      "description": "LLaVA visual chat model; runs in the browser via WebLLM."
+    },
+    "paligemma-3b": {
+      "name": "PaliGemma 3B",
+      "description": "Google PaliGemma — versatile small VLM with strong OCR."
+    },
+    "clip-vit-base": {
+      "name": "CLIP ViT-B/32",
+      "description": "OpenAI CLIP base model — image/text embeddings in the browser."
+    },
+    "siglip-base": {
+      "name": "SigLIP Base",
+      "description": "Google SigLIP — improved image-text similarity learning."
+    },
+    "mobileclip": {
+      "name": "MobileCLIP",
+      "description": "Apple MobileCLIP — tiny CLIP-style model for on-device use."
+    },
+    "layoutlmv3": {
+      "name": "LayoutLMv3",
+      "description": "Multimodal document understanding with text + layout + image."
+    },
+    "donut-base": {
+      "name": "Donut (base)",
+      "description": "OCR-free document understanding transformer."
+    },
+    "nougat-small": {
+      "name": "Nougat Small",
+      "description": "Meta Nougat — scientific document parsing."
+    },
+    "mediapipe-facedetection": {
+      "name": "MediaPipe Face Detection",
+      "description": "BlazeFace — short-range and full-range face detection."
+    },
+    "mediapipe-facemesh": {
+      "name": "MediaPipe Face Mesh",
+      "description": "Dense 3D face landmarks for AR / analytics."
+    },
+    "blazeface": {
+      "name": "BlazeFace (tfjs)",
+      "description": "Original BlazeFace implementation via TensorFlow.js."
+    },
+    "mediapipe-pose": {
+      "name": "MediaPipe Pose",
+      "description": "ML-based 3D pose estimation from a single image."
+    },
+    "movenet": {
+      "name": "MoveNet",
+      "description": "Google MoveNet — lightning/ thunder variants for pose."
+    },
+    "posenet": {
+      "name": "PoseNet",
+      "description": "Classic PoseNet for single-person pose estimation."
+    },
+    "mediapipe-hands": {
+      "name": "MediaPipe Hands",
+      "description": "Real-time hand landmark tracking for gesture interfaces."
+    },
+    "mediapipe-handlandmarker": {
+      "name": "MediaPipe Hand Landmarker",
+      "description": "Newer Tasks API version of MediaPipe Hands."
+    },
+    "mediapipe-holistic": {
+      "name": "MediaPipe Holistic",
+      "description": "Unified pipeline that tracks face, pose and hands simultaneously."
+    },
+    "mediapipe-objectron": {
+      "name": "MediaPipe Objectron",
+      "description": "3D bounding-box tracking for everyday objects."
+    },
+    "bytetrack-wasm": {
+      "name": "ByteTrack (WASM)",
+      "description": "ByteTrack tracker used together with OpenCV.js for in-browser MOT."
+    },
+    "videoclip": {
+      "name": "VideoCLIP",
+      "description": "CLIP-style video-text embedding for retrieval and tagging."
+    },
+    "xclip": {
+      "name": "X-CLIP",
+      "description": "Multimodal contrastive video-language model."
+    },
+    "videomae": {
+      "name": "VideoMAE",
+      "description": "Masked autoencoder pre-trained for video action classification."
+    },
+    "mediapipe-classifier": {
+      "name": "MediaPipe Video Classifier",
+      "description": "On-device video action classification via the MediaPipe Tasks API."
+    }
+  }
+}

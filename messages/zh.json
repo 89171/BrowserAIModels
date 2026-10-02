@@ -1,0 +1,510 @@
+{
+  "site": {
+    "name": "Web AI 模型目录",
+    "shortName": "WebAI",
+    "tagline": "浏览器端侧 AI 模型的精选目录",
+    "description": "发现、对比并了解完全运行在浏览器中的 AI 模型。无需服务器,无追踪,只用开放标准。",
+    "footer": ""
+  },
+  "nav": {
+    "home": "首页",
+    "categories": "分类",
+    "skipToContent": "跳到主要内容"
+  },
+  "languages": {
+    "en": "English",
+    "zh": "中文"
+  },
+  "home": {
+    "title": "浏览器端侧 AI 模型",
+    "subtitle": "一个开放的 AI 模型目录,所有模型均可在浏览器中运行 —— 仅用于展示与对比。",
+    "explore": "浏览全部分类",
+    "modelsCount": "共 {count} 个模型",
+    "aboutTitle": "为什么做这个目录",
+    "aboutLead": "在浏览器里跑 AI 的时代已经悄然到来。得益于 WebGPU、WebAssembly 以及 Transformers.js、WebLLM、MediaPipe、ONNX Runtime Web、TensorFlow.js、Whisper.cpp 等项目,过去需要一整张 GPU 集群才能运行的模型,现在可以直接在网页里运行 —— 没有后端,无需 API Key,也不会上传任何用户数据。",
+    "aboutBody": "Web AI Models 是一个精选的、仅供展示的浏览器端 AI 模型目录,面向工程师、研究者和产品团队。它帮你回答一个简单的问题:今天在浏览器客户端到底能做哪些事?每个模型条目都标注了体积、运行框架、开源协议、所支持的语言或任务,并附上演示与文档链接。本站点不运行任何推理 —— 一切点击都会跳回原始开源项目。",
+    "whatTitle": "目录内容",
+    "whatLead": "覆盖现代浏览器 AI 技术栈的 9 大分类、25 个子分类。",
+    "whatItems": [
+      {
+        "title": "文本与大语言模型",
+        "body": "经典 NLP(分类、翻译、摘要)与面向客户端的大语言模型,涵盖对话、结构化输出与代码生成。"
+      },
+      {
+        "title": "搜索与 RAG",
+        "body": "用于语义检索和检索增强生成的嵌入模型、Cross-Encoder 重排与 ANN 索引,完全用 JavaScript 实现。"
+      },
+      {
+        "title": "视觉",
+        "body": "目标检测、图像分割、OCR 与单目深度估计,来自 YOLO、MediaPipe、SAM、Tesseract、MiDaS 等开源项目。"
+      },
+      {
+        "title": "生成式视觉",
+        "body": "Stable Diffusion Turbo、SDXL、FLUX、LaMa 修复等可在 WebGPU 上生成或编辑像素的扩散模型。"
+      },
+      {
+        "title": "音频",
+        "body": "用于语音识别的 Whisper (Xenova/whisper-small & whisper-base),用于合成的 Kokoro 82M / Piper / Silero,用于降噪的 RNNoise / DeepFilterNet,以及用于音源分离的 HT Demucs(4 / 6 轨)。"
+      },
+      {
+        "title": "多模态",
+        "body": "Moondream、LLaVA、PaliGemma 等视觉语言模型,以及 CLIP、SigLIP 和文档理解 Transformer。"
+      },
+      {
+        "title": "实时感知",
+        "body": "MediaPipe 与 TensorFlow.js 提供的人脸、姿态、手势与 3D 物体跟踪流水线 —— 浏览器 AR 与交互分析的感知层。"
+      },
+      {
+        "title": "视频",
+        "body": "VideoCLIP、X-CLIP、VideoMAE 与 MediaPipe Video Classifier,支持动作识别与视频检索。"
+      }
+    ]
+  },
+  "category": {
+    "title": "{name}",
+    "subtitle": "浏览「{name}」下的全部子分类与模型。",
+    "subcategories": "子分类",
+    "viewSubcategory": "查看子分类"
+  },
+  "subcategory": {
+    "title": "{name}",
+    "description": "常用于 Web 端「{name}」任务的模型。",
+    "backToCategory": "返回「{category}」",
+    "noModels": "该子分类下还没有收录任何模型。"
+  },
+  "table": {
+    "title": "模型对比",
+    "name": "模型",
+    "framework": "框架",
+    "size": "体积",
+    "license": "许可",
+    "languages": "语言 / 任务",
+    "links": "链接",
+    "demo": "演示",
+    "docs": "文档"
+  },
+  "categories": {
+    "text": "文本",
+    "textDesc": "在浏览器中本地运行的经典 NLP 任务。",
+    "llm": "大语言模型",
+    "llmDesc": "在 Web 上运行的大语言模型与代码助手。",
+    "search-rag": "搜索与 RAG",
+    "search-ragDesc": "基于 JavaScript 的嵌入、重排与语义检索。",
+    "vision": "视觉",
+    "visionDesc": "经典计算机视觉:检测、分割、OCR、深度估计。",
+    "generative-vision": "生成式视觉",
+    "generative-visionDesc": "浏览器中的文生图与图像修复模型。",
+    "audio": "音频",
+    "audioDesc": "语音识别、合成、降噪与音源分离。",
+    "multimodal": "多模态",
+    "multimodalDesc": "视觉语言、CLIP 与文档理解模型。",
+    "real-time": "实时感知",
+    "real-timeDesc": "本端实时的人脸、姿态、手势与跟踪能力。",
+    "video": "视频",
+    "videoDesc": "在浏览器中运行的视频理解模型。"
+  },
+  "subcategories": {
+    "classification": "分类",
+    "translation": "翻译",
+    "summarization": "摘要",
+    "chat": "对话",
+    "structured-output": "结构化输出",
+    "code": "代码",
+    "embedding": "嵌入",
+    "reranker": "重排",
+    "semantic-search": "语义检索",
+    "detection": "目标检测",
+    "segmentation": "图像分割",
+    "ocr": "OCR",
+    "depth": "深度估计",
+    "text-to-image": "文生图",
+    "inpainting": "图像修复",
+    "asr": "语音识别",
+    "tts": "语音合成",
+    "denoising": "降噪",
+    "source-separation": "音源分离",
+    "vlm": "视觉语言模型",
+    "clip": "CLIP",
+    "document-understanding": "文档理解",
+    "face": "人脸",
+    "pose": "姿态",
+    "hand": "手势",
+    "tracking": "目标跟踪",
+    "video-understanding": "视频理解"
+  },
+  "frameworks": {
+    "transformersjs": "Transformers.js",
+    "mediapipe": "MediaPipe",
+    "onnxruntime-web": "ONNX Runtime Web",
+    "tensorflowjs": "TensorFlow.js",
+    "webllm": "WebLLM",
+    "whisper-wasm": "Whisper.cpp WASM",
+    "opencvjs": "OpenCV.js",
+    "tflite": "TFLite",
+    "transformers": "Transformers"
+  },
+  "licenses": {
+    "apache-2-0": "Apache-2.0",
+    "mit": "MIT",
+    "bsd-3": "BSD-3-Clause",
+    "cc-by-4-0": "CC-BY-4.0",
+    "cc-by-sa-4-0": "CC-BY-SA-4.0",
+    "openrail": "OpenRAIL",
+    "custom": "自定义",
+    "other": "其他"
+  },
+  "models": {
+    "distilbert-sst2": {
+      "name": "DistilBERT (SST-2)",
+      "description": "面向二分类情感分析的 BERT 蒸馏版本,体积小巧。"
+    },
+    "xlm-roberta-base": {
+      "name": "XLM-RoBERTa Base",
+      "description": "多语言掩码语言模型,可用于零样本文本分类。"
+    },
+    "toxic-bert": {
+      "name": "Toxic-BERT",
+      "description": "在多标签上检测评论毒性的 BERT 微调模型。"
+    },
+    "mobilenet-bert": {
+      "name": "MobileBERT",
+      "description": "面向移动端 / 浏览器推理优化的紧凑 BERT 模型。"
+    },
+    "nllb-200": {
+      "name": "NLLB-200 Distilled",
+      "description": "No Language Left Behind —— 为浏览器蒸馏的多语言翻译模型。"
+    },
+    "opus-mt-en-zh": {
+      "name": "Opus-MT (en↔zh)",
+      "description": "基于 MarianMT 的英中互译模型对。"
+    },
+    "m2m100-418m": {
+      "name": "M2M-100 (418M)",
+      "description": "可通过 ONNX 在浏览器中运行的多对多翻译模型。"
+    },
+    "t5-small": {
+      "name": "T5 Small",
+      "description": "面向短文本摘要的轻量级 T5 变体。"
+    },
+    "bart-large-cnn": {
+      "name": "BART Large CNN",
+      "description": "在 CNN/DailyMail 上微调的 BART —— 强力的抽象式摘要模型。"
+    },
+    "pegasus-xsum": {
+      "name": "PEGASUS XSum",
+      "description": "在 XSum 数据集上训练的抽象式摘要模型。"
+    },
+    "llama-3-8b-instruct": {
+      "name": "Llama-3 8B Instruct",
+      "description": "Meta Llama 3 对话微调 8B 模型,通过 WebLLM 在浏览器中以 WebGPU 运行。"
+    },
+    "phi-3-mini": {
+      "name": "Phi-3 Mini (3.8B)",
+      "description": "Microsoft Phi-3 小型语言模型,使用 WebGPU 推理。"
+    },
+    "qwen2-1.5b": {
+      "name": "Qwen2 1.5B Instruct",
+      "description": "面向资源受限浏览器场景的紧凑型 Qwen2 对话模型。"
+    },
+    "tinyllama-1.1b": {
+      "name": "TinyLlama 1.1B",
+      "description": "开源小型 Llama,可通过 Transformers.js 在 WASM 下运行。"
+    },
+    "jsonformer-llama": {
+      "name": "JSONFormer (Llama)",
+      "description": "使用约束解码,保证生成结果为合法 JSON。"
+    },
+    "instructor-xl": {
+      "name": "Instructor-XL",
+      "description": "遵循结构化指令的嵌入 + 生成模型。"
+    },
+    "outline-llama": {
+      "name": "Outline (JSON 模式)",
+      "description": "Outline 风格的引导式生成,可输出符合 schema 的结果。"
+    },
+    "codellama-7b": {
+      "name": "CodeLlama 7B",
+      "description": "Meta CodeLlama —— 在浏览器中完成代码补全与填充。"
+    },
+    "starcoder2-3b": {
+      "name": "StarCoder2 3B",
+      "description": "BigCode StarCoder2 —— 现代化代码 LLM,许可证宽松。"
+    },
+    "deepseek-coder-1.3b": {
+      "name": "DeepSeek Coder 1.3B",
+      "description": "面向浏览器侧代码生成的紧凑 DeepSeek Coder 模型。"
+    },
+    "all-minilm-l6-v2": {
+      "name": "all-MiniLM-L6-v2",
+      "description": "体积小巧但质量优秀的句向量模型,适合语义检索。"
+    },
+    "bge-small-en": {
+      "name": "BGE Small EN",
+      "description": "BAAI BGE 小型嵌入模型,在检索榜单上表现强劲。"
+    },
+    "gte-small": {
+      "name": "GTE Small",
+      "description": "阿里巴巴 GTE 小型嵌入模型。"
+    },
+    "bge-m3": {
+      "name": "BGE-M3",
+      "description": "多语言、多粒度、多功能嵌入模型。"
+    },
+    "ms-marco-minilm": {
+      "name": "MS MARCO MiniLM Cross-Encoder",
+      "description": "基于 MS MARCO 训练的 Cross-Encoder 重排模型。"
+    },
+    "bge-reranker-base": {
+      "name": "BGE Reranker Base",
+      "description": "BAAI BGE 重排模型 —— 开箱即用、性能强。"
+    },
+    "cohere-rerank-wasm": {
+      "name": "Cohere Rerank (ONNX)",
+      "description": "面向客户端的 Cohere 风格 ONNX 重排模型。"
+    },
+    "hnswlib-wasm": {
+      "name": "hnswlib.js",
+      "description": "编译到 WebAssembly 的 HNSW ANN 索引,用于在嵌入之上做语义检索。"
+    },
+    "voyager-wasm": {
+      "name": "Voyager (WASM)",
+      "description": "微软 Voyager ANN 索引的 WebAssembly 版本。"
+    },
+    "lancedb-js": {
+      "name": "LanceDB JS",
+      "description": "内置 WASM 版本的嵌入式向量数据库,适合浏览器。"
+    },
+    "yolov8n": {
+      "name": "YOLOv8n",
+      "description": "Ultralytics YOLOv8 nano —— 浏览器中实时目标检测。"
+    },
+    "yolov5s": {
+      "name": "YOLOv5s",
+      "description": "被广泛移植到 ONNX 的经典 YOLOv5 small 模型。"
+    },
+    "mediapipe-objectdetection": {
+      "name": "MediaPipe 目标检测",
+      "description": "MediaPipe Tasks API —— 基于 EfficientDet-Lite 的目标检测。"
+    },
+    "ssd-mobilenet": {
+      "name": "SSD MobileNet v2",
+      "description": "MobileNetV2 主干 + SSD 头,通过 tfjs-models 提供。"
+    },
+    "imgly-bg-removal": {
+      "name": "IMG.LY 背景移除(标准)",
+      "description": "IMG.LY @imgly/background-removal@1.7.0 —— 浏览器中快速背景移除,提供 isnet_quint8 / isnet_fp16 两种小/中规模变体。"
+    },
+    "imgly-bg-removal-hd": {
+      "name": "IMG.LY 背景移除(HD)",
+      "description": "固定在 revision 4a3c40c 的 Hugging Face BiRefNet 模型,fp16 ONNX,用于人像与商品的高细节发丝级抠图。"
+    },
+    "sam-tiny": {
+      "name": "SAM Tiny (ONNX)",
+      "description": "Segment Anything Model —— 为浏览器量化的移动端变体。"
+    },
+    "mediapipe-selfie": {
+      "name": "MediaPipe 自拍分割",
+      "description": "面向近景人像的轻量级二分类分割模型。"
+    },
+    "tesseractjs": {
+      "name": "Tesseract.js",
+      "description": "Tesseract OCR 的 WebAssembly 移植,支持上百种语言。"
+    },
+    "easy-ocr": {
+      "name": "EasyOCR (ONNX)",
+      "description": "社区移植的 EasyOCR ONNX 版本,可在浏览器中运行。"
+    },
+    "paddle-ocr": {
+      "name": "PaddleOCR PP-OCRv5 Mobile (浏览器版)",
+      "description": "PaddleOCR PP-OCRv5 移动端模型,通过 @paddleocr/paddleocr-js 加载,在浏览器内由 ONNX Runtime Web (WASM) 推理。"
+    },
+    "mediapipe-text": {
+      "name": "MediaPipe 文本检测器",
+      "description": "基于 DBNet 的文本检测器,完全在端侧运行。"
+    },
+    "midas-small": {
+      "name": "MiDaS v2 Small",
+      "description": "面向浏览器的鲁棒单目深度估计模型。"
+    },
+    "depth-anything-small": {
+      "name": "Depth Anything v2 Small",
+      "description": "已移植到 Transformers.js 的 SOTA 单目深度估计模型。"
+    },
+    "mediapipe-depth": {
+      "name": "MediaPipe Objectron (深度提示)",
+      "description": "从单张图像得到 3D 边界框与粗略深度信息。"
+    },
+    "sdxl-turbo": {
+      "name": "SDXL-Turbo",
+      "description": "实时蒸馏的 SDXL;在 WebGPU 上通过 onnxruntime-web 运行。"
+    },
+    "sd-turbo": {
+      "name": "SD-Turbo",
+      "description": "体积更小的蒸馏版 Stable Diffusion 变体。"
+    },
+    "flux-schnell": {
+      "name": "FLUX.1 Schnell (WebGPU)",
+      "description": "快速版 FLUX 扩散模型 —— 社区 ONNX/WebGPU 构建。"
+    },
+    "mi-gan-watermark": {
+      "name": "MI-GAN 去水印",
+      "description": "MI-GAN —— 单文件 ONNX 去水印模型(约 28 MB),fast 模式适用于干净背景。"
+    },
+    "lama-watermark": {
+      "name": "LaMa 去水印 (FP32)",
+      "description": "LaMa inpainting FP32 ONNX 模型(约 208 MB),用于 balanced / hd 模式的高质量去水印。"
+    },
+    "sdxl-inpaint": {
+      "name": "SDXL Inpaint",
+      "description": "面向蒙版修复任务的 SDXL 微调变体。"
+    },
+    "whisper-small": {
+      "name": "Whisper Small (Transformers.js)",
+      "description": "Xenova/whisper-small 通过 Transformers.js 运行 —— 高精度默认模型,使用量化后的 encoder + 合并 decoder ONNX。"
+    },
+    "whisper-base": {
+      "name": "Whisper Base (Transformers.js)",
+      "description": "Xenova/whisper-base 通过 Transformers.js 运行 —— balanced 模式,encoder/decoder 体积更小。"
+    },
+    "whisper-tiny-wasm": {
+      "name": "Whisper Tiny (WASM)",
+      "description": "通过 whisper.cpp 编译到 WASM 的 OpenAI Whisper Tiny —— 浏览器中最快的语音识别变体。"
+    },
+    "kokoro-82m-fp32": {
+      "name": "Kokoro TTS (FP32, 82M 音色)",
+      "description": "Kokoro 82M FP32 ONNX 模型,内置 4 个音色(zf_001、zm_009、af_maple、bf_vale),按需加载 tokenizer、模型配置与 voice.bin 文件。"
+    },
+    "piper-tts": {
+      "name": "Piper TTS (ONNX)",
+      "description": "端侧快速的 Piper TTS,提供大量开源音色。"
+    },
+    "silero-tts": {
+      "name": "Silero TTS",
+      "description": "体积紧凑的 Silero TTS 模型,自带多个内置说话人。"
+    },
+    "bark-wasm": {
+      "name": "Bark (WASM)",
+      "description": "Suno Bark —— 支持非语言线索的生成式语音 / 音频模型。"
+    },
+    "rnnoise-wasm": {
+      "name": "RNNoise (WASM)",
+      "description": "Xiph.org RNNoise —— 浏览器中实时语音降噪。"
+    },
+    "deepfilternet": {
+      "name": "DeepFilterNet",
+      "description": "DeepFilterNet —— 通过 ONNX 实现的现代语音增强模型。"
+    },
+    "facebook-denoiser": {
+      "name": "Facebook Denoiser (ONNX)",
+      "description": "FAIR 实时语音降噪器,移植到 ONNX。"
+    },
+    "htdemucs-4-stem": {
+      "name": "HT Demucs (4 轨)",
+      "description": "Hybrid Transformer Demucs 4 轨模型(约 166 MB ONNX),用于 toolgarden 音频分轨的 fast 模式。"
+    },
+    "htdemucs-6-stem": {
+      "name": "HT Demucs (6 轨,默认)",
+      "description": "Hybrid Transformer Demucs 6 轨模型(约 136 MB ONNX),用于 toolgarden 音频分轨默认的 balanced 模式。"
+    },
+    "open-unmix": {
+      "name": "Open-Unmix",
+      "description": "Open-Unmix —— 开源音乐源分离的参考实现。"
+    },
+    "moondream2": {
+      "name": "Moondream 2",
+      "description": "面向视觉问答与图像描述的微型视觉语言模型。"
+    },
+    "llava-1.5-7b": {
+      "name": "LLaVA 1.5 7B",
+      "description": "LLaVA 视觉对话模型,通过 WebLLM 在浏览器中运行。"
+    },
+    "paligemma-3b": {
+      "name": "PaliGemma 3B",
+      "description": "Google PaliGemma —— 多才多艺的小型视觉语言模型,OCR 能力强。"
+    },
+    "clip-vit-base": {
+      "name": "CLIP ViT-B/32",
+      "description": "OpenAI CLIP 基础模型 —— 浏览器内的图像 / 文本嵌入。"
+    },
+    "siglip-base": {
+      "name": "SigLIP Base",
+      "description": "Google SigLIP —— 改进的图像 - 文本相似度学习。"
+    },
+    "mobileclip": {
+      "name": "MobileCLIP",
+      "description": "Apple MobileCLIP —— 面向端侧的小型 CLIP 风格模型。"
+    },
+    "layoutlmv3": {
+      "name": "LayoutLMv3",
+      "description": "融合文本 + 版面 + 图像的多模态文档理解模型。"
+    },
+    "donut-base": {
+      "name": "Donut (base)",
+      "description": "无需 OCR 的文档理解 Transformer。"
+    },
+    "nougat-small": {
+      "name": "Nougat Small",
+      "description": "Meta Nougat —— 面向科学论文的文档解析模型。"
+    },
+    "mediapipe-facedetection": {
+      "name": "MediaPipe 人脸检测",
+      "description": "BlazeFace —— 近距与远距的人脸检测。"
+    },
+    "mediapipe-facemesh": {
+      "name": "MediaPipe Face Mesh",
+      "description": "稠密的 3D 人脸关键点,用于 AR / 分析。"
+    },
+    "blazeface": {
+      "name": "BlazeFace (tfjs)",
+      "description": "通过 TensorFlow.js 运行的 BlazeFace 原始实现。"
+    },
+    "mediapipe-pose": {
+      "name": "MediaPipe Pose",
+      "description": "基于 ML 的 3D 姿态估计,输入为单张图像。"
+    },
+    "movenet": {
+      "name": "MoveNet",
+      "description": "Google MoveNet —— 提供 lightning / thunder 两种姿态估计变体。"
+    },
+    "posenet": {
+      "name": "PoseNet",
+      "description": "面向单人体姿态估计的经典 PoseNet 模型。"
+    },
+    "mediapipe-hands": {
+      "name": "MediaPipe Hands",
+      "description": "实时手部关键点跟踪,用于手势交互。"
+    },
+    "mediapipe-handlandmarker": {
+      "name": "MediaPipe Hand Landmarker",
+      "description": "基于新版 Tasks API 的 MediaPipe Hands。"
+    },
+    "mediapipe-holistic": {
+      "name": "MediaPipe Holistic",
+      "description": "同时跟踪人脸、姿态与手势的统一流水线。"
+    },
+    "mediapipe-objectron": {
+      "name": "MediaPipe Objectron",
+      "description": "面向日常物体的 3D 边界框跟踪。"
+    },
+    "bytetrack-wasm": {
+      "name": "ByteTrack (WASM)",
+      "description": "配合 OpenCV.js 在浏览器内进行多目标跟踪的 ByteTrack。"
+    },
+    "videoclip": {
+      "name": "VideoCLIP",
+      "description": "CLIP 风格的视频 - 文本嵌入,用于检索与打标。"
+    },
+    "xclip": {
+      "name": "X-CLIP",
+      "description": "多模态对比式的视频 - 语言模型。"
+    },
+    "videomae": {
+      "name": "VideoMAE",
+      "description": "面向视频动作分类预训练的掩码自编码器。"
+    },
+    "mediapipe-classifier": {
+      "name": "MediaPipe 视频分类器",
+      "description": "通过 MediaPipe Tasks API 在端侧运行的视频动作分类器。"
+    }
+  }
+}
