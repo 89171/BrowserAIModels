@@ -1,6 +1,6 @@
-type Props = { siteName: string; tagline: string };
+type Props = { siteName: string; tagline: string; notice: string };
 
-export function Footer({ siteName, tagline }: Props) {
+export function Footer({ siteName, tagline, notice }: Props) {
   return (
     <footer className="border-t border-black mt-24">
       <div className="container-prose py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
@@ -11,7 +11,7 @@ export function Footer({ siteName, tagline }: Props) {
           <p className="text-black/60 mt-1">{tagline}</p>
         </div>
         <p className="text-black/60">
-          Display-only catalog. Models are not run by this site.
+          {notice}
         </p>
       </div>
     </footer>

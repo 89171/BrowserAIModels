@@ -5,6 +5,7 @@ export const TAXONOMY: CategoryMeta[] = [
     slug: 'text',
     subcategories: [
       { slug: 'classification' },
+      { slug: 'ner' },
       { slug: 'translation' },
       { slug: 'summarization' },
     ],
@@ -28,6 +29,7 @@ export const TAXONOMY: CategoryMeta[] = [
   {
     slug: 'vision',
     subcategories: [
+      { slug: 'image-classification' },
       { slug: 'detection' },
       { slug: 'segmentation' },
       { slug: 'ocr' },
@@ -43,6 +45,8 @@ export const TAXONOMY: CategoryMeta[] = [
     slug: 'audio',
     subcategories: [
       { slug: 'asr' },
+      { slug: 'vad' },
+      { slug: 'audio-classification' },
       { slug: 'tts' },
       { slug: 'denoising' },
       { slug: 'source-separation' },

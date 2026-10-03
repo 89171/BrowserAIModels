@@ -1,66 +1,50 @@
 import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
 import { TAXONOMY } from '@/data/taxonomy';
-import { SITE_URL } from '@/lib/site';
+import { MODELS, getModels } from '@/data/models';
+import type { ModelEntry } from '@/types/taxonomy';
+import { localizedUrl, languageAlternates } from '@/lib/urls';
+
+// Source review is the only dated change signal the catalog has. Pages whose entries
+// carry no reviewed source get no lastmod rather than a build timestamp, which would
+// claim every page changed on every deploy.
+function lastReviewed(models: ModelEntry[]): string | undefined {
+  return models
+    .flatMap((m) => m.sources)
+    .map((s) => s.reviewedAt)
+    .filter((d): d is string => Boolean(d))
+    .sort()
+    .at(-1);
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  const out: MetadataRoute.Sitemap = [];
+  const everything = Object.values(MODELS).flatMap((groups) =>
+    Object.values(groups).flat(),
+  );
 
-  for (const locale of routing.locales) {
-    const url =
-      locale === routing.defaultLocale
-        ? `${SITE_URL}/`
-        : `${SITE_URL}/${locale}`;
-    out.push({
-      url,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 1.0,
-      alternates: {
-        languages: { en: `${SITE_URL}/`, zh: `${SITE_URL}/zh` },
+  const paths = [
+    { path: '', lastModified: lastReviewed(everything) },
+    { path: '/applications', lastModified: lastReviewed(everything) },
+    ...TAXONOMY.flatMap((cat) => [
+      {
+        path: `/${cat.slug}`,
+        lastModified: lastReviewed(
+          cat.subcategories.flatMap((sub) => getModels(cat.slug, sub.slug)),
+        ),
       },
-    });
-  }
+      ...cat.subcategories.map((sub) => ({
+        path: `/${cat.slug}/${sub.slug}`,
+        lastModified: lastReviewed(getModels(cat.slug, sub.slug)),
+      })),
+    ]),
+  ];
 
-  for (const locale of routing.locales) {
-    for (const cat of TAXONOMY) {
-      const catPath =
-        locale === routing.defaultLocale
-          ? `/${cat.slug}`
-          : `/${locale}/${cat.slug}`;
-      out.push({
-        url: `${SITE_URL}${catPath}`,
-        lastModified: now,
-        changeFrequency: 'weekly',
-        priority: 0.8,
-        alternates: {
-          languages: {
-            en: `${SITE_URL}/${cat.slug}`,
-            zh: `${SITE_URL}/zh/${cat.slug}`,
-          },
-        },
-      });
-
-      for (const sub of cat.subcategories) {
-        const subPath =
-          locale === routing.defaultLocale
-            ? `/${cat.slug}/${sub.slug}`
-            : `/${locale}/${cat.slug}/${sub.slug}`;
-        out.push({
-          url: `${SITE_URL}${subPath}`,
-          lastModified: now,
-          changeFrequency: 'weekly',
-          priority: 0.6,
-          alternates: {
-            languages: {
-              en: `${SITE_URL}/${cat.slug}/${sub.slug}`,
-              zh: `${SITE_URL}/zh/${cat.slug}/${sub.slug}`,
-            },
-          },
-        });
-      }
-    }
-  }
-  return out;
+  // changefreq and priority are omitted: Google documents that it ignores both.
+  return routing.locales.flatMap((locale) =>
+    paths.map(({ path, lastModified }) => ({
+      url: localizedUrl(locale, path),
+      lastModified,
+      alternates: { languages: languageAlternates(path) },
+    })),
+  );
 }

@@ -18,35 +18,82 @@ export type FrameworkId =
   | 'whisper-wasm'
   | 'opencvjs'
   | 'tflite'
-  | 'transformers';
+  | 'transformers'
+  | 'tesseract-wasm'
+  | 'python'
+  | 'native'
+  | 'unknown';
 
 export type LicenseId =
   | 'apache-2-0'
+  | 'agpl-3-0'
   | 'mit'
   | 'bsd-3'
+  | 'cc-by-nc-4-0'
   | 'cc-by-4-0'
   | 'cc-by-sa-4-0'
   | 'openrail'
   | 'custom'
   | 'other';
 
+export interface ModelVariant {
+  id: string;
+  label: string;
+  /** Historic estimate, not a measured or source-verified download size. */
+  reportedDownloadSize?: string;
+  demoBase?: string;
+  demoPath?: string;
+  quantization?: string;
+  artifactUrl?: string;
+  revision?: string;
+  downloadBytes?: number;
+  peakMemoryMB?: number;
+}
+
+export interface BrowserBenchmark {
+  date: string;
+  browser: string;
+  os: string;
+  hardware: string;
+  runtimeVersion: string;
+  variantId: string;
+  backend: string;
+  input: string;
+  metric: string;
+  value: number;
+  unit: string;
+  sourceUrl: string;
+}
+
 export interface ModelEntry {
   id: string;
-  /** Fallback name (used when no `nameKey` resolves in the active locale). */
   name: string;
-  /** i18n key under `models.<id>.name`. When present, looked up at render time. */
   nameKey?: string;
-  framework: FrameworkId;
-  size: string;
-  license: LicenseId;
-  languages: string[];
-  /** Fallback description. */
   description: string;
-  /** i18n key under `models.<id>.description`. */
   descriptionKey?: string;
-  /** Absolute demo URL — rendered as-is. */
+  kind: 'model' | 'tool' | 'application';
+  framework: FrameworkId;
+  modelId?: string;
+  tasks: string[];
+  naturalLanguages: string[];
+  programmingLanguages: string[];
+  capabilities: string[];
+  variants: ModelVariant[];
+  runtimeVersion?: string;
+  backends?: string[];
+  codeLicense?: LicenseId;
+  weightLicense?: LicenseId;
+  /** Preserved legacy label; not treated as verified code or weight licensing. */
+  reportedLicense?: LicenseId;
+  identityUnresolved?: boolean;
+  sources: { url: string; kind: 'documentation' | 'browser-example' | 'model-or-project' | 'conflicting-reference'; reviewedAt?: string }[];
+  browserEvidence: {
+    status: 'pending' | 'upstream-example' | 'tested';
+    url?: string;
+    reviewedAt?: string;
+  };
+  benchmarks?: BrowserBenchmark[];
   demoUrl?: string;
-  /** Locale-aware demo URL. Rendered as `{demoBase}/{locale}{demoPath}`. */
   demoBase?: string;
   demoPath?: string;
   docsUrl?: string;
@@ -67,6 +114,10 @@ export type CategorySlug =
   | 'video';
 
 export type SubcategorySlug =
+  | 'ner'
+  | 'image-classification'
+  | 'vad'
+  | 'audio-classification'
   | 'classification'
   | 'translation'
   | 'summarization'

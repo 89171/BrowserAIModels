@@ -1,83 +1,73 @@
 {
+  "notFound": {
+    "title": "页面不存在",
+    "description": "你访问的页面不存在或已被移动。",
+    "back": "返回首页"
+  },
   "site": {
+    "notice": "本站仅展示模型目录，不运行模型。",
     "name": "Web AI 模型目录",
     "shortName": "WebAI",
     "tagline": "浏览器端侧 AI 模型的精选目录",
-    "description": "发现、对比并了解完全运行在浏览器中的 AI 模型。无需服务器,无追踪,只用开放标准。",
+    "description": "浏览面向浏览器 AI 的模型、工具和应用流程，查看来源与明确的验证状态。",
     "footer": ""
   },
   "nav": {
+    "breadcrumb": "面包屑导航",
     "home": "首页",
     "categories": "分类",
-    "skipToContent": "跳到主要内容"
+    "skipToContent": "跳到主要内容",
+    "applications": "应用"
   },
   "languages": {
+    "label": "语言",
     "en": "English",
     "zh": "中文"
   },
   "home": {
+    "categoriesCount": "{count} 个分类",
+    "categoryCounts": "{subcategories} 个任务 / {models} 条记录",
     "title": "浏览器端侧 AI 模型",
-    "subtitle": "一个开放的 AI 模型目录,所有模型均可在浏览器中运行 —— 仅用于展示与对比。",
+    "subtitle": "选型前，先比较任务、部署变体与浏览器运行依据。",
     "explore": "浏览全部分类",
-    "modelsCount": "共 {count} 个模型",
+    "modelsCount": "共 {count} 条目录记录 · 包含模型、工具与应用",
     "aboutTitle": "为什么做这个目录",
-    "aboutLead": "在浏览器里跑 AI 的时代已经悄然到来。得益于 WebGPU、WebAssembly 以及 Transformers.js、WebLLM、MediaPipe、ONNX Runtime Web、TensorFlow.js、Whisper.cpp 等项目,过去需要一整张 GPU 集群才能运行的模型,现在可以直接在网页里运行 —— 没有后端,无需 API Key,也不会上传任何用户数据。",
-    "aboutBody": "Web AI Models 是一个精选的、仅供展示的浏览器端 AI 模型目录,面向工程师、研究者和产品团队。它帮你回答一个简单的问题:今天在浏览器客户端到底能做哪些事?每个模型条目都标注了体积、运行框架、开源协议、所支持的语言或任务,并附上演示与文档链接。本站点不运行任何推理 —— 一切点击都会跳回原始开源项目。",
+    "aboutLead": "浏览器 AI 可使用 WebAssembly 与 GPU 后端，兼容性和资源需求取决于具体权重、推理库及设备。",
+    "aboutBody": "本目录区分资料核查与运行实测，也保留待核实记录并展示信息缺口。本站不运行推理；外部演示的数据处理方式由对应站点决定。",
     "whatTitle": "目录内容",
-    "whatLead": "覆盖现代浏览器 AI 技术栈的 10 大分类、28 个子分类。",
+    "whatLead": "按任务与应用流程浏览，目录记录包含工具及部署选择。",
     "whatItems": [
       {
-        "title": "文本与大语言模型",
-        "body": "经典 NLP(分类、翻译、摘要)与面向客户端的大语言模型,涵盖对话、结构化输出与代码生成。"
+        "title": "任务",
+        "body": "根据输入与输出查找模型和工具。"
       },
       {
-        "title": "搜索与 RAG",
-        "body": "用于语义检索和检索增强生成的嵌入模型、Cross-Encoder 重排与 ANN 索引,完全用 JavaScript 实现。"
-      },
-      {
-        "title": "视觉",
-        "body": "目标检测、图像分割、OCR 与单目深度估计,来自 YOLO、MediaPipe、SAM、Tesseract、MiDaS 等开源项目。"
-      },
-      {
-        "title": "生成式视觉",
-        "body": "Stable Diffusion Turbo、SDXL、FLUX、LaMa 修复等可在 WebGPU 上生成或编辑像素的扩散模型。"
-      },
-      { "title": "音频", "body": "用于语音识别的 Whisper (Xenova/whisper-small & whisper-base),用于合成的 Kokoro 82M / Piper / Silero,用于降噪的 RNNoise / DeepFilterNet,以及用于音源分离的 HT Demucs(4 / 6 轨)。" },
-      { "title": "生成式音频", "body": "MusicGen、Riffusion 等文本生成音乐模型,以及 OpenVoice、Coqui XTTS 等可在浏览器中实现即时声音克隆的方案。" },
-      { "title": "视觉 · 图像复原", "body": "Real-ESRGAN、SwinIR 与 NAFNet —— 在本地运行的图像超分辨率、去噪与 JPEG 去块模型。" },
-      {
-        "title": "多模态",
-        "body": "Moondream、LLaVA、PaliGemma 等视觉语言模型,以及 CLIP、SigLIP 和文档理解 Transformer。"
-      },
-      {
-        "title": "实时感知",
-        "body": "MediaPipe 与 TensorFlow.js 提供的人脸、姿态、手势与 3D 物体跟踪流水线 —— 浏览器 AR 与交互分析的感知层。"
-      },
-      {
-        "title": "视频",
-        "body": "VideoCLIP、X-CLIP、VideoMAE 与 MediaPipe Video Classifier,支持动作识别与视频检索。"
+        "title": "依据",
+        "body": "部署前核对来源、版本和浏览器运行依据。"
       }
     ]
   },
   "category": {
+    "modelsCount": "{count} 条记录",
     "title": "{name}",
     "subtitle": "浏览「{name}」下的全部子分类与模型。",
     "subcategories": "子分类",
     "viewSubcategory": "查看子分类"
   },
   "subcategory": {
+    "modelsCount": "{count} 条记录",
     "title": "{name}",
-    "description": "常用于 Web 端「{name}」任务的模型。",
+    "description": "与「{name}」相关的目录记录，请逐项核对浏览器运行依据。",
     "backToCategory": "返回「{category}」",
     "noModels": "该子分类下还没有收录任何模型。"
   },
   "table": {
-    "title": "模型对比",
-    "name": "模型",
+    "title": "目录对比",
+    "name": "条目",
     "framework": "框架",
-    "size": "体积",
+    "size": "资源需求",
     "license": "许可",
-    "languages": "语言 / 任务",
+    "languages": "语言",
     "links": "链接",
     "demo": "演示",
     "docs": "文档"
@@ -99,8 +89,8 @@
     "generative-audioDesc": "浏览器中运行的文本生成音乐与声音克隆模型。",
     "multimodal": "多模态",
     "multimodalDesc": "视觉语言、CLIP 与文档理解模型。",
-    "real-time": "实时感知",
-    "real-timeDesc": "本端实时的人脸、姿态、手势与跟踪能力。",
+    "real-time": "人脸、姿态与跟踪",
+    "real-timeDesc": "感知任务；实时表现取决于设备和配置。",
     "video": "视频",
     "videoDesc": "在浏览器中运行的视频理解模型。"
   },
@@ -128,13 +118,17 @@
     "text-to-music": "文本生成音乐",
     "voice-cloning": "声音克隆",
     "vlm": "视觉语言模型",
-    "clip": "CLIP",
+    "clip": "图文嵌入",
     "document-understanding": "文档理解",
     "face": "人脸",
     "pose": "姿态",
     "hand": "手势",
     "tracking": "目标跟踪",
-    "video-understanding": "视频理解"
+    "video-understanding": "视频理解",
+    "ner": "命名实体识别",
+    "image-classification": "图像分类",
+    "vad": "语音活动检测",
+    "audio-classification": "音频事件分类"
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -145,7 +139,11 @@
     "whisper-wasm": "Whisper.cpp WASM",
     "opencvjs": "OpenCV.js",
     "tflite": "TFLite",
-    "transformers": "Transformers"
+    "transformers": "Transformers (Python)",
+    "tesseract-wasm": "Tesseract / WebAssembly",
+    "python": "Python（浏览器移植待验证）",
+    "native": "原生 / Python / Java",
+    "unknown": "运行框架待确认"
   },
   "licenses": {
     "apache-2-0": "Apache-2.0",
@@ -155,7 +153,9 @@
     "cc-by-sa-4-0": "CC-BY-SA-4.0",
     "openrail": "OpenRAIL",
     "custom": "自定义",
-    "other": "其他"
+    "other": "其他",
+    "cc-by-nc-4-0": "CC-BY-NC-4.0",
+    "agpl-3-0": "AGPL-3.0"
   },
   "models": {
     "distilbert-sst2": {
@@ -176,7 +176,7 @@
     },
     "nllb-200": {
       "name": "NLLB-200 Distilled",
-      "description": "No Language Left Behind —— 为浏览器蒸馏的多语言翻译模型。"
+      "description": "NLLB-200 蒸馏版 600M 翻译模型，权重许可为 CC-BY-NC-4.0；具体浏览器权重与运行配置待验证。"
     },
     "opus-mt-en-zh": {
       "name": "Opus-MT (en↔zh)",
@@ -206,25 +206,25 @@
       "name": "Phi-3 Mini (3.8B)",
       "description": "Microsoft Phi-3 小型语言模型,使用 WebGPU 推理。"
     },
-    "qwen2-1.5b": {
+    "qwen2-1-5b": {
       "name": "Qwen2 1.5B Instruct",
       "description": "面向资源受限浏览器场景的紧凑型 Qwen2 对话模型。"
     },
-    "tinyllama-1.1b": {
+    "tinyllama-1-1b": {
       "name": "TinyLlama 1.1B",
       "description": "开源小型 Llama,可通过 Transformers.js 在 WASM 下运行。"
     },
     "jsonformer-llama": {
-      "name": "JSONFormer (Llama)",
-      "description": "使用约束解码,保证生成结果为合法 JSON。"
+      "name": "JSONFormer",
+      "description": "使用指定语言模型进行 JSON 约束生成的 Python 工具，支持 JSON Schema 的部分类型；本身不包含独立模型权重。"
     },
     "instructor-xl": {
       "name": "Instructor-XL",
-      "description": "遵循结构化指令的嵌入 + 生成模型。"
+      "description": "面向检索、聚类和相似度计算的指令微调文本嵌入模型；该来源尚不能证明浏览器兼容性。"
     },
     "outline-llama": {
-      "name": "Outline (JSON 模式)",
-      "description": "Outline 风格的引导式生成,可输出符合 schema 的结果。"
+      "name": "Outlines",
+      "description": "与另行选择的模型和后端搭配使用的结构化生成工具库；Python 示例不代表浏览器支持。"
     },
     "codellama-7b": {
       "name": "CodeLlama 7B",
@@ -234,7 +234,7 @@
       "name": "StarCoder2 3B",
       "description": "BigCode StarCoder2 —— 现代化代码 LLM,许可证宽松。"
     },
-    "deepseek-coder-1.3b": {
+    "deepseek-coder-1-3b": {
       "name": "DeepSeek Coder 1.3B",
       "description": "面向浏览器侧代码生成的紧凑 DeepSeek Coder 模型。"
     },
@@ -271,8 +271,8 @@
       "description": "编译到 WebAssembly 的 HNSW ANN 索引,用于在嵌入之上做语义检索。"
     },
     "voyager-wasm": {
-      "name": "Voyager (WASM)",
-      "description": "微软 Voyager ANN 索引的 WebAssembly 版本。"
+      "name": "Voyager（Spotify）",
+      "description": "Spotify 的近似最近邻检索库，提供 Python 和 Java 接口；本条目尚未核实浏览器 WASM 实现。"
     },
     "lancedb-js": {
       "name": "LanceDB JS",
@@ -295,16 +295,16 @@
       "description": "MobileNetV2 主干 + SSD 头,通过 tfjs-models 提供。"
     },
     "imgly-bg-removal": {
-      "name": "IMG.LY 背景移除(快速)",
-      "description": "IMG.LY @imgly/background-removal@1.7.0 小型变体(isnet_quint8) —— 浏览器中的快速背景移除。"
+      "name": "IMG.LY 背景移除",
+      "description": "使用 ONNX Runtime Web 的浏览器背景移除工具包。上游示例提供 isnet_quint8 与 isnet_fp16 配置；实际下载权重、体积及设备表现仍需验证。"
     },
     "imgly-bg-removal-balanced": {
       "name": "IMG.LY 背景移除(均衡)",
       "description": "IMG.LY @imgly/background-removal@1.7.0 中型变体(isnet_fp16) —— 浏览器中质量与体积更均衡的背景移除。"
     },
     "imgly-bg-removal-hd": {
-      "name": "IMG.LY 背景移除(HD)",
-      "description": "固定在 revision 4a3c40c 的 Hugging Face BiRefNet 模型,fp16 ONNX,用于人像与商品的高细节发丝级抠图。"
+      "name": "HD 抠图应用 — 模型身份待确认",
+      "description": "历史 HD 演示条目：名称、BiRefNet 描述与 RMBG-1.4 引用互相矛盾。模型身份、权重、体积和许可尚未确认，不应作为已验证模型比较。"
     },
     "sam-tiny": {
       "name": "SAM Tiny (ONNX)",
@@ -316,7 +316,7 @@
     },
     "tesseractjs": {
       "name": "Tesseract.js",
-      "description": "Tesseract OCR 的 WebAssembly 移植,支持上百种语言。"
+      "description": "通过 WebAssembly 封装 Tesseract 的浏览器与 Node.js OCR 工具；语言数据单独下载，PDF 页面需先转换为图片。"
     },
     "easy-ocr": {
       "name": "EasyOCR (ONNX)",
@@ -422,7 +422,7 @@
       "name": "Moondream 2",
       "description": "面向视觉问答与图像描述的微型视觉语言模型。"
     },
-    "llava-1.5-7b": {
+    "llava-1-5-7b": {
       "name": "LLaVA 1.5 7B",
       "description": "LLaVA 视觉对话模型,通过 WebLLM 在浏览器中运行。"
     },
@@ -554,11 +554,11 @@
       "name": "Gemma 2 2B IT",
       "description": "Google Gemma 2 2B 指令微调版本 —— 体积足够小,可通过 WebLLM 在 iOS Safari 上加载。"
     },
-    "smollm2-1.7b": {
+    "smollm2-1-7b": {
       "name": "SmolLM2 1.7B Instruct",
       "description": "Hugging Face SmolLM2 1.7B —— 极其紧凑的指令微调模型,适合浏览器对话。"
     },
-    "deepseek-r1-distill-qwen-1.5b": {
+    "deepseek-r1-distill-qwen-1-5b": {
       "name": "DeepSeek R1 Distill (Qwen 1.5B)",
       "description": "DeepSeek-R1 推理模型蒸馏到 Qwen 1.5B —— 可在浏览器中输出思维链。"
     },
@@ -569,6 +569,118 @@
     "mediapipe-pose-landmarker": {
       "name": "MediaPipe Pose Landmarker (Tasks API)",
       "description": "MediaPipe Pose Landmarker —— 新版 Tasks API 的姿态估计,基于 BlazePose GHUM 3D 模型。"
+    },
+    "bert-base-ner": {
+      "name": "BERT Base NER (ONNX)",
+      "description": "用于命名实体提取的词元分类模型；上游提供 ONNX 权重及 Transformers.js 示例。"
+    },
+    "mobilenet-tfjs": {
+      "name": "MobileNet (TensorFlow.js)",
+      "description": "对浏览器图片、画布或视频元素进行分类；模型版本和宽度系数会影响输出及资源需求。"
+    },
+    "silero-vad-web": {
+      "name": "Silero VAD / vad-web",
+      "description": "通过 vad-web 在浏览器中检测语音活动；输出语音片段，不生成转写文本或说话人身份。"
+    },
+    "mediapipe-audio-classifier": {
+      "name": "MediaPipe Audio Classifier",
+      "description": "用于音频分类的 Web 任务 API；需另选兼容模型文件，任务库支持不等于确定了权重版本或实测延迟。"
+    }
+  },
+  "catalog": {
+    "kind": "条目类型",
+    "model": "模型",
+    "tool": "工具 / 库",
+    "application": "应用",
+    "pending": "浏览器支持待验证",
+    "upstream-example": "上游浏览器示例",
+    "tested": "本站实测",
+    "evidence": "浏览器运行依据",
+    "unknown": "待验证",
+    "notTested": "未实测",
+    "details": "来源与对比详情",
+    "tasks": "任务",
+    "naturalLanguages": "自然语言",
+    "programmingLanguages": "编程语言",
+    "capabilities": "其他历史能力标签",
+    "modelId": "具体模型 ID",
+    "codeLicense": "代码许可",
+    "weightLicense": "权重许可",
+    "reportedLicense": "历史许可标注（未核实）",
+    "variants": "部署变体",
+    "download": "下载体积",
+    "reportedSize": "历史估值：{size}（未核实）",
+    "memory": "运行峰值内存",
+    "precision": "量化 / 精度",
+    "revision": "权重版本",
+    "artifact": "权重文件",
+    "runtimeVersion": "推理库版本",
+    "backend": "执行后端",
+    "benchmarks": "性能与兼容性实测",
+    "benchmarkHelp": "仅比较任务、输入、硬件、浏览器及精度一致的结果，不根据模型体积推断排名。",
+    "noWeights": "未指定独立权重，需另选底层模型。",
+    "source": "来源",
+    "reviewedAt": "资料核查：{date}",
+    "reviewNotice": "资料核查不等于浏览器运行实测。",
+    "identityWarning": "模型身份未确认，核实前不作为选型依据。",
+    "legacyWarning": "历史描述；其中性能及浏览器支持声明未经独立核实。",
+    "methodTitle": "如何使用本目录",
+    "methodBody": "目录包含模型、工具和应用。上游示例说明存在浏览器集成方式，不代表已在你的设备测试。缺失的版本、测量和许可信息均保留为待验证；历史估值不是基准测试结果。",
+    "applicationLink": "查看应用流程",
+    "metrics": "指标 / 测试条件",
+    "none": "未说明",
+    "default": "未指定变体",
+    "retainedRoute": "分类用于组织任务，能否实时运行取决于实测延迟和设备条件。"
+  },
+  "applications": {
+    "title": "应用流程",
+    "intro": "带候选条目链接的应用设计。这些内容是集成指南，并非经过端到端实测的应用或性能推荐。",
+    "input": "输入",
+    "pipeline": "处理流程",
+    "output": "输出",
+    "limits": "限制",
+    "example": "最小接口示例",
+    "checks": "部署前检查",
+    "candidates": "候选条目 — 使用前核对依据",
+    "tasks": "相关任务",
+    "source": "参考资料",
+    "items": {
+      "meeting-notes": {
+        "title": "会议转写与纪要",
+        "input": "录音文件，或经用户授权的麦克风音频。",
+        "pipeline": "VAD 切分语音 → 重采样 → 语音转写 → 按需生成带时间戳引用的摘要。",
+        "output": "带时间戳的文本，以及单独生成的摘要草稿。",
+        "limits": "VAD 不识别说话人；转写可能漏掉专名、重叠或噪声音频；摘要可能引入无依据的内容。实时运行需单独测试延迟。",
+        "example": "输入：一段短录音。输出结构：含 start、end、text 的分段列表，以及引用分段的摘要。这是接口示例，不是实测结果。",
+        "checks": "核对语言、采样率、长录音内存占用，以及所选演示是否上传音频。"
+      },
+      "document-qa": {
+        "title": "本地文档问答",
+        "input": "文本文件或 PDF 页面；扫描页需先栅格化并 OCR。",
+        "pipeline": "解析/OCR → 带页码分块 → 嵌入 → 检索 → 按需重排 → 生成带原文摘录的回答。",
+        "output": "带页码引用的回答及检索到的原文片段。",
+        "limits": "检索可能遗漏相关页面；嵌入模型不生成回答；Tesseract.js 本身不接收 PDF 文件。此完整流程尚未在本站实测。",
+        "example": "输入：文档和问题。输出结构：回答、来源页码和摘录。检索依据不足时应明确返回“缺少依据”。",
+        "checks": "建库与查询使用相同嵌入模型及预处理；核对上下文长度，测试引用准确性。"
+      },
+      "product-cutout": {
+        "title": "商品图片抠图",
+        "input": "前景清楚的商品图片。",
+        "pipeline": "解码与缩放 → 前景分割 → 边缘处理 → 合成透明通道 → 导出 PNG。",
+        "output": "带透明背景的图片，并保留原图供对照。",
+        "limits": "毛发、玻璃、阴影和反光商品较难处理；只分割人物的模型不等于通用商品分割。模型身份未明的 HD 条目不列为候选。",
+        "example": "输入：一张商品照片。期望输出格式：带透明通道的 PNG。接受结果前应对照原图检查边缘局部。",
+        "checks": "核对具体权重许可，使用代表性商品图片测试边缘质量、分辨率和内存。"
+      },
+      "offline-translation": {
+        "title": "离线文本翻译",
+        "input": "原文及明确的源语言、目标语言。",
+        "pipeline": "选择兼容语言对 → 下载并缓存全部资源 → 文本分段 → 翻译 → 恢复段落顺序。",
+        "output": "与原文段落对应的译文。",
+        "limits": "离线使用需先成功下载资源并保留缓存；部分模型对只支持单向翻译。NLLB-200 distilled 600M 权重许可含非商业限制。",
+        "example": "输入：一段原文，source=en、target=zh。输出格式：对应译文段落。专名和数字需另行核验。",
+        "checks": "测试断网重载、缓存清除、长段落及两个翻译方向。"
+      }
     }
   }
 }

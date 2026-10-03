@@ -1,83 +1,73 @@
 {
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "back": "Back home"
+  },
   "site": {
+    "notice": "Display-only catalog. Models are not run by this site.",
     "name": "Web AI Models",
     "shortName": "WebAI",
     "tagline": "A curated catalog of browser-side AI models",
-    "description": "Discover, compare and learn about AI models that run entirely in the browser. No servers. No tracking. Just open standards.",
+    "description": "Explore models, tools and application workflows for browser AI, with source links and explicit verification status.",
     "footer": ""
   },
   "nav": {
+    "breadcrumb": "Breadcrumb",
     "home": "Home",
     "categories": "Categories",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "applications": "Applications"
   },
   "languages": {
+    "label": "Language",
     "en": "English",
     "zh": "中文"
   },
   "home": {
+    "categoriesCount": "{count} categories",
+    "categoryCounts": "{subcategories} tasks / {models} entries",
     "title": "Browser-side AI models",
-    "subtitle": "An open catalog of AI models you can run in the browser — for display and comparison only.",
+    "subtitle": "Compare tasks, deployment variants and browser evidence before choosing a model or tool.",
     "explore": "Explore categories",
-    "modelsCount": "{count} models",
+    "modelsCount": "{count} catalog entries · models, tools and applications",
     "aboutTitle": "Why this catalog",
-    "aboutLead": "The era of running AI in the browser has quietly arrived. Thanks to WebGPU, WebAssembly, and projects like Transformers.js, WebLLM, MediaPipe, ONNX Runtime Web, TensorFlow.js and Whisper.cpp, models that used to require a GPU cluster now run inside a webpage — no backend, no API key, no telemetry.",
-    "aboutBody": "Web AI Models is a curated, display-only catalog of those models. It is built for engineers, researchers and product teams who want to understand what's actually possible on the client today: which models exist, what they cost in MB, which framework they target, what license they ship under, and where to find the original demo or documentation. Nothing on this site runs inference — every entry links out to the upstream project so you can try it yourself.",
+    "aboutLead": "Browser AI can use WebAssembly and GPU backends. Compatibility and resource use depend on the exact weights, runtime and device.",
+    "aboutBody": "This catalog separates source review from runtime testing. It also retains unverified records so their gaps are visible. No inference runs on this site; external demos have their own data-handling policies.",
     "whatTitle": "What's inside",
-    "whatLead": "Ten categories and twenty-eight subcategories covering the modern browser-AI stack.",
+    "whatLead": "Browse tasks and application workflows; entry counts include tools and deployment choices.",
     "whatItems": [
       {
-        "title": "Text & LLM",
-        "body": "Classical NLP (classification, translation, summarization) and on-device large language models for chat, structured output and code."
+        "title": "Tasks",
+        "body": "Find models and tools by their inputs and outputs."
       },
       {
-        "title": "Search & RAG",
-        "body": "Embedding, cross-encoder reranking and ANN indexes that power semantic search and retrieval-augmented generation entirely in JavaScript."
-      },
-      {
-        "title": "Vision",
-        "body": "Object detection, segmentation, OCR and monocular depth from YOLO, MediaPipe, SAM, Tesseract, MiDaS and more."
-      },
-      {
-        "title": "Generative Vision",
-        "body": "Stable Diffusion Turbo, SDXL, FLUX, LaMa inpainting and other diffusion-style models that generate or edit pixels on WebGPU."
-      },
-      { "title": "Audio", "body": "Whisper (Xenova/whisper-small & whisper-base) for speech recognition, Kokoro 82M / Piper / Silero for synthesis, RNNoise / DeepFilterNet for denoising and HT Demucs (4 / 6 stems) for source separation." },
-      { "title": "Generative Audio", "body": "MusicGen, Riffusion and other text-to-music models, plus OpenVoice and Coqui XTTS for instant voice cloning in the browser." },
-      { "title": "Vision · Restoration", "body": "Real-ESRGAN, SwinIR and NAFNet — image super-resolution, denoising and JPEG deblocking running locally." },
-      {
-        "title": "Multimodal",
-        "body": "Vision-language models like Moondream, LLaVA, PaliGemma, plus CLIP, SigLIP and document understanding transformers."
-      },
-      {
-        "title": "Real-time",
-        "body": "MediaPipe and TensorFlow.js pipelines for face, pose, hand and 3D-object tracking — the perceptual layer for any in-browser AR or analytics product."
-      },
-      {
-        "title": "Video",
-        "body": "VideoCLIP, X-CLIP, VideoMAE and MediaPipe Video Classifier for action recognition and video retrieval."
+        "title": "Evidence",
+        "body": "Check sources, versions and browser evidence before deployment."
       }
     ]
   },
   "category": {
+    "modelsCount": "{count, plural, one {# entry} other {# entries}}",
     "title": "{name}",
     "subtitle": "Browse all subcategories and models under {name}.",
     "subcategories": "Subcategories",
     "viewSubcategory": "View subcategory"
   },
   "subcategory": {
+    "modelsCount": "{count, plural, one {# entry} other {# entries}}",
     "title": "{name}",
-    "description": "Models commonly used for {name} tasks on the web.",
+    "description": "Records related to {name}. Check browser evidence for each entry.",
     "backToCategory": "Back to {category}",
     "noModels": "No models have been catalogued for this subcategory yet."
   },
   "table": {
-    "title": "Model comparison",
-    "name": "Model",
+    "title": "Catalog comparison",
+    "name": "Entry",
     "framework": "Framework",
-    "size": "Size",
+    "size": "Resources",
     "license": "License",
-    "languages": "Languages / Tasks",
+    "languages": "Languages",
     "links": "Links",
     "demo": "Demo",
     "docs": "Docs"
@@ -99,8 +89,8 @@
     "generative-audioDesc": "Text-to-music and voice cloning models running in the browser.",
     "multimodal": "Multimodal",
     "multimodalDesc": "Vision-language, CLIP and document understanding models.",
-    "real-time": "Real-time",
-    "real-timeDesc": "On-device perception for face, pose, hand and tracking.",
+    "real-time": "Face, pose & tracking",
+    "real-timeDesc": "Perception tasks; real-time performance depends on device and configuration.",
     "video": "Video",
     "videoDesc": "Video understanding models running in the browser."
   },
@@ -128,13 +118,17 @@
     "text-to-music": "Text-to-Music",
     "voice-cloning": "Voice Cloning",
     "vlm": "VLM",
-    "clip": "CLIP",
+    "clip": "Image–text embeddings",
     "document-understanding": "Document Understanding",
     "face": "Face",
     "pose": "Pose",
     "hand": "Hand",
     "tracking": "Tracking",
-    "video-understanding": "Video Understanding"
+    "video-understanding": "Video Understanding",
+    "ner": "Named entity recognition",
+    "image-classification": "Image classification",
+    "vad": "Voice activity detection",
+    "audio-classification": "Audio event classification"
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -145,7 +139,11 @@
     "whisper-wasm": "Whisper.cpp WASM",
     "opencvjs": "OpenCV.js",
     "tflite": "TFLite",
-    "transformers": "Transformers"
+    "transformers": "Transformers (Python)",
+    "tesseract-wasm": "Tesseract / WebAssembly",
+    "python": "Python (browser port unverified)",
+    "native": "Native / Python / Java",
+    "unknown": "Runtime unresolved"
   },
   "licenses": {
     "apache-2-0": "Apache-2.0",
@@ -155,7 +153,9 @@
     "cc-by-sa-4-0": "CC-BY-SA-4.0",
     "openrail": "OpenRAIL",
     "custom": "Custom",
-    "other": "Other"
+    "other": "Other",
+    "cc-by-nc-4-0": "CC-BY-NC-4.0",
+    "agpl-3-0": "AGPL-3.0"
   },
   "models": {
     "distilbert-sst2": {
@@ -176,7 +176,7 @@
     },
     "nllb-200": {
       "name": "NLLB-200 Distilled",
-      "description": "No Language Left Behind — multilingual translation distilled for the browser."
+      "description": "NLLB-200 distilled 600M translation model. Weight license: CC-BY-NC-4.0. Exact browser artifact and runtime configuration remain to be verified."
     },
     "opus-mt-en-zh": {
       "name": "Opus-MT (en↔zh)",
@@ -206,25 +206,25 @@
       "name": "Phi-3 Mini (3.8B)",
       "description": "Microsoft Phi-3 small language model with WebGPU inference."
     },
-    "qwen2-1.5b": {
+    "qwen2-1-5b": {
       "name": "Qwen2 1.5B Instruct",
       "description": "Compact Qwen2 chat model for resource-constrained browsers."
     },
-    "tinyllama-1.1b": {
+    "tinyllama-1-1b": {
       "name": "TinyLlama 1.1B",
       "description": "Small open-source Llama; works in Transformers.js with WASM."
     },
     "jsonformer-llama": {
-      "name": "JSONFormer (Llama)",
-      "description": "Constrained decoding that guarantees valid JSON output."
+      "name": "JSONFormer",
+      "description": "Python wrapper for constrained JSON generation with a supplied language model; supports a subset of JSON Schema. It has no standalone model weights."
     },
     "instructor-xl": {
       "name": "Instructor-XL",
-      "description": "Embedding + generation model that follows structured instructions."
+      "description": "Instruction-tuned text embedding model for retrieval, clustering and similarity. This source does not establish browser compatibility."
     },
     "outline-llama": {
-      "name": "Outline (JSON mode)",
-      "description": "Outline-style guided generation for schema-conformant output."
+      "name": "Outlines",
+      "description": "Structured generation library used with a separately selected model and backend. A Python example is not evidence of browser support."
     },
     "codellama-7b": {
       "name": "CodeLlama 7B",
@@ -234,7 +234,7 @@
       "name": "StarCoder2 3B",
       "description": "BigCode StarCoder2 — modern code LLM with permissive licensing."
     },
-    "deepseek-coder-1.3b": {
+    "deepseek-coder-1-3b": {
       "name": "DeepSeek Coder 1.3B",
       "description": "Compact DeepSeek Coder model for browser-side code generation."
     },
@@ -271,8 +271,8 @@
       "description": "HNSW ANN index compiled to WebAssembly — used to do semantic search on top of embeddings."
     },
     "voyager-wasm": {
-      "name": "Voyager (WASM)",
-      "description": "Microsoft Voyager ANN index compiled to WebAssembly."
+      "name": "Voyager (Spotify)",
+      "description": "Spotify approximate nearest-neighbor search library with Python and Java bindings. No browser WASM implementation has been verified for this entry."
     },
     "lancedb-js": {
       "name": "LanceDB JS",
@@ -295,16 +295,16 @@
       "description": "MobileNetV2 backbone with SSD head, packaged for tfjs-models."
     },
     "imgly-bg-removal": {
-      "name": "IMG.LY Background Removal (fast)",
-      "description": "IMG.LY @imgly/background-removal@1.7.0 small variant (isnet_quint8) — fast background removal in the browser."
+      "name": "IMG.LY Background Removal",
+      "description": "Browser background-removal package using ONNX Runtime Web. The upstream example documents isnet_quint8 and isnet_fp16 configurations. Exact downloaded weights, sizes and device performance still need verification."
     },
     "imgly-bg-removal-balanced": {
       "name": "IMG.LY Background Removal (balanced)",
       "description": "IMG.LY @imgly/background-removal@1.7.0 medium variant (isnet_fp16) — balanced quality / size background removal in the browser."
     },
     "imgly-bg-removal-hd": {
-      "name": "IMG.LY Background Removal (HD)",
-      "description": "Hugging Face BiRefNet model pinned at revision 4a3c40c, fp16 ONNX. High-detail hair-edge matting for portraits and products."
+      "name": "HD background removal — identity unresolved",
+      "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison."
     },
     "sam-tiny": {
       "name": "SAM Tiny (ONNX)",
@@ -316,7 +316,7 @@
     },
     "tesseractjs": {
       "name": "Tesseract.js",
-      "description": "WebAssembly port of Tesseract OCR with broad language coverage."
+      "description": "Browser/Node.js OCR library wrapping Tesseract via WebAssembly. Language data is downloaded separately; PDF pages must first be converted to images."
     },
     "easy-ocr": {
       "name": "EasyOCR (ONNX)",
@@ -422,7 +422,7 @@
       "name": "Moondream 2",
       "description": "Tiny VLM for visual question answering and captioning."
     },
-    "llava-1.5-7b": {
+    "llava-1-5-7b": {
       "name": "LLaVA 1.5 7B",
       "description": "LLaVA visual chat model; runs in the browser via WebLLM."
     },
@@ -554,11 +554,11 @@
       "name": "Gemma 2 2B IT",
       "description": "Google Gemma 2 2B instruction-tuned — small enough to load on iOS Safari via WebLLM."
     },
-    "smollm2-1.7b": {
+    "smollm2-1-7b": {
       "name": "SmolLM2 1.7B Instruct",
       "description": "Hugging Face SmolLM2 1.7B — extremely compact instruct model for browser chat."
     },
-    "deepseek-r1-distill-qwen-1.5b": {
+    "deepseek-r1-distill-qwen-1-5b": {
       "name": "DeepSeek R1 Distill (Qwen 1.5B)",
       "description": "DeepSeek-R1 reasoning model distilled into Qwen 1.5B — runs in the browser with chain-of-thought output."
     },
@@ -569,6 +569,118 @@
     "mediapipe-pose-landmarker": {
       "name": "MediaPipe Pose Landmarker (Tasks API)",
       "description": "MediaPipe Pose Landmarker — modern Tasks API successor to MediaPipe Pose, with BlazePose GHUM 3D model."
+    },
+    "bert-base-ner": {
+      "name": "BERT Base NER (ONNX)",
+      "description": "Token classification for extracting named entities; upstream provides ONNX weights and a Transformers.js example."
+    },
+    "mobilenet-tfjs": {
+      "name": "MobileNet (TensorFlow.js)",
+      "description": "Classifies browser image, canvas or video elements. Model version and width multiplier affect its output and resource requirements."
+    },
+    "silero-vad-web": {
+      "name": "Silero VAD / vad-web",
+      "description": "Browser speech-activity detection through vad-web. Outputs speech segments, not transcripts or speaker identities."
+    },
+    "mediapipe-audio-classifier": {
+      "name": "MediaPipe Audio Classifier",
+      "description": "Web task API for audio classification. Select a compatible model asset; task-library support does not specify the weight version or measured latency."
+    }
+  },
+  "catalog": {
+    "kind": "Entry type",
+    "model": "Model",
+    "tool": "Tool / library",
+    "application": "Application",
+    "pending": "Browser support unverified",
+    "upstream-example": "Upstream browser example",
+    "tested": "Tested on this site",
+    "evidence": "Browser evidence",
+    "unknown": "Not verified",
+    "notTested": "Not measured",
+    "details": "Sources and comparison details",
+    "tasks": "Tasks",
+    "naturalLanguages": "Natural languages",
+    "programmingLanguages": "Programming languages",
+    "capabilities": "Other reported capabilities",
+    "modelId": "Exact model ID",
+    "codeLicense": "Code license",
+    "weightLicense": "Weight license",
+    "reportedLicense": "Legacy license label (unverified)",
+    "variants": "Deployment variants",
+    "download": "Download size",
+    "reportedSize": "Historical estimate: {size} (unverified)",
+    "memory": "Peak runtime memory",
+    "precision": "Quantization / precision",
+    "revision": "Weight revision",
+    "artifact": "Weight artifact",
+    "runtimeVersion": "Runtime version",
+    "backend": "Execution backend",
+    "benchmarks": "Performance and compatibility measurements",
+    "benchmarkHelp": "Compare only results with the same task, input, hardware, browser and precision. No ranking is inferred from model size.",
+    "noWeights": "No standalone weights specified; choose the underlying model separately.",
+    "source": "Reference",
+    "reviewedAt": "Source reviewed: {date}",
+    "reviewNotice": "Source review is not a browser execution test.",
+    "identityWarning": "Identity unresolved — exclude from model selection until verified.",
+    "legacyWarning": "Legacy description; claims about performance and browser support have not been independently verified.",
+    "methodTitle": "How to read this catalog",
+    "methodBody": "Entries include models, tools and applications. An upstream example documents a browser integration, not a test on your device. Missing versions, measurements and licenses remain unverified. Historical estimates are not benchmark results.",
+    "applicationLink": "Explore application workflows",
+    "metrics": "Metric / conditions",
+    "none": "Not specified",
+    "default": "Unspecified variant",
+    "retainedRoute": "Categories group tasks; real-time behavior depends on measured latency and device conditions."
+  },
+  "applications": {
+    "title": "Application workflows",
+    "intro": "Practical workflow designs with linked candidate entries. These are integration guides, not tested end-to-end applications or performance recommendations.",
+    "input": "Input",
+    "pipeline": "Workflow",
+    "output": "Output",
+    "limits": "Limits",
+    "example": "Minimal interface example",
+    "checks": "Before deployment",
+    "candidates": "Candidate entries — check evidence before use",
+    "tasks": "Related tasks",
+    "source": "Supporting reference",
+    "items": {
+      "meeting-notes": {
+        "title": "Meeting transcription and notes",
+        "input": "Recorded audio, or microphone audio with user permission.",
+        "pipeline": "Segment speech with VAD → resample audio → transcribe → optionally summarize with references to timestamps.",
+        "output": "Timestamped text and a separately generated draft summary.",
+        "limits": "VAD does not identify speakers. ASR can miss names, overlap and noisy speech. A summarizer can introduce unsupported statements. Real-time operation needs separate latency tests.",
+        "example": "Input: a short recording. Output shape: segments with start, end and text; a summary referencing those segments. This is an interface example, not a measured result.",
+        "checks": "Check language, sample rate, long-recording memory use and whether any selected demo uploads audio."
+      },
+      "document-qa": {
+        "title": "Local document questions",
+        "input": "Text documents or PDF pages; scanned pages require rasterization and OCR.",
+        "pipeline": "Parse/OCR → chunk with page IDs → embed → retrieve → optionally rerank → generate an answer with source excerpts.",
+        "output": "An answer with page references and the retrieved passages.",
+        "limits": "Retrieval can miss relevant pages. Embedding models do not generate answers. Tesseract.js itself does not accept PDF files. The complete workflow has not been tested here.",
+        "example": "Input: a document and a question. Output shape: answer, source page numbers and excerpts. Return an explicit no-evidence result when retrieval is insufficient.",
+        "checks": "Use the same embedding model and preprocessing for indexing and queries; check context length and test citation accuracy."
+      },
+      "product-cutout": {
+        "title": "Product background removal",
+        "input": "A product image with a clearly visible foreground.",
+        "pipeline": "Decode and resize → foreground segmentation → refine edges → compose an alpha channel → export PNG.",
+        "output": "An image with transparency; retain the original for comparison.",
+        "limits": "Hair, glass, shadows and reflective products are difficult cases. Person-only segmentation is not general product segmentation. The unresolved HD entry is excluded from these candidates.",
+        "example": "Input: a single product photo. Expected output format: PNG with an alpha channel. Compare edge crops against the original before accepting it.",
+        "checks": "Verify the exact weight license and test edge quality, resolution and memory on representative product photos."
+      },
+      "offline-translation": {
+        "title": "Offline text translation",
+        "input": "Source text plus explicit source and target languages.",
+        "pipeline": "Choose a compatible language pair → download and cache all assets → split text → translate → restore paragraph order.",
+        "output": "Translated text aligned with the source paragraphs.",
+        "limits": "Offline use requires a successful prior asset download and persistent cache. Some model pairs are one-directional. NLLB-200 distilled 600M has a non-commercial weight license.",
+        "example": "Input: one paragraph with source=en and target=zh. Output format: a translated paragraph. Verify names and numbers independently.",
+        "checks": "Test airplane-mode reload, cache eviction, long paragraphs and both translation directions."
+      }
     }
   }
 }

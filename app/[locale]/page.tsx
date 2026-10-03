@@ -1,3 +1,5 @@
+import { socialMetadata } from '@/lib/social';
+import { localizedUrl, languageAlternates } from '@/lib/urls';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -8,40 +10,38 @@ import { JsonLd } from '@/components/JsonLd';
 import { SITE_URL } from '@/lib/site';
 
 export async function generateMetadata({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'home' });
   const tSite = await getTranslations({ locale, namespace: 'site' });
-  const path = locale === routing.defaultLocale ? '/' : `/${locale}`;
-  const url = `${SITE_URL}${path}`;
+  const url = localizedUrl(locale);
   return {
     title: t('title'),
     description: tSite('description'),
     alternates: {
       canonical: url,
-      languages: { en: `${SITE_URL}/`, zh: `${SITE_URL}/zh` },
+      languages: languageAlternates(),
     },
-    openGraph: {
-      title: t('title'),
-      description: tSite('description'),
-      url,
-    },
+    ...socialMetadata(locale, t('title'), tSite('description'), url),
   };
 }
 
 export default async function HomePage({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   if (!(routing.locales as readonly string[]).includes(locale)) notFound();
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: 'home' });
   const tCats = await getTranslations({ locale, namespace: 'categories' });
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
+  const c = await getTranslations({ locale, namespace: 'catalog' });
   const whatItems = t.raw('whatItems') as Array<{ title: string; body: string }>;
 
   return (
@@ -59,19 +59,38 @@ export default async function HomePage({
         </p>
       </header>
 
-      <section aria-labelledby="about" className="gap-8">
-        <div className="text-base leading-relaxedß">
+      <section aria-label={t('aboutTitle')} className="gap-8">
+        <div className="text-base leading-relaxed">
           <p>{t('aboutLead')}</p>
           <p>{t('aboutBody')}</p>
         </div>
       </section>
 
+      <section className="border border-black p-6 space-y-3" aria-labelledby="catalog-method">
+        <h2 id="catalog-method" className="font-mono text-xl">{c('methodTitle')}</h2>
+        <p className="text-sm leading-relaxed">{c('methodBody')}</p>
+        <Link href="/applications" className="inline-block underline">{c('applicationLink')} →</Link>
+      </section>
+
+      <section aria-labelledby="whats-inside">
+        <h2 id="whats-inside" className="font-mono text-xl mb-3">{t('whatTitle')}</h2>
+        <p className="text-sm leading-relaxed max-w-prose">{t('whatLead')}</p>
+        <dl className="mt-6 grid gap-6 sm:grid-cols-2">
+          {whatItems.map((item) => (
+            <div key={item.title} className="border-l-2 border-black pl-4">
+              <dt className="font-semibold">{item.title}</dt>
+              <dd className="mt-1 text-sm leading-relaxed text-black/70">{item.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
       <section aria-labelledby="cats">
         <h2 id="cats" className="font-mono text-2xl mb-6">
-          {TAXONOMY.length} Categories
+          {t('categoriesCount', { count: TAXONOMY.length })}
         </h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {TAXONOMY.map((cat, idx) => {
+          {TAXONOMY.map((cat) => {
             const count = cat.subcategories.reduce(
               (s, x) => s + countModels(cat.slug, x.slug),
               0,
@@ -92,7 +111,7 @@ export default async function HomePage({
                     {tCats(`${cat.slug}Desc` as 'textDesc')}
                   </p>
                   <div className="mt-4 text-xs font-mono text-black/60 group-hover:text-white/60">
-                    {cat.subcategories.length} subcategories / {count} models
+                    {t('categoryCounts', { subcategories: cat.subcategories.length, models: count })}
                   </div>
                   <ul className="mt-4 flex flex-wrap gap-1.5">
                     {cat.subcategories.map((s) => (
@@ -111,48 +130,19 @@ export default async function HomePage({
         </ul>
       </section>
 
+      {/* The headings here are not questions, and Google stopped showing FAQ rich
+          results on 2026-05-07, so this list is marked up as what it is. */}
       <JsonLd
         data={{
           '@context': 'https://schema.org',
           '@type': 'ItemList',
-          itemListElement: TAXONOMY.map((c, idx) => ({
+          name: t('categoriesCount', { count: TAXONOMY.length }),
+          itemListElement: TAXONOMY.map((cat, idx) => ({
             '@type': 'ListItem',
             position: idx + 1,
-            name: c.slug,
-            url: `${SITE_URL}/${locale}/${c.slug}`,
+            name: tCats(cat.slug as 'text'),
+            url: `${SITE_URL}/${locale}/${cat.slug}`,
           })),
-        }}
-      />
-      <JsonLd
-        data={{
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: [
-            {
-              '@type': 'Question',
-              name: t('aboutTitle'),
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: `${t('aboutLead')} ${t('aboutBody')}`,
-              },
-            },
-            {
-              '@type': 'Question',
-              name: t('whatTitle'),
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: whatItems.map((i) => `${i.title}: ${i.body}`).join(' '),
-              },
-            },
-            {
-              '@type': 'Question',
-              name: t('howTitle'),
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: t('howBody'),
-              },
-            },
-          ],
         }}
       />
     </div>

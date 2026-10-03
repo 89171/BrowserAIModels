@@ -1,43 +1,37 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import { routing, type AppLocale } from '@/i18n/routing';
+import { useState } from 'react';
+import { languageSwitchUrl } from '@/lib/language-switch';
 
-export function LanguageSwitcher() {
-  const locale = useLocale() as AppLocale;
-  const pathname = usePathname();
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const t = useTranslations('languages');
+type Props = {
+  locale: string;
+  label: string;
+  options: { value: string; label: string }[];
+};
 
-  function onChange(next: AppLocale) {
-    if (next === locale) return;
-    const segments = pathname.split('/');
-    if (segments[1] && (routing.locales as readonly string[]).includes(segments[1])) {
-      segments[1] = next;
-    } else {
-      segments.splice(1, 0, next);
-    }
-    const target = segments.join('/') || '/';
-    startTransition(() => router.replace(target));
+export function LanguageSwitcher({ locale, label, options }: Props) {
+  const [isPending, setPending] = useState(false);
+
+  function onChange(next: string) {
+    if (next === locale || !options.some(option => option.value === next)) return;
+    setPending(true);
+    // Load the destination document and its matching client modules together.
+    // Preserve the current task, query parameters, and section anchor.
+    window.location.assign(languageSwitchUrl(window.location.href, next, options.map(option => option.value)));
   }
 
   return (
     <label className="inline-flex items-center gap-2 text-sm">
-      <span className="sr-only">Language</span>
+      <span className="sr-only">{label}</span>
       <select
-        aria-label="Language switcher"
+        aria-label={label}
         className="bg-white text-black border border-black rounded-none px-2 py-1 focus:outline-none focus:ring-1 focus:ring-black"
         value={locale}
-        onChange={(e) => onChange(e.target.value as AppLocale)}
+        onChange={(e) => onChange(e.target.value)}
         disabled={isPending}
       >
-        {routing.locales.map((l) => (
-          <option key={l} value={l}>
-            {t(l)}
-          </option>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
     </label>

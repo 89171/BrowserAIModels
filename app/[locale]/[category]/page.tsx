@@ -1,3 +1,5 @@
+import { socialMetadata } from '@/lib/social';
+import { localizedUrl, languageAlternates } from '@/lib/urls';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -18,39 +20,34 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({
-  params: { locale, category },
+  params,
 }: {
-  params: { locale: string; category: string };
+  params: Promise<{ locale: string; category: string }>;
 }): Promise<Metadata> {
+  const { locale, category } = await params;
   const cat = getCategory(category);
   if (!cat) return {};
   const tCats = await getTranslations({ locale, namespace: 'categories' });
   const name = tCats(cat.slug as 'text');
   const desc = tCats(`${cat.slug}Desc` as 'textDesc');
-  const path =
-    locale === routing.defaultLocale
-      ? `/${category}`
-      : `/${locale}/${category}`;
-  const url = `${SITE_URL}${path}`;
+  const url = localizedUrl(locale, `/${category}`);
   return {
     title: name,
     description: desc,
     alternates: {
       canonical: url,
-      languages: {
-        en: `${SITE_URL}/${category}`,
-        zh: `${SITE_URL}/zh/${category}`,
-      },
+      languages: languageAlternates(`/${category}`),
     },
-    openGraph: { title: name, description: desc, url },
+    ...socialMetadata(locale, name, desc, url),
   };
 }
 
 export default async function CategoryPage({
-  params: { locale, category },
+  params,
 }: {
-  params: { locale: string; category: string };
+  params: Promise<{ locale: string; category: string }>;
 }) {
+  const { locale, category } = await params;
   if (!(routing.locales as readonly string[]).includes(locale)) notFound();
   setRequestLocale(locale);
   const catOpt = getCategory(category);
@@ -67,7 +64,7 @@ export default async function CategoryPage({
 
   return (
     <div className="space-y-10">
-      <nav aria-label="Breadcrumb" className="text-xs font-mono">
+      <nav aria-label={tNav('breadcrumb')} className="text-xs font-mono">
         <ol className="flex items-center gap-2">
           <li>
             <Link href="/" className="underline underline-offset-2 hover:opacity-60">
@@ -109,7 +106,7 @@ export default async function CategoryPage({
                     {tSubs(s.slug as 'classification')}
                   </div>
                   <div className="mt-4 text-xs font-mono text-black/60 group-hover:text-white/60">
-                    {count} models · {t('viewSubcategory')} →
+                    {t('modelsCount', { count })} · {t('viewSubcategory')} →
                   </div>
                 </Link>
               </li>
@@ -121,16 +118,26 @@ export default async function CategoryPage({
       <JsonLd
         data={{
           '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name,
-          description: desc,
-          url: `${SITE_URL}/${locale}/${cat.slug}`,
-          hasPart: cat.subcategories.map((s, i) => ({
-            '@type': 'WebPage',
-            position: i + 1,
-            url: `${SITE_URL}/${locale}/${cat.slug}/${s.slug}`,
-            name: tSubs(s.slug as 'classification'),
-          })),
+          '@graph': [
+            {
+              '@type': 'CollectionPage',
+              name,
+              description: desc,
+              url: `${SITE_URL}/${locale}/${cat.slug}`,
+              hasPart: cat.subcategories.map((s) => ({
+                '@type': 'WebPage',
+                url: `${SITE_URL}/${locale}/${cat.slug}/${s.slug}`,
+                name: tSubs(s.slug as 'classification'),
+              })),
+            },
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: tNav('home'), item: `${SITE_URL}/${locale}` },
+                { '@type': 'ListItem', position: 2, name, item: `${SITE_URL}/${locale}/${cat.slug}` },
+              ],
+            },
+          ],
         }}
       />
     </div>
