@@ -10,14 +10,15 @@
     "shortName": "WebAI",
     "tagline": "A curated catalog of browser-side AI models",
     "description": "Explore models, tools and application workflows for browser AI, with source links and explicit verification status.",
-    "footer": ""
+    "footer": "Source links and verification status for every entry. No model runs on this site."
   },
   "nav": {
     "breadcrumb": "Breadcrumb",
     "home": "Home",
     "categories": "Categories",
     "skipToContent": "Skip to content",
-    "applications": "Applications"
+    "applications": "Applications",
+    "methodology": "Verification"
   },
   "languages": {
     "label": "Language",
@@ -29,7 +30,6 @@
     "categoryCounts": "{subcategories} tasks / {models} entries",
     "title": "Browser-side AI models",
     "subtitle": "Compare tasks, deployment variants and browser evidence before choosing a model or tool.",
-    "explore": "Explore categories",
     "modelsCount": "{count} catalog entries · models, tools and applications",
     "aboutTitle": "Why this catalog",
     "aboutLead": "Browser AI can use WebAssembly and GPU backends. Compatibility and resource use depend on the exact weights, runtime and device.",
@@ -49,16 +49,12 @@
   },
   "category": {
     "modelsCount": "{count, plural, one {# entry} other {# entries}}",
-    "title": "{name}",
     "subtitle": "Browse all subcategories and models under {name}.",
     "subcategories": "Subcategories",
     "viewSubcategory": "View subcategory"
   },
   "subcategory": {
     "modelsCount": "{count, plural, one {# entry} other {# entries}}",
-    "title": "{name}",
-    "description": "Records related to {name}. Check browser evidence for each entry.",
-    "backToCategory": "Back to {category}",
     "noModels": "No models have been catalogued for this subcategory yet."
   },
   "table": {
@@ -128,7 +124,41 @@
     "ner": "Named entity recognition",
     "image-classification": "Image classification",
     "vad": "Voice activity detection",
-    "audio-classification": "Audio event classification"
+    "audio-classification": "Audio event classification",
+    "classificationDesc": "Assigns a label to a span of text — sentiment, topic, intent or policy flags. Encoder models in the 60–130 MB range cover most of it, and they run on WebAssembly without a GPU, which makes classification the cheapest browser AI task to ship.",
+    "nerDesc": "Extracts people, places, organisations and other spans from free text, returning character offsets rather than a rewritten string. Token classification is sensitive to tokenizer mismatches, so the exact weights and tokenizer revision matter more here than raw model size.",
+    "translationDesc": "Translates between language pairs in the browser, which keeps the source text on the device. Bilingual models stay small; the multilingual ones carry every pair in one file, so download size grows fast and some weights are licensed for non-commercial use only.",
+    "summarizationDesc": "Compresses a document into a shorter abstract. Encoder-decoder models load two graphs plus a KV cache, so peak memory is roughly double a classifier of the same parameter count, and long inputs hit the context limit before they hit the memory limit.",
+    "chatDesc": "General-purpose instruction-following models served from the page itself. Browser-side chat is bounded by WebGPU memory: 1–3B models at 4-bit fit comfortably in about 1–2 GB, while 7–8B builds need a discrete GPU and a multi-gigabyte first load that the browser must cache.",
+    "structured-outputDesc": "Constrains a language model to emit JSON, a schema or a grammar instead of prose. Most of the work is in the decoding loop rather than in the weights, so check whether the browser runtime actually exposes logit biasing or grammar support before planning around it.",
+    "codeDesc": "Code completion and code explanation models. They are ordinary decoder LLMs with a code-heavy training mix, so the browser constraints are the same as chat, while licensing differs more: several permissive-looking code models ship under their own community terms.",
+    "embeddingDesc": "Turns text into a fixed-length vector for retrieval, clustering or deduplication. These are the smallest useful models in the catalog — 30–130 MB quantised — and the vectors never leave the device, which is why local RAG usually starts here.",
+    "rerankerDesc": "Scores a query against each candidate document as a pair, which is more accurate than comparing embeddings but costs one forward pass per candidate. In a browser that cost is the whole design constraint: rerank the top 20 from a vector search, not the whole corpus.",
+    "semantic-searchDesc": "The index and query layer around embeddings: vector stores compiled to WebAssembly, or JavaScript libraries that keep the index in memory or IndexedDB. Entries here are tools rather than weights, so the number to check is index size, not download size.",
+    "image-classificationDesc": "Labels a whole image with one or more classes. The mobile-grade backbones here are the oldest reliable browser AI workload: a few megabytes, well-tested WebGL and WebAssembly paths, and frame rates high enough to run on a video element.",
+    "detectionDesc": "Finds objects and returns boxes with class scores. Post-processing is part of the cost: non-maximum suppression and letterbox scaling usually run in JavaScript, so measured latency depends as much on that glue code as on the network itself.",
+    "segmentationDesc": "Produces a per-pixel mask instead of a box — background removal, portrait effects, cut-outs. Output resolution drives the real cost: the model may be small, but the mask upsampling and canvas compositing run on every frame.",
+    "ocrDesc": "Reads text out of images and screenshots. Browser OCR is a pipeline, not one model: detection, cropping and recognition are separate stages, and language packs are downloaded per script, so the first run for a new language is not free.",
+    "depthDesc": "Estimates a depth map from a single image. The output is relative depth unless the model is explicitly metric, so it is usable for ordering, blur and parallax effects, and not for measurement without calibration.",
+    "image-restorationDesc": "Upscaling, denoising and artefact removal. These models are convolutional and tile-based, so memory scales with the output resolution rather than the weights: a 4 MB model can still exhaust a tab on a 4K image.",
+    "text-to-imageDesc": "Generates an image from a prompt. A diffusion pipeline is several networks — text encoder, UNet, VAE — and the browser must hold all of them, so the download in this category is measured in gigabytes and WebGPU is a hard requirement.",
+    "inpaintingDesc": "Fills a masked region so the result matches its surroundings — object and watermark removal, photo repair. It needs the same pipeline as text-to-image plus a mask input, and the practical browser builds are the small dedicated models rather than the full diffusion stacks.",
+    "asrDesc": "Transcribes speech to text on the device, so the audio never leaves it. Streaming is a runtime feature rather than a model feature: the same weights can either batch 30-second windows or decode incrementally, and only the latter feels live.",
+    "vadDesc": "Decides which parts of an audio stream contain speech. It is the gate in front of a transcriber — a model of a few megabytes that decides whether the expensive one has to run at all, which is usually what makes browser transcription affordable.",
+    "audio-classificationDesc": "Labels sounds and events rather than words: alarms, music, applause, acoustic scenes. Models take a mel spectrogram, so the feature extraction window, not the weights, sets the latency floor.",
+    "ttsDesc": "Synthesises speech from text in the page. Quality tracks the vocoder and the voice pack more than the parameter count, and voices are distributed per speaker, so the download you ship is one voice rather than the whole model family.",
+    "denoisingDesc": "Removes background noise from speech, usually in a real-time call or recording path. These run frame by frame at 10–20 ms hops inside an AudioWorklet, so the metric that matters is per-frame cost, not throughput.",
+    "source-separationDesc": "Splits a mix into stems — vocals, drums, bass, other. Separation is offline work: models process long windows with large FFTs, and a four-minute track takes minutes of CPU, so plan for a progress bar rather than a live effect.",
+    "text-to-musicDesc": "Generates music or sound effects from a text prompt. Audio generation is autoregressive over acoustic tokens, so generation time scales with clip length, and several of the open weights here are licensed for non-commercial use only.",
+    "voice-cloningDesc": "Reproduces a target voice from a short reference sample. The technical entry is small, the legal and consent surface is not: the catalog records licensing, but speaker consent and local likeness rules are outside what any model card can tell you.",
+    "vlmDesc": "Takes an image and a question and answers in text. A vision-language model is a vision encoder bolted onto a decoder LLM, so the browser cost is the LLM's plus an encoder pass per image, and the small builds are the only practical ones.",
+    "clipDesc": "Embeds images and text into one shared space, which makes image search, zero-shot labelling and duplicate detection a vector comparison. Two encoders ship together, but you only load the one you query with.",
+    "document-understandingDesc": "Answers questions about a page as a layout, not as a string: forms, receipts, invoices, tables. Layout-aware models read positions alongside text, which is why they beat an OCR-then-LLM pipeline on structured documents and cost more per page.",
+    "faceDesc": "Detects faces and face landmarks from a camera stream. These are the most mature real-time browser models — single-digit megabytes, 30 fps on a laptop — and the most sensitive: a camera frame is biometric input, so default to processing it and discarding it.",
+    "poseDesc": "Tracks body keypoints per frame, for fitness, motion capture and gesture control. Accuracy, latency and model size trade off explicitly here: the lite, full and heavy variants of the same model differ by several times in both size and frame time.",
+    "handDesc": "Tracks hand and finger landmarks, the basis for gesture interfaces and sign-language work. Landmark models assume a detector ran first, so the published frame rate is for the tracking stage alone unless the entry says otherwise.",
+    "trackingDesc": "Keeps an identity attached to a detection across frames. Trackers are mostly algorithms rather than weights — association, Kalman filtering, re-identification — so the entries here are WebAssembly libraries and the thing to check is CPU cost per frame.",
+    "video-understandingDesc": "Classifies or describes a clip rather than a frame. Temporal models sample 8–32 frames and run them as a batch, so the memory spike is the frame stack, and most of the published weights here have no browser build at all."
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -155,7 +185,9 @@
     "custom": "Custom",
     "other": "Other",
     "cc-by-nc-4-0": "CC-BY-NC-4.0",
-    "agpl-3-0": "AGPL-3.0"
+    "agpl-3-0": "AGPL-3.0",
+    "gpl-3-0": "GPL-3.0",
+    "isc": "ISC"
   },
   "models": {
     "distilbert-sst2": {
@@ -171,12 +203,12 @@
       "description": "Detects toxic comments across multiple labels."
     },
     "mobilenet-bert": {
-      "name": "MobileBERT",
-      "description": "Compact BERT optimized for mobile / browser inference."
+      "name": "MobileBERT (MNLI)",
+      "description": "Compact BERT fine-tuned on MNLI; used for zero-shot text classification in the browser."
     },
     "nllb-200": {
       "name": "NLLB-200 Distilled",
-      "description": "NLLB-200 distilled 600M translation model. Weight license: CC-BY-NC-4.0. Exact browser artifact and runtime configuration remain to be verified."
+      "description": "NLLB-200 distilled 600M translation model with a Transformers.js ONNX build. Weights are CC-BY-NC-4.0: non-commercial use only."
     },
     "opus-mt-en-zh": {
       "name": "Opus-MT (en↔zh)",
@@ -184,7 +216,7 @@
     },
     "m2m100-418m": {
       "name": "M2M-100 (418M)",
-      "description": "Many-to-many translation model runnable in the browser via ONNX."
+      "description": "Many-to-many translation model; runs in the browser from the Transformers.js ONNX build."
     },
     "t5-small": {
       "name": "T5 Small",
@@ -298,10 +330,6 @@
       "name": "IMG.LY Background Removal",
       "description": "Browser background-removal package using ONNX Runtime Web. The upstream example documents isnet_quint8 and isnet_fp16 configurations. Exact downloaded weights, sizes and device performance still need verification."
     },
-    "imgly-bg-removal-balanced": {
-      "name": "IMG.LY Background Removal (balanced)",
-      "description": "IMG.LY @imgly/background-removal@1.7.0 medium variant (isnet_fp16) — balanced quality / size background removal in the browser."
-    },
     "imgly-bg-removal-hd": {
       "name": "HD background removal — identity unresolved",
       "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison."
@@ -351,8 +379,8 @@
       "description": "Smaller distilled Stable Diffusion variant."
     },
     "flux-schnell": {
-      "name": "FLUX.1 Schnell (WebGPU)",
-      "description": "Fast FLUX diffusion model — community ONNX/WebGPU builds."
+      "name": "FLUX.1 Schnell",
+      "description": "Fast FLUX diffusion model. No browser build from the model owner; weights exceed browser memory budgets."
     },
     "mi-gan-watermark": {
       "name": "MI-GAN Watermark Removal",
@@ -364,7 +392,7 @@
     },
     "sdxl-inpaint": {
       "name": "SDXL Inpaint",
-      "description": "SDXL variant fine-tuned for mask-based inpainting."
+      "description": "SDXL variant fine-tuned for mask-based inpainting. No ONNX build is published for the browser."
     },
     "whisper-small": {
       "name": "Whisper Small (Transformers.js)",
@@ -391,8 +419,8 @@
       "description": "Compact Silero TTS models with several built-in speakers."
     },
     "bark-wasm": {
-      "name": "Bark (WASM)",
-      "description": "Suno Bark — generative audio / speech with non-verbal cues."
+      "name": "Bark (small)",
+      "description": "Suno Bark — generative audio with non-verbal cues. No ONNX or WebAssembly build is published."
     },
     "rnnoise-wasm": {
       "name": "RNNoise (WASM)",
@@ -424,11 +452,11 @@
     },
     "llava-1-5-7b": {
       "name": "LLaVA 1.5 7B",
-      "description": "LLaVA visual chat model; runs in the browser via WebLLM."
+      "description": "LLaVA visual chat model. No MLC or ONNX browser build is published; listed for comparison only."
     },
     "paligemma-3b": {
-      "name": "PaliGemma 3B",
-      "description": "Google PaliGemma — versatile small VLM with strong OCR."
+      "name": "PaliGemma 2 3B (224)",
+      "description": "Google PaliGemma 2 vision-language model with an ONNX build; strong OCR, 3B parameters."
     },
     "clip-vit-base": {
       "name": "CLIP ViT-B/32",
@@ -447,8 +475,8 @@
       "description": "Multimodal document understanding with text + layout + image."
     },
     "donut-base": {
-      "name": "Donut (base)",
-      "description": "OCR-free document understanding transformer."
+      "name": "Donut (DocVQA)",
+      "description": "OCR-free document understanding transformer, DocVQA fine-tune with a Transformers.js ONNX build."
     },
     "nougat-small": {
       "name": "Nougat Small",
@@ -585,6 +613,46 @@
     "mediapipe-audio-classifier": {
       "name": "MediaPipe Audio Classifier",
       "description": "Web task API for audio classification. Select a compatible model asset; task-library support does not specify the weight version or measured latency."
+    },
+    "vit-base-224": {
+      "name": "ViT Base (224)",
+      "description": "Vision Transformer trained on ImageNet-1k; the standard accuracy baseline for image classification."
+    },
+    "resnet-50": {
+      "name": "ResNet-50",
+      "description": "Convolutional classification baseline; widely used as the reference point other models are compared against."
+    },
+    "mobilevit-small": {
+      "name": "MobileViT Small",
+      "description": "Hybrid convolution / transformer classifier designed for mobile-class compute budgets."
+    },
+    "bert-multilingual-ner": {
+      "name": "BERT Multilingual NER",
+      "description": "Token classification across ten languages, labelling people, organisations and locations."
+    },
+    "gliner-small": {
+      "name": "GLiNER Small v2.1",
+      "description": "Zero-shot entity extraction: the entity types are supplied at call time instead of being fixed by the weights."
+    },
+    "pyannote-segmentation": {
+      "name": "pyannote Segmentation 3.0",
+      "description": "Speech segmentation that also marks overlapping speech, usable as a voice-activity gate."
+    },
+    "ast-audioset": {
+      "name": "AST (AudioSet)",
+      "description": "Audio Spectrogram Transformer over the 527 AudioSet classes — general sound and event tagging."
+    },
+    "wav2vec2-keyword-spotting": {
+      "name": "wav2vec2 Keyword Spotting",
+      "description": "Detects a small fixed set of spoken commands; the cheap alternative to full transcription for wake words."
+    },
+    "mediapipe-gesture-recognizer": {
+      "name": "MediaPipe Gesture Recognizer",
+      "description": "Hand landmarks plus a built-in classifier for seven gestures, as one Tasks API asset."
+    },
+    "webllm-json-mode": {
+      "name": "WebLLM JSON mode",
+      "description": "Grammar-constrained decoding in WebLLM: the runtime restricts sampling so the output parses as JSON."
     }
   },
   "catalog": {
@@ -627,10 +695,9 @@
     "methodTitle": "How to read this catalog",
     "methodBody": "Entries include models, tools and applications. An upstream example documents a browser integration, not a test on your device. Missing versions, measurements and licenses remain unverified. Historical estimates are not benchmark results.",
     "applicationLink": "Explore application workflows",
-    "metrics": "Metric / conditions",
     "none": "Not specified",
     "default": "Unspecified variant",
-    "retainedRoute": "Categories group tasks; real-time behavior depends on measured latency and device conditions."
+    "package": "Package"
   },
   "applications": {
     "title": "Application workflows",
@@ -680,7 +747,162 @@
         "limits": "Offline use requires a successful prior asset download and persistent cache. Some model pairs are one-directional. NLLB-200 distilled 600M has a non-commercial weight license.",
         "example": "Input: one paragraph with source=en and target=zh. Output format: a translated paragraph. Verify names and numbers independently.",
         "checks": "Test airplane-mode reload, cache eviction, long paragraphs and both translation directions."
+      },
+      "live-captions": {
+        "title": "Live captions and on-screen translation",
+        "input": "Microphone or tab audio with user permission, processed in short windows.",
+        "pipeline": "Gate the stream with VAD → buffer a window → transcribe incrementally → translate the finalised segment.",
+        "output": "A rolling caption line plus finalised segments, each optionally paired with a translation.",
+        "limits": "Partial hypotheses change as more audio arrives, so captions rewrite themselves. Translation runs on finalised text only, which adds a visible delay on top of transcription. Bilingual models cover one direction per download.",
+        "example": "Input: live audio and a target language. Output shape: {partial, final[], translation[]}. The interface must tolerate a final segment replacing the partial text it already displayed.",
+        "checks": "Measure end-to-end delay on the target device, decide what happens when a window overruns, and confirm the translation license permits your use."
+      },
+      "voice-assistant": {
+        "title": "Voice in, voice out assistant",
+        "input": "A microphone utterance, ended by silence detection or a push-to-talk control.",
+        "pipeline": "Transcribe the utterance → send the text to a local chat model → speak the reply with a TTS voice.",
+        "output": "A transcript, a text reply and synthesised audio, none of which leaves the device.",
+        "limits": "Three models are resident at once, so this is the heaviest workflow in the catalog: plan for the sum of their download sizes and peak memory. First-token latency of the chat model dominates the perceived response time.",
+        "example": "Input: one spoken turn. Output shape: {transcript, reply, audio}. Keep the chat history in the page so the second turn does not reload the model.",
+        "checks": "Check that the device has enough memory for all three models, cache weights after the first load, and provide a visible way to stop playback."
+      },
+      "screenshot-to-data": {
+        "title": "Screenshot or receipt to structured data",
+        "input": "A screenshot, photo or scanned page containing a form, receipt or table.",
+        "pipeline": "OCR the page for text and positions, or send it to a layout-aware or vision-language model → constrain the model to a schema → validate the fields.",
+        "output": "A record whose fields map to your schema, with the source crop kept for review.",
+        "limits": "An OCR-then-LLM pipeline loses layout, and a layout-aware model costs more per page. Constrained decoding needs runtime support for grammars or logit biasing; without it, a schema is a prompt and not a guarantee.",
+        "example": "Input: an image and a field list. Output shape: {fields, confidence, crop}. Reject the record rather than guessing when a required field is missing.",
+        "checks": "Validate every field against your own rules, keep the image crop for a human to check, and test on the worst scans you actually receive."
+      },
+      "inbox-triage": {
+        "title": "On-device message triage",
+        "input": "A batch of messages, tickets or comments already stored locally.",
+        "pipeline": "Classify each message → extract names, organisations and dates → embed the text → index the vectors for similar-case lookup.",
+        "output": "A label and score per message, extracted entity spans, and a nearest-neighbour list of similar past items.",
+        "limits": "Classifiers reflect their training data, so a moderation label is a signal and not a decision. Entity extraction returns offsets without resolving duplicates or aliases. The index must be rebuilt whenever the embedding model changes.",
+        "example": "Input: a message list. Output shape: {label, score, entities[], similar[]}. Route low-confidence items to a person rather than to a default bucket.",
+        "checks": "Measure the false-positive rate on your own data, keep the index and the model version together, and never make an irreversible decision from a single score."
+      },
+      "image-search": {
+        "title": "Search your own image library",
+        "input": "A local image folder or an in-page gallery, plus a text or image query.",
+        "pipeline": "Embed every image once with a shared image-text model → store the vectors → embed the query → rank by similarity, optionally filtering by a classifier label first.",
+        "output": "Ranked image results with similarity scores, and optional class labels as filters.",
+        "limits": "Indexing cost is paid once per image and is the bulk of the work; queries are cheap. Scores are relative, so there is no absolute threshold for \"a match\", and the two encoders must come from the same model.",
+        "example": "Input: a query string. Output shape: {results[{id, score}], took}. Show the score so a weak match does not look like a confident one.",
+        "checks": "Persist vectors with the model name and revision, re-index after any model change, and test queries that should return nothing."
+      },
+      "photo-cleanup": {
+        "title": "Photo cleanup and object removal",
+        "input": "A single photo, plus either a user-drawn mask or boxes from a detector.",
+        "pipeline": "Detect candidate objects → turn a box into a mask → inpaint the masked region → optionally upscale the result, using a depth map for depth-aware blur.",
+        "output": "An edited image, the mask that produced it, and the original kept for comparison.",
+        "limits": "Inpainting invents content, so the result is plausible rather than true, and removing a watermark may still be a licensing or legal question. Memory scales with output resolution, not with model size: a few megabytes of weights can still exhaust a tab on a 4K image.",
+        "example": "Input: an image and a mask. Output shape: {image, mask, steps[]}. Keep every step reversible so the user can undo one stage without redoing the pipeline.",
+        "checks": "Test at the largest resolution you accept, tile large images, and keep the original bytes until the user saves."
+      },
+      "gesture-controls": {
+        "title": "Camera gesture and posture controls",
+        "input": "A camera stream, with explicit permission and a visible indicator while it is on.",
+        "pipeline": "Run a landmark model per frame → smooth the landmarks over time → map a held pose to an action → keep identities stable with a tracker when several people are in frame.",
+        "output": "Per-frame landmarks and debounced action events.",
+        "limits": "Camera frames are biometric input: process them in the page and discard them. Landmark models assume a detector ran first, so a published frame rate usually covers the tracking stage alone, and single-frame jitter must be smoothed before it becomes an action.",
+        "example": "Input: a video element. Output shape: {landmarks[], gesture, heldMs}. Require a pose to be held before firing, so a passing hand does not trigger anything.",
+        "checks": "Keep frames off the network, degrade gracefully when the frame rate drops, and offer a keyboard path for every gesture action."
+      },
+      "studio-audio": {
+        "title": "Recording cleanup and stem split",
+        "input": "A recorded track or a live capture; separation needs the whole file.",
+        "pipeline": "Denoise speech frame by frame in an AudioWorklet → for a mix, split it into stems offline → optionally re-voice a narration track from a consented reference sample.",
+        "output": "A cleaned track, separate stems as audio buffers, and any re-voiced take as a new file.",
+        "limits": "Denoising is real-time per frame; separation is not — a four-minute track takes minutes of CPU, so it needs a progress bar rather than a live preview. Voice cloning carries a consent and likeness question that no model card answers.",
+        "example": "Input: an audio file. Output shape: {cleaned, stems{vocals, drums, bass, other}, progress}. Run separation in a worker so the page stays responsive.",
+        "checks": "Measure per-frame cost inside the worklet, keep separation off the main thread, and record who consented to a cloned voice before you ship it."
+      },
+      "creative-drafts": {
+        "title": "Draft art and sound on the device",
+        "input": "A text prompt, plus a seed when a repeatable result matters.",
+        "pipeline": "Load the diffusion pipeline once → generate a small image at few steps → generate a short audio clip from a second prompt → keep both as drafts tied to their seed.",
+        "output": "Draft images and short audio clips, each with the prompt and seed that produced it.",
+        "limits": "This is the heaviest download category in the catalog: a diffusion pipeline is several networks and is measured in gigabytes, so WebGPU is a hard requirement. Audio generation time scales with clip length, and several open weights here are non-commercial only.",
+        "example": "Input: {prompt, seed, steps}. Output shape: {image, audio, prompt, seed}. Store the seed with the output or the draft cannot be reproduced.",
+        "checks": "Detect WebGPU before offering the feature, cache the weights after the first load, and check each weight license before publishing anything generated."
+      },
+      "code-helper": {
+        "title": "In-page code assistant",
+        "input": "The current buffer, the cursor position and a short span of surrounding context.",
+        "pipeline": "Keep a code model resident → send a prefix and suffix for completion, or the selection for an explanation → stream tokens into the editor → stop on the first line that leaves the requested scope.",
+        "output": "A streamed completion or explanation, inserted only when the user accepts it.",
+        "limits": "Browser-side context windows are small, so whole-repository questions are out of scope; the model sees what you send and nothing else. Licensing varies more than in other categories: several permissive-looking code models ship under their own community terms.",
+        "example": "Input: {prefix, suffix, intent}. Output shape: {completion, tokens, stopped}. Never apply a completion without an explicit accept step.",
+        "checks": "Measure first-token latency on the target device, cap the context you send, and confirm the model license covers generated code in your product."
+      },
+      "video-highlights": {
+        "title": "Clip tagging and highlight selection",
+        "input": "A local video file; frames and audio are read through the page, not uploaded.",
+        "pipeline": "Sample frames on a fixed stride → classify or describe each sampled window → keep identities across frames with a tracker → use audio events such as applause as a second signal.",
+        "output": "Time ranges with labels and scores, ready to be cut or reviewed.",
+        "limits": "Temporal models batch 8–32 frames, so the memory spike is the frame stack rather than the weights, and most published video weights have no browser build at all. A fixed stride misses events shorter than the stride.",
+        "example": "Input: {file, strideMs}. Output shape: {ranges[{start, end, label, score}]}. Report the stride alongside the ranges so the resolution of the result is visible.",
+        "checks": "Check that a browser build exists before planning around a model, decode in a worker, and verify the ranges against a few clips by hand."
       }
     }
+  },
+  "methodology": {
+    "title": "How this catalog is verified",
+    "intro": "Every entry mixes facts from different sources with very different weight. This page says which is which, so a reader can tell a measured number from a claim and a gap from an omission.",
+    "evidenceTitle": "Browser evidence",
+    "evidenceLead": "The one thing a catalog of browser models has to be honest about is whether anyone has actually run the model in a browser.",
+    "evidenceItems": [
+      {
+        "title": "Browser support unverified",
+        "body": "Nobody has confirmed this entry runs in a browser. It is listed so its gaps are visible, not as a recommendation."
+      },
+      {
+        "title": "Upstream browser example",
+        "body": "The project itself documents a browser integration — a usage snippet in its model card or its own web guide. That is a documented path, not a test on your device."
+      },
+      {
+        "title": "Tested on this site",
+        "body": "Measured here, with date, browser, OS, hardware, runtime version, precision and input recorded alongside the number. No entry carries this status yet."
+      }
+    ],
+    "fieldsTitle": "What each number rests on",
+    "fieldsItems": [
+      {
+        "title": "Download size",
+        "body": "The exact bytes of the weight files for that precision, read from the host that serves them. A pipeline sums its components; tokenizer and config files add under 2 MB on top."
+      },
+      {
+        "title": "Historical estimate",
+        "body": "A size carried over from an earlier version of this catalog. Labelled as unverified wherever it appears, and replaced as soon as a real file listing exists."
+      },
+      {
+        "title": "Code and weight license",
+        "body": "Declared by the package that ships the code and by the repository that ships the weights. A format conversion inherits its base model’s license, and that base repository is listed as a source. Blank means no source states it."
+      },
+      {
+        "title": "Legacy license label",
+        "body": "A single license field kept from earlier records. It is never treated as verified code or weight licensing, because it does not say which of the two it described."
+      },
+      {
+        "title": "Runtime version",
+        "body": "The current release of the runtime these records were reviewed against, read from its registry. It is not a compatibility guarantee for other versions."
+      },
+      {
+        "title": "Peak memory and measurements",
+        "body": "Empty unless measured. Model size is not a proxy for memory use, and no ranking is inferred from it."
+      }
+    ],
+    "notClaimedTitle": "What this catalog does not claim",
+    "notClaimedItems": [
+      "That an entry is suitable for your use case, device or jurisdiction.",
+      "That a documented example will reproduce on your hardware or browser.",
+      "That a license summary is legal advice; read the license the source links to.",
+      "That the absence of a field means zero — it means unverified."
+    ],
+    "reviewTitle": "Review and corrections",
+    "reviewBody": "Each source carries the date it was reviewed, and pages report the latest of those dates rather than a build timestamp, so a deploy never looks like a content change. An entry whose identity is in doubt is marked unresolved and should be excluded from model selection until it is corrected rather than quietly deleted."
   }
 }

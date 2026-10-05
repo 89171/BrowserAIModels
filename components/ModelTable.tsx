@@ -1,9 +1,19 @@
 import { Fragment } from 'react';
 import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/routing';
 import { resolveDemoUrl } from '@/lib/catalog';
 import type { ModelEntry } from '@/types/taxonomy';
 
-export async function ModelTable({ models, locale }: { models: ModelEntry[]; locale: string }) {
+type Props = {
+  models: ModelEntry[];
+  locale: string;
+  /** Set on a list page: each row links to the entry's own page. */
+  basePath?: string;
+  /** Set on an entry's own page, where the details are the point of the page. */
+  expanded?: boolean;
+};
+
+export async function ModelTable({ models, locale, basePath, expanded }: Props) {
   const t = await getTranslations({ locale, namespace: 'table' });
   const c = await getTranslations({ locale, namespace: 'catalog' });
   const any = await getTranslations({ locale });
@@ -30,7 +40,15 @@ export async function ModelTable({ models, locale }: { models: ModelEntry[]; loc
                 <Fragment key={m.id}>
                   <tr id={`model-${m.id}`} className="border-t border-black/20 scroll-mt-4">
                     <th scope="row" className="px-3 py-3 align-top text-left font-normal min-w-56">
-                      <p className="font-semibold">{resolve(m.nameKey, m.name)}</p>
+                      <p className="font-semibold">
+                        {basePath ? (
+                          <Link href={`${basePath}/${m.id}`} className="underline underline-offset-2 hover:opacity-60">
+                            {resolve(m.nameKey, m.name)}
+                          </Link>
+                        ) : (
+                          resolve(m.nameKey, m.name)
+                        )}
+                      </p>
                       <p className="text-xs text-black/70 mt-2">{resolve(m.descriptionKey, m.description)}</p>
                       {m.identityUnresolved ? <p className="text-xs mt-2 font-semibold">{c('identityWarning')}</p> : !m.sources.some(s => s.reviewedAt) && <p className="text-xs mt-2 italic">{c('legacyWarning')}</p>}
                       <p className="text-xs mt-2">{c('tasks')}: {m.tasks.map(task => tasks(task)).join(' · ')}</p>
@@ -58,7 +76,7 @@ export async function ModelTable({ models, locale }: { models: ModelEntry[]; loc
                   </tr>
                   <tr className="bg-black/[0.025]">
                     <td colSpan={7} className="px-3 pb-4">
-                      <details>
+                      <details open={expanded}>
                         <summary className="cursor-pointer py-2 font-mono underline underline-offset-4">{c('details')}</summary>
                         <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3 my-4">
                           {[
@@ -66,6 +84,7 @@ export async function ModelTable({ models, locale }: { models: ModelEntry[]; loc
                             [c('naturalLanguages'), m.naturalLanguages.join(', ') || c('none')],
                             [c('programmingLanguages'), m.programmingLanguages.join(', ') || c('none')],
                             [c('capabilities'), m.capabilities.join(', ') || c('none')],
+                            [c('package'), m.npmPackage || unknown],
                             [c('runtimeVersion'), m.runtimeVersion || unknown],
                             [c('backend'), m.backends?.join(', ') || unknown],
                             [c('codeLicense'), m.codeLicense ? lic(m.codeLicense) : unknown],

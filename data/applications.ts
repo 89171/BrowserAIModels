@@ -1,6 +1,17 @@
 export const APPLICATIONS = [
   { id: 'meeting-notes', tasks: ['audio/vad', 'audio/asr', 'text/summarization'], entries: ['silero-vad-web', 'whisper-small', 'bart-large-cnn'], source: 'https://github.com/ricky0123/vad' },
+  { id: 'live-captions', tasks: ['audio/vad', 'audio/asr', 'text/translation'], entries: ['silero-vad-web', 'whisper-base', 'opus-mt-en-zh'], source: 'https://huggingface.co/docs/transformers.js/guides/webgpu' },
+  { id: 'voice-assistant', tasks: ['audio/asr', 'llm/chat', 'audio/tts'], entries: ['whisper-base', 'qwen2-1-5b', 'kokoro-82m-fp32'], source: 'https://github.com/mlc-ai/web-llm' },
   { id: 'document-qa', tasks: ['vision/ocr', 'search-rag/embedding', 'search-rag/reranker', 'llm/chat'], entries: ['tesseractjs', 'all-minilm-l6-v2', 'ms-marco-minilm'], source: 'https://github.com/naptha/tesseract.js' },
+  { id: 'screenshot-to-data', tasks: ['vision/ocr', 'multimodal/document-understanding', 'multimodal/vlm', 'llm/structured-output'], entries: ['tesseractjs', 'donut-base', 'moondream2', 'jsonformer-llama'], source: 'https://huggingface.co/docs/transformers.js/api/pipelines' },
+  { id: 'inbox-triage', tasks: ['text/classification', 'text/ner', 'search-rag/embedding', 'search-rag/semantic-search'], entries: ['toxic-bert', 'bert-base-ner', 'all-minilm-l6-v2', 'hnswlib-wasm'], source: 'https://github.com/ClaudiaJKang/hnswlib-wasm' },
+  { id: 'image-search', tasks: ['multimodal/clip', 'vision/image-classification', 'search-rag/semantic-search'], entries: ['clip-vit-base', 'siglip-base', 'mobilenet-tfjs', 'hnswlib-wasm'], source: 'https://huggingface.co/docs/transformers.js/api/pipelines' },
   { id: 'product-cutout', tasks: ['vision/segmentation', 'vision/image-restoration'], entries: ['imgly-bg-removal'], source: 'https://github.com/imgly/background-removal-js/blob/main/packages/web/README.md' },
+  { id: 'photo-cleanup', tasks: ['vision/detection', 'generative-vision/inpainting', 'vision/image-restoration', 'vision/depth'], entries: ['yolov8n', 'lama-watermark', 'real-esrgan', 'depth-anything-small'], source: 'https://onnxruntime.ai/docs/tutorials/web/' },
+  { id: 'gesture-controls', tasks: ['real-time/face', 'real-time/hand', 'real-time/pose', 'real-time/tracking'], entries: ['mediapipe-facemesh', 'mediapipe-handlandmarker', 'mediapipe-pose-landmarker', 'bytetrack-wasm'], source: 'https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js' },
+  { id: 'studio-audio', tasks: ['audio/denoising', 'audio/source-separation', 'generative-audio/voice-cloning'], entries: ['deepfilternet', 'htdemucs-4-stem', 'openvoice'], source: 'https://onnxruntime.ai/docs/tutorials/web/' },
+  { id: 'creative-drafts', tasks: ['generative-vision/text-to-image', 'generative-audio/text-to-music'], entries: ['sd-turbo', 'musicgen-small'], source: 'https://onnxruntime.ai/docs/tutorials/web/' },
+  { id: 'code-helper', tasks: ['llm/code', 'llm/chat'], entries: ['deepseek-coder-1-3b', 'qwen2-1-5b'], source: 'https://github.com/mlc-ai/web-llm' },
+  { id: 'video-highlights', tasks: ['video/video-understanding', 'real-time/tracking', 'audio/audio-classification'], entries: ['videoclip', 'bytetrack-wasm', 'mediapipe-audio-classifier'], source: 'https://ai.google.dev/edge/mediapipe/solutions/audio/audio_classifier/web_js' },
   { id: 'offline-translation', tasks: ['text/translation'], entries: ['nllb-200', 'opus-mt-en-zh'], source: 'https://huggingface.co/facebook/nllb-200-distilled-600M' },
 ] as const;

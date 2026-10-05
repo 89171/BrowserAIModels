@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     { path: '', lastModified: lastReviewed(everything) },
     { path: '/applications', lastModified: lastReviewed(everything) },
+    { path: '/methodology', lastModified: lastReviewed(everything) },
     ...TAXONOMY.flatMap((cat) => [
       {
         path: `/${cat.slug}`,
@@ -32,10 +33,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
           cat.subcategories.flatMap((sub) => getModels(cat.slug, sub.slug)),
         ),
       },
-      ...cat.subcategories.map((sub) => ({
-        path: `/${cat.slug}/${sub.slug}`,
-        lastModified: lastReviewed(getModels(cat.slug, sub.slug)),
-      })),
+      ...cat.subcategories.flatMap((sub) => [
+        {
+          path: `/${cat.slug}/${sub.slug}`,
+          lastModified: lastReviewed(getModels(cat.slug, sub.slug)),
+        },
+        ...getModels(cat.slug, sub.slug).map((model) => ({
+          path: `/${cat.slug}/${sub.slug}/${model.id}`,
+          lastModified: lastReviewed([model]),
+        })),
+      ]),
     ]),
   ];
 

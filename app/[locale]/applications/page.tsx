@@ -29,7 +29,7 @@ export default async function ApplicationsPage({ params }: Props) {
   const any = await getTranslations({ locale });
   const tNav = await getTranslations({ locale, namespace: 'nav' });
   const pageUrl = localizedUrl(locale, '/applications');
-  const entries = Object.entries(MODELS).flatMap(([cat, groups]) => Object.entries(groups).flatMap(([sub, list]) => list.map(model => ({ model, path: `/${cat}/${sub}#model-${model.id}` }))));
+  const entries = Object.entries(MODELS).flatMap(([cat, groups]) => Object.entries(groups).flatMap(([sub, list]) => list.map(model => ({ model, path: `/${cat}/${sub}/${model.id}` }))));
   return (
     <div className="space-y-12">
       <header className="border-b border-black pb-8"><h1 className="h-display text-4xl md:text-6xl">{t('title')}</h1><p className="mt-4 max-w-prose">{t('intro')}</p></header>

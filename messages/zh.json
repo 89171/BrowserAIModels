@@ -10,14 +10,15 @@
     "shortName": "WebAI",
     "tagline": "浏览器端侧 AI 模型的精选目录",
     "description": "浏览面向浏览器 AI 的模型、工具和应用流程，查看来源与明确的验证状态。",
-    "footer": ""
+    "footer": "每个条目都附来源链接与验证状态。本站不运行任何模型。"
   },
   "nav": {
     "breadcrumb": "面包屑导航",
     "home": "首页",
     "categories": "分类",
     "skipToContent": "跳到主要内容",
-    "applications": "应用"
+    "applications": "应用",
+    "methodology": "验证方法"
   },
   "languages": {
     "label": "语言",
@@ -29,7 +30,6 @@
     "categoryCounts": "{subcategories} 个任务 / {models} 条记录",
     "title": "浏览器端侧 AI 模型",
     "subtitle": "选型前，先比较任务、部署变体与浏览器运行依据。",
-    "explore": "浏览全部分类",
     "modelsCount": "共 {count} 条目录记录 · 包含模型、工具与应用",
     "aboutTitle": "为什么做这个目录",
     "aboutLead": "浏览器 AI 可使用 WebAssembly 与 GPU 后端，兼容性和资源需求取决于具体权重、推理库及设备。",
@@ -49,16 +49,12 @@
   },
   "category": {
     "modelsCount": "{count} 条记录",
-    "title": "{name}",
     "subtitle": "浏览「{name}」下的全部子分类与模型。",
     "subcategories": "子分类",
     "viewSubcategory": "查看子分类"
   },
   "subcategory": {
     "modelsCount": "{count} 条记录",
-    "title": "{name}",
-    "description": "与「{name}」相关的目录记录，请逐项核对浏览器运行依据。",
-    "backToCategory": "返回「{category}」",
     "noModels": "该子分类下还没有收录任何模型。"
   },
   "table": {
@@ -128,7 +124,41 @@
     "ner": "命名实体识别",
     "image-classification": "图像分类",
     "vad": "语音活动检测",
-    "audio-classification": "音频事件分类"
+    "audio-classification": "音频事件分类",
+    "classificationDesc": "为一段文本打标签——情感、主题、意图或内容审核标记。60–130 MB 的编码器模型足以覆盖大多数场景，且无需 GPU、在 WebAssembly 上即可运行，是浏览器端成本最低的 AI 任务。",
+    "nerDesc": "从自由文本中抽取人名、地名、机构等片段，返回字符偏移量而非改写后的文本。词元分类对分词器差异非常敏感，因此确切的权重与分词器版本比模型体积更关键。",
+    "translationDesc": "在浏览器内完成语言对之间的翻译，源文本不离开设备。双语模型体积很小；多语模型把所有语言对打包进同一份权重，下载体积增长很快，且部分权重仅限非商业用途。",
+    "summarizationDesc": "把长文档压缩为较短的摘要。编码器-解码器模型需要加载两张计算图和 KV 缓存，峰值内存约为同参数量分类模型的两倍；长输入通常先触到上下文上限，而不是内存上限。",
+    "chatDesc": "由页面自身承载的通用指令遵循模型。浏览器端对话受 WebGPU 显存限制：1–3B 模型在 4-bit 量化下约占 1–2 GB，较为宽松；7–8B 构建则需要独立显卡，首次加载为数 GB，必须依赖浏览器缓存。",
+    "structured-outputDesc": "约束语言模型输出 JSON、schema 或语法结构，而非自由文本。关键逻辑在解码循环而不在权重里，因此在方案设计前要先确认浏览器运行时是否真的提供 logit 偏置或语法约束能力。",
+    "codeDesc": "代码补全与代码解释模型。它们本质是以代码为主训练的解码器 LLM，浏览器侧约束与对话模型相同；但许可差异更大，若干看似宽松的代码模型实际采用自家社区条款。",
+    "embeddingDesc": "把文本转为定长向量，用于检索、聚类或去重。它们是本目录中最小的可用模型——量化后 30–130 MB——且向量始终留在设备上，因此本地 RAG 通常从这里起步。",
+    "rerankerDesc": "将查询与每个候选文档成对打分，比直接比较向量更准，但每个候选都要一次前向推理。在浏览器里这一开销就是全部设计约束：只对向量检索的前 20 条重排，而不是整个语料。",
+    "semantic-searchDesc": "围绕向量的索引与查询层：编译为 WebAssembly 的向量库，或把索引放在内存 / IndexedDB 的 JavaScript 库。本分类的条目是工具而非权重，需要关注的是索引规模而非下载体积。",
+    "image-classificationDesc": "为整张图片打上一个或多个类别标签。本分类中的移动级骨干网络是最早成熟的浏览器 AI 负载：体积仅几 MB，WebGL 与 WebAssembly 路径经过充分验证，帧率足以直接作用于 video 元素。",
+    "detectionDesc": "定位目标并返回带类别分数的框。后处理也是开销的一部分：非极大值抑制与等比填充缩放通常在 JavaScript 中执行，因此实测延迟既取决于网络本身，也取决于这些胶水代码。",
+    "segmentationDesc": "输出逐像素掩码而非矩形框——背景移除、人像特效、抠图。真正的开销来自输出分辨率：模型可能很小，但掩码上采样与 canvas 合成需要逐帧执行。",
+    "ocrDesc": "从图片与截图中读出文字。浏览器 OCR 是一条流水线而非单个模型：检测、裁剪与识别是独立阶段，语言包按文字系统分别下载，因此新语言的首次运行并不免费。",
+    "depthDesc": "从单张图片估计深度图。除显式标注为度量深度的模型外，输出都是相对深度，可用于前后排序、虚化与视差效果，未经标定则不能用于测量。",
+    "image-restorationDesc": "超分、去噪与伪影去除。这类模型多为卷积、分块处理，内存随输出分辨率而非权重大小增长：4 MB 的模型在处理 4K 图像时同样可能耗尽标签页内存。",
+    "text-to-imageDesc": "根据提示词生成图像。扩散流水线由多个网络组成——文本编码器、UNet、VAE——浏览器必须同时持有，因此本分类的下载量以 GB 计，且 WebGPU 是硬性要求。",
+    "inpaintingDesc": "填补被掩码的区域并与周围保持一致——去物体、去水印、照片修复。它需要与文生图相同的流水线再加掩码输入；在浏览器中真正可用的是小型专用模型，而非完整扩散栈。",
+    "asrDesc": "在设备上把语音转成文字，音频不会离开设备。流式是运行时能力而非模型能力：同一份权重既可以按 30 秒窗口批处理，也可以增量解码，只有后者才有实时感。",
+    "vadDesc": "判断音频流中哪些片段包含语音。它是转写模型前的闸门——仅数 MB 的模型，决定昂贵模型是否需要运行，通常正是浏览器端转写能跑得起来的关键。",
+    "audio-classificationDesc": "对声音与事件而非词语进行标注：警报、音乐、掌声、声学场景。模型以梅尔频谱为输入，因此延迟下限由特征提取窗口决定，而非权重大小。",
+    "ttsDesc": "在页面内把文本合成为语音。音质更取决于声码器与音色包，而非参数量；音色按说话人分发，因此实际下载的是单个音色而非整个模型族。",
+    "denoisingDesc": "去除语音中的背景噪声，通常用于实时通话或录音链路。它们在 AudioWorklet 中以 10–20 ms 的帧移逐帧运行，真正重要的指标是单帧耗时而非吞吐量。",
+    "source-separationDesc": "把混音拆成分轨——人声、鼓、贝斯、其他。分离属于离线任务：模型以大 FFT 处理长窗口，一首四分钟的曲子需要数分钟 CPU 时间，应当按进度条而非实时效果来设计。",
+    "text-to-musicDesc": "根据文本提示生成音乐或音效。音频生成在声学 token 上自回归进行，耗时随片段长度增长；本分类中若干开放权重仅限非商业用途。",
+    "voice-cloningDesc": "依据一小段参考音频复刻目标音色。技术门槛不高，但法律与授权边界不低：目录只记录许可信息，说话人授权与当地人格权规则不是任何模型卡能回答的。",
+    "vlmDesc": "输入图像与问题，以文本作答。视觉语言模型是在解码器 LLM 上挂接视觉编码器，浏览器开销等于 LLM 开销加上每张图一次编码；只有小尺寸构建才真正可用。",
+    "clipDesc": "把图像与文本嵌入到同一向量空间，使图片搜索、零样本标注和去重变成向量比较。两个编码器一起分发，但查询时只需加载其中一个。",
+    "document-understandingDesc": "把页面当作版式而非字符串来回答问题：表单、票据、发票、表格。版式感知模型同时读取位置与文本，因此在结构化文档上优于“先 OCR 再 LLM”的流水线，单页开销也更高。",
+    "faceDesc": "从摄像头流中检测人脸与关键点。它们是浏览器端最成熟的实时模型——体积个位数 MB、笔记本上可达 30 fps——也是最敏感的：摄像头画面属于生物特征输入，默认应当处理后即丢弃。",
+    "poseDesc": "逐帧跟踪人体关键点，用于健身、动捕与手势控制。精度、延迟与体积在这里是显式权衡：同一模型的 lite / full / heavy 变体在体积与单帧耗时上相差数倍。",
+    "handDesc": "跟踪手部与手指关键点，是手势交互与手语应用的基础。关键点模型假设检测器已先运行，因此除条目另有说明外，公布的帧率只覆盖跟踪阶段。",
+    "trackingDesc": "在连续帧之间为检测结果保持同一身份。跟踪器主要是算法而非权重——关联、卡尔曼滤波、重识别——因此本分类的条目是 WebAssembly 库，需要关注每帧 CPU 开销。",
+    "video-understandingDesc": "对片段而非单帧进行分类或描述。时序模型通常采样 8–32 帧并批量推理，内存峰值来自帧栈；本分类多数公开权重根本没有浏览器构建。"
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -155,7 +185,9 @@
     "custom": "自定义",
     "other": "其他",
     "cc-by-nc-4-0": "CC-BY-NC-4.0",
-    "agpl-3-0": "AGPL-3.0"
+    "agpl-3-0": "AGPL-3.0",
+    "gpl-3-0": "GPL-3.0",
+    "isc": "ISC"
   },
   "models": {
     "distilbert-sst2": {
@@ -171,12 +203,12 @@
       "description": "在多标签上检测评论毒性的 BERT 微调模型。"
     },
     "mobilenet-bert": {
-      "name": "MobileBERT",
-      "description": "面向移动端 / 浏览器推理优化的紧凑 BERT 模型。"
+      "name": "MobileBERT (MNLI)",
+      "description": "在 MNLI 上微调的紧凑 BERT，可在浏览器中用于零样本文本分类。"
     },
     "nllb-200": {
       "name": "NLLB-200 Distilled",
-      "description": "NLLB-200 蒸馏版 600M 翻译模型，权重许可为 CC-BY-NC-4.0；具体浏览器权重与运行配置待验证。"
+      "description": "NLLB-200 蒸馏版 600M 翻译模型，提供 Transformers.js ONNX 构建。权重许可为 CC-BY-NC-4.0，仅限非商业用途。"
     },
     "opus-mt-en-zh": {
       "name": "Opus-MT (en↔zh)",
@@ -184,7 +216,7 @@
     },
     "m2m100-418m": {
       "name": "M2M-100 (418M)",
-      "description": "可通过 ONNX 在浏览器中运行的多对多翻译模型。"
+      "description": "多对多翻译模型，可通过 Transformers.js ONNX 构建在浏览器中运行。"
     },
     "t5-small": {
       "name": "T5 Small",
@@ -298,10 +330,6 @@
       "name": "IMG.LY 背景移除",
       "description": "使用 ONNX Runtime Web 的浏览器背景移除工具包。上游示例提供 isnet_quint8 与 isnet_fp16 配置；实际下载权重、体积及设备表现仍需验证。"
     },
-    "imgly-bg-removal-balanced": {
-      "name": "IMG.LY 背景移除(均衡)",
-      "description": "IMG.LY @imgly/background-removal@1.7.0 中型变体(isnet_fp16) —— 浏览器中质量与体积更均衡的背景移除。"
-    },
     "imgly-bg-removal-hd": {
       "name": "HD 抠图应用 — 模型身份待确认",
       "description": "历史 HD 演示条目：名称、BiRefNet 描述与 RMBG-1.4 引用互相矛盾。模型身份、权重、体积和许可尚未确认，不应作为已验证模型比较。"
@@ -351,8 +379,8 @@
       "description": "体积更小的蒸馏版 Stable Diffusion 变体。"
     },
     "flux-schnell": {
-      "name": "FLUX.1 Schnell (WebGPU)",
-      "description": "快速版 FLUX 扩散模型 —— 社区 ONNX/WebGPU 构建。"
+      "name": "FLUX.1 Schnell",
+      "description": "快速版 FLUX 扩散模型。模型方未提供浏览器构建，权重体积超出浏览器内存预算。"
     },
     "mi-gan-watermark": {
       "name": "MI-GAN 去水印",
@@ -364,7 +392,7 @@
     },
     "sdxl-inpaint": {
       "name": "SDXL Inpaint",
-      "description": "面向蒙版修复任务的 SDXL 微调变体。"
+      "description": "面向蒙版修复任务的 SDXL 微调变体。尚无面向浏览器的 ONNX 构建。"
     },
     "whisper-small": {
       "name": "Whisper Small (Transformers.js)",
@@ -391,8 +419,8 @@
       "description": "体积紧凑的 Silero TTS 模型,自带多个内置说话人。"
     },
     "bark-wasm": {
-      "name": "Bark (WASM)",
-      "description": "Suno Bark —— 支持非语言线索的生成式语音 / 音频模型。"
+      "name": "Bark (small)",
+      "description": "Suno Bark —— 支持非语言线索的生成式语音模型。尚无公开的 ONNX 或 WebAssembly 构建。"
     },
     "rnnoise-wasm": {
       "name": "RNNoise (WASM)",
@@ -424,11 +452,11 @@
     },
     "llava-1-5-7b": {
       "name": "LLaVA 1.5 7B",
-      "description": "LLaVA 视觉对话模型,通过 WebLLM 在浏览器中运行。"
+      "description": "LLaVA 视觉对话模型。尚无公开的 MLC 或 ONNX 浏览器构建，此处仅作对比参考。"
     },
     "paligemma-3b": {
-      "name": "PaliGemma 3B",
-      "description": "Google PaliGemma —— 多才多艺的小型视觉语言模型,OCR 能力强。"
+      "name": "PaliGemma 2 3B (224)",
+      "description": "Google PaliGemma 2 视觉语言模型，提供 ONNX 构建；OCR 能力强，参数量 3B。"
     },
     "clip-vit-base": {
       "name": "CLIP ViT-B/32",
@@ -447,8 +475,8 @@
       "description": "融合文本 + 版面 + 图像的多模态文档理解模型。"
     },
     "donut-base": {
-      "name": "Donut (base)",
-      "description": "无需 OCR 的文档理解 Transformer。"
+      "name": "Donut (DocVQA)",
+      "description": "无需 OCR 的文档理解 Transformer，DocVQA 微调版，提供 Transformers.js ONNX 构建。"
     },
     "nougat-small": {
       "name": "Nougat Small",
@@ -585,6 +613,46 @@
     "mediapipe-audio-classifier": {
       "name": "MediaPipe Audio Classifier",
       "description": "用于音频分类的 Web 任务 API；需另选兼容模型文件，任务库支持不等于确定了权重版本或实测延迟。"
+    },
+    "vit-base-224": {
+      "name": "ViT Base (224)",
+      "description": "在 ImageNet-1k 上训练的 Vision Transformer，图像分类的标准精度基线。"
+    },
+    "resnet-50": {
+      "name": "ResNet-50",
+      "description": "卷积分类基线模型，常被用作其他模型的对比参照。"
+    },
+    "mobilevit-small": {
+      "name": "MobileViT Small",
+      "description": "卷积与 Transformer 混合的分类模型，面向移动级算力预算设计。"
+    },
+    "bert-multilingual-ner": {
+      "name": "BERT 多语 NER",
+      "description": "覆盖十种语言的词元分类模型，标注人名、机构与地点。"
+    },
+    "gliner-small": {
+      "name": "GLiNER Small v2.1",
+      "description": "零样本实体抽取：实体类型在调用时给出，而非由权重固定。"
+    },
+    "pyannote-segmentation": {
+      "name": "pyannote Segmentation 3.0",
+      "description": "语音分段模型，同时标注重叠语音，可作为语音活动检测闸门使用。"
+    },
+    "ast-audioset": {
+      "name": "AST（AudioSet）",
+      "description": "基于频谱的 Audio Spectrogram Transformer，覆盖 AudioSet 的 527 个类别，用于通用声音与事件标注。"
+    },
+    "wav2vec2-keyword-spotting": {
+      "name": "wav2vec2 关键词识别",
+      "description": "识别一小组固定语音指令，是唤醒词场景下替代完整转写的低成本方案。"
+    },
+    "mediapipe-gesture-recognizer": {
+      "name": "MediaPipe 手势识别",
+      "description": "在手部关键点之上内置七种手势分类器，打包为单个 Tasks API 资源。"
+    },
+    "webllm-json-mode": {
+      "name": "WebLLM JSON 模式",
+      "description": "WebLLM 的语法约束解码：运行时限制采样过程，使输出必定可解析为 JSON。"
     }
   },
   "catalog": {
@@ -627,10 +695,9 @@
     "methodTitle": "如何使用本目录",
     "methodBody": "目录包含模型、工具和应用。上游示例说明存在浏览器集成方式，不代表已在你的设备测试。缺失的版本、测量和许可信息均保留为待验证；历史估值不是基准测试结果。",
     "applicationLink": "查看应用流程",
-    "metrics": "指标 / 测试条件",
     "none": "未说明",
     "default": "未指定变体",
-    "retainedRoute": "分类用于组织任务，能否实时运行取决于实测延迟和设备条件。"
+    "package": "发布包"
   },
   "applications": {
     "title": "应用流程",
@@ -680,7 +747,162 @@
         "limits": "离线使用需先成功下载资源并保留缓存；部分模型对只支持单向翻译。NLLB-200 distilled 600M 权重许可含非商业限制。",
         "example": "输入：一段原文，source=en、target=zh。输出格式：对应译文段落。专名和数字需另行核验。",
         "checks": "测试断网重载、缓存清除、长段落及两个翻译方向。"
+      },
+      "live-captions": {
+        "title": "实时字幕与屏幕翻译",
+        "input": "经用户授权的麦克风或标签页音频，按短窗口处理。",
+        "pipeline": "用 VAD 过滤音频流 → 缓冲一个窗口 → 增量转写 → 对已定稿片段翻译。",
+        "output": "滚动的字幕行，以及已定稿的片段，可选配对译文。",
+        "limits": "部分假设会随新音频到来而变化，字幕会自我改写。翻译只作用于定稿文本，因此会在转写延迟之上再叠加可感知的延迟。双语模型每次下载只覆盖一个翻译方向。",
+        "example": "输入：实时音频与目标语言。输出形态：{partial, final[], translation[]}。界面必须能承受定稿片段替换已显示的临时文本。",
+        "checks": "在目标设备上测量端到端延迟，明确窗口超时的处理策略，并确认翻译模型许可允许你的用途。"
+      },
+      "voice-assistant": {
+        "title": "语音进、语音出的助手",
+        "input": "一段麦克风语音，由静音检测或按键说话控件结束。",
+        "pipeline": "转写语音 → 将文本交给本地对话模型 → 用 TTS 音色朗读回复。",
+        "output": "转写文本、文本回复与合成音频，全部不离开设备。",
+        "limits": "三个模型需同时驻留，是本目录中最重的流程：需按它们下载体积与峰值内存之和来规划。对话模型的首字延迟主导了用户感知的响应速度。",
+        "example": "输入：一轮语音。输出形态：{transcript, reply, audio}。对话历史保存在页面内，避免第二轮重新加载模型。",
+        "checks": "确认设备内存能容纳三个模型，首次加载后缓存权重，并提供明显的停止播放入口。"
+      },
+      "screenshot-to-data": {
+        "title": "截图或票据转结构化数据",
+        "input": "包含表单、票据或表格的截图、照片或扫描件。",
+        "pipeline": "用 OCR 提取文本与位置，或交给版式感知 / 视觉语言模型 → 以 schema 约束输出 → 校验字段。",
+        "output": "字段映射到你自定 schema 的记录，并保留原图裁切以便复核。",
+        "limits": "“先 OCR 再 LLM”会丢失版式，而版式感知模型单页开销更高。约束解码依赖运行时提供语法或 logit 偏置支持；没有这类支持时，schema 只是提示词而非保证。",
+        "example": "输入：图片与字段清单。输出形态：{fields, confidence, crop}。必填字段缺失时应拒绝该记录，而不是猜测。",
+        "checks": "用自有规则校验每个字段，保留图片裁切供人工核对，并用实际收到的最差扫描件做测试。"
+      },
+      "inbox-triage": {
+        "title": "端侧消息分流",
+        "input": "已存在本地的一批消息、工单或评论。",
+        "pipeline": "逐条分类 → 抽取人名、机构与日期 → 文本向量化 → 建立向量索引用于相似历史检索。",
+        "output": "每条消息的标签与分数、抽取到的实体片段，以及相似历史条目列表。",
+        "limits": "分类器反映其训练数据，审核标签只是信号而非判决。实体抽取返回偏移量，不负责消歧或别名归并。更换嵌入模型后索引必须重建。",
+        "example": "输入：消息列表。输出形态：{label, score, entities[], similar[]}。低置信度条目应交给人工，而不是落入默认分类。",
+        "checks": "在自有数据上测量误报率，索引与模型版本绑定保存，切勿依据单个分数做不可逆决策。"
+      },
+      "image-search": {
+        "title": "搜索自己的图片库",
+        "input": "本地图片目录或页面内图库，以及文本或图片查询。",
+        "pipeline": "用同一图文模型为每张图片生成一次向量 → 存储向量 → 对查询生成向量 → 按相似度排序，必要时先用分类标签过滤。",
+        "output": "带相似度分数的排序结果，以及可作为筛选条件的类别标签。",
+        "limits": "索引开销按图片计且只付一次，是工作量主体；查询本身很便宜。分数是相对值，不存在“算作匹配”的绝对阈值；两个编码器必须来自同一模型。",
+        "example": "输入：查询字符串。输出形态：{results[{id, score}], took}。应显示分数，避免弱匹配看起来像高置信结果。",
+        "checks": "向量需连同模型名与版本一起持久化，更换模型后重建索引，并测试本应返回空结果的查询。"
+      },
+      "photo-cleanup": {
+        "title": "照片修整与去除物体",
+        "input": "单张照片，以及用户绘制的掩码或检测器输出的框。",
+        "pipeline": "检测候选目标 → 将框转为掩码 → 修补掩码区域 → 可选超分，并可用深度图实现景深虚化。",
+        "output": "编辑后的图片、生成它的掩码，以及保留以便对比的原图。",
+        "limits": "修补是在“编造”内容，结果只是看起来合理而非真实；去除水印还可能涉及许可与法律问题。内存随输出分辨率而非模型体积增长：几 MB 的权重在 4K 图像上同样可能耗尽标签页。",
+        "example": "输入：图片与掩码。输出形态：{image, mask, steps[]}。每一步都应可回退，让用户撤销单个阶段而无需重跑整条流程。",
+        "checks": "按你允许的最大分辨率测试，大图分块处理，并在用户保存前保留原始字节。"
+      },
+      "gesture-controls": {
+        "title": "摄像头手势与体态控制",
+        "input": "摄像头视频流，需显式授权并在开启期间给出可见提示。",
+        "pipeline": "逐帧运行关键点模型 → 对关键点做时间平滑 → 将保持住的姿态映射为动作 → 多人同时在画面时用跟踪器维持身份稳定。",
+        "output": "逐帧关键点，以及经去抖的动作事件。",
+        "limits": "摄像头画面属于生物特征输入：应在页面内处理后即丢弃。关键点模型假设检测器已先运行，公布帧率通常只覆盖跟踪阶段；单帧抖动必须先平滑再转为动作。",
+        "example": "输入：video 元素。输出形态：{landmarks[], gesture, heldMs}。动作触发前要求姿态保持一段时间，避免手掠过即触发。",
+        "checks": "画面不得上传网络，帧率下降时优雅降级，并为每个手势动作提供键盘替代路径。"
+      },
+      "studio-audio": {
+        "title": "录音降噪与分轨",
+        "input": "已录制的音轨或实时采集；分离需要完整文件。",
+        "pipeline": "在 AudioWorklet 中逐帧对语音降噪 → 对混音离线拆分为分轨 → 可选依据已获授权的参考音频重配旁白音色。",
+        "output": "降噪后的音轨、以音频缓冲形式输出的各个分轨，以及重配音色后的新文件。",
+        "limits": "降噪可按帧实时完成，分离不行——四分钟的曲子需要数分钟 CPU，因此要用进度条而非实时预览。音色克隆涉及授权与人格权问题，这不是模型卡能回答的。",
+        "example": "输入：音频文件。输出形态：{cleaned, stems{vocals, drums, bass, other}, progress}。分离应放进 worker，保持页面响应。",
+        "checks": "在 worklet 内测量单帧耗时，分离不要占用主线程，并在上线前记录克隆音色的授权来源。"
+      },
+      "creative-drafts": {
+        "title": "端侧生成草稿图与草稿音",
+        "input": "文本提示词；若需要可复现结果，还需固定随机种子。",
+        "pipeline": "一次性加载扩散流水线 → 以较少步数生成小尺寸图像 → 用第二条提示词生成短音频 → 将两者与种子一并作为草稿保存。",
+        "output": "草稿图像与短音频片段，各自附带生成它的提示词与种子。",
+        "limits": "这是目录中下载量最大的分类：扩散流水线由多个网络组成、体积以 GB 计，WebGPU 是硬性要求。音频生成耗时随片段长度增长，且本分类若干开放权重仅限非商业用途。",
+        "example": "输入：{prompt, seed, steps}。输出形态：{image, audio, prompt, seed}。种子必须与结果一起保存，否则草稿无法复现。",
+        "checks": "在提供该功能前先检测 WebGPU，首次加载后缓存权重，发布任何生成内容前逐一确认权重许可。"
+      },
+      "code-helper": {
+        "title": "页面内代码助手",
+        "input": "当前缓冲区内容、光标位置，以及一小段上下文。",
+        "pipeline": "保持代码模型驻留 → 发送前缀与后缀做补全，或发送选区做解释 → 将 token 流式写入编辑器 → 一旦越出请求范围即停止。",
+        "output": "流式输出的补全或解释，仅在用户接受后才插入。",
+        "limits": "浏览器端上下文窗口很小，跨仓库提问不在能力范围内；模型只能看到你发送的内容。本分类的许可差异比其他分类更大：若干看似宽松的代码模型实际采用自家社区条款。",
+        "example": "输入：{prefix, suffix, intent}。输出形态：{completion, tokens, stopped}。没有显式接受步骤，不得自动应用补全。",
+        "checks": "在目标设备上测量首字延迟，限制发送的上下文长度，并确认模型许可覆盖你产品中的生成代码。"
+      },
+      "video-highlights": {
+        "title": "片段打标与高光筛选",
+        "input": "本地视频文件；帧与音频在页面内读取，不会上传。",
+        "pipeline": "按固定步长采样帧 → 对每个采样窗口分类或描述 → 用跟踪器在帧间维持身份 → 以掌声等音频事件作为第二路信号。",
+        "output": "带标签与分数的时间区间，可直接用于剪辑或人工复核。",
+        "limits": "时序模型按 8–32 帧批量推理，内存峰值来自帧栈而非权重；而且多数公开视频权重根本没有浏览器构建。固定步长会漏掉短于步长的事件。",
+        "example": "输入：{file, strideMs}。输出形态：{ranges[{start, end, label, score}]}。应同时给出步长，让结果的时间分辨率可见。",
+        "checks": "在以某模型为前提设计前先确认存在浏览器构建，解码放进 worker，并人工抽查若干片段验证区间。"
       }
     }
+  },
+  "methodology": {
+    "title": "本目录如何验证",
+    "intro": "每个条目都混合了来自不同来源、可信度差异极大的信息。本页说明哪一项属于哪一类，让读者能区分实测数值与宣称，也能区分“缺口”与“遗漏”。",
+    "evidenceTitle": "浏览器运行依据",
+    "evidenceLead": "一个浏览器模型目录必须如实说明的，就是究竟有没有人真的在浏览器里跑过这个模型。",
+    "evidenceItems": [
+      {
+        "title": "浏览器支持待验证",
+        "body": "尚无人确认该条目能在浏览器中运行。它被收录是为了让缺口可见，而不是作为推荐。"
+      },
+      {
+        "title": "上游浏览器示例",
+        "body": "项目方自己提供了浏览器集成说明——模型卡中的用法片段或官方 Web 指南。这是一条有文档的路径，不代表已在你的设备上测试。"
+      },
+      {
+        "title": "本站已实测",
+        "body": "在本站实测，并与数值一同记录日期、浏览器、操作系统、硬件、运行时版本、精度与输入。目前还没有条目达到该状态。"
+      }
+    ],
+    "fieldsTitle": "每个数字的依据",
+    "fieldsItems": [
+      {
+        "title": "下载体积",
+        "body": "该精度下权重文件的精确字节数，从实际托管方读取。流水线类模型按组件求和；分词器与配置文件另需不到 2 MB。"
+      },
+      {
+        "title": "历史估值",
+        "body": "沿用自本目录早期版本的体积数据。出现之处均标注为未验证，一旦拿到真实文件清单即替换。"
+      },
+      {
+        "title": "代码与权重许可",
+        "body": "分别由发布代码的软件包和发布权重的仓库声明。格式转换版继承其基础模型的许可，并将该基础仓库列为来源。留空表示没有任何来源对此作出声明。"
+      },
+      {
+        "title": "历史许可标签",
+        "body": "早期记录中遗留的单一许可字段。它从不被视为已验证的代码或权重许可，因为它并未说明自己描述的是二者中的哪一个。"
+      },
+      {
+        "title": "运行时版本",
+        "body": "这些记录所对照的运行时当前版本，从其软件包注册表读取。它不构成对其他版本的兼容性保证。"
+      },
+      {
+        "title": "峰值内存与实测数据",
+        "body": "未实测即留空。模型体积不能代表内存占用，也不据此推导任何排名。"
+      }
+    ],
+    "notClaimedTitle": "本目录不作出的承诺",
+    "notClaimedItems": [
+      "不承诺某条目适用于你的场景、设备或所在法域。",
+      "不承诺有文档的示例能在你的硬件或浏览器上复现。",
+      "许可信息不是法律意见；请阅读来源链接指向的许可原文。",
+      "字段留空不等于零，而是表示未验证。"
+    ],
+    "reviewTitle": "审阅与更正",
+    "reviewBody": "每个来源都附带审阅日期，页面取其中最新的日期，而不是构建时间戳，因此一次部署不会被当作内容更新。身份存疑的条目会被标记为待确认，在更正前应排除于选型之外，而不是被悄悄删除。"
   }
 }

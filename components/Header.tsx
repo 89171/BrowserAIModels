@@ -22,6 +22,7 @@ export async function Header() {
             {tNav('home')}
           </Link>
           <Link href="/applications" className="hover:opacity-60">{tNav('applications')}</Link>
+          <Link href="/methodology" className="hover:opacity-60">{tNav('methodology')}</Link>
           <LanguageSwitcher
             locale={locale}
             label={tLanguages('label')}

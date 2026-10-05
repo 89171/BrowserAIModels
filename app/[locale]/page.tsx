@@ -42,6 +42,7 @@ export default async function HomePage({
   const tCats = await getTranslations({ locale, namespace: 'categories' });
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
   const c = await getTranslations({ locale, namespace: 'catalog' });
+  const tMethod = await getTranslations({ locale, namespace: 'methodology' });
   const whatItems = t.raw('whatItems') as Array<{ title: string; body: string }>;
 
   return (
@@ -69,7 +70,10 @@ export default async function HomePage({
       <section className="border border-black p-6 space-y-3" aria-labelledby="catalog-method">
         <h2 id="catalog-method" className="font-mono text-xl">{c('methodTitle')}</h2>
         <p className="text-sm leading-relaxed">{c('methodBody')}</p>
-        <Link href="/applications" className="inline-block underline">{c('applicationLink')} →</Link>
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
+          <Link href="/methodology" className="underline">{tMethod('title')} →</Link>
+          <Link href="/applications" className="underline">{c('applicationLink')} →</Link>
+        </div>
       </section>
 
       <section aria-labelledby="whats-inside">

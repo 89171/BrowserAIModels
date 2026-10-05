@@ -38,10 +38,9 @@ export async function generateMetadata({
   if (!cat || !sub) return {};
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
   const tCats = await getTranslations({ locale, namespace: 'categories' });
-  const tSubNS = await getTranslations({ locale, namespace: 'subcategory' });
   const name = tSubs(sub.slug as 'classification');
   const catName = tCats(cat.slug as 'text');
-  const desc = tSubNS('description', { name });
+  const desc = tSubs(`${sub.slug}Desc` as 'classificationDesc');
   const url = localizedUrl(locale, `/${category}/${subcategory}`);
   return {
     title: `${name} · ${catName}`,
@@ -74,6 +73,7 @@ export default async function SubcategoryPage({
 
   const name = tSubs(sub.slug as 'classification');
   const catName = tCats(cat.slug as 'text');
+  const description = tSubs(`${sub.slug}Desc` as 'classificationDesc');
   const models = getModels(cat.slug, sub.slug);
   const tApps = await getTranslations({ locale, namespace: 'applications' });
   const related = APPLICATIONS.filter(app => (app.tasks as readonly string[]).includes(`${cat.slug}/${sub.slug}`));
@@ -111,16 +111,14 @@ export default async function SubcategoryPage({
         <h1 className="h-display text-5xl md:text-6xl mt-3 leading-none">
           {name}
         </h1>
-        <p className="mt-4 text-lg max-w-prose">
-          {t('description', { name })}
-        </p>
+        <p className="mt-4 text-lg max-w-prose">{description}</p>
         <p className="mt-3 text-sm text-black/60 font-mono">
           {t('modelsCount', { count: models.length })}
         </p>
       </header>
 
       {models.length > 0 ? (
-        <ModelTable models={models} locale={locale} />
+        <ModelTable models={models} locale={locale} basePath={`/${cat.slug}/${sub.slug}`} />
       ) : (
         <p className="text-black/60 italic">{t('noModels')}</p>
       )}
@@ -137,16 +135,16 @@ export default async function SubcategoryPage({
             {
               '@type': 'ItemList',
               name,
-              description: t('description', { name }),
+              description,
               url: pageUrl,
               numberOfItems: models.length,
-              // Point at the row on this page, not at the vendor's site: the list
+              // Point at each entry's own page, not at the vendor's site: the list
               // lives here, and the names must match what the table renders.
               itemListElement: models.map((m, idx) => ({
                 '@type': 'ListItem',
                 position: idx + 1,
                 name: m.nameKey && tAny.has(m.nameKey) ? tAny(m.nameKey) : m.name,
-                url: `${pageUrl}#model-${m.id}`,
+                url: `${pageUrl}/${m.id}`,
               })),
             },
             {

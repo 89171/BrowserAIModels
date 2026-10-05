@@ -32,6 +32,8 @@ export type LicenseId =
   | 'cc-by-nc-4-0'
   | 'cc-by-4-0'
   | 'cc-by-sa-4-0'
+  | 'gpl-3-0'
+  | 'isc'
   | 'openrail'
   | 'custom'
   | 'other';
@@ -74,6 +76,8 @@ export interface ModelEntry {
   kind: 'model' | 'tool' | 'application';
   framework: FrameworkId;
   modelId?: string;
+  /** npm package that ships this entry's code; source of its code license and version. */
+  npmPackage?: string;
   tasks: string[];
   naturalLanguages: string[];
   programmingLanguages: string[];

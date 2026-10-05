@@ -16,18 +16,30 @@ export const MODELS: CategoryModels = {
           "classification"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -37,13 +49,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "distilbert-sst2",
-            "label": "default",
-            "reportedDownloadSize": "~67 MB"
+            "id": "distilbert-sst2-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 67581197,
+            "revision": "0b6928efcb76139cae2c6881d49cda67fe119f42",
+            "artifactUrl": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english/resolve/0b6928efcb76139cae2c6881d49cda67fe119f42/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "distilbert-sst2-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 73044407,
+            "revision": "0b6928efcb76139cae2c6881d49cda67fe119f42",
+            "artifactUrl": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english/resolve/0b6928efcb76139cae2c6881d49cda67fe119f42/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "distilbert-sst2-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 134088280,
+            "revision": "0b6928efcb76139cae2c6881d49cda67fe119f42",
+            "artifactUrl": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english/resolve/0b6928efcb76139cae2c6881d49cda67fe119f42/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "distilbert-sst2-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 267955711,
+            "revision": "0b6928efcb76139cae2c6881d49cda67fe119f42",
+            "artifactUrl": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english/resolve/0b6928efcb76139cae2c6881d49cda67fe119f42/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/distilbert-base-uncased-finetuned-sst-2-english"
+        "modelId": "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "xlm-roberta-base",
@@ -58,18 +100,30 @@ export const MODELS: CategoryModels = {
           "classification"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/xlm-roberta-base",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/xlm-roberta-base",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/xlm-roberta-base",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -79,13 +133,35 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "xlm-roberta-base",
-            "label": "default",
-            "reportedDownloadSize": "~278 MB"
+            "id": "xlm-roberta-base-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 280308773,
+            "revision": "84bead0eb70f8445a827edba1736f9182c49aab6",
+            "artifactUrl": "https://huggingface.co/Xenova/xlm-roberta-base/resolve/84bead0eb70f8445a827edba1736f9182c49aab6/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "xlm-roberta-base-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 556966598,
+            "revision": "84bead0eb70f8445a827edba1736f9182c49aab6",
+            "artifactUrl": "https://huggingface.co/Xenova/xlm-roberta-base/resolve/84bead0eb70f8445a827edba1736f9182c49aab6/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "xlm-roberta-base-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1113464750,
+            "revision": "84bead0eb70f8445a827edba1736f9182c49aab6",
+            "artifactUrl": "https://huggingface.co/Xenova/xlm-roberta-base/resolve/84bead0eb70f8445a827edba1736f9182c49aab6/onnx/model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "Xenova/xlm-roberta-base"
+        "modelId": "Xenova/xlm-roberta-base",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "toxic-bert",
@@ -100,18 +176,30 @@ export const MODELS: CategoryModels = {
           "classification"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/toxic-bert",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/toxic-bert",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/unitary/toxic-bert",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -121,28 +209,60 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "toxic-bert",
-            "label": "default",
-            "reportedDownloadSize": "~110 MB"
+            "id": "toxic-bert-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 97192620,
+            "revision": "65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd",
+            "artifactUrl": "https://huggingface.co/Xenova/toxic-bert/resolve/65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "toxic-bert-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 110720344,
+            "revision": "65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd",
+            "artifactUrl": "https://huggingface.co/Xenova/toxic-bert/resolve/65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "toxic-bert-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 219326893,
+            "revision": "65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd",
+            "artifactUrl": "https://huggingface.co/Xenova/toxic-bert/resolve/65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "toxic-bert-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 438214184,
+            "revision": "65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd",
+            "artifactUrl": "https://huggingface.co/Xenova/toxic-bert/resolve/65cbc2607cb7fad64f98d1e8a5a3d1f8577895fd/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/toxic-bert"
+        "modelId": "Xenova/toxic-bert",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "mobilenet-bert",
         "nameKey": "models.mobilenet-bert.name",
         "descriptionKey": "models.mobilenet-bert.description",
         "name": "MobileBERT",
-        "framework": "onnxruntime-web",
+        "framework": "transformersjs",
         "description": "Compact BERT optimized for mobile / browser inference.",
-        "docsUrl": "https://huggingface.co/google/mobilebert-uncased",
+        "docsUrl": "https://huggingface.co/Xenova/mobilebert-uncased-mnli",
         "kind": "model",
         "tasks": [
           "classification"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/mobilebert-uncased-mnli",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
@@ -154,6 +274,16 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/mobilebert-uncased-mnli",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -163,13 +293,42 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "mobilenet-bert",
-            "label": "default",
-            "reportedDownloadSize": "~100 MB"
+            "id": "mobilenet-bert-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 20954867,
+            "revision": "8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilebert-uncased-mnli/resolve/8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "mobilenet-bert-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 26967165,
+            "revision": "8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilebert-uncased-mnli/resolve/8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "mobilenet-bert-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 50077049,
+            "revision": "8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilebert-uncased-mnli/resolve/8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "mobilenet-bert-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 99027471,
+            "revision": "8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilebert-uncased-mnli/resolve/8b0ea66ab7b190bba77418ba03b67d69cfc9a1ee/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "google/mobilebert-uncased"
+        "modelId": "Xenova/mobilebert-uncased-mnli",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0"
       }
     ],
     "translation": [
@@ -180,19 +339,31 @@ export const MODELS: CategoryModels = {
         "name": "NLLB-200 Distilled",
         "framework": "transformersjs",
         "description": "NLLB-200 distilled 600M translation model. Weight license: CC-BY-NC-4.0. Exact browser artifact and runtime configuration remain to be verified.",
-        "docsUrl": "https://huggingface.co/facebook/nllb-200-distilled-600M",
+        "docsUrl": "https://huggingface.co/Xenova/nllb-200-distilled-600M",
         "kind": "model",
         "tasks": [
           "translation"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/nllb-200-distilled-600M",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/facebook/nllb-200-distilled-600M",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/nllb-200-distilled-600M",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -202,13 +373,42 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "nllb-200",
-            "label": "default",
-            "reportedDownloadSize": "~600 MB"
+            "id": "nllb-200-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 894626254,
+            "revision": "261c31d1a5732c67cdd16d80e8d6088507c7ccea",
+            "artifactUrl": "https://huggingface.co/Xenova/nllb-200-distilled-600M/resolve/261c31d1a5732c67cdd16d80e8d6088507c7ccea/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "nllb-200-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 1253954737,
+            "revision": "261c31d1a5732c67cdd16d80e8d6088507c7ccea",
+            "artifactUrl": "https://huggingface.co/Xenova/nllb-200-distilled-600M/resolve/261c31d1a5732c67cdd16d80e8d6088507c7ccea/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "nllb-200-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 1760444340,
+            "revision": "261c31d1a5732c67cdd16d80e8d6088507c7ccea",
+            "artifactUrl": "https://huggingface.co/Xenova/nllb-200-distilled-600M/resolve/261c31d1a5732c67cdd16d80e8d6088507c7ccea/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "nllb-200-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 3523627628,
+            "revision": "261c31d1a5732c67cdd16d80e8d6088507c7ccea",
+            "artifactUrl": "https://huggingface.co/Xenova/nllb-200-distilled-600M/resolve/261c31d1a5732c67cdd16d80e8d6088507c7ccea/onnx/decoder_model.onnx"
           }
         ],
-        "modelId": "facebook/nllb-200-distilled-600M",
-        "weightLicense": "cc-by-nc-4-0"
+        "modelId": "Xenova/nllb-200-distilled-600M",
+        "weightLicense": "cc-by-nc-4-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0"
       },
       {
         "id": "opus-mt-en-zh",
@@ -223,18 +423,30 @@ export const MODELS: CategoryModels = {
           "translation"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/opus-mt-en-zh",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/opus-mt-en-zh",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-zh",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -245,39 +457,81 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "opus-mt-en-zh",
-            "label": "default",
-            "reportedDownloadSize": "~75 MB"
+            "id": "opus-mt-en-zh-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 113112546,
+            "revision": "046f55aec303cdee3e0318604406d4df20f1e8ea",
+            "artifactUrl": "https://huggingface.co/Xenova/opus-mt-en-zh/resolve/046f55aec303cdee3e0318604406d4df20f1e8ea/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "opus-mt-en-zh-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 160087005,
+            "revision": "046f55aec303cdee3e0318604406d4df20f1e8ea",
+            "artifactUrl": "https://huggingface.co/Xenova/opus-mt-en-zh/resolve/046f55aec303cdee3e0318604406d4df20f1e8ea/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "opus-mt-en-zh-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 223416625,
+            "revision": "046f55aec303cdee3e0318604406d4df20f1e8ea",
+            "artifactUrl": "https://huggingface.co/Xenova/opus-mt-en-zh/resolve/046f55aec303cdee3e0318604406d4df20f1e8ea/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "opus-mt-en-zh-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 445777456,
+            "revision": "046f55aec303cdee3e0318604406d4df20f1e8ea",
+            "artifactUrl": "https://huggingface.co/Xenova/opus-mt-en-zh/resolve/046f55aec303cdee3e0318604406d4df20f1e8ea/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "Xenova/opus-mt-en-zh"
+        "modelId": "Xenova/opus-mt-en-zh",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "m2m100-418m",
         "nameKey": "models.m2m100-418m.name",
         "descriptionKey": "models.m2m100-418m.description",
         "name": "M2M-100 (418M)",
-        "framework": "onnxruntime-web",
+        "framework": "transformersjs",
         "description": "Many-to-many translation model runnable in the browser via ONNX.",
-        "docsUrl": "https://huggingface.co/facebook/m2m100_418M",
+        "docsUrl": "https://huggingface.co/Xenova/m2m100_418M",
         "kind": "model",
         "tasks": [
           "translation"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/m2m100_418M",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/facebook/m2m100_418M",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/m2m100_418M",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -287,13 +541,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "m2m100-418m",
-            "label": "default",
-            "reportedDownloadSize": "~1.7 GB"
+            "id": "m2m100-418m-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 631984548,
+            "revision": "9c374f0b7aca709787cea97b047bfbbd1559d177",
+            "artifactUrl": "https://huggingface.co/Xenova/m2m100_418M/resolve/9c374f0b7aca709787cea97b047bfbbd1559d177/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "m2m100-418m-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 729121743,
+            "revision": "9c374f0b7aca709787cea97b047bfbbd1559d177",
+            "artifactUrl": "https://huggingface.co/Xenova/m2m100_418M/resolve/9c374f0b7aca709787cea97b047bfbbd1559d177/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "m2m100-418m-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 1235623272,
+            "revision": "9c374f0b7aca709787cea97b047bfbbd1559d177",
+            "artifactUrl": "https://huggingface.co/Xenova/m2m100_418M/resolve/9c374f0b7aca709787cea97b047bfbbd1559d177/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "m2m100-418m-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 2473970161,
+            "revision": "9c374f0b7aca709787cea97b047bfbbd1559d177",
+            "artifactUrl": "https://huggingface.co/Xenova/m2m100_418M/resolve/9c374f0b7aca709787cea97b047bfbbd1559d177/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "facebook/m2m100_418M"
+        "modelId": "Xenova/m2m100_418M",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       }
     ],
     "summarization": [
@@ -310,18 +594,30 @@ export const MODELS: CategoryModels = {
           "summarization"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/t5-small",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/t5-small",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/t5-small",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -331,13 +627,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "t5-small",
-            "label": "default",
-            "reportedDownloadSize": "~60 MB"
+            "id": "t5-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 78071426,
+            "revision": "4e0d91096b13cb313b43a14f35fdbb311a6d9728",
+            "artifactUrl": "https://huggingface.co/Xenova/t5-small/resolve/4e0d91096b13cb313b43a14f35fdbb311a6d9728/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "t5-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 91034912,
+            "revision": "4e0d91096b13cb313b43a14f35fdbb311a6d9728",
+            "artifactUrl": "https://huggingface.co/Xenova/t5-small/resolve/4e0d91096b13cb313b43a14f35fdbb311a6d9728/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "t5-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 154350057,
+            "revision": "4e0d91096b13cb313b43a14f35fdbb311a6d9728",
+            "artifactUrl": "https://huggingface.co/Xenova/t5-small/resolve/4e0d91096b13cb313b43a14f35fdbb311a6d9728/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "t5-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 308236899,
+            "revision": "4e0d91096b13cb313b43a14f35fdbb311a6d9728",
+            "artifactUrl": "https://huggingface.co/Xenova/t5-small/resolve/4e0d91096b13cb313b43a14f35fdbb311a6d9728/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/t5-small"
+        "modelId": "Xenova/t5-small",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "bart-large-cnn",
@@ -352,18 +678,30 @@ export const MODELS: CategoryModels = {
           "summarization"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/bart-large-cnn",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/bart-large-cnn",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/facebook/bart-large-cnn",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -373,20 +711,50 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "bart-large-cnn",
-            "label": "default",
-            "reportedDownloadSize": "~400 MB"
+            "id": "bart-large-cnn-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 410553557,
+            "revision": "a7823edec55686ab84d3307fbccfd4af3b81e6dc",
+            "artifactUrl": "https://huggingface.co/Xenova/bart-large-cnn/resolve/a7823edec55686ab84d3307fbccfd4af3b81e6dc/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "bart-large-cnn-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 462535837,
+            "revision": "a7823edec55686ab84d3307fbccfd4af3b81e6dc",
+            "artifactUrl": "https://huggingface.co/Xenova/bart-large-cnn/resolve/a7823edec55686ab84d3307fbccfd4af3b81e6dc/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "bart-large-cnn-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 917048236,
+            "revision": "a7823edec55686ab84d3307fbccfd4af3b81e6dc",
+            "artifactUrl": "https://huggingface.co/Xenova/bart-large-cnn/resolve/a7823edec55686ab84d3307fbccfd4af3b81e6dc/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "bart-large-cnn-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1832517071,
+            "revision": "a7823edec55686ab84d3307fbccfd4af3b81e6dc",
+            "artifactUrl": "https://huggingface.co/Xenova/bart-large-cnn/resolve/a7823edec55686ab84d3307fbccfd4af3b81e6dc/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "Xenova/bart-large-cnn"
+        "modelId": "Xenova/bart-large-cnn",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "pegasus-xsum",
         "nameKey": "models.pegasus-xsum.name",
         "descriptionKey": "models.pegasus-xsum.description",
         "name": "PEGASUS XSum",
-        "framework": "transformersjs",
+        "framework": "transformers",
         "description": "Abstractive summarization model trained on XSum.",
         "docsUrl": "https://huggingface.co/google/pegasus-xsum",
         "kind": "model",
@@ -400,7 +768,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/google/pegasus-xsum",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
@@ -445,7 +813,12 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/Xenova/bert-base-NER",
             "kind": "browser-example",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -455,13 +828,212 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "bert-base-ner",
-            "label": "default"
+            "id": "bert-base-ner-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 93661735,
+            "revision": "8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-NER/resolve/8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "bert-base-ner-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 108952255,
+            "revision": "8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-NER/resolve/8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "bert-base-ner-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 215805679,
+            "revision": "8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-NER/resolve/8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "bert-base-ner-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 431172606,
+            "revision": "8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-NER/resolve/8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa/onnx/model.onnx"
           }
         ],
         "docsUrl": "https://huggingface.co/Xenova/bert-base-NER",
         "modelId": "Xenova/bert-base-NER",
-        "weightLicense": "mit"
+        "weightLicense": "mit",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0"
+      },
+      {
+        "id": "bert-multilingual-ner",
+        "nameKey": "models.bert-multilingual-ner.name",
+        "descriptionKey": "models.bert-multilingual-ner.description",
+        "name": "bert-multilingual-ner",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl",
+        "kind": "model",
+        "tasks": [
+          "ner"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Davlan/bert-base-multilingual-cased-ner-hrl",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [
+          "Arabic",
+          "German",
+          "English",
+          "Spanish",
+          "French",
+          "Italian",
+          "Latvian",
+          "Dutch",
+          "Portuguese",
+          "Chinese"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "PER",
+          "ORG",
+          "LOC"
+        ],
+        "variants": [
+          {
+            "id": "bert-multilingual-ner-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 178495423,
+            "revision": "263e82c06569c8c2ac46238a7ae5107598934234",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl/resolve/263e82c06569c8c2ac46238a7ae5107598934234/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "bert-multilingual-ner-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 232748071,
+            "revision": "263e82c06569c8c2ac46238a7ae5107598934234",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl/resolve/263e82c06569c8c2ac46238a7ae5107598934234/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "bert-multilingual-ner-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 354892016,
+            "revision": "263e82c06569c8c2ac46238a7ae5107598934234",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl/resolve/263e82c06569c8c2ac46238a7ae5107598934234/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "bert-multilingual-ner-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 709345280,
+            "revision": "263e82c06569c8c2ac46238a7ae5107598934234",
+            "artifactUrl": "https://huggingface.co/Xenova/bert-base-multilingual-cased-ner-hrl/resolve/263e82c06569c8c2ac46238a7ae5107598934234/onnx/model.onnx"
+          }
+        ],
+        "modelId": "Xenova/bert-base-multilingual-cased-ner-hrl",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "custom"
+      },
+      {
+        "id": "gliner-small",
+        "nameKey": "models.gliner-small.name",
+        "descriptionKey": "models.gliner-small.description",
+        "name": "gliner-small",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/onnx-community/gliner_small-v2.1",
+        "kind": "model",
+        "tasks": [
+          "ner"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/gliner_small-v2.1",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/onnx-community/gliner_small-v2.1",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/urchade/gliner_small-v2.1",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Zero-shot entity types"
+        ],
+        "variants": [
+          {
+            "id": "gliner-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 183403734,
+            "revision": "8142fb00740ccea973e64b1272949ff48653df5e",
+            "artifactUrl": "https://huggingface.co/onnx-community/gliner_small-v2.1/resolve/8142fb00740ccea973e64b1272949ff48653df5e/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "gliner-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 245226118,
+            "revision": "8142fb00740ccea973e64b1272949ff48653df5e",
+            "artifactUrl": "https://huggingface.co/onnx-community/gliner_small-v2.1/resolve/8142fb00740ccea973e64b1272949ff48653df5e/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "gliner-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 306253040,
+            "revision": "8142fb00740ccea973e64b1272949ff48653df5e",
+            "artifactUrl": "https://huggingface.co/onnx-community/gliner_small-v2.1/resolve/8142fb00740ccea973e64b1272949ff48653df5e/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "gliner-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 611293061,
+            "revision": "8142fb00740ccea973e64b1272949ff48653df5e",
+            "artifactUrl": "https://huggingface.co/onnx-community/gliner_small-v2.1/resolve/8142fb00740ccea973e64b1272949ff48653df5e/onnx/model.onnx"
+          }
+        ],
+        "modelId": "onnx-community/gliner_small-v2.1",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       }
     ]
   },
@@ -487,12 +1059,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -502,13 +1079,19 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "llama-3-8b-instruct",
-            "label": "default",
-            "reportedDownloadSize": "~4.7 GB"
+            "id": "llama-3-8b-instruct-q4f32_1",
+            "label": "q4f32_1",
+            "quantization": "q4f32_1",
+            "downloadBytes": 4517404672,
+            "revision": "b2c0e50a6c723cdf65b8af4b8a03279907bb7ac1",
+            "artifactUrl": "https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC/resolve/b2c0e50a6c723cdf65b8af4b8a03279907bb7ac1/params_shard_0.bin"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC"
+        "modelId": "mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "custom"
       },
       {
         "id": "phi-3-mini",
@@ -530,12 +1113,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/Phi-3-mini-4k-instruct-q4f16_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -545,16 +1133,22 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "phi-3-mini",
-            "label": "default",
-            "reportedDownloadSize": "~2.3 GB"
+            "id": "phi-3-mini-q4f16_1",
+            "label": "q4f16_1",
+            "quantization": "q4f16_1",
+            "downloadBytes": 2149644288,
+            "revision": "7ecdc19b399efd7e967025c02496353e0dc50500",
+            "artifactUrl": "https://huggingface.co/mlc-ai/Phi-3-mini-4k-instruct-q4f16_1-MLC/resolve/7ecdc19b399efd7e967025c02496353e0dc50500/params_shard_0.bin"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "mlc-ai/Phi-3-mini-4k-instruct-q4f16_1-MLC"
+        "modelId": "mlc-ai/Phi-3-mini-4k-instruct-q4f16_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "mit"
       },
       {
-        "id": "qwen2-1.5b",
+        "id": "qwen2-1-5b",
         "nameKey": "models.qwen2-1-5b.name",
         "descriptionKey": "models.qwen2-1-5b.description",
         "name": "Qwen2 1.5B Instruct",
@@ -572,12 +1166,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/Qwen2-1.5B-Instruct-q4f16_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Qwen/Qwen2-1.5B-Instruct",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -588,16 +1187,22 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "qwen2-1.5b",
-            "label": "default",
-            "reportedDownloadSize": "~1.1 GB"
+            "id": "qwen2-1-5b-q4f16_1",
+            "label": "q4f16_1",
+            "quantization": "q4f16_1",
+            "downloadBytes": 868547584,
+            "revision": "edc705fc1ffe862bc41cc056cc0031895e26eeee",
+            "artifactUrl": "https://huggingface.co/mlc-ai/Qwen2-1.5B-Instruct-q4f16_1-MLC/resolve/edc705fc1ffe862bc41cc056cc0031895e26eeee/params_shard_0.bin"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "mlc-ai/Qwen2-1.5B-Instruct-q4f16_1-MLC"
+        "modelId": "mlc-ai/Qwen2-1.5B-Instruct-q4f16_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "apache-2-0"
       },
       {
-        "id": "tinyllama-1.1b",
+        "id": "tinyllama-1-1b",
         "nameKey": "models.tinyllama-1-1b.name",
         "descriptionKey": "models.tinyllama-1-1b.description",
         "name": "TinyLlama 1.1B",
@@ -609,18 +1214,30 @@ export const MODELS: CategoryModels = {
           "chat"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -630,13 +1247,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "tinyllama-1.1b",
-            "label": "default",
-            "reportedDownloadSize": "~700 MB"
+            "id": "tinyllama-1-1b-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 713747554,
+            "revision": "2d31d778084d99c2f58d14adfaa7a27f100d9391",
+            "artifactUrl": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0/resolve/2d31d778084d99c2f58d14adfaa7a27f100d9391/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "tinyllama-1-1b-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 1102917410,
+            "revision": "2d31d778084d99c2f58d14adfaa7a27f100d9391",
+            "artifactUrl": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0/resolve/2d31d778084d99c2f58d14adfaa7a27f100d9391/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "tinyllama-1-1b-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 2200717222,
+            "revision": "2d31d778084d99c2f58d14adfaa7a27f100d9391",
+            "artifactUrl": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0/resolve/2d31d778084d99c2f58d14adfaa7a27f100d9391/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "tinyllama-1-1b-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 4402299393,
+            "revision": "2d31d778084d99c2f58d14adfaa7a27f100d9391",
+            "artifactUrl": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0/resolve/2d31d778084d99c2f58d14adfaa7a27f100d9391/onnx/decoder_model_merged.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/TinyLlama-1.1B-Chat-v1.0"
+        "modelId": "Xenova/TinyLlama-1.1B-Chat-v1.0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "gemma-2-2b-it",
@@ -657,12 +1304,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/gemma-2-2b-it-q4f16_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/google/gemma-2-2b-it",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -672,16 +1324,22 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "gemma-2-2b-it",
-            "label": "default",
-            "reportedDownloadSize": "~1.6 GB"
+            "id": "gemma-2-2b-it-q4f16_1",
+            "label": "q4f16_1",
+            "quantization": "q4f16_1",
+            "downloadBytes": 1470915072,
+            "revision": "de9cc76f0d4b3a49a0f718df424944054bf1eec1",
+            "artifactUrl": "https://huggingface.co/mlc-ai/gemma-2-2b-it-q4f16_1-MLC/resolve/de9cc76f0d4b3a49a0f718df424944054bf1eec1/params_shard_0.bin"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "mlc-ai/gemma-2-2b-it-q4f16_1-MLC"
+        "modelId": "mlc-ai/gemma-2-2b-it-q4f16_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "custom"
       },
       {
-        "id": "smollm2-1.7b",
+        "id": "smollm2-1-7b",
         "nameKey": "models.smollm2-1-7b.name",
         "descriptionKey": "models.smollm2-1-7b.description",
         "name": "SmolLM2 1.7B Instruct",
@@ -699,12 +1357,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -714,16 +1377,22 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "smollm2-1.7b",
-            "label": "default",
-            "reportedDownloadSize": "~1.1 GB"
+            "id": "smollm2-1-7b-q4f16_1",
+            "label": "q4f16_1",
+            "quantization": "q4f16_1",
+            "downloadBytes": 962793472,
+            "revision": "84f57f8580a9d8d623266b600ad4273bb9fd84c1",
+            "artifactUrl": "https://huggingface.co/mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC/resolve/84f57f8580a9d8d623266b600ad4273bb9fd84c1/params_shard_0.bin"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC"
+        "modelId": "mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "apache-2-0"
       },
       {
-        "id": "deepseek-r1-distill-qwen-1.5b",
+        "id": "deepseek-r1-distill-qwen-1-5b",
         "nameKey": "models.deepseek-r1-distill-qwen-1-5b.name",
         "descriptionKey": "models.deepseek-r1-distill-qwen-1-5b.description",
         "name": "DeepSeek R1 Distill (Qwen 1.5B)",
@@ -741,12 +1410,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/DeepSeek-R1-Distill-Qwen-1.5B-q4f16_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -757,13 +1431,19 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "deepseek-r1-distill-qwen-1.5b",
-            "label": "default",
-            "reportedDownloadSize": "~1.1 GB"
+            "id": "deepseek-r1-distill-qwen-1-5b-q4f16_1",
+            "label": "q4f16_1",
+            "quantization": "q4f16_1",
+            "downloadBytes": 999820288,
+            "revision": "7198ce7f5a342e377f5e61ff8400193492af548b",
+            "artifactUrl": "https://huggingface.co/mlc-ai/DeepSeek-R1-Distill-Qwen-1.5B-q4f16_1-MLC/resolve/7198ce7f5a342e377f5e61ff8400193492af548b/params_shard_0.bin"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "mlc-ai/DeepSeek-R1-Distill-Qwen-1.5B-q4f16_1-MLC"
+        "modelId": "mlc-ai/DeepSeek-R1-Distill-Qwen-1.5B-q4f16_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "mit"
       }
     ],
     "structured-output": [
@@ -821,6 +1501,49 @@ export const MODELS: CategoryModels = {
         "programmingLanguages": [],
         "capabilities": [],
         "variants": []
+      },
+      {
+        "id": "webllm-json-mode",
+        "nameKey": "models.webllm-json-mode.name",
+        "descriptionKey": "models.webllm-json-mode.description",
+        "name": "webllm-json-mode",
+        "framework": "webllm",
+        "description": "",
+        "docsUrl": "https://github.com/mlc-ai/web-llm#chrome-extension",
+        "kind": "tool",
+        "tasks": [
+          "structured-output"
+        ],
+        "browserEvidence": {
+          "status": "pending"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/mlc-ai/web-llm#chrome-extension",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/mlc-ai/web-llm",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mlc-ai/web-llm",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "JSON mode",
+          "Grammar-constrained decoding"
+        ],
+        "variants": [],
+        "npmPackage": "@mlc-ai/web-llm",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "codeLicense": "apache-2-0"
       }
     ],
     "code": [
@@ -843,12 +1566,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/mlc-ai/CodeLlama-7b-hf-q4f16_1-MLC",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
             "kind": "documentation",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/codellama/CodeLlama-7b-hf",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -862,20 +1590,26 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "codellama-7b",
-            "label": "default",
-            "reportedDownloadSize": "~3.8 GB"
+            "id": "codellama-7b-q4f16_1",
+            "label": "q4f16_1",
+            "quantization": "q4f16_1",
+            "downloadBytes": 3790815232,
+            "revision": "5eef5a5389bb111d9d6cd4f5e688bf0bff4ae5e1",
+            "artifactUrl": "https://huggingface.co/mlc-ai/CodeLlama-7b-hf-q4f16_1-MLC/resolve/5eef5a5389bb111d9d6cd4f5e688bf0bff4ae5e1/params_shard_0.bin"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "mlc-ai/CodeLlama-7b-hf-q4f16_1-MLC"
+        "modelId": "mlc-ai/CodeLlama-7b-hf-q4f16_1-MLC",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
+        "weightLicense": "custom"
       },
       {
         "id": "starcoder2-3b",
         "nameKey": "models.starcoder2-3b.name",
         "descriptionKey": "models.starcoder2-3b.description",
         "name": "StarCoder2 3B",
-        "framework": "webllm",
+        "framework": "transformers",
         "description": "BigCode StarCoder2 — modern code LLM with permissive licensing.",
         "docsUrl": "https://huggingface.co/bigcode/starcoder2-3b",
         "kind": "model",
@@ -889,7 +1623,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/bigcode/starcoder2-3b",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
@@ -910,10 +1644,11 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "other",
-        "modelId": "bigcode/starcoder2-3b"
+        "modelId": "bigcode/starcoder2-3b",
+        "weightLicense": "custom"
       },
       {
-        "id": "deepseek-coder-1.3b",
+        "id": "deepseek-coder-1-3b",
         "nameKey": "models.deepseek-coder-1-3b.name",
         "descriptionKey": "models.deepseek-coder-1-3b.description",
         "name": "DeepSeek Coder 1.3B",
@@ -925,18 +1660,30 @@ export const MODELS: CategoryModels = {
           "code"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/deepseek-coder-1.3b-instruct",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/deepseek-coder-1.3b-instruct",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/deepseek-ai/deepseek-coder-1.3b-instruct",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -949,13 +1696,27 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "deepseek-coder-1.3b",
-            "label": "default",
-            "reportedDownloadSize": "~900 MB"
+            "id": "deepseek-coder-1-3b-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 1364716527,
+            "revision": "41346fd29f2a0e6b214d9ea1e232ba3e46616404",
+            "artifactUrl": "https://huggingface.co/Xenova/deepseek-coder-1.3b-instruct/resolve/41346fd29f2a0e6b214d9ea1e232ba3e46616404/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "deepseek-coder-1-3b-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 5403429827,
+            "revision": "41346fd29f2a0e6b214d9ea1e232ba3e46616404",
+            "artifactUrl": "https://huggingface.co/Xenova/deepseek-coder-1.3b-instruct/resolve/41346fd29f2a0e6b214d9ea1e232ba3e46616404/onnx/decoder_model_merged.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/deepseek-coder-1.3b-instruct"
+        "modelId": "Xenova/deepseek-coder-1.3b-instruct",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "other"
       }
     ]
   },
@@ -974,18 +1735,25 @@ export const MODELS: CategoryModels = {
           "embedding"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/all-MiniLM-L6-v2",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/all-MiniLM-L6-v2",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -995,13 +1763,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "all-minilm-l6-v2",
-            "label": "default",
-            "reportedDownloadSize": "~23 MB"
+            "id": "all-minilm-l6-v2-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 22972370,
+            "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+            "artifactUrl": "https://huggingface.co/Xenova/all-MiniLM-L6-v2/resolve/751bff37182d3f1213fa05d7196b954e230abad9/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "all-minilm-l6-v2-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 30018257,
+            "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+            "artifactUrl": "https://huggingface.co/Xenova/all-MiniLM-L6-v2/resolve/751bff37182d3f1213fa05d7196b954e230abad9/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "all-minilm-l6-v2-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 45297825,
+            "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+            "artifactUrl": "https://huggingface.co/Xenova/all-MiniLM-L6-v2/resolve/751bff37182d3f1213fa05d7196b954e230abad9/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "all-minilm-l6-v2-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 90387606,
+            "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+            "artifactUrl": "https://huggingface.co/Xenova/all-MiniLM-L6-v2/resolve/751bff37182d3f1213fa05d7196b954e230abad9/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/all-MiniLM-L6-v2"
+        "modelId": "Xenova/all-MiniLM-L6-v2",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "bge-small-en",
@@ -1016,18 +1814,30 @@ export const MODELS: CategoryModels = {
           "embedding"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/bge-small-en-v1.5",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/bge-small-en-v1.5",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/BAAI/bge-small-en-v1.5",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1037,13 +1847,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "bge-small-en",
-            "label": "default",
-            "reportedDownloadSize": "~33 MB"
+            "id": "bge-small-en-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 34014426,
+            "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-small-en-v1.5/resolve/ea104dacec62c0de699686887e3f920caeb4f3e3/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "bge-small-en-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 36190171,
+            "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-small-en-v1.5/resolve/ea104dacec62c0de699686887e3f920caeb4f3e3/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "bge-small-en-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 66749212,
+            "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-small-en-v1.5/resolve/ea104dacec62c0de699686887e3f920caeb4f3e3/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "bge-small-en-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 133093490,
+            "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-small-en-v1.5/resolve/ea104dacec62c0de699686887e3f920caeb4f3e3/onnx/model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "Xenova/bge-small-en-v1.5"
+        "modelId": "Xenova/bge-small-en-v1.5",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "gte-small",
@@ -1058,18 +1898,30 @@ export const MODELS: CategoryModels = {
           "embedding"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/gte-small",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/gte-small",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/thenlper/gte-small",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1079,13 +1931,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "gte-small",
-            "label": "default",
-            "reportedDownloadSize": "~33 MB"
+            "id": "gte-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 34014426,
+            "revision": "5927d1727bb12db490052a1b33265ad78058de08",
+            "artifactUrl": "https://huggingface.co/Xenova/gte-small/resolve/5927d1727bb12db490052a1b33265ad78058de08/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "gte-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 36190171,
+            "revision": "5927d1727bb12db490052a1b33265ad78058de08",
+            "artifactUrl": "https://huggingface.co/Xenova/gte-small/resolve/5927d1727bb12db490052a1b33265ad78058de08/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "gte-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 66749212,
+            "revision": "5927d1727bb12db490052a1b33265ad78058de08",
+            "artifactUrl": "https://huggingface.co/Xenova/gte-small/resolve/5927d1727bb12db490052a1b33265ad78058de08/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "gte-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 133093490,
+            "revision": "5927d1727bb12db490052a1b33265ad78058de08",
+            "artifactUrl": "https://huggingface.co/Xenova/gte-small/resolve/5927d1727bb12db490052a1b33265ad78058de08/onnx/model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "Xenova/gte-small"
+        "modelId": "Xenova/gte-small",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "bge-m3",
@@ -1100,18 +1982,25 @@ export const MODELS: CategoryModels = {
           "embedding"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/bge-m3",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/bge-m3",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1121,13 +2010,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "bge-m3",
-            "label": "default",
-            "reportedDownloadSize": "~570 MB"
+            "id": "bge-m3-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 1139566363,
+            "revision": "4de13258303883538bd53b696b452bf8099f0858",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-m3/resolve/4de13258303883538bd53b696b452bf8099f0858/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "bge-m3-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 1399981060,
+            "revision": "4de13258303883538bd53b696b452bf8099f0858",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-m3/resolve/4de13258303883538bd53b696b452bf8099f0858/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "bge-m3-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 2268130457,
+            "revision": "4de13258303883538bd53b696b452bf8099f0858",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-m3/resolve/4de13258303883538bd53b696b452bf8099f0858/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "bge-m3-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 4534973437,
+            "revision": "4de13258303883538bd53b696b452bf8099f0858",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-m3/resolve/4de13258303883538bd53b696b452bf8099f0858/onnx/model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "Xenova/bge-m3"
+        "modelId": "Xenova/bge-m3",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "instructor-xl",
@@ -1148,7 +2067,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/hkunlp/instructor-xl",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1181,18 +2100,30 @@ export const MODELS: CategoryModels = {
           "reranker"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/cross-encoder/ms-marco-MiniLM-L-6-v2",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1202,13 +2133,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "ms-marco-minilm",
-            "label": "default",
-            "reportedDownloadSize": "~90 MB"
+            "id": "ms-marco-minilm-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 23143499,
+            "revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+            "artifactUrl": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2/resolve/a09144355adeed5f58c8ed011d209bf8ee5a1fec/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "ms-marco-minilm-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 30327072,
+            "revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+            "artifactUrl": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2/resolve/a09144355adeed5f58c8ed011d209bf8ee5a1fec/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "ms-marco-minilm-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 45609313,
+            "revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+            "artifactUrl": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2/resolve/a09144355adeed5f58c8ed011d209bf8ee5a1fec/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "ms-marco-minilm-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 90992115,
+            "revision": "a09144355adeed5f58c8ed011d209bf8ee5a1fec",
+            "artifactUrl": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2/resolve/a09144355adeed5f58c8ed011d209bf8ee5a1fec/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/ms-marco-MiniLM-L-6-v2"
+        "modelId": "Xenova/ms-marco-MiniLM-L-6-v2",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "bge-reranker-base",
@@ -1223,18 +2184,30 @@ export const MODELS: CategoryModels = {
           "reranker"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/bge-reranker-base",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/bge-reranker-base",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/BAAI/bge-reranker-base",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1245,13 +2218,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "bge-reranker-base",
-            "label": "default",
-            "reportedDownloadSize": "~280 MB"
+            "id": "bge-reranker-base-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 279301077,
+            "revision": "280bcc27a84e0b898c251e06fddb25171bd9b101",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-reranker-base/resolve/280bcc27a84e0b898c251e06fddb25171bd9b101/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "bge-reranker-base-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 434321936,
+            "revision": "280bcc27a84e0b898c251e06fddb25171bd9b101",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-reranker-base/resolve/280bcc27a84e0b898c251e06fddb25171bd9b101/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "bge-reranker-base-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 556462150,
+            "revision": "280bcc27a84e0b898c251e06fddb25171bd9b101",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-reranker-base/resolve/280bcc27a84e0b898c251e06fddb25171bd9b101/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "bge-reranker-base-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1112459588,
+            "revision": "280bcc27a84e0b898c251e06fddb25171bd9b101",
+            "artifactUrl": "https://huggingface.co/Xenova/bge-reranker-base/resolve/280bcc27a84e0b898c251e06fddb25171bd9b101/onnx/model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "Xenova/bge-reranker-base"
+        "modelId": "Xenova/bge-reranker-base",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "cohere-rerank-wasm",
@@ -1273,6 +2276,11 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "conflicting-reference",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1288,7 +2296,9 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "cc-by-4-0",
-        "identityUnresolved": true
+        "identityUnresolved": true,
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ],
     "semantic-search": [
@@ -1311,6 +2321,16 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/shravansunder/hnswlib-wasm",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/hnswlib-wasm",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1324,7 +2344,10 @@ export const MODELS: CategoryModels = {
             "label": "default"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "hnswlib-wasm@0.8.2",
+        "npmPackage": "hnswlib-wasm"
       },
       {
         "id": "voyager-wasm",
@@ -1375,6 +2398,16 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/lancedb/lancedb",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@lancedb/lancedb",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1388,7 +2421,10 @@ export const MODELS: CategoryModels = {
             "label": "default"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@lancedb/lancedb@0.39.0",
+        "npmPackage": "@lancedb/lancedb"
       },
       {
         "id": "vectra-wasm",
@@ -1409,6 +2445,16 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/Stevenic/vectra",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/vectra",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1423,7 +2469,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~80 KB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "vectra@0.15.0",
+        "npmPackage": "vectra"
       }
     ]
   },
@@ -1454,6 +2503,11 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1468,7 +2522,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~13 MB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "yolov5s",
@@ -1495,6 +2551,11 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1509,7 +2570,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~30 MB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "mediapipe-objectdetection",
@@ -1536,6 +2599,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-vision",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1547,10 +2620,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-objectdetection",
             "label": "default",
-            "reportedDownloadSize": "~5 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite",
+            "downloadBytes": 7254339
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
+        "npmPackage": "@mediapipe/tasks-vision"
       },
       {
         "id": "ssd-mobilenet",
@@ -1577,6 +2654,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/tensorflow/tfjs-models",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@tensorflow-models/coco-ssd",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1591,7 +2678,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~27 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@tensorflow-models/coco-ssd@2.2.3",
+        "npmPackage": "@tensorflow-models/coco-ssd"
       }
     ],
     "segmentation": [
@@ -1629,6 +2719,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/imgly/background-removal-js",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@imgly/background-removal",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1652,12 +2752,13 @@ export const MODELS: CategoryModels = {
             "demoPath": "/image/remove-bg?mode=balanced"
           }
         ],
-        "codeLicense": "agpl-3-0",
-        "runtimeVersion": "onnxruntime-web 1.21.0 (package peer dependency)",
+        "codeLicense": "custom",
+        "runtimeVersion": "@imgly/background-removal@1.7.0",
         "backends": [
           "WASM",
           "WebGPU"
-        ]
+        ],
+        "npmPackage": "@imgly/background-removal"
       },
       {
         "id": "imgly-bg-removal-hd",
@@ -1680,6 +2781,11 @@ export const MODELS: CategoryModels = {
             "url": "https://huggingface.co/briaai/RMBG-1.4",
             "kind": "conflicting-reference",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@imgly/background-removal",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1688,22 +2794,27 @@ export const MODELS: CategoryModels = {
           "Foreground / Background (HD)"
         ],
         "variants": [],
-        "identityUnresolved": true
+        "identityUnresolved": true,
+        "npmPackage": "@imgly/background-removal",
+        "codeLicense": "custom",
+        "runtimeVersion": "@imgly/background-removal@1.7.0"
       },
       {
         "id": "sam-tiny",
         "nameKey": "models.sam-tiny.name",
         "descriptionKey": "models.sam-tiny.description",
         "name": "SAM Tiny (ONNX)",
-        "framework": "onnxruntime-web",
+        "framework": "transformersjs",
         "description": "Segment Anything Model — quantized mobile variant for the browser.",
-        "docsUrl": "https://github.com/ChaoningZhang/MobileSAM",
+        "docsUrl": "https://huggingface.co/Xenova/slimsam-77-uniform",
         "kind": "model",
         "tasks": [
           "segmentation"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/slimsam-77-uniform",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
@@ -1714,7 +2825,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/Xenova/slimsam-77-uniform",
             "kind": "conflicting-reference",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1724,13 +2845,35 @@ export const MODELS: CategoryModels = {
         ],
         "variants": [
           {
-            "id": "sam-tiny",
-            "label": "default",
-            "reportedDownloadSize": "~40 MB"
+            "id": "sam-tiny-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 13785975,
+            "revision": "5850ab45f587c112167512ffef949107115e26a0",
+            "artifactUrl": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/5850ab45f587c112167512ffef949107115e26a0/onnx/prompt_encoder_mask_decoder_quantized.onnx"
+          },
+          {
+            "id": "sam-tiny-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 20720775,
+            "revision": "5850ab45f587c112167512ffef949107115e26a0",
+            "artifactUrl": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/5850ab45f587c112167512ffef949107115e26a0/onnx/prompt_encoder_mask_decoder_fp16.onnx"
+          },
+          {
+            "id": "sam-tiny-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 39833906,
+            "revision": "5850ab45f587c112167512ffef949107115e26a0",
+            "artifactUrl": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/5850ab45f587c112167512ffef949107115e26a0/onnx/prompt_encoder_mask_decoder.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "identityUnresolved": true
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "Xenova/slimsam-77-uniform",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "mediapipe-selfie",
@@ -1757,6 +2900,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/vision/image_segmenter/web_js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/selfie_segmentation",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1768,10 +2921,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-selfie",
             "label": "default",
-            "reportedDownloadSize": "~2 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/1/selfie_segmenter.tflite",
+            "downloadBytes": 249537
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/selfie_segmentation@0.1.1675465747",
+        "npmPackage": "@mediapipe/selfie_segmentation"
       }
     ],
     "ocr": [
@@ -1797,7 +2954,12 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/naptha/tesseract.js",
             "kind": "browser-example",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/tesseract.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1812,7 +2974,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~2 MB (core) + lang data"
           }
         ],
-        "codeLicense": "apache-2-0"
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "tesseract.js@7.0.0",
+        "npmPackage": "tesseract.js"
       },
       {
         "id": "easy-ocr",
@@ -1839,6 +3003,11 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1853,7 +3022,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~30 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "paddle-ocr",
@@ -1876,6 +3047,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://www.npmjs.com/package/@paddleocr/paddleocr-js",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1890,7 +3066,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~10 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "mediapipe-text",
@@ -1917,6 +3095,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/text/text_embedder/web_js",
             "kind": "conflicting-reference",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-text",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -1934,7 +3122,10 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "apache-2-0",
-        "identityUnresolved": true
+        "identityUnresolved": true,
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/tasks-text@1.0.1",
+        "npmPackage": "@mediapipe/tasks-text"
       }
     ],
     "depth": [
@@ -1943,20 +3134,42 @@ export const MODELS: CategoryModels = {
         "nameKey": "models.midas-small.name",
         "descriptionKey": "models.midas-small.description",
         "name": "MiDaS v2 Small",
-        "framework": "onnxruntime-web",
+        "framework": "transformersjs",
         "description": "Robust monocular depth estimation for the browser.",
-        "docsUrl": "https://github.com/isl-org/MiDaS",
+        "docsUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas",
         "kind": "model",
         "tasks": [
           "depth"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/dpt-hybrid-midas",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://github.com/isl-org/MiDaS",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Intel/dpt-hybrid-midas",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/dpt-hybrid-midas",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -1966,12 +3179,43 @@ export const MODELS: CategoryModels = {
         ],
         "variants": [
           {
-            "id": "midas-small",
-            "label": "default",
-            "reportedDownloadSize": "~60 MB"
+            "id": "midas-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 118219625,
+            "revision": "8af5a62e326ba3e842759aa27e13008c1c758db5",
+            "artifactUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas/resolve/8af5a62e326ba3e842759aa27e13008c1c758db5/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "midas-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 207787230,
+            "revision": "8af5a62e326ba3e842759aa27e13008c1c758db5",
+            "artifactUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas/resolve/8af5a62e326ba3e842759aa27e13008c1c758db5/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "midas-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 267099007,
+            "revision": "8af5a62e326ba3e842759aa27e13008c1c758db5",
+            "artifactUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas/resolve/8af5a62e326ba3e842759aa27e13008c1c758db5/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "midas-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 533061339,
+            "revision": "8af5a62e326ba3e842759aa27e13008c1c758db5",
+            "artifactUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas/resolve/8af5a62e326ba3e842759aa27e13008c1c758db5/onnx/model.onnx"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "Xenova/dpt-hybrid-midas",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "depth-anything-small",
@@ -1986,18 +3230,25 @@ export const MODELS: CategoryModels = {
           "depth"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/depth-anything-v2-small",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/onnx-community/depth-anything-v2-small",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2007,13 +3258,43 @@ export const MODELS: CategoryModels = {
         ],
         "variants": [
           {
-            "id": "depth-anything-small",
-            "label": "default",
-            "reportedDownloadSize": "~100 MB"
+            "id": "depth-anything-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 19126267,
+            "revision": "4472b7362082ad9968fee890ca0f1e5aca36b93d",
+            "artifactUrl": "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "depth-anything-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 27258801,
+            "revision": "4472b7362082ad9968fee890ca0f1e5aca36b93d",
+            "artifactUrl": "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "depth-anything-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 49642442,
+            "revision": "4472b7362082ad9968fee890ca0f1e5aca36b93d",
+            "artifactUrl": "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "depth-anything-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 99060839,
+            "revision": "4472b7362082ad9968fee890ca0f1e5aca36b93d",
+            "artifactUrl": "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "onnx-community/depth-anything-v2-small"
+        "modelId": "onnx-community/depth-anything-v2-small",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "mediapipe-depth",
@@ -2040,6 +3321,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/objectron",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2054,7 +3345,11 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~8 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/objectron@0.4.1675468480",
+        "identityUnresolved": true,
+        "npmPackage": "@mediapipe/objectron"
       }
     ],
     "image-restoration": [
@@ -2077,6 +3372,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/xinntao/Real-ESRGAN",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2091,7 +3391,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~65 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "swinir",
@@ -2112,6 +3414,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/JingyunLiang/SwinIR",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2126,7 +3433,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~45 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "nafnet-denoise",
@@ -2147,6 +3456,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/megvii-research/NAFNet",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2161,7 +3475,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~25 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ],
     "image-classification": [
@@ -2186,6 +3502,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/tensorflow/tfjs-models/tree/master/mobilenet",
             "kind": "browser-example",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@tensorflow-models/mobilenet",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2197,7 +3523,244 @@ export const MODELS: CategoryModels = {
             "label": "default"
           }
         ],
-        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/mobilenet"
+        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/mobilenet",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@tensorflow-models/mobilenet@2.1.1",
+        "npmPackage": "@tensorflow-models/mobilenet"
+      },
+      {
+        "id": "vit-base-224",
+        "nameKey": "models.vit-base-224.name",
+        "descriptionKey": "models.vit-base-224.description",
+        "name": "vit-base-224",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/vit-base-patch16-224",
+        "kind": "model",
+        "tasks": [
+          "image-classification"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/vit-base-patch16-224",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/vit-base-patch16-224",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/google/vit-base-patch16-224",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "ImageNet-1k"
+        ],
+        "variants": [
+          {
+            "id": "vit-base-224-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 51248686,
+            "revision": "66fef688e8dbe77dd9d5aa256353f9ad8b0ef799",
+            "artifactUrl": "https://huggingface.co/Xenova/vit-base-patch16-224/resolve/66fef688e8dbe77dd9d5aa256353f9ad8b0ef799/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "vit-base-224-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 88257413,
+            "revision": "66fef688e8dbe77dd9d5aa256353f9ad8b0ef799",
+            "artifactUrl": "https://huggingface.co/Xenova/vit-base-patch16-224/resolve/66fef688e8dbe77dd9d5aa256353f9ad8b0ef799/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "vit-base-224-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 173484848,
+            "revision": "66fef688e8dbe77dd9d5aa256353f9ad8b0ef799",
+            "artifactUrl": "https://huggingface.co/Xenova/vit-base-patch16-224/resolve/66fef688e8dbe77dd9d5aa256353f9ad8b0ef799/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "vit-base-224-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 346533752,
+            "revision": "66fef688e8dbe77dd9d5aa256353f9ad8b0ef799",
+            "artifactUrl": "https://huggingface.co/Xenova/vit-base-patch16-224/resolve/66fef688e8dbe77dd9d5aa256353f9ad8b0ef799/onnx/model.onnx"
+          }
+        ],
+        "modelId": "Xenova/vit-base-patch16-224",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
+      },
+      {
+        "id": "resnet-50",
+        "nameKey": "models.resnet-50.name",
+        "descriptionKey": "models.resnet-50.description",
+        "name": "resnet-50",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/resnet-50",
+        "kind": "model",
+        "tasks": [
+          "image-classification"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/resnet-50",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/resnet-50",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/microsoft/resnet-50",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "ImageNet-1k"
+        ],
+        "variants": [
+          {
+            "id": "resnet-50-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 25787876,
+            "revision": "a16f29143f08c4e5c5a4a89f6f185d8edac4b6af",
+            "artifactUrl": "https://huggingface.co/Xenova/resnet-50/resolve/a16f29143f08c4e5c5a4a89f6f185d8edac4b6af/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "resnet-50-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 51111653,
+            "revision": "a16f29143f08c4e5c5a4a89f6f185d8edac4b6af",
+            "artifactUrl": "https://huggingface.co/Xenova/resnet-50/resolve/a16f29143f08c4e5c5a4a89f6f185d8edac4b6af/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "resnet-50-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 51121285,
+            "revision": "a16f29143f08c4e5c5a4a89f6f185d8edac4b6af",
+            "artifactUrl": "https://huggingface.co/Xenova/resnet-50/resolve/a16f29143f08c4e5c5a4a89f6f185d8edac4b6af/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "resnet-50-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 102157946,
+            "revision": "a16f29143f08c4e5c5a4a89f6f185d8edac4b6af",
+            "artifactUrl": "https://huggingface.co/Xenova/resnet-50/resolve/a16f29143f08c4e5c5a4a89f6f185d8edac4b6af/onnx/model.onnx"
+          }
+        ],
+        "modelId": "Xenova/resnet-50",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
+      },
+      {
+        "id": "mobilevit-small",
+        "nameKey": "models.mobilevit-small.name",
+        "descriptionKey": "models.mobilevit-small.description",
+        "name": "mobilevit-small",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/mobilevit-small",
+        "kind": "model",
+        "tasks": [
+          "image-classification"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/mobilevit-small",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/mobilevit-small",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/apple/mobilevit-small",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "ImageNet-1k"
+        ],
+        "variants": [
+          {
+            "id": "mobilevit-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 6303767,
+            "revision": "a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilevit-small/resolve/a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "mobilevit-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 7289715,
+            "revision": "a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilevit-small/resolve/a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "mobilevit-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 11560403,
+            "revision": "a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilevit-small/resolve/a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "mobilevit-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 22604607,
+            "revision": "a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8",
+            "artifactUrl": "https://huggingface.co/Xenova/mobilevit-small/resolve/a0e5dde3e1b3d9e49894dcaeeb1e046ed01edfc8/onnx/model.onnx"
+          }
+        ],
+        "modelId": "Xenova/mobilevit-small",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "other"
       }
     ]
   },
@@ -2222,12 +3785,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/stabilityai/sdxl-turbo",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2237,13 +3805,19 @@ export const MODELS: CategoryModels = {
         ],
         "variants": [
           {
-            "id": "sdxl-turbo",
-            "label": "default",
-            "reportedDownloadSize": "~3.5 GB"
+            "id": "sdxl-turbo-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 13884284743,
+            "revision": "71153311d3dbb46851df1931d3ca6e939de83304",
+            "artifactUrl": "https://huggingface.co/stabilityai/sdxl-turbo/resolve/71153311d3dbb46851df1931d3ca6e939de83304/text_encoder/model.onnx"
           }
         ],
         "reportedLicense": "openrail",
-        "modelId": "stabilityai/sdxl-turbo"
+        "modelId": "stabilityai/sdxl-turbo",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0",
+        "weightLicense": "other"
       },
       {
         "id": "sd-turbo",
@@ -2252,7 +3826,7 @@ export const MODELS: CategoryModels = {
         "name": "SD-Turbo",
         "framework": "onnxruntime-web",
         "description": "Smaller distilled Stable Diffusion variant.",
-        "docsUrl": "https://huggingface.co/stabilityai/sd-turbo",
+        "docsUrl": "https://huggingface.co/onnxruntime/sd-turbo",
         "kind": "model",
         "tasks": [
           "text-to-image"
@@ -2270,6 +3844,16 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/onnxruntime/sd-turbo",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2279,20 +3863,26 @@ export const MODELS: CategoryModels = {
         ],
         "variants": [
           {
-            "id": "sd-turbo",
-            "label": "default",
-            "reportedDownloadSize": "~1.6 GB"
+            "id": "sd-turbo-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 2580750177,
+            "revision": "80d4d2e238a7c61a83053b931f2354ab43dd3688",
+            "artifactUrl": "https://huggingface.co/onnxruntime/sd-turbo/resolve/80d4d2e238a7c61a83053b931f2354ab43dd3688/text_encoder/model.onnx"
           }
         ],
         "reportedLicense": "openrail",
-        "modelId": "stabilityai/sd-turbo"
+        "modelId": "onnxruntime/sd-turbo",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0",
+        "weightLicense": "other"
       },
       {
         "id": "flux-schnell",
         "nameKey": "models.flux-schnell.name",
         "descriptionKey": "models.flux-schnell.description",
         "name": "FLUX.1 Schnell (WebGPU)",
-        "framework": "transformersjs",
+        "framework": "python",
         "description": "Fast FLUX diffusion model — community ONNX/WebGPU builds.",
         "docsUrl": "https://huggingface.co/black-forest-labs/FLUX.1-schnell",
         "kind": "model",
@@ -2306,7 +3896,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/black-forest-labs/FLUX.1-schnell",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
@@ -2327,7 +3917,8 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "black-forest-labs/FLUX.1-schnell"
+        "modelId": "black-forest-labs/FLUX.1-schnell",
+        "weightLicense": "apache-2-0"
       }
     ],
     "inpainting": [
@@ -2352,6 +3943,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/Picsart-AI-Research/MI-GAN",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2366,7 +3962,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~28 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "lama-watermark",
@@ -2389,6 +3987,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/advimman/lama",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2403,14 +4006,16 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~208 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "sdxl-inpaint",
         "nameKey": "models.sdxl-inpaint.name",
         "descriptionKey": "models.sdxl-inpaint.description",
         "name": "SDXL Inpaint",
-        "framework": "onnxruntime-web",
+        "framework": "python",
         "description": "SDXL variant fine-tuned for mask-based inpainting.",
         "docsUrl": "https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
         "kind": "model",
@@ -2424,7 +4029,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://onnxruntime.ai/docs/",
@@ -2445,7 +4050,8 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "openrail",
-        "modelId": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1"
+        "modelId": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+        "weightLicense": "openrail"
       }
     ]
   },
@@ -2466,12 +4072,20 @@ export const MODELS: CategoryModels = {
           "asr"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/whisper-small",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/whisper-small",
-            "kind": "documentation"
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -2481,12 +4095,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "whisper-small",
-            "label": "default",
-            "reportedDownloadSize": "~460 MB"
+            "id": "whisper-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 200224406,
+            "revision": "2d67713f236afa48a18992566e7647f6ca848e13",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-small/resolve/2d67713f236afa48a18992566e7647f6ca848e13/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "whisper-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 249105759,
+            "revision": "2d67713f236afa48a18992566e7647f6ca848e13",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-small/resolve/2d67713f236afa48a18992566e7647f6ca848e13/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "whisper-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 485223415,
+            "revision": "2d67713f236afa48a18992566e7647f6ca848e13",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-small/resolve/2d67713f236afa48a18992566e7647f6ca848e13/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "whisper-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 968244601,
+            "revision": "2d67713f236afa48a18992566e7647f6ca848e13",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-small/resolve/2d67713f236afa48a18992566e7647f6ca848e13/onnx/decoder_model.onnx"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "Xenova/whisper-small",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "whisper-base",
@@ -2503,12 +4148,20 @@ export const MODELS: CategoryModels = {
           "asr"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/whisper-base",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/whisper-base",
-            "kind": "documentation"
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -2518,12 +4171,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "whisper-base",
-            "label": "default",
-            "reportedDownloadSize": "~140 MB"
+            "id": "whisper-base-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 76908389,
+            "revision": "64da57285918e20ea79ea5c88eed7197933abaa8",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-base/resolve/64da57285918e20ea79ea5c88eed7197933abaa8/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "whisper-base-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 82711389,
+            "revision": "64da57285918e20ea79ea5c88eed7197933abaa8",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-base/resolve/64da57285918e20ea79ea5c88eed7197933abaa8/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "whisper-base-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 146076166,
+            "revision": "64da57285918e20ea79ea5c88eed7197933abaa8",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-base/resolve/64da57285918e20ea79ea5c88eed7197933abaa8/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "whisper-base-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 291035846,
+            "revision": "64da57285918e20ea79ea5c88eed7197933abaa8",
+            "artifactUrl": "https://huggingface.co/Xenova/whisper-base/resolve/64da57285918e20ea79ea5c88eed7197933abaa8/onnx/decoder_model.onnx"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "Xenova/whisper-base",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "whisper-tiny-wasm",
@@ -2544,7 +4228,8 @@ export const MODELS: CategoryModels = {
         "sources": [
           {
             "url": "https://github.com/ggml-org/whisper.cpp",
-            "kind": "documentation"
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -2559,7 +4244,8 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~75 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit"
       }
     ],
     "tts": [
@@ -2570,18 +4256,35 @@ export const MODELS: CategoryModels = {
         "name": "Kokoro TTS (FP32, 82M voices)",
         "framework": "transformersjs",
         "description": "Kokoro 82M FP32 ONNX with 4 bundled voices (zf_001, zm_009, af_maple, bf_vale). Loaded with its own tokenizer, model config and on-demand voice.bin files.",
-        "docsUrl": "https://huggingface.co/hexgrad/Kokoro-82M",
+        "docsUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
         "kind": "model",
         "tasks": [
           "tts"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/hexgrad/Kokoro-82M",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/kokoro-js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -2591,12 +4294,44 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "kokoro-82m-fp32",
-            "label": "default",
-            "reportedDownloadSize": "~330 MB"
+            "id": "kokoro-82m-fp32-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 92361116,
+            "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+            "artifactUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "kokoro-82m-fp32-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 154586422,
+            "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+            "artifactUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "kokoro-82m-fp32-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 163234740,
+            "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+            "artifactUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "kokoro-82m-fp32-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 525775043,
+            "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+            "artifactUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx/model.onnx"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "kokoro-js@1.2.1",
+        "modelId": "onnx-community/Kokoro-82M-v1.0-ONNX",
+        "npmPackage": "kokoro-js",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "piper-tts",
@@ -2605,7 +4340,7 @@ export const MODELS: CategoryModels = {
         "name": "Piper TTS (ONNX)",
         "framework": "onnxruntime-web",
         "description": "Fast on-device Piper TTS — many open voices.",
-        "docsUrl": "https://github.com/rhasspy/piper",
+        "docsUrl": "https://huggingface.co/rhasspy/piper-voices",
         "kind": "model",
         "tasks": [
           "tts"
@@ -2617,6 +4352,16 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/rhasspy/piper",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/rhasspy/piper-voices",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -2631,7 +4376,11 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~15 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0",
+        "modelId": "rhasspy/piper-voices",
+        "weightLicense": "mit"
       },
       {
         "id": "silero-tts",
@@ -2652,6 +4401,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/snakers4/silero-models",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -2669,14 +4423,16 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~30 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "bark-wasm",
         "nameKey": "models.bark-wasm.name",
         "descriptionKey": "models.bark-wasm.description",
         "name": "Bark (WASM)",
-        "framework": "transformersjs",
+        "framework": "transformers",
         "description": "Suno Bark — generative audio / speech with non-verbal cues.",
         "docsUrl": "https://huggingface.co/suno/bark-small",
         "kind": "model",
@@ -2690,7 +4446,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/suno/bark-small",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
@@ -2713,7 +4469,8 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "suno/bark-small"
+        "modelId": "suno/bark-small",
+        "weightLicense": "mit"
       }
     ],
     "denoising": [
@@ -2736,6 +4493,16 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/xiph/rnnoise",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@jitsi/rnnoise-wasm",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2750,7 +4517,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~1 MB"
           }
         ],
-        "reportedLicense": "bsd-3"
+        "reportedLicense": "bsd-3",
+        "runtimeVersion": "@jitsi/rnnoise-wasm@0.2.1",
+        "npmPackage": "@jitsi/rnnoise-wasm"
       },
       {
         "id": "deepfilternet",
@@ -2771,6 +4540,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/Rikorose/DeepFilterNet",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2785,7 +4559,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~5 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "facebook-denoiser",
@@ -2806,6 +4582,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/facebookresearch/denoiser",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2820,7 +4601,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~10 MB"
           }
         ],
-        "reportedLicense": "cc-by-4-0"
+        "reportedLicense": "cc-by-4-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ],
     "source-separation": [
@@ -2845,6 +4628,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/facebookresearch/demucs",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2859,7 +4647,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~166 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "htdemucs-6-stem",
@@ -2882,6 +4672,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/facebookresearch/demucs",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2896,7 +4691,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~136 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "open-unmix",
@@ -2917,6 +4714,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/sigsep/open-unmix-pytorch",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2931,7 +4733,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~60 MB"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ],
     "vad": [
@@ -2956,6 +4760,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/ricky0123/vad",
             "kind": "browser-example",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@ricky0123/vad-web",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -2963,8 +4777,92 @@ export const MODELS: CategoryModels = {
         "capabilities": [
           "Speech segmentation"
         ],
-        "variants": [],
-        "docsUrl": "https://github.com/ricky0123/vad"
+        "variants": [
+          {
+            "id": "silero-vad-web",
+            "label": "default",
+            "artifactUrl": "https://raw.githubusercontent.com/snakers4/silero-vad/master/src/silero_vad/data/silero_vad.onnx",
+            "downloadBytes": 2327524
+          }
+        ],
+        "docsUrl": "https://github.com/ricky0123/vad",
+        "codeLicense": "isc",
+        "runtimeVersion": "@ricky0123/vad-web@0.0.31",
+        "npmPackage": "@ricky0123/vad-web"
+      },
+      {
+        "id": "pyannote-segmentation",
+        "nameKey": "models.pyannote-segmentation.name",
+        "descriptionKey": "models.pyannote-segmentation.description",
+        "name": "pyannote-segmentation",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0",
+        "kind": "model",
+        "tasks": [
+          "vad"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Speech segmentation",
+          "Overlapping speech"
+        ],
+        "variants": [
+          {
+            "id": "pyannote-segmentation-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 1542308,
+            "revision": "733a93b6473d019a773298e08cefa686894b1854",
+            "artifactUrl": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0/resolve/733a93b6473d019a773298e08cefa686894b1854/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "pyannote-segmentation-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 2929425,
+            "revision": "733a93b6473d019a773298e08cefa686894b1854",
+            "artifactUrl": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0/resolve/733a93b6473d019a773298e08cefa686894b1854/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "pyannote-segmentation-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 3000918,
+            "revision": "733a93b6473d019a773298e08cefa686894b1854",
+            "artifactUrl": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0/resolve/733a93b6473d019a773298e08cefa686894b1854/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "pyannote-segmentation-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 5986908,
+            "revision": "733a93b6473d019a773298e08cefa686894b1854",
+            "artifactUrl": "https://huggingface.co/onnx-community/pyannote-segmentation-3.0/resolve/733a93b6473d019a773298e08cefa686894b1854/onnx/model.onnx"
+          }
+        ],
+        "modelId": "onnx-community/pyannote-segmentation-3.0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       }
     ],
     "audio-classification": [
@@ -2989,13 +4887,191 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/audio/audio_classifier/web_js",
             "kind": "browser-example",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-audio",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
         "programmingLanguages": [],
         "capabilities": [],
-        "variants": [],
-        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/audio/audio_classifier/web_js"
+        "variants": [
+          {
+            "id": "mediapipe-audio-classifier",
+            "label": "default",
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/audio_classifier/yamnet/float32/1/yamnet.tflite",
+            "downloadBytes": 4126810
+          }
+        ],
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/audio/audio_classifier/web_js",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/tasks-audio@1.0.1",
+        "npmPackage": "@mediapipe/tasks-audio"
+      },
+      {
+        "id": "ast-audioset",
+        "nameKey": "models.ast-audioset.name",
+        "descriptionKey": "models.ast-audioset.description",
+        "name": "ast-audioset",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593",
+        "kind": "model",
+        "tasks": [
+          "audio-classification"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/MIT/ast-finetuned-audioset-10-10-0.4593",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "AudioSet-527"
+        ],
+        "variants": [
+          {
+            "id": "ast-audioset-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 51381925,
+            "revision": "249a1fbf0286b40e7f1ed687a8ae396997bf7dc6",
+            "artifactUrl": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593/resolve/249a1fbf0286b40e7f1ed687a8ae396997bf7dc6/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "ast-audioset-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 90807386,
+            "revision": "249a1fbf0286b40e7f1ed687a8ae396997bf7dc6",
+            "artifactUrl": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593/resolve/249a1fbf0286b40e7f1ed687a8ae396997bf7dc6/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "ast-audioset-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 173686898,
+            "revision": "249a1fbf0286b40e7f1ed687a8ae396997bf7dc6",
+            "artifactUrl": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593/resolve/249a1fbf0286b40e7f1ed687a8ae396997bf7dc6/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "ast-audioset-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 346754297,
+            "revision": "249a1fbf0286b40e7f1ed687a8ae396997bf7dc6",
+            "artifactUrl": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593/resolve/249a1fbf0286b40e7f1ed687a8ae396997bf7dc6/onnx/model.onnx"
+          }
+        ],
+        "modelId": "Xenova/ast-finetuned-audioset-10-10-0.4593",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "bsd-3"
+      },
+      {
+        "id": "wav2vec2-keyword-spotting",
+        "nameKey": "models.wav2vec2-keyword-spotting.name",
+        "descriptionKey": "models.wav2vec2-keyword-spotting.description",
+        "name": "wav2vec2-keyword-spotting",
+        "framework": "transformersjs",
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks",
+        "kind": "model",
+        "tasks": [
+          "audio-classification"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/superb/wav2vec2-base-superb-ks",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [
+          "English"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Speech Commands keywords"
+        ],
+        "variants": [
+          {
+            "id": "wav2vec2-keyword-spotting-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 66578286,
+            "revision": "8909d78f936d073e2c132e5ffc5c15f84d9b8a6f",
+            "artifactUrl": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks/resolve/8909d78f936d073e2c132e5ffc5c15f84d9b8a6f/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "wav2vec2-keyword-spotting-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 95885969,
+            "revision": "8909d78f936d073e2c132e5ffc5c15f84d9b8a6f",
+            "artifactUrl": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks/resolve/8909d78f936d073e2c132e5ffc5c15f84d9b8a6f/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "wav2vec2-keyword-spotting-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 189546172,
+            "revision": "8909d78f936d073e2c132e5ffc5c15f84d9b8a6f",
+            "artifactUrl": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks/resolve/8909d78f936d073e2c132e5ffc5c15f84d9b8a6f/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "wav2vec2-keyword-spotting-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 378591630,
+            "revision": "8909d78f936d073e2c132e5ffc5c15f84d9b8a6f",
+            "artifactUrl": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks/resolve/8909d78f936d073e2c132e5ffc5c15f84d9b8a6f/onnx/model.onnx"
+          }
+        ],
+        "modelId": "Xenova/wav2vec2-base-superb-ks",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       }
     ]
   },
@@ -3008,18 +5084,30 @@ export const MODELS: CategoryModels = {
         "name": "MusicGen Small",
         "framework": "transformersjs",
         "description": "Meta MusicGen small (300M) — text-conditioned music generation that runs entirely in the browser via Transformers.js.",
-        "docsUrl": "https://huggingface.co/facebook/musicgen-small",
+        "docsUrl": "https://huggingface.co/Xenova/musicgen-small",
         "kind": "model",
         "tasks": [
           "text-to-music"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/musicgen-small",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/facebook/musicgen-small",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/musicgen-small",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3029,12 +5117,43 @@ export const MODELS: CategoryModels = {
         ],
         "variants": [
           {
-            "id": "musicgen-small",
-            "label": "default",
-            "reportedDownloadSize": "~300 MB"
+            "id": "musicgen-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 598795972,
+            "revision": "6a8096dabfff72909ef5eae41461408e29ae20fd",
+            "artifactUrl": "https://huggingface.co/Xenova/musicgen-small/resolve/6a8096dabfff72909ef5eae41461408e29ae20fd/onnx/build_delay_pattern_mask_quantized.onnx"
+          },
+          {
+            "id": "musicgen-small-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 635540952,
+            "revision": "6a8096dabfff72909ef5eae41461408e29ae20fd",
+            "artifactUrl": "https://huggingface.co/Xenova/musicgen-small/resolve/6a8096dabfff72909ef5eae41461408e29ae20fd/onnx/build_delay_pattern_mask_q4f16.onnx"
+          },
+          {
+            "id": "musicgen-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 1126918007,
+            "revision": "6a8096dabfff72909ef5eae41461408e29ae20fd",
+            "artifactUrl": "https://huggingface.co/Xenova/musicgen-small/resolve/6a8096dabfff72909ef5eae41461408e29ae20fd/onnx/build_delay_pattern_mask_fp16.onnx"
+          },
+          {
+            "id": "musicgen-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 2249012068,
+            "revision": "6a8096dabfff72909ef5eae41461408e29ae20fd",
+            "artifactUrl": "https://huggingface.co/Xenova/musicgen-small/resolve/6a8096dabfff72909ef5eae41461408e29ae20fd/onnx/build_delay_pattern_mask.onnx"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "Xenova/musicgen-small",
+        "weightLicense": "cc-by-nc-4-0"
       },
       {
         "id": "musicgen-medium",
@@ -3055,6 +5174,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/facebook/musicgen-medium",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3069,7 +5193,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~1.5 GB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "riffusion",
@@ -3090,6 +5216,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/riffusion/riffusion-hobby",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3104,7 +5235,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~1.6 GB"
           }
         ],
-        "reportedLicense": "openrail"
+        "reportedLicense": "openrail",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ],
     "voice-cloning": [
@@ -3127,6 +5260,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/myshell-ai/OpenVoice",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3142,7 +5280,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~150 MB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       },
       {
         "id": "coqui-xtts",
@@ -3163,6 +5303,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/coqui/XTTS-v2",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3179,7 +5324,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~900 MB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ]
   },
@@ -3198,18 +5345,25 @@ export const MODELS: CategoryModels = {
           "vlm"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/moondream2",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/moondream2",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3219,20 +5373,50 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "moondream2",
-            "label": "default",
-            "reportedDownloadSize": "~1.7 GB"
+            "id": "moondream2-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 740853830,
+            "revision": "2d577a7ec3b54cce81456f5358d7aa815d587079",
+            "artifactUrl": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "moondream2-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 1865722796,
+            "revision": "2d577a7ec3b54cce81456f5358d7aa815d587079",
+            "artifactUrl": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "moondream2-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 3716833765,
+            "revision": "2d577a7ec3b54cce81456f5358d7aa815d587079",
+            "artifactUrl": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/decoder_model_merged_fp16.onnx"
+          },
+          {
+            "id": "moondream2-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 7431842004,
+            "revision": "2d577a7ec3b54cce81456f5358d7aa815d587079",
+            "artifactUrl": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/decoder_model_merged.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/moondream2"
+        "modelId": "Xenova/moondream2",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
-        "id": "llava-1.5-7b",
+        "id": "llava-1-5-7b",
         "nameKey": "models.llava-1-5-7b.name",
         "descriptionKey": "models.llava-1-5-7b.description",
         "name": "LLaVA 1.5 7B",
-        "framework": "webllm",
+        "framework": "transformers",
         "description": "LLaVA visual chat model; runs in the browser via WebLLM.",
         "docsUrl": "https://huggingface.co/llava-hf/llava-1.5-7b-hf",
         "kind": "model",
@@ -3246,7 +5430,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/llava-hf/llava-1.5-7b-hf",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://github.com/mlc-ai/web-llm",
@@ -3261,13 +5445,14 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "llava-1.5-7b",
+            "id": "llava-1-5-7b",
             "label": "default",
             "reportedDownloadSize": "~4.5 GB"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "llava-hf/llava-1.5-7b-hf"
+        "modelId": "llava-hf/llava-1.5-7b-hf",
+        "weightLicense": "custom"
       },
       {
         "id": "paligemma-3b",
@@ -3276,13 +5461,15 @@ export const MODELS: CategoryModels = {
         "name": "PaliGemma 3B",
         "framework": "transformersjs",
         "description": "Google PaliGemma — versatile small VLM with strong OCR.",
-        "docsUrl": "https://huggingface.co/google/paligemma-3b-mix-224",
+        "docsUrl": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224",
         "kind": "model",
         "tasks": [
           "vlm"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
@@ -3294,6 +5481,21 @@ export const MODELS: CategoryModels = {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/google/paligemma2-3b-pt-224",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3303,13 +5505,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "paligemma-3b",
-            "label": "default",
-            "reportedDownloadSize": "~2.2 GB"
+            "id": "paligemma-3b-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 2895037221,
+            "revision": "b0a2d6f61eff89480380bd1714ea5c43aadc35b5",
+            "artifactUrl": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224/resolve/b0a2d6f61eff89480380bd1714ea5c43aadc35b5/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "paligemma-3b-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 3629638130,
+            "revision": "b0a2d6f61eff89480380bd1714ea5c43aadc35b5",
+            "artifactUrl": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224/resolve/b0a2d6f61eff89480380bd1714ea5c43aadc35b5/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "paligemma-3b-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 7251254950,
+            "revision": "b0a2d6f61eff89480380bd1714ea5c43aadc35b5",
+            "artifactUrl": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224/resolve/b0a2d6f61eff89480380bd1714ea5c43aadc35b5/onnx/decoder_model_merged_fp16.onnx"
+          },
+          {
+            "id": "paligemma-3b-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 14500976225,
+            "revision": "b0a2d6f61eff89480380bd1714ea5c43aadc35b5",
+            "artifactUrl": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224/resolve/b0a2d6f61eff89480380bd1714ea5c43aadc35b5/onnx/decoder_model_merged.onnx"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "google/paligemma-3b-mix-224"
+        "modelId": "onnx-community/paligemma2-3b-pt-224",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "custom"
       },
       {
         "id": "florence-2",
@@ -3326,18 +5558,25 @@ export const MODELS: CategoryModels = {
           "ocr"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/Florence-2-base",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/onnx-community/Florence-2-base",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3347,13 +5586,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "florence-2",
-            "label": "default",
-            "reportedDownloadSize": "~770 MB"
+            "id": "florence-2-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 223488587,
+            "revision": "d59e079711c57174f29265539fb4cc9f0f335916",
+            "artifactUrl": "https://huggingface.co/onnx-community/Florence-2-base/resolve/d59e079711c57174f29265539fb4cc9f0f335916/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "florence-2-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 275008119,
+            "revision": "d59e079711c57174f29265539fb4cc9f0f335916",
+            "artifactUrl": "https://huggingface.co/onnx-community/Florence-2-base/resolve/d59e079711c57174f29265539fb4cc9f0f335916/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "florence-2-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 544046795,
+            "revision": "d59e079711c57174f29265539fb4cc9f0f335916",
+            "artifactUrl": "https://huggingface.co/onnx-community/Florence-2-base/resolve/d59e079711c57174f29265539fb4cc9f0f335916/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "florence-2-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1085954298,
+            "revision": "d59e079711c57174f29265539fb4cc9f0f335916",
+            "artifactUrl": "https://huggingface.co/onnx-community/Florence-2-base/resolve/d59e079711c57174f29265539fb4cc9f0f335916/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "onnx-community/Florence-2-base"
+        "modelId": "onnx-community/Florence-2-base",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       }
     ],
     "clip": [
@@ -3370,18 +5639,25 @@ export const MODELS: CategoryModels = {
           "clip"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/clip-vit-base-patch32",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/clip-vit-base-patch32",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3391,13 +5667,42 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "clip-vit-base",
-            "label": "default",
-            "reportedDownloadSize": "~150 MB"
+            "id": "clip-vit-base-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 251617632,
+            "revision": "d15189d7028b43f1d3e65039190477f6af591c2a",
+            "artifactUrl": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/d15189d7028b43f1d3e65039190477f6af591c2a/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "clip-vit-base-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 307317210,
+            "revision": "d15189d7028b43f1d3e65039190477f6af591c2a",
+            "artifactUrl": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/d15189d7028b43f1d3e65039190477f6af591c2a/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "clip-vit-base-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 606935621,
+            "revision": "d15189d7028b43f1d3e65039190477f6af591c2a",
+            "artifactUrl": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/d15189d7028b43f1d3e65039190477f6af591c2a/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "clip-vit-base-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1211543291,
+            "revision": "d15189d7028b43f1d3e65039190477f6af591c2a",
+            "artifactUrl": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/d15189d7028b43f1d3e65039190477f6af591c2a/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/clip-vit-base-patch32"
+        "modelId": "Xenova/clip-vit-base-patch32",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0"
       },
       {
         "id": "siglip-base",
@@ -3412,18 +5717,30 @@ export const MODELS: CategoryModels = {
           "clip"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/siglip-base-patch16-224",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/siglip-base-patch16-224",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/google/siglip-base-patch16-224",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3433,13 +5750,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "siglip-base",
-            "label": "default",
-            "reportedDownloadSize": "~200 MB"
+            "id": "siglip-base-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 306682121,
+            "revision": "4649052661e53c7000355844105f8a1792088239",
+            "artifactUrl": "https://huggingface.co/Xenova/siglip-base-patch16-224/resolve/4649052661e53c7000355844105f8a1792088239/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "siglip-base-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 421951790,
+            "revision": "4649052661e53c7000355844105f8a1792088239",
+            "artifactUrl": "https://huggingface.co/Xenova/siglip-base-patch16-224/resolve/4649052661e53c7000355844105f8a1792088239/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "siglip-base-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 814023189,
+            "revision": "4649052661e53c7000355844105f8a1792088239",
+            "artifactUrl": "https://huggingface.co/Xenova/siglip-base-patch16-224/resolve/4649052661e53c7000355844105f8a1792088239/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "siglip-base-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1626306100,
+            "revision": "4649052661e53c7000355844105f8a1792088239",
+            "artifactUrl": "https://huggingface.co/Xenova/siglip-base-patch16-224/resolve/4649052661e53c7000355844105f8a1792088239/onnx/model.onnx"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "Xenova/siglip-base-patch16-224"
+        "modelId": "Xenova/siglip-base-patch16-224",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "apache-2-0"
       },
       {
         "id": "mobileclip",
@@ -3466,6 +5813,11 @@ export const MODELS: CategoryModels = {
             "url": "https://onnxruntime.ai/docs/",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3480,7 +5832,9 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~30 MB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0"
       }
     ],
     "document-understanding": [
@@ -3503,12 +5857,17 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/microsoft/layoutlmv3-base",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3518,13 +5877,19 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "layoutlmv3",
-            "label": "default",
-            "reportedDownloadSize": "~500 MB"
+            "id": "layoutlmv3-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 501597822,
+            "revision": "cfbbbff0762e6aab37086fdd4739ad14fe7d5db4",
+            "artifactUrl": "https://huggingface.co/microsoft/layoutlmv3-base/resolve/cfbbbff0762e6aab37086fdd4739ad14fe7d5db4/model.onnx"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "microsoft/layoutlmv3-base"
+        "modelId": "microsoft/layoutlmv3-base",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "custom"
       },
       {
         "id": "donut-base",
@@ -3533,13 +5898,15 @@ export const MODELS: CategoryModels = {
         "name": "Donut (base)",
         "framework": "transformersjs",
         "description": "OCR-free document understanding transformer.",
-        "docsUrl": "https://huggingface.co/naver-clova-ix/donut-base",
+        "docsUrl": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa",
         "kind": "model",
         "tasks": [
           "document-understanding"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
@@ -3551,6 +5918,21 @@ export const MODELS: CategoryModels = {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/naver-clova-ix/donut-base-finetuned-docvqa",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3560,13 +5942,43 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "donut-base",
-            "label": "default",
-            "reportedDownloadSize": "~300 MB"
+            "id": "donut-base-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 218685865,
+            "revision": "d9f97a2fb22deb50fe6352f411703cff81cc4f1e",
+            "artifactUrl": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa/resolve/d9f97a2fb22deb50fe6352f411703cff81cc4f1e/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "donut-base-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 241076556,
+            "revision": "d9f97a2fb22deb50fe6352f411703cff81cc4f1e",
+            "artifactUrl": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa/resolve/d9f97a2fb22deb50fe6352f411703cff81cc4f1e/onnx/decoder_model_merged_q4f16.onnx"
+          },
+          {
+            "id": "donut-base-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 410768162,
+            "revision": "d9f97a2fb22deb50fe6352f411703cff81cc4f1e",
+            "artifactUrl": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa/resolve/d9f97a2fb22deb50fe6352f411703cff81cc4f1e/onnx/decoder_model_fp16.onnx"
+          },
+          {
+            "id": "donut-base-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 816798818,
+            "revision": "d9f97a2fb22deb50fe6352f411703cff81cc4f1e",
+            "artifactUrl": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa/resolve/d9f97a2fb22deb50fe6352f411703cff81cc4f1e/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "mit",
-        "modelId": "naver-clova-ix/donut-base"
+        "modelId": "Xenova/donut-base-finetuned-docvqa",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "mit"
       },
       {
         "id": "nougat-small",
@@ -3581,18 +5993,30 @@ export const MODELS: CategoryModels = {
           "document-understanding"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/nougat-small",
+          "reviewedAt": "2026-10-05"
         },
         "sources": [
           {
             "url": "https://huggingface.co/Xenova/nougat-small",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/facebook/nougat-small",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -3602,13 +6026,35 @@ export const MODELS: CategoryModels = {
         "capabilities": [],
         "variants": [
           {
-            "id": "nougat-small",
-            "label": "default",
-            "reportedDownloadSize": "~450 MB"
+            "id": "nougat-small-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 255504274,
+            "revision": "92802ec430c01197dd4d135ba6e7e03e1f48ed63",
+            "artifactUrl": "https://huggingface.co/Xenova/nougat-small/resolve/92802ec430c01197dd4d135ba6e7e03e1f48ed63/onnx/decoder_model_merged_quantized.onnx"
+          },
+          {
+            "id": "nougat-small-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 500426613,
+            "revision": "92802ec430c01197dd4d135ba6e7e03e1f48ed63",
+            "artifactUrl": "https://huggingface.co/Xenova/nougat-small/resolve/92802ec430c01197dd4d135ba6e7e03e1f48ed63/onnx/decoder_model_merged_fp16.onnx"
+          },
+          {
+            "id": "nougat-small-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 995419935,
+            "revision": "92802ec430c01197dd4d135ba6e7e03e1f48ed63",
+            "artifactUrl": "https://huggingface.co/Xenova/nougat-small/resolve/92802ec430c01197dd4d135ba6e7e03e1f48ed63/onnx/decoder_model.onnx"
           }
         ],
         "reportedLicense": "other",
-        "modelId": "Xenova/nougat-small"
+        "modelId": "Xenova/nougat-small",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "weightLicense": "cc-by-4-0"
       }
     ]
   },
@@ -3639,6 +6085,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/face_detection",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3650,10 +6106,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-facedetection",
             "label": "default",
-            "reportedDownloadSize": "~3 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite",
+            "downloadBytes": 229746
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/face_detection@0.4.1646425229",
+        "npmPackage": "@mediapipe/face_detection"
       },
       {
         "id": "mediapipe-facemesh",
@@ -3680,6 +6140,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/vision/face_landmarker/web_js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/face_mesh",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3691,10 +6161,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-facemesh",
             "label": "default",
-            "reportedDownloadSize": "~6 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+            "downloadBytes": 3758596
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/face_mesh@0.4.1633559619",
+        "npmPackage": "@mediapipe/face_mesh"
       },
       {
         "id": "blazeface",
@@ -3721,6 +6195,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/tensorflow/tfjs-models",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@tensorflow-models/blazeface",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3735,7 +6219,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~1 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@tensorflow-models/blazeface@0.1.0",
+        "npmPackage": "@tensorflow-models/blazeface"
       }
     ],
     "pose": [
@@ -3764,6 +6251,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker/web_js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/pose",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3775,10 +6272,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-pose",
             "label": "default",
-            "reportedDownloadSize": "~5 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
+            "downloadBytes": 5777746
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/pose@0.5.1675469404",
+        "npmPackage": "@mediapipe/pose"
       },
       {
         "id": "movenet",
@@ -3805,6 +6306,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/tensorflow/tfjs-models",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@tensorflow-models/pose-detection",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3819,7 +6330,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~3 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@tensorflow-models/pose-detection@2.1.3",
+        "npmPackage": "@tensorflow-models/pose-detection"
       },
       {
         "id": "posenet",
@@ -3846,6 +6360,16 @@ export const MODELS: CategoryModels = {
             "url": "https://github.com/tensorflow/tfjs-models",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@tensorflow-models/posenet",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3860,7 +6384,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~5 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@tensorflow-models/posenet@2.2.2",
+        "npmPackage": "@tensorflow-models/posenet"
       },
       {
         "id": "mediapipe-pose-landmarker",
@@ -3887,6 +6414,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-vision",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3898,10 +6435,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-pose-landmarker",
             "label": "default",
-            "reportedDownloadSize": "~5 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",
+            "downloadBytes": 9398198
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
+        "npmPackage": "@mediapipe/tasks-vision"
       }
     ],
     "hand": [
@@ -3930,6 +6471,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/hands",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3944,7 +6495,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~5 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/hands@0.4.1675469240",
+        "npmPackage": "@mediapipe/hands"
       },
       {
         "id": "mediapipe-handlandmarker",
@@ -3971,6 +6525,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-vision",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -3982,10 +6546,64 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-handlandmarker",
             "label": "default",
-            "reportedDownloadSize": "~6 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+            "downloadBytes": 7819105
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
+        "npmPackage": "@mediapipe/tasks-vision"
+      },
+      {
+        "id": "mediapipe-gesture-recognizer",
+        "nameKey": "models.mediapipe-gesture-recognizer.name",
+        "descriptionKey": "models.mediapipe-gesture-recognizer.description",
+        "name": "mediapipe-gesture-recognizer",
+        "framework": "mediapipe",
+        "description": "",
+        "docsUrl": "https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer/web_js",
+        "kind": "model",
+        "tasks": [
+          "hand"
+        ],
+        "browserEvidence": {
+          "status": "pending"
+        },
+        "sources": [
+          {
+            "url": "https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer/web_js",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-vision",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "7 built-in gestures",
+          "Hand landmarks"
+        ],
+        "variants": [
+          {
+            "id": "mediapipe-gesture-recognizer",
+            "label": "default",
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",
+            "downloadBytes": 8373440
+          }
+        ],
+        "npmPackage": "@mediapipe/tasks-vision",
+        "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
+        "codeLicense": "apache-2-0"
       }
     ],
     "tracking": [
@@ -4014,6 +6632,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/vision/holistic_landmarker/web_js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/holistic",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -4025,10 +6653,14 @@ export const MODELS: CategoryModels = {
           {
             "id": "mediapipe-holistic",
             "label": "default",
-            "reportedDownloadSize": "~12 MB"
+            "artifactUrl": "https://storage.googleapis.com/mediapipe-models/holistic_landmarker/holistic_landmarker/float16/1/holistic_landmarker.task",
+            "downloadBytes": 13683609
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/holistic@0.5.1675471629",
+        "npmPackage": "@mediapipe/holistic"
       },
       {
         "id": "mediapipe-objectron",
@@ -4055,6 +6687,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/objectron",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -4069,7 +6711,10 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~8 MB"
           }
         ],
-        "reportedLicense": "apache-2-0"
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/objectron@0.4.1675468480",
+        "npmPackage": "@mediapipe/objectron"
       },
       {
         "id": "bytetrack-wasm",
@@ -4090,6 +6735,11 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://github.com/FoundationVision/ByteTrack",
             "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/opencv/opencv",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -4103,7 +6753,8 @@ export const MODELS: CategoryModels = {
             "label": "default"
           }
         ],
-        "reportedLicense": "mit"
+        "reportedLicense": "mit",
+        "codeLicense": "apache-2-0"
       }
     ]
   },
@@ -4134,6 +6785,11 @@ export const MODELS: CategoryModels = {
             "url": "https://huggingface.co/docs/transformers.js",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [
@@ -4148,14 +6804,16 @@ export const MODELS: CategoryModels = {
             "reportedDownloadSize": "~300 MB"
           }
         ],
-        "reportedLicense": "other"
+        "reportedLicense": "other",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0"
       },
       {
         "id": "xclip",
         "nameKey": "models.xclip.name",
         "descriptionKey": "models.xclip.description",
         "name": "X-CLIP",
-        "framework": "transformersjs",
+        "framework": "transformers",
         "description": "Multimodal contrastive video-language model.",
         "docsUrl": "https://huggingface.co/microsoft/xclip-base-patch32",
         "kind": "model",
@@ -4169,7 +6827,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/microsoft/xclip-base-patch32",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
@@ -4190,14 +6848,15 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "apache-2-0",
-        "modelId": "microsoft/xclip-base-patch32"
+        "modelId": "microsoft/xclip-base-patch32",
+        "weightLicense": "mit"
       },
       {
         "id": "videomae",
         "nameKey": "models.videomae.name",
         "descriptionKey": "models.videomae.description",
         "name": "VideoMAE",
-        "framework": "transformersjs",
+        "framework": "transformers",
         "description": "Masked autoencoder pre-trained for video action classification.",
         "docsUrl": "https://huggingface.co/MCG-NJU/videomae-base",
         "kind": "model",
@@ -4211,7 +6870,7 @@ export const MODELS: CategoryModels = {
           {
             "url": "https://huggingface.co/MCG-NJU/videomae-base",
             "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
+            "reviewedAt": "2026-10-05"
           },
           {
             "url": "https://huggingface.co/docs/transformers.js",
@@ -4232,7 +6891,8 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "other",
-        "modelId": "MCG-NJU/videomae-base"
+        "modelId": "MCG-NJU/videomae-base",
+        "weightLicense": "cc-by-nc-4-0"
       },
       {
         "id": "mediapipe-classifier",
@@ -4254,6 +6914,16 @@ export const MODELS: CategoryModels = {
             "url": "https://developers.google.com/edge/mediapipe/solutions/vision/image_classifier/web_js",
             "kind": "conflicting-reference",
             "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/google-ai-edge/mediapipe",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@mediapipe/tasks-vision",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
           }
         ],
         "naturalLanguages": [],
@@ -4269,7 +6939,10 @@ export const MODELS: CategoryModels = {
           }
         ],
         "reportedLicense": "apache-2-0",
-        "identityUnresolved": true
+        "identityUnresolved": true,
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
+        "npmPackage": "@mediapipe/tasks-vision"
       }
     ]
   }

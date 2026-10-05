@@ -105,6 +105,9 @@ export default async function CategoryPage({
                   <div className="font-mono text-xl mt-2">
                     {tSubs(s.slug as 'classification')}
                   </div>
+                  <p className="mt-2 text-sm text-black/70 group-hover:text-white/80">
+                    {tSubs(`${s.slug}Desc` as 'classificationDesc')}
+                  </p>
                   <div className="mt-4 text-xs font-mono text-black/60 group-hover:text-white/60">
                     {t('modelsCount', { count })} · {t('viewSubcategory')} →
                   </div>

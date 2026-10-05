@@ -59,6 +59,7 @@ for (const category of TAXONOMY) {
   check(`categories.${category.slug}Desc`, 'data/taxonomy.ts');
   for (const subcategory of category.subcategories) {
     check(`subcategories.${subcategory.slug}`, 'data/taxonomy.ts');
+    check(`subcategories.${subcategory.slug}Desc`, 'data/taxonomy.ts');
   }
 }
 for (const subcategories of Object.values(MODELS)) {
@@ -71,6 +72,21 @@ for (const subcategories of Object.values(MODELS)) {
       check(`catalog.${model.browserEvidence.status}`, 'data/models.ts');
       for (const task of model.tasks) check(`subcategories.${task}`, 'data/models.ts');
     }
+  }
+}
+
+// Orphan model blocks are invisible in the UI, so they rot unnoticed: every
+// models.<id> block must be referenced by an entry's nameKey/descriptionKey.
+const referenced = new Set(
+  Object.values(MODELS)
+    .flatMap((subcategories) => Object.values(subcategories).flat())
+    .flatMap((model) => [model.nameKey, model.descriptionKey])
+    .filter(Boolean)
+    .map((key) => key.split('.')[1]),
+);
+for (const [locale, messages] of catalogs) {
+  for (const id of Object.keys(messages.models ?? {})) {
+    if (!referenced.has(id)) errors.push(`${locale}: unused models.${id}`);
   }
 }
 
