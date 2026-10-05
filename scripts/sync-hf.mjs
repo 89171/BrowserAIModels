@@ -274,13 +274,15 @@ async function main() {
       let license = licenseId(repo.cardData?.license);
       if (!license) {
         const base = baseModelOf(repo);
-        const baseLicense = base
-          ? licenseId(await getJson(`${API}/${base}`).then((r) => r.cardData?.license).catch(() => undefined))
-          : undefined;
+        // Use the id the API returns, not the one in the tag: `t5-small` is an alias
+        // that redirects to `google-t5/t5-small`, and a source link should not rest
+        // on a redirect that can be retired.
+        const baseRepo = base ? await getJson(`${API}/${base}`).catch(() => undefined) : undefined;
+        const baseLicense = licenseId(baseRepo?.cardData?.license);
         if (baseLicense) {
           license = baseLicense;
-          addSource(entry, `https://huggingface.co/${base}`, 'model-or-project');
-          report.inherited.push(`${entry.id}: ${license} from ${base}`);
+          addSource(entry, `https://huggingface.co/${baseRepo.id}`, 'model-or-project');
+          report.inherited.push(`${entry.id}: ${license} from ${baseRepo.id}`);
         }
       }
       if (license) entry.weightLicense = license;

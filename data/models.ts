@@ -37,7 +37,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english",
+            "url": "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-05"
           }
@@ -121,7 +121,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://huggingface.co/xlm-roberta-base",
+            "url": "https://huggingface.co/FacebookAI/xlm-roberta-base",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-05"
           }
@@ -615,7 +615,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://huggingface.co/t5-small",
+            "url": "https://huggingface.co/google-t5/t5-small",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-05"
           }
@@ -1062,7 +1062,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1116,7 +1116,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1169,7 +1169,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1307,7 +1307,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1360,7 +1360,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1413,7 +1413,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1509,7 +1509,7 @@ export const MODELS: CategoryModels = {
         "name": "webllm-json-mode",
         "framework": "webllm",
         "description": "",
-        "docsUrl": "https://github.com/mlc-ai/web-llm#chrome-extension",
+        "docsUrl": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
         "kind": "tool",
         "tasks": [
           "structured-output"
@@ -1519,12 +1519,12 @@ export const MODELS: CategoryModels = {
         },
         "sources": [
           {
-            "url": "https://github.com/mlc-ai/web-llm#chrome-extension",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1569,7 +1569,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-05"
           },
@@ -1626,7 +1626,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
           }
@@ -2121,7 +2121,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://huggingface.co/cross-encoder/ms-marco-MiniLM-L-6-v2",
+            "url": "https://huggingface.co/cross-encoder/ms-marco-MiniLM-L6-v2",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-05"
           }
@@ -5433,7 +5433,7 @@ export const MODELS: CategoryModels = {
             "reviewedAt": "2026-10-05"
           },
           {
-            "url": "https://github.com/mlc-ai/web-llm",
+            "url": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode",
             "kind": "documentation",
             "reviewedAt": "2026-10-03"
           }
@@ -5795,7 +5795,7 @@ export const MODELS: CategoryModels = {
         "name": "MobileCLIP",
         "framework": "onnxruntime-web",
         "description": "Apple MobileCLIP — tiny CLIP-style model for on-device use.",
-        "docsUrl": "https://github.com/apple/ml-mobileclip",
+        "docsUrl": "https://github.com/apple-aiml-research/ml-mobileclip",
         "kind": "model",
         "tasks": [
           "clip"
@@ -5805,7 +5805,7 @@ export const MODELS: CategoryModels = {
         },
         "sources": [
           {
-            "url": "https://github.com/apple/ml-mobileclip",
+            "url": "https://github.com/apple-aiml-research/ml-mobileclip",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-03"
           },
@@ -6562,7 +6562,7 @@ export const MODELS: CategoryModels = {
         "name": "mediapipe-gesture-recognizer",
         "framework": "mediapipe",
         "description": "",
-        "docsUrl": "https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer/web_js",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/gesture_recognizer/web_js",
         "kind": "model",
         "tasks": [
           "hand"
@@ -6572,7 +6572,7 @@ export const MODELS: CategoryModels = {
         },
         "sources": [
           {
-            "url": "https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer/web_js",
+            "url": "https://developers.google.com/edge/mediapipe/solutions/vision/gesture_recognizer/web_js",
             "kind": "model-or-project",
             "reviewedAt": "2026-10-05"
           },
