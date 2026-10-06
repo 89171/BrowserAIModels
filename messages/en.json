@@ -29,23 +29,10 @@
     "categoriesCount": "{count} categories",
     "categoryCounts": "{subcategories} tasks / {models} entries",
     "title": "Browser-side AI models",
-    "subtitle": "Compare tasks, deployment variants and browser evidence before choosing a model or tool.",
     "modelsCount": "{count} catalog entries · models, tools and applications",
-    "aboutTitle": "Why this catalog",
-    "aboutLead": "Browser AI can use WebAssembly and GPU backends. Compatibility and resource use depend on the exact weights, runtime and device.",
-    "aboutBody": "This catalog separates source review from runtime testing. It also retains unverified records so their gaps are visible. No inference runs on this site; external demos have their own data-handling policies.",
-    "whatTitle": "What's inside",
-    "whatLead": "Browse tasks and application workflows; entry counts include tools and deployment choices.",
-    "whatItems": [
-      {
-        "title": "Tasks",
-        "body": "Find models and tools by their inputs and outputs."
-      },
-      {
-        "title": "Evidence",
-        "body": "Check sources, versions and browser evidence before deployment."
-      }
-    ]
+    "aboutTitle": "Bring more AI tasks into the browser",
+    "aboutLead": "The browser can be more than an entry point to an AI service: it can also run AI applications locally. With tools such as Transformers.js and ONNX Runtime Web, developers can bring text processing, image recognition and speech transcription to users’ devices, adding useful AI capabilities to web applications.",
+    "aboutBody": "Local inference allows some tasks to process inputs without sending them to a remote model service. It can reduce network round trips and cloud inference costs, and support offline use once model resources are available. This project brings together models, tools and application ideas to help developers discover suitable browser AI tasks and integrate them into everyday web applications. Actual support depends on the model, browser and device."
   },
   "category": {
     "modelsCount": "{count, plural, one {# entry} other {# entries}}",
@@ -173,7 +160,8 @@
     "tesseract-wasm": "Tesseract / WebAssembly",
     "python": "Python (browser port unverified)",
     "native": "Native / Python / Java",
-    "unknown": "Runtime unresolved"
+    "unknown": "Runtime unresolved",
+    "wasm": "WebAssembly library"
   },
   "licenses": {
     "apache-2-0": "Apache-2.0",
@@ -307,8 +295,8 @@
       "description": "Spotify approximate nearest-neighbor search library with Python and Java bindings. No browser WASM implementation has been verified for this entry."
     },
     "lancedb-js": {
-      "name": "LanceDB JS",
-      "description": "Embedded vector DB with WASM build for the browser."
+      "name": "LanceDB (Node)",
+      "description": "Embedded vector database distributed as platform-specific native binaries for macOS, Linux and Windows. There is no WebAssembly or browser build, so it cannot run on the page — it is listed to mark that gap, not as a browser option."
     },
     "yolov8n": {
       "name": "YOLOv8n",
@@ -328,11 +316,11 @@
     },
     "imgly-bg-removal": {
       "name": "IMG.LY Background Removal",
-      "description": "Browser background-removal package using ONNX Runtime Web. The upstream example documents isnet_quint8 and isnet_fp16 configurations. Exact downloaded weights, sizes and device performance still need verification."
+      "description": "The @imgly/background-removal library with its two ISNet builds: isnet_quint8 for speed and isnet_fp16 for quality. Weights are fetched from IMG.LY’s CDN at run time, so the download is not a file in the npm package."
     },
-    "imgly-bg-removal-hd": {
-      "name": "HD background removal — identity unresolved",
-      "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison."
+    "birefnet-lite-512": {
+      "name": "BiRefNet-lite 512",
+      "description": "BiRefNet-lite at 512x512, the HD background-removal path: a dichotomous segmentation model that keeps hair and thin edges the ISNet models lose. Loaded as fp16 on WebGPU, so it falls back to nothing on devices without WebGPU fp16 support."
     },
     "sam-tiny": {
       "name": "SAM Tiny (ONNX)",
@@ -351,8 +339,8 @@
       "description": "Community ONNX port of EasyOCR for the browser."
     },
     "paddle-ocr": {
-      "name": "PaddleOCR PP-OCRv5 Mobile (Browser)",
-      "description": "PaddleOCR PP-OCRv5 mobile, loaded via @paddleocr/paddleocr-js and run on ONNX Runtime Web (WASM) inside the browser."
+      "name": "PaddleOCR PP-OCRv5 Mobile",
+      "description": "The PP-OCRv5 mobile detection and recognition pair run through PaddleOCR.js. Both archives are small enough to self-host, which is what removes the runtime dependency on a third-party model host."
     },
     "mediapipe-text": {
       "name": "MediaPipe Text Detector",
@@ -383,12 +371,12 @@
       "description": "Fast FLUX diffusion model. No browser build from the model owner; weights exceed browser memory budgets."
     },
     "mi-gan-watermark": {
-      "name": "MI-GAN Watermark Removal",
-      "description": "MI-GAN — single-file ONNX watermark remover (~28 MB). Fast mode for clean backgrounds."
+      "name": "MI-GAN (pipeline v2)",
+      "description": "A lightweight GAN inpainting model for removing watermarks and small objects. At under 30 MB it is the practical browser default; the repository also ships a plain migan.onnx, and only the pipeline build takes the image and mask as one graph."
     },
     "lama-watermark": {
-      "name": "LaMa Watermark Removal (FP32)",
-      "description": "LaMa inpainting FP32 ONNX (~208 MB) for high-quality balanced / HD watermark removal."
+      "name": "LaMa (ONNX fp32)",
+      "description": "Resolution-robust inpainting with Fourier convolutions, which holds up on large masks where MI-GAN smears. The cost is size: the fp32 export is roughly seven times MI-GAN and runs on WebAssembly."
     },
     "sdxl-inpaint": {
       "name": "SDXL Inpaint",
@@ -407,8 +395,8 @@
       "description": "OpenAI Whisper Tiny compiled to WASM via whisper.cpp — fastest ASR variant in the browser."
     },
     "kokoro-82m-fp32": {
-      "name": "Kokoro TTS (FP32, 82M voices)",
-      "description": "Kokoro 82M FP32 ONNX with 4 bundled voices (zf_001, zm_009, af_maple, bf_vale). Loaded with its own tokenizer, model config and on-demand voice.bin files."
+      "name": "Kokoro 82M v1.1 (zh/en)",
+      "description": "An 82M-parameter TTS model with per-speaker voice packs, outputting 24 kHz audio. The v1.1 bilingual build is loaded as fp32 on WebAssembly, and each voice pack is fetched separately from the model repository."
     },
     "piper-tts": {
       "name": "Piper TTS (ONNX)",
@@ -427,20 +415,20 @@
       "description": "Xiph.org RNNoise — real-time speech denoising in the browser."
     },
     "deepfilternet": {
-      "name": "DeepFilterNet",
-      "description": "DeepFilterNet — modern speech enhancement via ONNX."
+      "name": "DeepFilterNet 3",
+      "description": "Full-band speech enhancement at 48 kHz, exported as a single 8 MB ONNX graph driven directly by ONNX Runtime Web. Small enough to run per frame inside an AudioWorklet, which is what a live call path needs."
     },
     "facebook-denoiser": {
       "name": "Facebook Denoiser (ONNX)",
       "description": "FAIR real-time speech denoiser ported to ONNX."
     },
     "htdemucs-4-stem": {
-      "name": "HT Demucs (4 stems)",
-      "description": "Hybrid Transformer Demucs 4-stem model (~166 MB ONNX) — fast mode of toolgarden audio stem splitter."
+      "name": "HT-Demucs (4 stems)",
+      "description": "Hybrid Transformer Demucs splitting a mix into drums, bass, other and vocals. The fp16 export runs on WebAssembly only: ORT’s WebGPU backend cannot partition the inverse-STFT section of this graph, so the session fails to build there."
     },
     "htdemucs-6-stem": {
-      "name": "HT Demucs (6 stems, default)",
-      "description": "Hybrid Transformer Demucs 6-stem model (~136 MB ONNX) — default balanced mode of toolgarden audio stem splitter."
+      "name": "HT-Demucs (6 stems)",
+      "description": "The six-source variant, adding guitar and piano at the cost of a weaker \"other\" stem. Same export pipeline and the same WebAssembly-only constraint as the four-stem model."
     },
     "open-unmix": {
       "name": "Open-Unmix",
@@ -467,8 +455,8 @@
       "description": "Google SigLIP — improved image-text similarity learning."
     },
     "mobileclip": {
-      "name": "MobileCLIP",
-      "description": "Apple MobileCLIP — tiny CLIP-style model for on-device use."
+      "name": "MobileCLIP s0",
+      "description": "Apple’s distilled CLIP for on-device use, in the smallest of its five sizes. The published release is PyTorch; the loadable build is the ONNX export, and the image and text encoders are separate files so a query only pays for one."
     },
     "layoutlmv3": {
       "name": "LayoutLMv3",
@@ -543,12 +531,12 @@
       "description": "On-device video action classification via the MediaPipe Tasks API."
     },
     "real-esrgan": {
-      "name": "Real-ESRGAN",
-      "description": "Real-ESRGAN general-purpose image super-resolution; runs entirely on WebGPU via onnxruntime-web."
+      "name": "Real-ESRGAN x4plus (fp16)",
+      "description": "The x4plus super-resolution model exported to ONNX with fp16 weights, run in 128-pixel tiles so memory tracks the tile rather than the image. Delivered as two byte-for-byte parts that the browser joins before building the session."
     },
     "swinir": {
-      "name": "SwinIR",
-      "description": "SwinIR — transformer-based image restoration (super-resolution, denoising, JPEG deblocking)."
+      "name": "Swin2SR (real-world x4)",
+      "description": "The successor to SwinIR, and the one with a published ONNX export: a transformer super-resolution model trained on real-world degradation rather than clean bicubic downsampling. SwinIR itself ships no browser build."
     },
     "nafnet-denoise": {
       "name": "NAFNet (Denoise)",
@@ -575,8 +563,8 @@
       "description": "Coqui XTTS v2 — short-clone voice cloning TTS; community ONNX port runs in the browser."
     },
     "vectra-wasm": {
-      "name": "Vectra (WASM)",
-      "description": "Vectra — local vector index for semantic search in Node and the browser. WASM build, no server."
+      "name": "Vectra",
+      "description": "A local vector index with a browser entry point, written in plain JavaScript rather than compiled to WebAssembly. It stores and queries vectors you supply; it runs no model of its own."
     },
     "gemma-2-2b-it": {
       "name": "Gemma 2 2B IT",
@@ -653,6 +641,30 @@
     "webllm-json-mode": {
       "name": "WebLLM JSON mode",
       "description": "Grammar-constrained decoding in WebLLM: the runtime restricts sampling so the output parses as JSON."
+    },
+    "esrgan-slim": {
+      "name": "ESRGAN Slim (UpscalerJS)",
+      "description": "A sub-megabyte ESRGAN distillation shipped as a TensorFlow.js graph model, at 2x and 4x. It trades detail for a download two orders of magnitude smaller than a full ESRGAN export."
+    },
+    "rmbg-1-4": {
+      "name": "RMBG-1.4",
+      "description": "The most-downloaded background removal model on the Hub, outputting an alpha matte rather than a binary mask. Its license is Bria’s own: free for non-commercial use, commercial use requires an agreement — read it before shipping."
+    },
+    "modnet": {
+      "name": "MODNet",
+      "description": "Trimap-free portrait matting in 12 MB at fp16, which is small enough to run per video frame. It assumes a person in frame: on other subjects the matte degrades rather than failing loudly."
+    },
+    "u2netp": {
+      "name": "U²-Netp",
+      "description": "The pruned U²-Net at 4.4 MB — the smallest salient-object model worth shipping, and the ancestor of most background-removal pipelines. Output is a coarse saliency map, so it needs refinement for hair and thin edges."
+    },
+    "rtdetr-v2-r18": {
+      "name": "RT-DETR v2 R18",
+      "description": "Real-time detection transformer: it predicts a fixed set of boxes, so there is no non-maximum suppression to write in JavaScript. Apache-2.0, which is the practical difference from the YOLO family."
+    },
+    "yolov10n": {
+      "name": "YOLOv10n",
+      "description": "The NMS-free YOLO generation, at nano size. Licensed AGPL-3.0 like the rest of the Ultralytics line, which reaches the application that serves it — not only the model file."
     }
   },
   "catalog": {
@@ -861,7 +873,7 @@
       },
       {
         "title": "Upstream browser example",
-        "body": "The project itself documents a browser integration — a usage snippet in its model card or its own web guide. That is a documented path, not a test on your device."
+        "body": "The project itself documents a browser integration — a usage snippet in its model card, its own web guide, or a published browser build that this catalog links to as a demo. That is a working path, not a measurement on your device."
       },
       {
         "title": "Tested on this site",

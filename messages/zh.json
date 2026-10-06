@@ -29,23 +29,10 @@
     "categoriesCount": "{count} 个分类",
     "categoryCounts": "{subcategories} 个任务 / {models} 条记录",
     "title": "浏览器端侧 AI 模型",
-    "subtitle": "选型前，先比较任务、部署变体与浏览器运行依据。",
     "modelsCount": "共 {count} 条目录记录 · 包含模型、工具与应用",
-    "aboutTitle": "为什么做这个目录",
-    "aboutLead": "浏览器 AI 可使用 WebAssembly 与 GPU 后端，兼容性和资源需求取决于具体权重、推理库及设备。",
-    "aboutBody": "本目录区分资料核查与运行实测，也保留待核实记录并展示信息缺口。本站不运行推理；外部演示的数据处理方式由对应站点决定。",
-    "whatTitle": "目录内容",
-    "whatLead": "按任务与应用流程浏览，目录记录包含工具及部署选择。",
-    "whatItems": [
-      {
-        "title": "任务",
-        "body": "根据输入与输出查找模型和工具。"
-      },
-      {
-        "title": "依据",
-        "body": "部署前核对来源、版本和浏览器运行依据。"
-      }
-    ]
+    "aboutTitle": "让更多 AI 任务在浏览器中完成",
+    "aboutLead": "浏览器不仅是 AI 服务的入口，也可以成为本地 AI 应用的运行环境。借助 Transformers.js、ONNX Runtime Web 等工具，开发者可以将文本处理、图像识别、语音转写等任务带到用户设备上，让网页具备更多智能能力。",
+    "aboutBody": "本地推理让部分任务无需将输入数据发送到远程模型服务，有机会减少网络往返和云端推理开销，并在模型资源准备就绪后支持离线使用。这个项目汇集相关模型、工具与应用思路，帮助开发者发现适合浏览器的 AI 任务，将能力融入日常 Web 应用；具体可用性仍取决于模型、浏览器和设备。"
   },
   "category": {
     "modelsCount": "{count} 条记录",
@@ -173,7 +160,8 @@
     "tesseract-wasm": "Tesseract / WebAssembly",
     "python": "Python（浏览器移植待验证）",
     "native": "原生 / Python / Java",
-    "unknown": "运行框架待确认"
+    "unknown": "运行框架待确认",
+    "wasm": "WebAssembly 库"
   },
   "licenses": {
     "apache-2-0": "Apache-2.0",
@@ -307,8 +295,8 @@
       "description": "Spotify 的近似最近邻检索库，提供 Python 和 Java 接口；本条目尚未核实浏览器 WASM 实现。"
     },
     "lancedb-js": {
-      "name": "LanceDB JS",
-      "description": "内置 WASM 版本的嵌入式向量数据库,适合浏览器。"
+      "name": "LanceDB（Node）",
+      "description": "嵌入式向量数据库，以 macOS、Linux、Windows 的平台原生二进制分发。没有 WebAssembly 或浏览器构建，无法在页面内运行——此处收录是为了标明这个缺口，而非作为浏览器可选项。"
     },
     "yolov8n": {
       "name": "YOLOv8n",
@@ -328,11 +316,11 @@
     },
     "imgly-bg-removal": {
       "name": "IMG.LY 背景移除",
-      "description": "使用 ONNX Runtime Web 的浏览器背景移除工具包。上游示例提供 isnet_quint8 与 isnet_fp16 配置；实际下载权重、体积及设备表现仍需验证。"
+      "description": "@imgly/background-removal 库及其两个 ISNet 构建：isnet_quint8 偏速度，isnet_fp16 偏质量。权重在运行时从 IMG.LY 的 CDN 获取，并不随 npm 包一起下载。"
     },
-    "imgly-bg-removal-hd": {
-      "name": "HD 抠图应用 — 模型身份待确认",
-      "description": "历史 HD 演示条目：名称、BiRefNet 描述与 RMBG-1.4 引用互相矛盾。模型身份、权重、体积和许可尚未确认，不应作为已验证模型比较。"
+    "birefnet-lite-512": {
+      "name": "BiRefNet-lite 512",
+      "description": "512×512 的 BiRefNet-lite，HD 抠图路径：二分图像分割模型，能保住 ISNet 丢失的发丝与细边。以 fp16 在 WebGPU 上加载，因此在不支持 WebGPU fp16 的设备上无法降级运行。"
     },
     "sam-tiny": {
       "name": "SAM Tiny (ONNX)",
@@ -351,8 +339,8 @@
       "description": "社区移植的 EasyOCR ONNX 版本,可在浏览器中运行。"
     },
     "paddle-ocr": {
-      "name": "PaddleOCR PP-OCRv5 Mobile (浏览器版)",
-      "description": "PaddleOCR PP-OCRv5 移动端模型,通过 @paddleocr/paddleocr-js 加载,在浏览器内由 ONNX Runtime Web (WASM) 推理。"
+      "name": "PaddleOCR PP-OCRv5 Mobile",
+      "description": "通过 PaddleOCR.js 运行的 PP-OCRv5 mobile 检测 + 识别模型对。两个压缩包体积都足够小，可自托管，从而去掉运行时对第三方模型源的依赖。"
     },
     "mediapipe-text": {
       "name": "MediaPipe 文本检测器",
@@ -383,12 +371,12 @@
       "description": "快速版 FLUX 扩散模型。模型方未提供浏览器构建，权重体积超出浏览器内存预算。"
     },
     "mi-gan-watermark": {
-      "name": "MI-GAN 去水印",
-      "description": "MI-GAN —— 单文件 ONNX 去水印模型(约 28 MB),fast 模式适用于干净背景。"
+      "name": "MI-GAN（pipeline v2）",
+      "description": "用于去水印与小目标移除的轻量 GAN 修补模型。体积不到 30 MB，是浏览器端的实用默认项；仓库同时提供 migan.onnx，但只有 pipeline 构建把图像与掩码合并成一张图。"
     },
     "lama-watermark": {
-      "name": "LaMa 去水印 (FP32)",
-      "description": "LaMa inpainting FP32 ONNX 模型(约 208 MB),用于 balanced / hd 模式的高质量去水印。"
+      "name": "LaMa（ONNX fp32）",
+      "description": "基于傅里叶卷积的修补模型，分辨率鲁棒性好，在 MI-GAN 会糊掉的大面积掩码上仍然稳。代价是体积：fp32 导出约为 MI-GAN 的七倍，且运行在 WebAssembly 上。"
     },
     "sdxl-inpaint": {
       "name": "SDXL Inpaint",
@@ -407,8 +395,8 @@
       "description": "通过 whisper.cpp 编译到 WASM 的 OpenAI Whisper Tiny —— 浏览器中最快的语音识别变体。"
     },
     "kokoro-82m-fp32": {
-      "name": "Kokoro TTS (FP32, 82M 音色)",
-      "description": "Kokoro 82M FP32 ONNX 模型,内置 4 个音色(zf_001、zm_009、af_maple、bf_vale),按需加载 tokenizer、模型配置与 voice.bin 文件。"
+      "name": "Kokoro 82M v1.1（中/英）",
+      "description": "82M 参数的 TTS 模型，按说话人分发音色包，输出 24 kHz 音频。v1.1 双语构建以 fp32 在 WebAssembly 上加载，音色包从模型仓库单独获取。"
     },
     "piper-tts": {
       "name": "Piper TTS (ONNX)",
@@ -427,20 +415,20 @@
       "description": "Xiph.org RNNoise —— 浏览器中实时语音降噪。"
     },
     "deepfilternet": {
-      "name": "DeepFilterNet",
-      "description": "DeepFilterNet —— 通过 ONNX 实现的现代语音增强模型。"
+      "name": "DeepFilterNet 3",
+      "description": "48 kHz 全频带语音增强，导出为单个 8 MB 的 ONNX 图，由 ONNX Runtime Web 直接驱动。体积足够小，可在 AudioWorklet 中逐帧运行，这正是实时通话链路的要求。"
     },
     "facebook-denoiser": {
       "name": "Facebook Denoiser (ONNX)",
       "description": "FAIR 实时语音降噪器,移植到 ONNX。"
     },
     "htdemucs-4-stem": {
-      "name": "HT Demucs (4 轨)",
-      "description": "Hybrid Transformer Demucs 4 轨模型(约 166 MB ONNX),用于 toolgarden 音频分轨的 fast 模式。"
+      "name": "HT-Demucs（4 轨）",
+      "description": "Hybrid Transformer Demucs，将混音拆为鼓、贝斯、其他与人声。fp16 导出只能跑在 WebAssembly 上：ORT 的 WebGPU 后端无法对该图的逆 STFT 段做分区，在那里连会话都建不起来。"
     },
     "htdemucs-6-stem": {
-      "name": "HT Demucs (6 轨,默认)",
-      "description": "Hybrid Transformer Demucs 6 轨模型(约 136 MB ONNX),用于 toolgarden 音频分轨默认的 balanced 模式。"
+      "name": "HT-Demucs（6 轨）",
+      "description": "六源变体，多出吉他与钢琴，代价是 other 轨变弱。导出管线与四轨版相同，同样只能跑在 WebAssembly 上。"
     },
     "open-unmix": {
       "name": "Open-Unmix",
@@ -467,8 +455,8 @@
       "description": "Google SigLIP —— 改进的图像 - 文本相似度学习。"
     },
     "mobileclip": {
-      "name": "MobileCLIP",
-      "description": "Apple MobileCLIP —— 面向端侧的小型 CLIP 风格模型。"
+      "name": "MobileCLIP s0",
+      "description": "Apple 面向端侧蒸馏的 CLIP，取其五档中最小的一档。官方发布的是 PyTorch 权重，可加载的是 ONNX 导出版；图像与文本编码器是分开的文件，单次查询只需加载其中一个。"
     },
     "layoutlmv3": {
       "name": "LayoutLMv3",
@@ -543,12 +531,12 @@
       "description": "通过 MediaPipe Tasks API 在端侧运行的视频动作分类器。"
     },
     "real-esrgan": {
-      "name": "Real-ESRGAN",
-      "description": "Real-ESRGAN 通用图像超分辨率模型,通过 onnxruntime-web 在 WebGPU 上完全本地运行。"
+      "name": "Real-ESRGAN x4plus（fp16）",
+      "description": "x4plus 超分模型的 ONNX 导出，权重为 fp16，按 128 像素分块推理，使内存随分块而非整图增长。以两段逐字节切分的文件分发，由浏览器在建会话前合并。"
     },
     "swinir": {
-      "name": "SwinIR",
-      "description": "SwinIR —— 基于 Transformer 的图像复原模型,可用于超分辨率、去噪与 JPEG 去块。"
+      "name": "Swin2SR（real-world x4）",
+      "description": "SwinIR 的后继版本，也是真正有公开 ONNX 导出的那一个：基于真实退化而非干净双三次下采样训练的 Transformer 超分模型。SwinIR 本身没有任何浏览器构建。"
     },
     "nafnet-denoise": {
       "name": "NAFNet (去噪)",
@@ -575,8 +563,8 @@
       "description": "Coqui XTTS v2 —— 基于短样本的声音克隆 TTS,社区 ONNX 移植版可在浏览器中运行。"
     },
     "vectra-wasm": {
-      "name": "Vectra (WASM)",
-      "description": "Vectra —— 用于 Node 与浏览器本地语义检索的向量索引,WASM 构建,无需服务器。"
+      "name": "Vectra",
+      "description": "本地向量索引，提供浏览器入口，由纯 JavaScript 实现，并非编译到 WebAssembly。它只负责存储与查询你给出的向量，自身不运行任何模型。"
     },
     "gemma-2-2b-it": {
       "name": "Gemma 2 2B IT",
@@ -653,6 +641,30 @@
     "webllm-json-mode": {
       "name": "WebLLM JSON 模式",
       "description": "WebLLM 的语法约束解码：运行时限制采样过程，使输出必定可解析为 JSON。"
+    },
+    "esrgan-slim": {
+      "name": "ESRGAN Slim（UpscalerJS）",
+      "description": "不到 1 MB 的 ESRGAN 蒸馏版，以 TensorFlow.js 图模型分发，提供 2 倍与 4 倍两档。它用细节换取比完整 ESRGAN 导出小两个数量级的下载体积。"
+    },
+    "rmbg-1-4": {
+      "name": "RMBG-1.4",
+      "description": "Hub 上下载量最高的背景移除模型，输出 alpha 遮罩而非二值掩码。许可是 Bria 自家条款：非商业免费，商业用途需另行签约——上线前请先读许可原文。"
+    },
+    "modnet": {
+      "name": "MODNet",
+      "description": "无需 trimap 的人像抠图模型，fp16 下仅 12 MB，小到可以逐帧处理视频。它假设画面中有人：换成其他主体时遮罩会劣化，而不是明确报错。"
+    },
+    "u2netp": {
+      "name": "U²-Netp",
+      "description": "剪枝版 U²-Net，仅 4.4 MB——值得上线的最小显著性目标模型，也是多数背景移除流水线的鼻祖。输出是较粗的显著性图，发丝与细边需要额外细化。"
+    },
+    "rtdetr-v2-r18": {
+      "name": "RT-DETR v2 R18",
+      "description": "实时检测 Transformer：直接预测固定数量的框，因此无需在 JavaScript 里实现非极大值抑制。许可为 Apache-2.0，这正是它与 YOLO 系列的实际差别。"
+    },
+    "yolov10n": {
+      "name": "YOLOv10n",
+      "description": "免 NMS 的新一代 YOLO，nano 尺寸。与 Ultralytics 其余模型一样采用 AGPL-3.0，该许可会波及提供服务的应用本身，而不只是模型文件。"
     }
   },
   "catalog": {
@@ -861,7 +873,7 @@
       },
       {
         "title": "上游浏览器示例",
-        "body": "项目方自己提供了浏览器集成说明——模型卡中的用法片段或官方 Web 指南。这是一条有文档的路径，不代表已在你的设备上测试。"
+        "body": "项目方自己提供了浏览器集成说明——模型卡中的用法片段、官方 Web 指南，或本目录以 Demo 链接给出的已上线浏览器构建。这是一条确实走得通的路径，但不代表已在你的设备上测得数据。"
       },
       {
         "title": "本站已实测",

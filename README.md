@@ -77,12 +77,16 @@ adds its external-data sidecar), so that logic is covered by
 
 ## Known gaps
 
-- `browserEvidence.status: tested` is 0 of 116: no entry has been measured on a
+- `browserEvidence.status: tested` is 0 of 117: no entry has been measured on a
   real device from this repo, so `benchmarks` and `peakMemoryMB` are empty
   everywhere. Everything else is sourced; this is the one field that needs a
   browser harness rather than an API.
-- Weight licenses cover 57 of 116 entries. Three Hugging Face repos declare none
+- Weight licenses cover 64 of 117 entries. Three Hugging Face repos declare none
   and have no base model to inherit from; the rest are tools and MediaPipe or
   TensorFlow.js assets that publish no weight license at all.
-- Five entries have an unresolved identity and are marked as such in the UI
+- Four entries have an unresolved identity and are marked as such in the UI
   rather than deleted, so the gap stays visible.
+- 22 models claim a browser runtime without pinning the weights they would load,
+  so their size, license and revision stay unverifiable. They are listed in
+  `UNPINNED_BACKLOG` in `tests/catalog.test.cjs`, which only allows that list to
+  shrink: a new entry must pin a weight or declare its identity unresolved.

@@ -43,7 +43,6 @@ export default async function HomePage({
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
   const c = await getTranslations({ locale, namespace: 'catalog' });
   const tMethod = await getTranslations({ locale, namespace: 'methodology' });
-  const whatItems = t.raw('whatItems') as Array<{ title: string; body: string }>;
 
   return (
     <div className="space-y-16">
@@ -54,39 +53,17 @@ export default async function HomePage({
         <h1 className="h-display text-5xl md:text-7xl mt-3 leading-none">
           {t('title')}
         </h1>
-        <p className="mt-6 text-lg max-w-prose">{t('subtitle')}</p>
         <p className="mt-3 text-sm text-black/60 font-mono">
           {t('modelsCount', { count: totalModels() })}
         </p>
       </header>
 
-      <section aria-label={t('aboutTitle')} className="gap-8">
-        <div className="text-base leading-relaxed">
+      <section aria-labelledby="about-catalog" className="space-y-4">
+        <h2 id="about-catalog" className="font-mono text-2xl">{t('aboutTitle')}</h2>
+        <div className="text-base leading-relaxed space-y-4">
           <p>{t('aboutLead')}</p>
           <p>{t('aboutBody')}</p>
         </div>
-      </section>
-
-      <section className="border border-black p-6 space-y-3" aria-labelledby="catalog-method">
-        <h2 id="catalog-method" className="font-mono text-xl">{c('methodTitle')}</h2>
-        <p className="text-sm leading-relaxed">{c('methodBody')}</p>
-        <div className="flex flex-wrap gap-x-6 gap-y-2">
-          <Link href="/methodology" className="underline">{tMethod('title')} →</Link>
-          <Link href="/applications" className="underline">{c('applicationLink')} →</Link>
-        </div>
-      </section>
-
-      <section aria-labelledby="whats-inside">
-        <h2 id="whats-inside" className="font-mono text-xl mb-3">{t('whatTitle')}</h2>
-        <p className="text-sm leading-relaxed max-w-prose">{t('whatLead')}</p>
-        <dl className="mt-6 grid gap-6 sm:grid-cols-2">
-          {whatItems.map((item) => (
-            <div key={item.title} className="border-l-2 border-black pl-4">
-              <dt className="font-semibold">{item.title}</dt>
-              <dd className="mt-1 text-sm leading-relaxed text-black/70">{item.body}</dd>
-            </div>
-          ))}
-        </dl>
       </section>
 
       <section aria-labelledby="cats">
@@ -132,6 +109,16 @@ export default async function HomePage({
             );
           })}
         </ul>
+      </section>
+
+
+      <section className="border border-black p-6 space-y-3" aria-labelledby="catalog-method">
+        <h2 id="catalog-method" className="font-mono text-xl">{c('methodTitle')}</h2>
+        <p className="text-sm leading-relaxed">{c('methodBody')}</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
+          <Link href="/methodology" className="underline">{tMethod('title')} →</Link>
+          <Link href="/applications" className="underline">{c('applicationLink')} →</Link>
+        </div>
       </section>
 
       {/* The headings here are not questions, and Google stopped showing FAQ rich

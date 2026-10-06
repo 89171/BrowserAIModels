@@ -323,11 +323,12 @@ async function main() {
     },
   );
 
-  // Weights hosted outside Hugging Face (MediaPipe's bucket, a raw repo file) still
-  // have an exact size: ask for it rather than keeping a historical estimate.
+  // Any pinned weight file has an exact size: ask for it rather than keeping a
+  // historical estimate. This covers MediaPipe's bucket, a raw repo file, and the
+  // single file an entry pins inside a repo that ships several alternatives.
   await mapLimit(
     entries.flatMap((entry) => entry.variants.map((variant) => ({ entry, variant }))).filter(
-      ({ variant }) => variant.artifactUrl && variant.downloadBytes == null && !variant.artifactUrl.includes('huggingface.co'),
+      ({ variant }) => variant.artifactUrl && variant.downloadBytes == null,
     ),
     5,
     async ({ entry, variant }) => {

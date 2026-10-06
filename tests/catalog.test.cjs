@@ -53,13 +53,47 @@ test('known identity and license corrections cannot regress', () => {
   assert.equal(byId.get('jsonformer-llama').variants.length, 0);
   assert.equal(byId.get('tesseractjs').framework, 'tesseract-wasm');
   assert.equal(byId.get('voyager-wasm').docsUrl, 'https://github.com/spotify/voyager');
-  const hd = byId.get('imgly-bg-removal-hd');
-  assert(hd.identityUnresolved);
-  assert.equal(hd.weightLicense, undefined);
-  assert.equal(hd.reportedLicense, undefined);
-  assert.equal(hd.variants.length, 0);
+  // The HD background-removal mode was filed under IMG.LY while its identity was
+  // unknown. It loads BiRefNet-lite on WebGPU, and the entry must not drift back.
+  assert(!byId.has('imgly-bg-removal-hd'));
+  const hd = byId.get('birefnet-lite-512');
+  assert(!hd.identityUnresolved);
+  assert.equal(hd.modelId, 'studioludens/birefnet-lite-512');
+  assert.equal(hd.framework, 'transformersjs');
+  assert.equal(hd.backends.join(), 'webgpu');
+  assert(hd.variants.length);
   assert.equal(byId.get('imgly-bg-removal').variants.length, 2);
   assert(!byId.has('imgly-bg-removal-balanced'));
+});
+
+// An entry whose weights nobody has pinned cannot be compared: its size, license
+// and revision are all unverifiable. These 22 predate the rule and may only be
+// removed from this list — a new entry has to pin a weight or say its identity is
+// unresolved. Pin one by giving it a `modelId`, or a variant with an `artifactUrl`
+// or a measured `downloadBytes`; `node scripts/sync-hf.mjs` then fills the rest.
+const UNPINNED_BACKLOG = new Set([
+  'yolov8n', 'yolov5s', 'ssd-mobilenet', 'easy-ocr', 'nafnet-denoise', 'mobilenet-tfjs',
+  'whisper-tiny-wasm', 'silero-tts', 'rnnoise-wasm', 'facebook-denoiser', 'open-unmix',
+  'musicgen-medium', 'riffusion', 'openvoice', 'coqui-xtts', 'blazeface', 'movenet',
+  'posenet', 'mediapipe-hands', 'mediapipe-objectron', 'bytetrack-wasm', 'videoclip',
+]);
+
+const BROWSER_RUNTIMES = new Set([
+  'transformersjs', 'onnxruntime-web', 'mediapipe', 'tensorflowjs', 'webllm',
+  'tesseract-wasm', 'tflite', 'opencvjs', 'whisper-wasm', 'wasm',
+]);
+
+test('a model that claims a browser runtime pins the weights it would load', () => {
+  const unpinned = entries.filter(m =>
+    m.kind === 'model' &&
+    BROWSER_RUNTIMES.has(m.framework) &&
+    !m.identityUnresolved &&
+    !(m.modelId || m.variants.some(v => v.artifactUrl || v.downloadBytes != null)));
+  for (const m of unpinned) assert(UNPINNED_BACKLOG.has(m.id), `${m.id}: pin a weight or mark the identity unresolved`);
+  for (const id of UNPINNED_BACKLOG) {
+    assert(byId.has(id), `${id}: gone from the catalog, drop it from UNPINNED_BACKLOG`);
+    assert(unpinned.some(m => m.id === id), `${id}: now pinned, drop it from UNPINNED_BACKLOG`);
+  }
 });
 
 test('application guides only link to existing tasks and identifiable candidates', () => {

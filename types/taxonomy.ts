@@ -20,6 +20,7 @@ export type FrameworkId =
   | 'tflite'
   | 'transformers'
   | 'tesseract-wasm'
+  | 'wasm'
   | 'python'
   | 'native'
   | 'unknown';
