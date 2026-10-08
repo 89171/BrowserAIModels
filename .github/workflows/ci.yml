@@ -22,4 +22,4 @@ jobs:
       # a translation key or a static route stops resolving.
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://example.com
+          NEXT_PUBLIC_SITE_URL: https://browseraimodels.xyz

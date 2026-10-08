@@ -5,6 +5,8 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // ESA Pages only hosts static assets; Next must emit ./out.
+  output: 'export',
   reactStrictMode: true,
   poweredByHeader: false,
 };

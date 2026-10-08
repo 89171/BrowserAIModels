@@ -5,6 +5,8 @@ import { MODELS, getModels } from '@/data/models';
 import type { ModelEntry } from '@/types/taxonomy';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 
+export const dynamic = 'force-static';
+
 // Source review is the only dated change signal the catalog has. Pages whose entries
 // carry no reviewed source get no lastmod rather than a build timestamp, which would
 // claim every page changed on every deploy.
