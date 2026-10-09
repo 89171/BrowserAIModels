@@ -382,6 +382,10 @@
       "name": "SDXL Inpaint",
       "description": "面向蒙版修复任务的 SDXL 微调变体。尚无面向浏览器的 ONNX 构建。"
     },
+    "whistle": {
+      "name": "Whistle（Cactus Compute）",
+      "description": "Cactus Compute 推出的轻量级语音识别模型，量化后的 .cact 权重约 16.9 MB，通过 Needle WebAssembly 引擎在浏览器本地运行。支持英语、德语、法语、西班牙语、意大利语、荷兰语和波兰语，输入为 16 kHz 单声道音频，每次最多处理 30 秒，并提供逐词时间戳和关键词偏置。"
+    },
     "whisper-small": {
       "name": "Whisper Small (Transformers.js)",
       "description": "Xenova/whisper-small 通过 Transformers.js 运行 —— 高精度默认模型,使用量化后的 encoder + 合并 decoder ONNX。toolgarden 的音频转文本默认采用此模型。"

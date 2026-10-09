@@ -382,6 +382,10 @@
       "name": "SDXL Inpaint",
       "description": "SDXL variant fine-tuned for mask-based inpainting. No ONNX build is published for the browser."
     },
+    "whistle": {
+      "name": "Whistle (Cactus Compute)",
+      "description": "Cactus Compute's compact speech recognition model with a 16.9 MB quantized .cact file, running locally in the browser through the Needle WebAssembly engine. Supports seven European languages, 16 kHz mono audio up to 30 seconds per pass, word timestamps and keyword biasing."
+    },
     "whisper-small": {
       "name": "Whisper Small (Transformers.js)",
       "description": "Xenova/whisper-small via Transformers.js — high-precision default; quantized encoder + merged decoder ONNX."

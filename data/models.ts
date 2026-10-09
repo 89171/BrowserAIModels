@@ -4756,6 +4756,81 @@ export const MODELS: CategoryModels = {
   "audio": {
     "asr": [
       {
+        "id": "whistle",
+        "nameKey": "models.whistle.name",
+        "descriptionKey": "models.whistle.description",
+        "name": "Whistle (Cactus Compute)",
+        "framework": "wasm",
+        "description": "Cactus Compute's compact speech recognition model with a 16.9 MB quantized .cact file, running locally in the browser through the Needle WebAssembly engine. Supports seven European languages, 16 kHz mono audio up to 30 seconds per pass, word timestamps and keyword biasing.",
+        "docsUrl": "https://huggingface.co/Cactus-Compute/whistle",
+        "demoUrl": "https://www.cactuscompute.com/blog/whistle",
+        "kind": "model",
+        "modelId": "Cactus-Compute/whistle",
+        "tasks": [
+          "asr"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://www.cactuscompute.com/blog/whistle",
+          "reviewedAt": "2026-10-09"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Cactus-Compute/whistle",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-09"
+          },
+          {
+            "url": "https://www.cactuscompute.com/blog/whistle",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-09"
+          },
+          {
+            "url": "https://github.com/cactus-compute/needle",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-09"
+          },
+          {
+            "url": "https://github.com/cactus-compute/needle/blob/main/LICENSE",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-09"
+          }
+        ],
+        "naturalLanguages": [
+          "English",
+          "German",
+          "French",
+          "Spanish",
+          "Italian",
+          "Dutch",
+          "Polish"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "16 kHz mono audio",
+          "Up to 30 seconds per pass",
+          "Word timestamps",
+          "Keyword biasing",
+          "Speech embeddings",
+          "Language detection"
+        ],
+        "variants": [
+          {
+            "id": "whistle-cact",
+            "label": "Cactus Quants (.cact)",
+            "quantization": "2–4 bit",
+            "downloadBytes": 16919407,
+            "revision": "b358ddadd89b7a713b5aa131f23032d3cca1b251",
+            "artifactUrl": "https://huggingface.co/Cactus-Compute/whistle/resolve/b358ddadd89b7a713b5aa131f23032d3cca1b251/whistle.cact"
+          }
+        ],
+        "backends": [
+          "wasm"
+        ],
+        "codeLicense": "apache-2-0",
+        "weightLicense": "apache-2-0"
+      },
+      {
         "id": "whisper-small",
         "nameKey": "models.whisper-small.name",
         "descriptionKey": "models.whisper-small.description",
