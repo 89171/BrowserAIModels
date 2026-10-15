@@ -1,40 +1,46 @@
-# WebAIModels / AI-Demos 项目长期记忆
+# 项目长期记忆
 
-## 项目结构
-- 源码仓库：`/Users/jianmin.zhu/github/applications/WebAIModels`（分类与子类定义的数据来源）
-- 演示站：`/Users/jianmin.zhu/github/applications/AI-Demos`（Next.js 16 App Router + React 19 + Tailwind CSS 4）
-- 技术栈与版本：Next 16.4.0 / React 19.3.0 / Tailwind 4.3.3 / TS 5.9.3 / ESLint 9（扁平配置，`next lint` 已废弃）
-- **WebAIModels 已于 2026-10-15 全量升级到与演示站同代**：Next 16.4.1 / React 19.3.1 / next-intl 4.14.9 /
-  Tailwind 4.3.3（`@tailwindcss/postcss`）/ ESLint 10.12.0 + `eslint-config-next` 16.4.1 / **TS 6.0.3（不能上 7）**
-- Tailwind v4 为 CSS-first：`app/globals.css` 首行 `@import 'tailwindcss'`，`postcss.config.js` 用 `@tailwindcss/postcss`，**没有** `tailwind.config.ts`
+本目录同时保存两个相邻项目。**WebAIModels 是本仓库**；AI-Demos 是另一仓库，因无独立记忆目录而记在此。
 
-## WebAIModels 升级后必须记住的三条
-1. **TS 卡在 6.x**：`typescript-eslint` 的 peer 是 `<6.1.0`，TS 7 直接崩；TS 7 还移除了 `baseUrl`。
-2. **`middleware.ts` 在 Next 16 已改名 `proxy.ts`**（handler 形状不变）；ESLint 必须用 `eslint.config.mjs` flat config。
-3. **`app/[locale]/layout.tsx` 必须有 `export const dynamic = 'force-static'`**。否则 next-intl 的
-   `NextIntlClientProvider` 读 `formats` 会走 `headers()`，把 88 个页面全打成动态 `ƒ`。排查动态 API 用
-   `dynamic = 'error'` 看报错最快。Tailwind v4 里 `max-w-prose` 由 `--max-width-prose` 驱动（不是 `--container-prose`）。
+## 一、WebAIModels（本仓库）
+- 仓库 `git@github.com:89171/WebAIModels.git`，GitHub 已改名为 **BrowserAIModels**（推送有 moved 提示，仍可推）。
+- 定位：**纯静态目录站**，双语 en/zh，10 分类 / 34 任务页 / 117 条目，**不运行任何模型**，只展示目录与来源核查状态。
+- 部署：`output: 'export'` → `out/`，`esa.jsonc` 指 ESA Pages，线上 browseraimodels.xyz。
+- 栈：Next 16.4.1 / React 19.3.1 / next-intl 4.14.9 / Tailwind 4.3.3 / ESLint 10.12.0 / TS 6.0.3。
 
-## 约定
-- 配色：黑白灰，靠 `app/globals.css` 的 CSS 变量（`--bg` / `--fg` / `--border` / `--bg-inset` / `--fg-muted` / `--fg-faint` / `--fg-subtle`）。Tailwind v4 preflight 会把边框色变成 `currentColor`，故全局补 `* { border-color: var(--border); }`
-- i18n：`lib/i18n.ts` 的 `L = {zh,en}` + `useApp()` 的 `tr(key)`，文案一律走 i18n，不硬编码中文
-- 10 分类 / 30 子类：`lib/data/models.json`（103 个模型元数据）+ `lib/data/registry.ts`（每子类 DemoSpec）
-- 演示引擎可插拔：`lib/engine/index.ts` 的 `runInference(kind, ctx)`；真实权重分支在 `lib/engine/real.ts` + `lib/data/real-models.ts`
+### 硬约定
+- **不许加 `middleware.ts` / `proxy.ts`**：静态导出不能跑中间件，根页用 meta refresh 跳转。
+- 路由参数一律异步（`params: Promise`）；动态段都要 `generateStaticParams`。
+- `lib/site.ts` 在 production 下缺 `NEXT_PUBLIC_SITE_URL` 会抛错拒绝构建（`.env.production` 已给）。
+- Tailwind v4 配置在 `app/globals.css` 的 `@theme`（无 `tailwind.config.ts`）；`max-w-prose` 由 `--max-width-*` 驱动。
+- ESLint 扁平配置 `eslint.config.mjs`；`lint` 脚本不能带 `--ext`。
+- TS 只能到 6.x（`typescript-eslint` peer 上限 `<6.1.0`）；TS 7 还移除了 tsconfig 的 `baseUrl`。
+- CI 跑 `npm ci → lint → typecheck → test → build`，build 注入 `NEXT_PUBLIC_SITE_URL`。
 
-## 真实推理（Transformers.js）关键约束
-- 版本：`@huggingface/transformers@4.3.1` + `onnxruntime-web`，浏览器侧 WASM/WebGPU
-- **ORT wasm 必须全量本地化**：`scripts/copy-ort-wasm.cjs` 要把 `onnxruntime-web/dist` 下所有 `ort-wasm-*.{mjs,wasm}` 拷进 `public/ort/`（共 8 个文件 / 约 82 MB），并设 `env.backends.onnx.wasm.wasmPaths='/ort/'`。
-  只拷 `jsep` + 普通两套会报 `no available backend found ... ort-wasm-simd-threaded.asyncify.mjs`。`public/ort/` 已进 `.gitignore`，不入库。
-- 只有 `REAL_MODELS` 里登记过的「分类 / 嵌入 / 检测」三子类部分模型有浏览器可跑权重，其余子类保持模拟引擎
-- 标注诚实性：`meta.simulated = !real`，只有真正执行了 ONNX 权重才显示「真实权重 / 真实计算」，否则一律「演示模式」
+### 锁文件的坑（10-06~10-09 CI 连续红就是这个）
+在**已有 `node_modules`** 的目录上直接 `npm install`，生成的 lock 会漏记 optional/inBundle
+传递依赖 → CI 第一步 `npm ci` 报 `Missing: X from lock file`，后面全跑不到。改依赖后必须补
+`npm install --package-lock-only`，再用 `npm ci --dry-run` 验证收敛。
 
-## 本地运行
-- 开发：`next dev -p 3100`；生产：`next build && next start -p 3100`
-- 验证口径：`tsc --noEmit` + `eslint .` + `next build` + 30 个演示页 HTTP 200
+### 遗留
+`messages/*.json` 里 applications 文案含未转义花括号（`{file, strideMs}`）：dev 下 next-intl 报
+`INVALID_MESSAGE`，生产则原样输出，不阻断构建。
 
-## 排查环境的坑（省时间）
-- 后台常驻服务的包装进程常会被回收并上报 `failed`，但真实进程还活着。先 `lsof -nP -iTCP:<port> -sTCP:LISTEN` 确认，别直接重启。
-- 本机有沙箱代理 `HTTP_PROXY=http://127.0.0.1:57967`。`curl -L` 跟随重定向时，keep-alive 复用连接会拿到代理返回的 `308` 自指，看起来像重定向死循环。
-  加 `-H "Connection: close"` 或用浏览器验证即可区分真假。
-- 需要跑真实浏览器验证时用 `agent-browser`（`open / eval / upload / screenshot / close`）。点击前先等 React hydrate，
-  否则首击无反应；`eval` 里按 `button.btn-primary` 取主按钮，别用文本模糊匹配（会误点到模型切换按钮）。
+## 二、AI-Demos（另一仓库）
+- `github.com:89171/AI-Demos.git`，**只能走 SSH**（本机无 credential helper）。
+- 带**真实推理**的浏览器端 Demo 站：`lib/engine/index.ts` 的 `runInference(kind, ctx)` 可插拔；
+  真实权重在 `lib/engine/real.ts` + `lib/data/real-models.ts`。
+- 栈 Next 16 / React 19 / Tailwind 4（CSS-first）。i18n 用 `lib/i18n.ts` 的 `L={zh,en}` + `useApp().tr(key)`。
+- 配色黑白灰，靠 `app/globals.css` 的 `--bg/--fg/--border/…` 变量；v4 preflight 会把边框变
+  `currentColor`，故全局补 `* { border-color: var(--border); }`。
+- 10 分类 / 30 子类：`lib/data/models.json`（103 条）+ `lib/data/registry.ts`（每子类 DemoSpec）。
+- **ORT wasm 必须全量本地化**：`scripts/copy-ort-wasm.cjs` 把 `ort-wasm-*.{mjs,wasm}`（8 个 / ~82MB）
+  拷进 `public/ort/` 并设 `wasm.wasmPaths='/ort/'`；只拷 jsep 会报 `no available backend found`。
+- 覆盖率盘点（10-15）：真实 48 / 模拟 55，覆盖 19/30 子类；`meta.simulated = !real` 决定标注。
+
+## 三、本地环境坑（通用）
+- 沙箱拦 `rm -rf node_modules`/`.next`：依赖用原地 `npm install`，缓存目录用 `mv` 到 `/tmp`。
+- `npm install` 报 `ENOTEMPTY`/`CODEBUDDY_BROKER_DENY`：清掉 `node_modules/.<pkg>-xxxxx` 残留再装。
+- `next dev`/`next build` 尽量前台跑；后台易被回收，沙箱代理会让 worker 报 `broker.sock` ECONNREFUSED。
+- 本机代理会干扰本机端口/外网 `curl`（`502`/`000`/假 308）：加 `--noproxy '*'` 和 `-H "Connection: close"`。
+- 浏览器实测用 `agent-browser`；点击前等 hydrate，用 `button.btn-primary` 取按钮。
