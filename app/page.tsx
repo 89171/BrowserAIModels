@@ -1,21 +1,14 @@
-import { routing } from '@/i18n/routing';
+import { SiteDocument } from '@/components/SiteDocument';
+import { HomeContent } from '@/components/HomeContent';
+import { siteMetadata } from '@/lib/site-metadata';
+import { homeMetadata } from '@/lib/home-metadata';
 
-// Static export cannot run middleware. A meta refresh works without JS and is
-// suitable for ESA Pages static hosting (unlike next/navigation redirect).
+export async function generateMetadata() {
+  const site = await siteMetadata('en');
+  const home = await homeMetadata('en');
+  return { ...site, ...home, title: { absolute: `${home.title} · ${site.applicationName}` } };
+}
+
 export default function RootPage() {
-  const href = `/${routing.defaultLocale}`;
-  return (
-    <html lang={routing.defaultLocale}>
-      <head>
-        <meta httpEquiv="refresh" content={`0;url=${href}`} />
-        <link rel="canonical" href={href} />
-        <title>{routing.defaultLocale}</title>
-      </head>
-      <body>
-        <p>
-          <a href={href}>Continue</a>
-        </p>
-      </body>
-    </html>
-  );
+  return <SiteDocument locale="en"><HomeContent locale="en" /></SiteDocument>;
 }

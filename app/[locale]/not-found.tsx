@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server';
-import Link from 'next/link';
+import { HomeLink } from '@/components/HomeLink';
 
 export default async function NotFound() {
   const locale = await getLocale();
@@ -10,9 +10,9 @@ export default async function NotFound() {
       <p className="font-mono text-xs text-black/60">404</p>
       <h1 className="h-display text-5xl md:text-7xl">{t('title')}</h1>
       <p className="text-lg max-w-prose">{t('description')}</p>
-      <Link href={`/${locale}`} className="font-mono text-sm underline underline-offset-2">
+      <HomeLink locale={locale} className="font-mono text-sm underline underline-offset-2">
         ← {t('back')}
-      </Link>
+      </HomeLink>
     </div>
   );
 }

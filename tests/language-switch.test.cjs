@@ -22,3 +22,12 @@ test('language switching handles home, unprefixed paths and unsupported locales'
   assert.equal(languageSwitchUrl('http://localhost:3000/applications', 'zh', locales), 'http://localhost:3000/zh/applications');
   assert.equal(languageSwitchUrl('http://localhost:3000/en', 'fr', locales), 'http://localhost:3000/en');
 });
+
+test('English home is unprefixed while English nested routes keep their prefix', () => {
+  for (const path of ['/zh', '/zh/', '/en', '/en/', '/']) {
+    assert.equal(languageSwitchUrl(`https://example.com${path}?q=asr#cats`, 'en', locales), 'https://example.com/?q=asr#cats');
+  }
+  assert.equal(languageSwitchUrl('https://example.com/', 'zh', locales), 'https://example.com/zh');
+  assert.equal(languageSwitchUrl('https://example.com/en/audio/asr/whistle', 'zh', locales), 'https://example.com/zh/audio/asr/whistle');
+  assert.equal(languageSwitchUrl('https://example.com/zh/audio/asr/whistle', 'en', locales), 'https://example.com/en/audio/asr/whistle');
+});

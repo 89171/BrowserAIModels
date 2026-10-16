@@ -1,3 +1,4 @@
+import { HomeLink } from '@/components/HomeLink';
 import { socialMetadata } from '@/lib/social';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 import type { Metadata } from 'next';
@@ -67,9 +68,9 @@ export default async function CategoryPage({
       <nav aria-label={tNav('breadcrumb')} className="text-xs font-mono">
         <ol className="flex items-center gap-2">
           <li>
-            <Link href="/" className="underline underline-offset-2 hover:opacity-60">
+            <HomeLink locale={locale} className="underline underline-offset-2 hover:opacity-60">
               {tNav('home')}
-            </Link>
+            </HomeLink>
           </li>
           <li aria-hidden="true">/</li>
           <li aria-current="page">{name}</li>
@@ -136,7 +137,7 @@ export default async function CategoryPage({
             {
               '@type': 'BreadcrumbList',
               itemListElement: [
-                { '@type': 'ListItem', position: 1, name: tNav('home'), item: `${SITE_URL}/${locale}` },
+                { '@type': 'ListItem', position: 1, name: tNav('home'), item: localizedUrl(locale) },
                 { '@type': 'ListItem', position: 2, name, item: `${SITE_URL}/${locale}/${cat.slug}` },
               ],
             },

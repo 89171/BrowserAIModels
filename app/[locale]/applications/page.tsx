@@ -66,7 +66,7 @@ export default async function ApplicationsPage({ params }: Props) {
             {
               '@type': 'BreadcrumbList',
               itemListElement: [
-                { '@type': 'ListItem', position: 1, name: tNav('home'), item: `${SITE_URL}/${locale}` },
+                { '@type': 'ListItem', position: 1, name: tNav('home'), item: localizedUrl(locale) },
                 { '@type': 'ListItem', position: 2, name: t('title'), item: pageUrl },
               ],
             },

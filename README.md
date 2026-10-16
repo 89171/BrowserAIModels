@@ -6,6 +6,10 @@ that run **in the browser**. The site renders a catalog; it never runs a model.
 Every page is pre-rendered: 10 categories, 34 task pages, one page per entry and
 an application-workflow page, in both locales.
 
+The English homepage is served at `/`; `/en` redirects there using a static
+meta-refresh document. English task and model pages retain their `/en/*` URLs,
+and the Chinese homepage remains at `/zh`.
+
 ## What makes an entry trustworthy
 
 The catalog separates *source review* from *runtime testing*, and says which one
@@ -28,7 +32,7 @@ license, a size or a browser capability that a source does not state.
 ## Commands
 
 ```bash
-npm run dev          # http://localhost:3000, redirects to /en or /zh
+npm run dev          # http://localhost:3000 serves the English homepage
 npm run build        # runs check:i18n first, then prerenders every page
 npm run lint
 npm run typecheck

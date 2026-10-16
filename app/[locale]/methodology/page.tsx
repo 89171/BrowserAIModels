@@ -1,3 +1,4 @@
+import { HomeLink } from '@/components/HomeLink';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -50,9 +51,9 @@ export default async function MethodologyPage({ params }: Props) {
       <nav aria-label={tNav('breadcrumb')} className="text-xs font-mono">
         <ol className="flex items-center gap-2">
           <li>
-            <Link href="/" className="underline underline-offset-2 hover:opacity-60">
+            <HomeLink locale={locale} className="underline underline-offset-2 hover:opacity-60">
               {tNav('home')}
-            </Link>
+            </HomeLink>
           </li>
           <li aria-hidden="true">/</li>
           <li aria-current="page">{t('title')}</li>
@@ -97,7 +98,7 @@ export default async function MethodologyPage({ params }: Props) {
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: tNav('home'), item: `${SITE_URL}/${locale}` },
+            { '@type': 'ListItem', position: 1, name: tNav('home'), item: localizedUrl(locale) },
             { '@type': 'ListItem', position: 2, name: t('title'), item: pageUrl },
           ],
         }}

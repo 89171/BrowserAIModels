@@ -132,7 +132,7 @@ function walk(directory) {
     else if (/\.tsx?$/.test(file)) scan(file);
   }
 }
-for (const directory of ['app', 'components', 'data']) walk(directory);
+for (const directory of ['app', 'components', 'data', 'lib']) walk(directory);
 if (errors.length) {
   console.error(errors.join('\n'));
   process.exitCode = 1;

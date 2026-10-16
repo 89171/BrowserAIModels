@@ -9,7 +9,7 @@ const root = path.resolve(__dirname, '..');
 function validate(mutate) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'webai-translations-'));
   try {
-    for (const folder of ['messages', 'app', 'components', 'data']) {
+    for (const folder of ['messages', 'app', 'components', 'data', 'lib']) {
       fs.cpSync(path.join(root, folder), path.join(dir, folder), { recursive: true });
     }
     for (const locale of ['en', 'zh']) {
@@ -32,6 +32,7 @@ test('the current catalogs pass validation', () => {
 });
 
 for (const [namespace, key] of [
+  ['site', 'description'],
   ['categories', 'text'],
   ['categories', 'textDesc'],
   ['subcategories', 'chat'],

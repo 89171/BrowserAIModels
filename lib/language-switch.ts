@@ -5,5 +5,7 @@ export function languageSwitchUrl(href: string, next: string, locales: readonly 
   if (locales.includes(segments[1])) segments[1] = next;
   else segments.splice(1, 0, next);
   url.pathname = segments.join('/');
+  if (next === 'en' && /^\/en\/?$/.test(url.pathname)) url.pathname = '/';
+  if (next !== 'en' && url.pathname === `/${next}/`) url.pathname = `/${next}`;
   return url.href;
 }

@@ -10,7 +10,7 @@ export default function NotFound() {
           <h1 className="h-display text-5xl">Page not found</h1>
           <p lang="zh">页面不存在</p>
           <nav className="flex gap-6" aria-label="Home / 首页">
-            <Link href="/en" className="underline">English home</Link>
+            <Link href="/" className="underline">English home</Link>
             <Link href="/zh" lang="zh" className="underline">中文首页</Link>
           </nav>
         </main>
