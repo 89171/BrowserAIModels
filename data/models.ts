@@ -2918,159 +2918,6 @@ export const MODELS: CategoryModels = {
     ],
     "segmentation": [
       {
-        "id": "imgly-bg-removal",
-        "nameKey": "models.imgly-bg-removal.name",
-        "descriptionKey": "models.imgly-bg-removal.description",
-        "name": "IMG.LY Background Removal",
-        "framework": "onnxruntime-web",
-        "description": "Browser background-removal package using ONNX Runtime Web. The upstream example documents isnet_quint8 and isnet_fp16 configurations. Exact downloaded weights, sizes and device performance still need verification.",
-        "demoBase": "https://toolgarden.xyz",
-        "demoPath": "/image/remove-bg?mode=fast",
-        "docsUrl": "https://github.com/imgly/background-removal-js/blob/main/packages/web/README.md",
-        "kind": "tool",
-        "tasks": [
-          "segmentation"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://toolgarden.xyz/en/image/remove-bg?mode=fast",
-          "reviewedAt": "2026-10-05"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/imgly/background-removal-js/blob/main/packages/web/README.md",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://github.com/imgly/background-removal-js/blob/main/packages/web/package.json",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://github.com/imgly/background-removal-js",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://github.com/microsoft/onnxruntime",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://www.npmjs.com/package/@imgly/background-removal",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://toolgarden.xyz/en/image/remove-bg?mode=fast",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-05"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "Foreground / Background"
-        ],
-        "variants": [
-          {
-            "id": "imgly-bg-removal",
-            "label": "isnet_quint8",
-            "quantization": "quint8",
-            "demoBase": "https://toolgarden.xyz",
-            "demoPath": "/image/remove-bg?mode=fast"
-          },
-          {
-            "id": "imgly-bg-removal-balanced",
-            "label": "isnet_fp16",
-            "quantization": "fp16",
-            "demoBase": "https://toolgarden.xyz",
-            "demoPath": "/image/remove-bg?mode=balanced"
-          }
-        ],
-        "codeLicense": "custom",
-        "runtimeVersion": "@imgly/background-removal@1.7.0",
-        "backends": [
-          "WASM",
-          "WebGPU"
-        ],
-        "npmPackage": "@imgly/background-removal"
-      },
-      {
-        "id": "birefnet-lite-512",
-        "nameKey": "models.birefnet-lite-512.name",
-        "descriptionKey": "models.birefnet-lite-512.description",
-        "name": "BiRefNet-lite 512",
-        "framework": "transformersjs",
-        "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison.",
-        "demoBase": "https://toolgarden.xyz",
-        "demoPath": "/image/remove-bg?mode=hd",
-        "kind": "model",
-        "tasks": [
-          "segmentation"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://toolgarden.xyz/en/image/remove-bg?mode=hd",
-          "reviewedAt": "2026-10-05"
-        },
-        "sources": [
-          {
-            "url": "https://huggingface.co/briaai/RMBG-1.4",
-            "kind": "conflicting-reference",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://toolgarden.xyz/en/image/remove-bg?mode=hd",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://github.com/huggingface/transformers.js",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://huggingface.co/studioludens/birefnet-lite-512",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-06"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "512x512 input",
-          "Requires WebGPU fp16"
-        ],
-        "variants": [
-          {
-            "id": "birefnet-lite-512-fp16",
-            "label": "fp16",
-            "quantization": "fp16",
-            "downloadBytes": 98484532,
-            "revision": "4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7",
-            "artifactUrl": "https://huggingface.co/studioludens/birefnet-lite-512/resolve/4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7/onnx/model_fp16.onnx"
-          },
-          {
-            "id": "birefnet-lite-512-fp32",
-            "label": "fp32",
-            "quantization": "fp32",
-            "downloadBytes": 191877254,
-            "revision": "4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7",
-            "artifactUrl": "https://huggingface.co/studioludens/birefnet-lite-512/resolve/4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7/onnx/model.onnx"
-          }
-        ],
-        "codeLicense": "apache-2-0",
-        "runtimeVersion": "@huggingface/transformers@4.3.0",
-        "modelId": "studioludens/birefnet-lite-512",
-        "docsUrl": "https://huggingface.co/studioludens/birefnet-lite-512",
-        "backends": [
-          "webgpu"
-        ],
-        "weightLicense": "mit"
-      },
-      {
         "id": "sam-tiny",
         "nameKey": "models.sam-tiny.name",
         "descriptionKey": "models.sam-tiny.description",
@@ -3877,158 +3724,6 @@ export const MODELS: CategoryModels = {
     ],
     "image-restoration": [
       {
-        "id": "real-esrgan",
-        "nameKey": "models.real-esrgan.name",
-        "descriptionKey": "models.real-esrgan.description",
-        "name": "Real-ESRGAN",
-        "framework": "onnxruntime-web",
-        "description": "Real-ESRGAN general-purpose image super-resolution; runs entirely on WebGPU via onnxruntime-web.",
-        "docsUrl": "https://github.com/xinntao/Real-ESRGAN",
-        "kind": "model",
-        "tasks": [
-          "image-restoration"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://toolgarden.xyz/en/image/enhance",
-          "reviewedAt": "2026-10-05"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/xinntao/Real-ESRGAN",
-            "kind": "documentation"
-          },
-          {
-            "url": "https://github.com/microsoft/onnxruntime",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://github.com/xinntao/Real-ESRGAN/releases/tag/v0.1.0",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://toolgarden.xyz/en/image/enhance",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-05"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "4x upscale",
-          "ONNX opset 17",
-          "128px tiling"
-        ],
-        "variants": [
-          {
-            "id": "realesrgan-x4plus-fp16",
-            "label": "x4plus fp16",
-            "quantization": "fp16",
-            "downloadBytes": 33756472
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "codeLicense": "mit",
-        "runtimeVersion": "onnxruntime-web@1.30.0",
-        "weightLicense": "bsd-3",
-        "backends": [
-          "wasm"
-        ],
-        "demoBase": "https://toolgarden.xyz",
-        "demoPath": "/image/enhance"
-      },
-      {
-        "id": "swinir",
-        "nameKey": "models.swinir.name",
-        "descriptionKey": "models.swinir.description",
-        "name": "Swin2SR (real-world x4)",
-        "framework": "transformersjs",
-        "description": "SwinIR — transformer-based image restoration (super-resolution, denoising, JPEG deblocking).",
-        "docsUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
-        "kind": "model",
-        "tasks": [
-          "image-restoration"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
-          "reviewedAt": "2026-10-06"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/JingyunLiang/SwinIR",
-            "kind": "documentation"
-          },
-          {
-            "url": "https://github.com/microsoft/onnxruntime",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://github.com/huggingface/transformers.js",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://huggingface.co/caidas/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-06"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "4x upscale",
-          "Real-world degradation"
-        ],
-        "variants": [
-          {
-            "id": "swinir-q4f16",
-            "label": "q4f16",
-            "quantization": "q4f16",
-            "downloadBytes": 15541345,
-            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
-            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model_q4f16.onnx"
-          },
-          {
-            "id": "swinir-q8",
-            "label": "q8",
-            "quantization": "q8",
-            "downloadBytes": 21438622,
-            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
-            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model_quantized.onnx"
-          },
-          {
-            "id": "swinir-fp16",
-            "label": "fp16",
-            "quantization": "fp16",
-            "downloadBytes": 32357522,
-            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
-            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model_fp16.onnx"
-          },
-          {
-            "id": "swinir-fp32",
-            "label": "fp32",
-            "quantization": "fp32",
-            "downloadBytes": 52772645,
-            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
-            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model.onnx"
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "codeLicense": "apache-2-0",
-        "runtimeVersion": "@huggingface/transformers@4.3.0",
-        "modelId": "Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
-        "weightLicense": "apache-2-0"
-      },
-      {
         "id": "nafnet-denoise",
         "nameKey": "models.nafnet-denoise.name",
         "descriptionKey": "models.nafnet-denoise.description",
@@ -4069,70 +3764,6 @@ export const MODELS: CategoryModels = {
         "reportedLicense": "mit",
         "codeLicense": "mit",
         "runtimeVersion": "onnxruntime-web@1.30.0"
-      },
-      {
-        "id": "esrgan-slim",
-        "nameKey": "models.esrgan-slim.name",
-        "descriptionKey": "models.esrgan-slim.description",
-        "name": "ESRGAN Slim (UpscalerJS)",
-        "framework": "tensorflowjs",
-        "description": "",
-        "docsUrl": "https://github.com/thekevinscott/UpscalerJS/tree/main/models/esrgan-slim",
-        "kind": "model",
-        "tasks": [
-          "image-restoration"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://toolgarden.xyz/en/image/upscale?mode=hd",
-          "reviewedAt": "2026-10-05"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/thekevinscott/UpscalerJS/tree/main/models/esrgan-slim",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://toolgarden.xyz/en/image/upscale?mode=hd",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://github.com/tensorflow/tfjs",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://www.npmjs.com/package/@upscalerjs/esrgan-slim",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "2x upscale",
-          "4x upscale",
-          "Graph model"
-        ],
-        "variants": [
-          {
-            "id": "esrgan-slim-x2",
-            "label": "x2",
-            "downloadBytes": 900636
-          },
-          {
-            "id": "esrgan-slim-x4",
-            "label": "x4",
-            "downloadBytes": 946140
-          }
-        ],
-        "npmPackage": "@upscalerjs/esrgan-slim",
-        "demoBase": "https://toolgarden.xyz",
-        "demoPath": "/image/upscale?mode=hd",
-        "runtimeVersion": "@upscalerjs/esrgan-slim@1.0.0",
-        "codeLicense": "mit"
       }
     ],
     "image-classification": [
@@ -4423,6 +4054,564 @@ export const MODELS: CategoryModels = {
         "runtimeVersion": "@huggingface/transformers@4.3.0",
         "weightLicense": "other"
       }
+    ],
+    "background-removal": [
+      {
+        "id": "imgly-bg-removal",
+        "nameKey": "models.imgly-bg-removal.name",
+        "descriptionKey": "models.imgly-bg-removal.description",
+        "name": "IMG.LY Background Removal",
+        "framework": "onnxruntime-web",
+        "description": "Browser background-removal package using ONNX Runtime Web. The upstream example documents isnet_quint8 and isnet_fp16 configurations. Exact downloaded weights, sizes and device performance still need verification.",
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/remove-bg?mode=fast",
+        "docsUrl": "https://github.com/imgly/background-removal-js/blob/main/packages/web/README.md",
+        "kind": "tool",
+        "tasks": [
+          "background-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/remove-bg?mode=fast",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/imgly/background-removal-js/blob/main/packages/web/README.md",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/imgly/background-removal-js/blob/main/packages/web/package.json",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/imgly/background-removal-js",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@imgly/background-removal",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://toolgarden.xyz/en/image/remove-bg?mode=fast",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Foreground / Background"
+        ],
+        "variants": [
+          {
+            "id": "imgly-bg-removal",
+            "label": "isnet_quint8",
+            "quantization": "quint8",
+            "demoBase": "https://toolgarden.xyz",
+            "demoPath": "/image/remove-bg?mode=fast"
+          },
+          {
+            "id": "imgly-bg-removal-balanced",
+            "label": "isnet_fp16",
+            "quantization": "fp16",
+            "demoBase": "https://toolgarden.xyz",
+            "demoPath": "/image/remove-bg?mode=balanced"
+          }
+        ],
+        "codeLicense": "custom",
+        "runtimeVersion": "@imgly/background-removal@1.7.0",
+        "backends": [
+          "WASM",
+          "WebGPU"
+        ],
+        "npmPackage": "@imgly/background-removal"
+      },
+      {
+        "id": "birefnet-lite-512",
+        "nameKey": "models.birefnet-lite-512.name",
+        "descriptionKey": "models.birefnet-lite-512.description",
+        "name": "BiRefNet-lite 512",
+        "framework": "transformersjs",
+        "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison.",
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/remove-bg?mode=hd",
+        "kind": "model",
+        "tasks": [
+          "background-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/remove-bg?mode=hd",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/briaai/RMBG-1.4",
+            "kind": "conflicting-reference",
+            "reviewedAt": "2026-10-03"
+          },
+          {
+            "url": "https://toolgarden.xyz/en/image/remove-bg?mode=hd",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://huggingface.co/studioludens/birefnet-lite-512",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-06"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "512x512 input",
+          "Requires WebGPU fp16"
+        ],
+        "variants": [
+          {
+            "id": "birefnet-lite-512-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 98484532,
+            "revision": "4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7",
+            "artifactUrl": "https://huggingface.co/studioludens/birefnet-lite-512/resolve/4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "birefnet-lite-512-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 191877254,
+            "revision": "4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7",
+            "artifactUrl": "https://huggingface.co/studioludens/birefnet-lite-512/resolve/4a3c40c36c94093cc1e724d9ea428b8fa4b57dc7/onnx/model.onnx"
+          }
+        ],
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "studioludens/birefnet-lite-512",
+        "docsUrl": "https://huggingface.co/studioludens/birefnet-lite-512",
+        "backends": [
+          "webgpu"
+        ],
+        "weightLicense": "mit"
+      }
+    ],
+    "watermark-removal": [
+      {
+        "id": "mi-gan-watermark",
+        "nameKey": "models.mi-gan-watermark.name",
+        "descriptionKey": "models.mi-gan-watermark.description",
+        "name": "MI-GAN Watermark Removal",
+        "framework": "onnxruntime-web",
+        "description": "MI-GAN — single-file ONNX watermark remover (~28 MB). Fast mode for clean backgrounds.",
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/remove-watermark?mode=balanced",
+        "docsUrl": "https://huggingface.co/andraniksargsyan/migan",
+        "kind": "model",
+        "tasks": [
+          "watermark-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=balanced",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/Picsart-AI-Research/MI-GAN",
+            "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://huggingface.co/andraniksargsyan/migan",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=balanced",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Watermark Removal"
+        ],
+        "variants": [
+          {
+            "id": "migan-pipeline-v2",
+            "label": "pipeline-v2",
+            "revision": "406830d0",
+            "artifactUrl": "https://huggingface.co/andraniksargsyan/migan/resolve/main/migan_pipeline_v2.onnx",
+            "downloadBytes": 28079181
+          }
+        ],
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0",
+        "weightLicense": "mit",
+        "backends": [
+          "wasm"
+        ]
+      },
+      {
+        "id": "lama-watermark",
+        "nameKey": "models.lama-watermark.name",
+        "descriptionKey": "models.lama-watermark.description",
+        "name": "LaMa Watermark Removal (FP32)",
+        "framework": "onnxruntime-web",
+        "description": "LaMa inpainting FP32 ONNX (~208 MB) for high-quality balanced / HD watermark removal.",
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/remove-watermark?mode=hd",
+        "docsUrl": "https://huggingface.co/Carve/LaMa-ONNX",
+        "kind": "model",
+        "tasks": [
+          "watermark-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=hd",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/advimman/lama",
+            "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://huggingface.co/Carve/LaMa-ONNX",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=hd",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Watermark Removal"
+        ],
+        "variants": [
+          {
+            "id": "lama-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "revision": "c3c0c9e4",
+            "artifactUrl": "https://huggingface.co/Carve/LaMa-ONNX/resolve/main/lama_fp32.onnx",
+            "downloadBytes": 208044816
+          }
+        ],
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0",
+        "weightLicense": "apache-2-0",
+        "backends": [
+          "wasm"
+        ]
+      }
+    ],
+    "super-resolution": [
+      {
+        "id": "swinir",
+        "nameKey": "models.swinir.name",
+        "descriptionKey": "models.swinir.description",
+        "name": "Swin2SR (real-world x4)",
+        "framework": "transformersjs",
+        "description": "SwinIR — transformer-based image restoration (super-resolution, denoising, JPEG deblocking).",
+        "docsUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
+        "kind": "model",
+        "tasks": [
+          "super-resolution"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
+          "reviewedAt": "2026-10-06"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/JingyunLiang/SwinIR",
+            "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://huggingface.co/caidas/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-06"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "4x upscale",
+          "Real-world degradation"
+        ],
+        "variants": [
+          {
+            "id": "swinir-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 15541345,
+            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
+            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model_q4f16.onnx"
+          },
+          {
+            "id": "swinir-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 21438622,
+            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
+            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model_quantized.onnx"
+          },
+          {
+            "id": "swinir-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 32357522,
+            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
+            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model_fp16.onnx"
+          },
+          {
+            "id": "swinir-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 52772645,
+            "revision": "d0e9926970c93e472ce2392373d72597fc849027",
+            "artifactUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr/resolve/d0e9926970c93e472ce2392373d72597fc849027/onnx/model.onnx"
+          }
+        ],
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@huggingface/transformers@4.3.0",
+        "modelId": "Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr",
+        "weightLicense": "apache-2-0"
+      },
+      {
+        "id": "esrgan-slim",
+        "nameKey": "models.esrgan-slim.name",
+        "descriptionKey": "models.esrgan-slim.description",
+        "name": "ESRGAN Slim (UpscalerJS)",
+        "framework": "tensorflowjs",
+        "description": "",
+        "docsUrl": "https://github.com/thekevinscott/UpscalerJS/tree/main/models/esrgan-slim",
+        "kind": "model",
+        "tasks": [
+          "super-resolution"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/upscale?mode=hd",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/thekevinscott/UpscalerJS/tree/main/models/esrgan-slim",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://toolgarden.xyz/en/image/upscale?mode=hd",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://github.com/tensorflow/tfjs",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://www.npmjs.com/package/@upscalerjs/esrgan-slim",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "2x upscale",
+          "4x upscale",
+          "Graph model"
+        ],
+        "variants": [
+          {
+            "id": "esrgan-slim-x2",
+            "label": "x2",
+            "downloadBytes": 900636
+          },
+          {
+            "id": "esrgan-slim-x4",
+            "label": "x4",
+            "downloadBytes": 946140
+          }
+        ],
+        "npmPackage": "@upscalerjs/esrgan-slim",
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/upscale?mode=hd",
+        "runtimeVersion": "@upscalerjs/esrgan-slim@1.0.0",
+        "codeLicense": "mit"
+      }
+    ],
+    "image-enhancement": [
+      {
+        "id": "real-esrgan",
+        "nameKey": "models.real-esrgan.name",
+        "descriptionKey": "models.real-esrgan.description",
+        "name": "Real-ESRGAN",
+        "framework": "onnxruntime-web",
+        "description": "Real-ESRGAN general-purpose image super-resolution; runs entirely on WebGPU via onnxruntime-web.",
+        "docsUrl": "https://github.com/xinntao/Real-ESRGAN",
+        "kind": "model",
+        "tasks": [
+          "image-enhancement"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/enhance",
+          "reviewedAt": "2026-10-05"
+        },
+        "sources": [
+          {
+            "url": "https://github.com/xinntao/Real-ESRGAN",
+            "kind": "documentation"
+          },
+          {
+            "url": "https://github.com/microsoft/onnxruntime",
+            "kind": "documentation",
+            "reviewedAt": "2026-10-06"
+          },
+          {
+            "url": "https://github.com/xinntao/Real-ESRGAN/releases/tag/v0.1.0",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-05"
+          },
+          {
+            "url": "https://toolgarden.xyz/en/image/enhance",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-05"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "4x upscale",
+          "ONNX opset 17",
+          "128px tiling"
+        ],
+        "variants": [
+          {
+            "id": "realesrgan-x4plus-fp16",
+            "label": "x4plus fp16",
+            "quantization": "fp16",
+            "downloadBytes": 33756472
+          }
+        ],
+        "reportedLicense": "apache-2-0",
+        "codeLicense": "mit",
+        "runtimeVersion": "onnxruntime-web@1.30.0",
+        "weightLicense": "bsd-3",
+        "backends": [
+          "wasm"
+        ],
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/enhance"
+      }
+    ],
+    "object-removal": [
+      {
+        "id": "image-object-eraser",
+        "nameKey": "models.image-object-eraser.name",
+        "descriptionKey": "models.image-object-eraser.description",
+        "name": "Image object eraser (MI-GAN / LaMa)",
+        "framework": "onnxruntime-web",
+        "description": "Brush-mask erasure that inpaints the selected region with MI-GAN and falls back to LaMa for HD passes — the same masked-inpainting pipeline as watermark removal, driven by hand-drawn masks instead of rectangle selections.",
+        "docsUrl": "https://github.com/Picsart-AI-Research/MI-GAN",
+        "kind": "tool",
+        "tasks": [
+          "object-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/image/erase",
+          "reviewedAt": "2026-10-24"
+        },
+        "sources": [
+          {
+            "url": "https://toolgarden.xyz/en/image/erase",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://github.com/Picsart-AI-Research/MI-GAN",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://huggingface.co/andraniksargsyan/migan",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://huggingface.co/Carve/LaMa-ONNX",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Brush mask input",
+          "MI-GAN with LaMa fallback"
+        ],
+        "variants": [],
+        "runtimeVersion": "onnxruntime-web@1.21.0",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/image/erase"
+      }
     ]
   },
   "generative-vision": {
@@ -4583,131 +4772,6 @@ export const MODELS: CategoryModels = {
       }
     ],
     "inpainting": [
-      {
-        "id": "mi-gan-watermark",
-        "nameKey": "models.mi-gan-watermark.name",
-        "descriptionKey": "models.mi-gan-watermark.description",
-        "name": "MI-GAN Watermark Removal",
-        "framework": "onnxruntime-web",
-        "description": "MI-GAN — single-file ONNX watermark remover (~28 MB). Fast mode for clean backgrounds.",
-        "demoBase": "https://toolgarden.xyz",
-        "demoPath": "/image/remove-watermark?mode=balanced",
-        "docsUrl": "https://huggingface.co/andraniksargsyan/migan",
-        "kind": "model",
-        "tasks": [
-          "inpainting"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=balanced",
-          "reviewedAt": "2026-10-05"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/Picsart-AI-Research/MI-GAN",
-            "kind": "documentation"
-          },
-          {
-            "url": "https://github.com/microsoft/onnxruntime",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://huggingface.co/andraniksargsyan/migan",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=balanced",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-05"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "Watermark Removal"
-        ],
-        "variants": [
-          {
-            "id": "migan-pipeline-v2",
-            "label": "pipeline-v2",
-            "revision": "406830d0",
-            "artifactUrl": "https://huggingface.co/andraniksargsyan/migan/resolve/main/migan_pipeline_v2.onnx",
-            "downloadBytes": 28079181
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "codeLicense": "mit",
-        "runtimeVersion": "onnxruntime-web@1.30.0",
-        "weightLicense": "mit",
-        "backends": [
-          "wasm"
-        ]
-      },
-      {
-        "id": "lama-watermark",
-        "nameKey": "models.lama-watermark.name",
-        "descriptionKey": "models.lama-watermark.description",
-        "name": "LaMa Watermark Removal (FP32)",
-        "framework": "onnxruntime-web",
-        "description": "LaMa inpainting FP32 ONNX (~208 MB) for high-quality balanced / HD watermark removal.",
-        "demoBase": "https://toolgarden.xyz",
-        "demoPath": "/image/remove-watermark?mode=hd",
-        "docsUrl": "https://huggingface.co/Carve/LaMa-ONNX",
-        "kind": "model",
-        "tasks": [
-          "inpainting"
-        ],
-        "browserEvidence": {
-          "status": "upstream-example",
-          "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=hd",
-          "reviewedAt": "2026-10-05"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/advimman/lama",
-            "kind": "documentation"
-          },
-          {
-            "url": "https://github.com/microsoft/onnxruntime",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://huggingface.co/Carve/LaMa-ONNX",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-05"
-          },
-          {
-            "url": "https://toolgarden.xyz/en/image/remove-watermark?mode=hd",
-            "kind": "browser-example",
-            "reviewedAt": "2026-10-05"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "Watermark Removal"
-        ],
-        "variants": [
-          {
-            "id": "lama-fp32",
-            "label": "fp32",
-            "quantization": "fp32",
-            "revision": "c3c0c9e4",
-            "artifactUrl": "https://huggingface.co/Carve/LaMa-ONNX/resolve/main/lama_fp32.onnx",
-            "downloadBytes": 208044816
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "codeLicense": "mit",
-        "runtimeVersion": "onnxruntime-web@1.30.0",
-        "weightLicense": "apache-2-0",
-        "backends": [
-          "wasm"
-        ]
-      },
       {
         "id": "sdxl-inpaint",
         "nameKey": "models.sdxl-inpaint.name",
@@ -7964,6 +8028,58 @@ export const MODELS: CategoryModels = {
         "codeLicense": "apache-2-0",
         "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
         "npmPackage": "@mediapipe/tasks-vision"
+      }
+    ],
+    "video-watermark-removal": [
+      {
+        "id": "video-watermark-repair",
+        "nameKey": "models.video-watermark-repair.name",
+        "descriptionKey": "models.video-watermark-repair.description",
+        "name": "Video watermark removal (MI-GAN / LaMa)",
+        "framework": "onnxruntime-web",
+        "description": "Samples a representative frame, inpaints the watermark patch with MI-GAN — or LaMa in HD mode, or a temporal median when the background moves — then re-encodes the repaired frames with WebCodecs and muxes the original audio back with ffmpeg.wasm.",
+        "docsUrl": "https://github.com/Picsart-AI-Research/MI-GAN",
+        "kind": "tool",
+        "tasks": [
+          "video-watermark-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/video/remove-watermark",
+          "reviewedAt": "2026-10-24"
+        },
+        "sources": [
+          {
+            "url": "https://toolgarden.xyz/en/video/remove-watermark",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://github.com/Picsart-AI-Research/MI-GAN",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://huggingface.co/Carve/LaMa-ONNX",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Temporal median for moving backgrounds",
+          "WebCodecs H.264 re-encode",
+          "ffmpeg.wasm audio muxing"
+        ],
+        "variants": [],
+        "runtimeVersion": "onnxruntime-web@1.21.0",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/video/remove-watermark"
       }
     ]
   }

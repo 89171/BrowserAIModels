@@ -134,9 +134,14 @@ export type SubcategorySlug =
   | 'semantic-search'
   | 'detection'
   | 'segmentation'
+  | 'background-removal'
+  | 'watermark-removal'
+  | 'object-removal'
   | 'ocr'
   | 'depth'
   | 'image-restoration'
+  | 'super-resolution'
+  | 'image-enhancement'
   | 'text-to-image'
   | 'inpainting'
   | 'asr'
@@ -152,4 +157,5 @@ export type SubcategorySlug =
   | 'pose'
   | 'hand'
   | 'tracking'
-  | 'video-understanding';
+  | 'video-understanding'
+  | 'video-watermark-removal';

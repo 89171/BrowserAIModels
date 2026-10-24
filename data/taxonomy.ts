@@ -32,9 +32,14 @@ export const TAXONOMY: CategoryMeta[] = [
       { slug: 'image-classification' },
       { slug: 'detection' },
       { slug: 'segmentation' },
+      { slug: 'background-removal' },
+      { slug: 'watermark-removal' },
+      { slug: 'object-removal' },
       { slug: 'ocr' },
       { slug: 'depth' },
       { slug: 'image-restoration' },
+      { slug: 'super-resolution' },
+      { slug: 'image-enhancement' },
     ],
   },
   {
@@ -78,7 +83,7 @@ export const TAXONOMY: CategoryMeta[] = [
   },
   {
     slug: 'video',
-    subcategories: [{ slug: 'video-understanding' }],
+    subcategories: [{ slug: 'video-understanding' }, { slug: 'video-watermark-removal' }],
   },
 ];
 

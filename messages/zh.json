@@ -145,7 +145,19 @@
     "poseDesc": "逐帧跟踪人体关键点，用于健身、动捕与手势控制。精度、延迟与体积在这里是显式权衡：同一模型的 lite / full / heavy 变体在体积与单帧耗时上相差数倍。",
     "handDesc": "跟踪手部与手指关键点，是手势交互与手语应用的基础。关键点模型假设检测器已先运行，因此除条目另有说明外，公布的帧率只覆盖跟踪阶段。",
     "trackingDesc": "在连续帧之间为检测结果保持同一身份。跟踪器主要是算法而非权重——关联、卡尔曼滤波、重识别——因此本分类的条目是 WebAssembly 库，需要关注每帧 CPU 开销。",
-    "video-understandingDesc": "对片段而非单帧进行分类或描述。时序模型通常采样 8–32 帧并批量推理，内存峰值来自帧栈；本分类多数公开权重根本没有浏览器构建。"
+    "video-understandingDesc": "对片段而非单帧进行分类或描述。时序模型通常采样 8–32 帧并批量推理，内存峰值来自帧栈；本分类多数公开权重根本没有浏览器构建。",
+    "background-removal": "图片去背景",
+    "background-removalDesc": "把主体从画面中分离为全分辨率 alpha 蒙版。质量取决于发丝与边缘——抠图误差在这里最显眼；高清档会对每张图跑一次专门的抠图网络。",
+    "watermark-removal": "图片去水印",
+    "watermark-removalDesc": "对涂抹标记的水印区域做修复填充，让周边像素自然生长。开销取决于标记区域大小而非整张图——只有蒙版内的像素经过修复模型。",
+    "object-removal": "图片擦除",
+    "object-removalDesc": "从照片中抹掉选中的物体并重建被遮挡的背景。蒙版来自你的涂抹笔触，填充效果取决于涂抹精度而不只是模型大小。",
+    "super-resolution": "图片无损放大",
+    "super-resolutionDesc": "从已有像素重建更大的图像。真实放大是逐块跑卷积或 Transformer 网络，内存取决于块大小而不是输出尺寸。",
+    "image-enhancement": "图片清晰增强",
+    "image-enhancementDesc": "让发糊或压缩过的照片恢复清晰——去噪、去模糊与细节重建一次完成。常与放大搭配使用，但目标是在原尺寸上保真。",
+    "video-watermark-removal": "视频去水印",
+    "video-watermark-removalDesc": "逐帧修复水印区域。静止水印可以从单帧代表帧修复；背景移动时需要时域采样，结果在设备上重新编码。"
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -669,6 +681,14 @@
     "yolov10n": {
       "name": "YOLOv10n",
       "description": "免 NMS 的新一代 YOLO，nano 尺寸。与 Ultralytics 其余模型一样采用 AGPL-3.0，该许可会波及提供服务的应用本身，而不只是模型文件。"
+    },
+    "image-object-eraser": {
+      "name": "图片擦除工具（MI-GAN / LaMa）",
+      "description": "涂抹蒙版式擦除：用 MI-GAN 修复选中区域，高清档回退到 LaMa——与去水印共用同一套蒙版修复管线，只是蒙版来自用户涂抹而非矩形选区。"
+    },
+    "video-watermark-repair": {
+      "name": "视频去水印工具（MI-GAN / LaMa）",
+      "description": "采样代表帧后用 MI-GAN 修复水印补丁——高清档用 LaMa，背景移动时改用时域中值——再经 WebCodecs 重编码修复帧，并用 ffmpeg.wasm 回填原音轨。"
     }
   },
   "catalog": {

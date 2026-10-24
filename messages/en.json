@@ -145,7 +145,19 @@
     "poseDesc": "Tracks body keypoints per frame, for fitness, motion capture and gesture control. Accuracy, latency and model size trade off explicitly here: the lite, full and heavy variants of the same model differ by several times in both size and frame time.",
     "handDesc": "Tracks hand and finger landmarks, the basis for gesture interfaces and sign-language work. Landmark models assume a detector ran first, so the published frame rate is for the tracking stage alone unless the entry says otherwise.",
     "trackingDesc": "Keeps an identity attached to a detection across frames. Trackers are mostly algorithms rather than weights — association, Kalman filtering, re-identification — so the entries here are WebAssembly libraries and the thing to check is CPU cost per frame.",
-    "video-understandingDesc": "Classifies or describes a clip rather than a frame. Temporal models sample 8–32 frames and run them as a batch, so the memory spike is the frame stack, and most of the published weights here have no browser build at all."
+    "video-understandingDesc": "Classifies or describes a clip rather than a frame. Temporal models sample 8–32 frames and run them as a batch, so the memory spike is the frame stack, and most of the published weights here have no browser build at all.",
+    "background-removal": "Background removal",
+    "background-removalDesc": "Separates the subject from the rest of the frame as a full-resolution alpha mask. Quality is judged at hair and edge level, where small matting errors are most visible; the HD mode runs a dedicated matting network per image.",
+    "watermark-removal": "Watermark removal",
+    "watermark-removalDesc": "Inpaints a hand-marked watermark region so the surrounding pixels grow back naturally. Cost scales with the marked area, not the image, because only masked pixels pass through the inpainting model.",
+    "object-removal": "Object removal",
+    "object-removalDesc": "Erases selected objects from a photo and reconstructs the occluded background. The mask comes from your brush strokes, so precision — not model size — decides how clean the fill looks.",
+    "super-resolution": "Super resolution",
+    "super-resolutionDesc": "Reconstructs a larger image from the pixels you already have. Real upscaling runs a convolutional or transformer network tile by tile, so memory tracks the tile size rather than the output.",
+    "image-enhancement": "Image enhancement",
+    "image-enhancementDesc": "Restores clarity to soft or compressed photos — denoise, deblur and detail recovery in one pass. Often paired with upscaling, but the goal here is fidelity at the original size.",
+    "video-watermark-removal": "Video watermark removal",
+    "video-watermark-removalDesc": "Repairs a watermark region across every frame. Static marks can be inpainted from a single representative frame; moving backgrounds may need temporal sampling, and the result is re-encoded on device."
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -669,6 +681,14 @@
     "yolov10n": {
       "name": "YOLOv10n",
       "description": "The NMS-free YOLO generation, at nano size. Licensed AGPL-3.0 like the rest of the Ultralytics line, which reaches the application that serves it — not only the model file."
+    },
+    "image-object-eraser": {
+      "name": "Image object eraser (MI-GAN / LaMa)",
+      "description": "Brush-mask erasure that inpaints the selected region with MI-GAN and falls back to LaMa for HD passes — the same masked-inpainting pipeline as watermark removal, driven by hand-drawn masks instead of rectangle selections."
+    },
+    "video-watermark-repair": {
+      "name": "Video watermark removal (MI-GAN / LaMa)",
+      "description": "Samples a representative frame, inpaints the watermark patch with MI-GAN — or LaMa in HD mode, or a temporal median when the background moves — then re-encodes the repaired frames with WebCodecs and muxes the original audio back with ffmpeg.wasm."
     }
   },
   "catalog": {
