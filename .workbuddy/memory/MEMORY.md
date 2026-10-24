@@ -33,10 +33,20 @@
 - 栈 Next 16 / React 19 / Tailwind 4（CSS-first）。i18n 用 `lib/i18n.ts` 的 `L={zh,en}` + `useApp().tr(key)`。
 - 配色黑白灰，靠 `app/globals.css` 的 `--bg/--fg/--border/…` 变量；v4 preflight 会把边框变
   `currentColor`，故全局补 `* { border-color: var(--border); }`。
-- 10 分类 / 30 子类：`lib/data/models.json`（103 条）+ `lib/data/registry.ts`（每子类 DemoSpec）。
+- 10 分类 / 41 子类 / 124 条（models.json 121 + extra-models.json 10 合并后 124），其中 38 子类有演示页：
+  `lib/data/models.json`（由 `scripts/extract-models.cjs` 从上游生成）+ `lib/data/registry.ts`（每子类 DemoSpec）。
+  **上游目录改动后必须重跑提取**；`SKIP` 只留 text/ner、audio/vad。
 - **ORT wasm 必须全量本地化**：`scripts/copy-ort-wasm.cjs` 把 `ort-wasm-*.{mjs,wasm}`（8 个 / ~82MB）
   拷进 `public/ort/` 并设 `wasm.wasmPaths='/ort/'`；只拷 jsep 会报 `no available backend found`。
 - 覆盖率盘点（10-15）：真实 48 / 模拟 55，覆盖 19/30 子类；`meta.simulated = !real` 决定标注。
+- **视频去水印**（10-24）：`lib/engine/video-watermark.ts` 时域中值 / MI-GAN 单帧补丁 → WebCodecs
+  + mp4-muxer 编码 → ffmpeg.wasm 回填音轨；OutputKind 为 `video-inpainting`，VideoPanel 带框选。
+  高清档 `hq` 走 `lib/engine/lama.ts`（big-lama fp32 ~198MB，**仅 wasm**，WebGPU 死锁），
+  无权重时依次降级 MI-GAN → 时域中值；上行目录新增 `video-watermark-repair-hq` 条目后要重跑提取。
+- **不许 import `@ffmpeg/ffmpeg`**：其 `new Worker(new URL(classWorkerURL, import.meta.url))` 让 Turbopack
+  构建直接失败（webpack 才行）。改由 `lib/engine/ffmpeg-client.ts` 用 `new Worker('/vendor/ffmpeg/worker.js',
+  {type:'module'})` + 0.12 postMessage 协议驱动；core 走 jsdelivr toBlobURL（`@ffmpeg/core` 无需安装）。
+  该 worker 三件套（worker/const/errors.js）vendored 在 `public/vendor/ffmpeg/`。
 
 ## 三、本地环境坑（通用）
 - 沙箱拦 `rm -rf node_modules`/`.next`：依赖用原地 `npm install`，缓存目录用 `mv` 到 `/tmp`。

@@ -8080,6 +8080,55 @@ export const MODELS: CategoryModels = {
         ],
         "demoBase": "https://toolgarden.xyz",
         "demoPath": "/video/remove-watermark"
+      },
+      {
+        "id": "video-watermark-repair-hq",
+        "nameKey": "models.video-watermark-repair-hq.name",
+        "descriptionKey": "models.video-watermark-repair-hq.description",
+        "name": "Video watermark removal HD (LaMa)",
+        "framework": "onnxruntime-web",
+        "description": "The HD pass of the video watermark pipeline: the representative frame is inpainted with big-lama fp32 (~198 MB) instead of MI-GAN, trading ~7x slower inference for markedly better reconstruction of large watermarks and structures crossing the selection edge. Runs on the WASM execution provider only — LaMa deadlocks on WebGPU — and auto mode never selects it; users opt in explicitly.",
+        "docsUrl": "https://github.com/advimman/lama",
+        "kind": "tool",
+        "tasks": [
+          "video-watermark-removal"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://toolgarden.xyz/en/video/remove-watermark?mode=hq",
+          "reviewedAt": "2026-10-24"
+        },
+        "sources": [
+          {
+            "url": "https://toolgarden.xyz/en/video/remove-watermark?mode=hq",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://github.com/advimman/lama",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          },
+          {
+            "url": "https://huggingface.co/Carve/LaMa-ONNX",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-10-24"
+          }
+        ],
+        "naturalLanguages": [],
+        "programmingLanguages": [],
+        "capabilities": [
+          "big-lama fp32 single-frame inpainting (~198 MB)",
+          "WASM-only inference (WebGPU deadlock workaround)",
+          "Structural reconstruction for large watermarks"
+        ],
+        "variants": [],
+        "runtimeVersion": "onnxruntime-web@1.21.0",
+        "backends": [
+          "wasm"
+        ],
+        "demoBase": "https://toolgarden.xyz",
+        "demoPath": "/video/remove-watermark?mode=hq"
       }
     ]
   }

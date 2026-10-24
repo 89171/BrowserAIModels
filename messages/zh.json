@@ -689,6 +689,10 @@
     "video-watermark-repair": {
       "name": "视频去水印工具（MI-GAN / LaMa）",
       "description": "采样代表帧后用 MI-GAN 修复水印补丁——高清档用 LaMa，背景移动时改用时域中值——再经 WebCodecs 重编码修复帧，并用 ffmpeg.wasm 回填原音轨。"
+    },
+    "video-watermark-repair-hq": {
+      "name": "视频去水印工具·高清（LaMa）",
+      "description": "视频去水印管线的高清档：代表帧改用 big-lama fp32（约 198 MB）补全，推理比 MI-GAN 慢约 7 倍，但对大面积水印、跨越选区边缘的结构重建明显更强。仅走 WASM 执行（LaMa 在 WebGPU 下会死锁），自动模式不会选用，需用户显式选装。"
     }
   },
   "catalog": {
