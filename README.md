@@ -3,7 +3,7 @@
 A static, bilingual (en/zh) catalog of AI models, tools and application workflows
 that run **in the browser**. The site renders a catalog; it never runs a model.
 
-Every page is pre-rendered: 10 categories, 34 task pages, one page per entry and
+Every page is pre-rendered: 10 categories, 40 task pages, one page per entry and
 an application-workflow page, in both locales.
 
 The English homepage is served at `/`; `/en` redirects there using a static
@@ -85,7 +85,7 @@ adds its external-data sidecar), so that logic is covered by
   real device from this repo, so `benchmarks` and `peakMemoryMB` are empty
   everywhere. Everything else is sourced; this is the one field that needs a
   browser harness rather than an API.
-- Weight licenses cover 64 of 117 entries. Three Hugging Face repos declare none
+- Weight licenses cover 73 of 125 entries. Three Hugging Face repos declare none
   and have no base model to inherit from; the rest are tools and MediaPipe or
   TensorFlow.js assets that publish no weight license at all.
 - Four entries have an unresolved identity and are marked as such in the UI

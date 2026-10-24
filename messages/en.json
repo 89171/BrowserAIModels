@@ -790,7 +790,7 @@
         "pipeline": "Gate the stream with VAD → buffer a window → transcribe incrementally → translate the finalised segment.",
         "output": "A rolling caption line plus finalised segments, each optionally paired with a translation.",
         "limits": "Partial hypotheses change as more audio arrives, so captions rewrite themselves. Translation runs on finalised text only, which adds a visible delay on top of transcription. Bilingual models cover one direction per download.",
-        "example": "Input: live audio and a target language. Output shape: {partial, final[], translation[]}. The interface must tolerate a final segment replacing the partial text it already displayed.",
+        "example": "Input: live audio and a target language. Output shape: '{'partial, final[], translation[]'}'. The interface must tolerate a final segment replacing the partial text it already displayed.",
         "checks": "Measure end-to-end delay on the target device, decide what happens when a window overruns, and confirm the translation license permits your use."
       },
       "voice-assistant": {
@@ -799,7 +799,7 @@
         "pipeline": "Transcribe the utterance → send the text to a local chat model → speak the reply with a TTS voice.",
         "output": "A transcript, a text reply and synthesised audio, none of which leaves the device.",
         "limits": "Three models are resident at once, so this is the heaviest workflow in the catalog: plan for the sum of their download sizes and peak memory. First-token latency of the chat model dominates the perceived response time.",
-        "example": "Input: one spoken turn. Output shape: {transcript, reply, audio}. Keep the chat history in the page so the second turn does not reload the model.",
+        "example": "Input: one spoken turn. Output shape: '{'transcript, reply, audio'}'. Keep the chat history in the page so the second turn does not reload the model.",
         "checks": "Check that the device has enough memory for all three models, cache weights after the first load, and provide a visible way to stop playback."
       },
       "screenshot-to-data": {
@@ -808,7 +808,7 @@
         "pipeline": "OCR the page for text and positions, or send it to a layout-aware or vision-language model → constrain the model to a schema → validate the fields.",
         "output": "A record whose fields map to your schema, with the source crop kept for review.",
         "limits": "An OCR-then-LLM pipeline loses layout, and a layout-aware model costs more per page. Constrained decoding needs runtime support for grammars or logit biasing; without it, a schema is a prompt and not a guarantee.",
-        "example": "Input: an image and a field list. Output shape: {fields, confidence, crop}. Reject the record rather than guessing when a required field is missing.",
+        "example": "Input: an image and a field list. Output shape: '{'fields, confidence, crop'}'. Reject the record rather than guessing when a required field is missing.",
         "checks": "Validate every field against your own rules, keep the image crop for a human to check, and test on the worst scans you actually receive."
       },
       "inbox-triage": {
@@ -817,7 +817,7 @@
         "pipeline": "Classify each message → extract names, organisations and dates → embed the text → index the vectors for similar-case lookup.",
         "output": "A label and score per message, extracted entity spans, and a nearest-neighbour list of similar past items.",
         "limits": "Classifiers reflect their training data, so a moderation label is a signal and not a decision. Entity extraction returns offsets without resolving duplicates or aliases. The index must be rebuilt whenever the embedding model changes.",
-        "example": "Input: a message list. Output shape: {label, score, entities[], similar[]}. Route low-confidence items to a person rather than to a default bucket.",
+        "example": "Input: a message list. Output shape: '{'label, score, entities[], similar[]'}'. Route low-confidence items to a person rather than to a default bucket.",
         "checks": "Measure the false-positive rate on your own data, keep the index and the model version together, and never make an irreversible decision from a single score."
       },
       "image-search": {
@@ -826,7 +826,7 @@
         "pipeline": "Embed every image once with a shared image-text model → store the vectors → embed the query → rank by similarity, optionally filtering by a classifier label first.",
         "output": "Ranked image results with similarity scores, and optional class labels as filters.",
         "limits": "Indexing cost is paid once per image and is the bulk of the work; queries are cheap. Scores are relative, so there is no absolute threshold for \"a match\", and the two encoders must come from the same model.",
-        "example": "Input: a query string. Output shape: {results[{id, score}], took}. Show the score so a weak match does not look like a confident one.",
+        "example": "Input: a query string. Output shape: '{'results['{'id, score'}'], took'}'. Show the score so a weak match does not look like a confident one.",
         "checks": "Persist vectors with the model name and revision, re-index after any model change, and test queries that should return nothing."
       },
       "photo-cleanup": {
@@ -835,7 +835,7 @@
         "pipeline": "Detect candidate objects → turn a box into a mask → inpaint the masked region → optionally upscale the result, using a depth map for depth-aware blur.",
         "output": "An edited image, the mask that produced it, and the original kept for comparison.",
         "limits": "Inpainting invents content, so the result is plausible rather than true, and removing a watermark may still be a licensing or legal question. Memory scales with output resolution, not with model size: a few megabytes of weights can still exhaust a tab on a 4K image.",
-        "example": "Input: an image and a mask. Output shape: {image, mask, steps[]}. Keep every step reversible so the user can undo one stage without redoing the pipeline.",
+        "example": "Input: an image and a mask. Output shape: '{'image, mask, steps[]'}'. Keep every step reversible so the user can undo one stage without redoing the pipeline.",
         "checks": "Test at the largest resolution you accept, tile large images, and keep the original bytes until the user saves."
       },
       "gesture-controls": {
@@ -844,7 +844,7 @@
         "pipeline": "Run a landmark model per frame → smooth the landmarks over time → map a held pose to an action → keep identities stable with a tracker when several people are in frame.",
         "output": "Per-frame landmarks and debounced action events.",
         "limits": "Camera frames are biometric input: process them in the page and discard them. Landmark models assume a detector ran first, so a published frame rate usually covers the tracking stage alone, and single-frame jitter must be smoothed before it becomes an action.",
-        "example": "Input: a video element. Output shape: {landmarks[], gesture, heldMs}. Require a pose to be held before firing, so a passing hand does not trigger anything.",
+        "example": "Input: a video element. Output shape: '{'landmarks[], gesture, heldMs'}'. Require a pose to be held before firing, so a passing hand does not trigger anything.",
         "checks": "Keep frames off the network, degrade gracefully when the frame rate drops, and offer a keyboard path for every gesture action."
       },
       "studio-audio": {
@@ -853,7 +853,7 @@
         "pipeline": "Denoise speech frame by frame in an AudioWorklet → for a mix, split it into stems offline → optionally re-voice a narration track from a consented reference sample.",
         "output": "A cleaned track, separate stems as audio buffers, and any re-voiced take as a new file.",
         "limits": "Denoising is real-time per frame; separation is not — a four-minute track takes minutes of CPU, so it needs a progress bar rather than a live preview. Voice cloning carries a consent and likeness question that no model card answers.",
-        "example": "Input: an audio file. Output shape: {cleaned, stems{vocals, drums, bass, other}, progress}. Run separation in a worker so the page stays responsive.",
+        "example": "Input: an audio file. Output shape: '{'cleaned, stems'{'vocals, drums, bass, other'}', progress'}'. Run separation in a worker so the page stays responsive.",
         "checks": "Measure per-frame cost inside the worklet, keep separation off the main thread, and record who consented to a cloned voice before you ship it."
       },
       "creative-drafts": {
@@ -862,7 +862,7 @@
         "pipeline": "Load the diffusion pipeline once → generate a small image at few steps → generate a short audio clip from a second prompt → keep both as drafts tied to their seed.",
         "output": "Draft images and short audio clips, each with the prompt and seed that produced it.",
         "limits": "This is the heaviest download category in the catalog: a diffusion pipeline is several networks and is measured in gigabytes, so WebGPU is a hard requirement. Audio generation time scales with clip length, and several open weights here are non-commercial only.",
-        "example": "Input: {prompt, seed, steps}. Output shape: {image, audio, prompt, seed}. Store the seed with the output or the draft cannot be reproduced.",
+        "example": "Input: '{'prompt, seed, steps'}'. Output shape: '{'image, audio, prompt, seed'}'. Store the seed with the output or the draft cannot be reproduced.",
         "checks": "Detect WebGPU before offering the feature, cache the weights after the first load, and check each weight license before publishing anything generated."
       },
       "code-helper": {
@@ -871,7 +871,7 @@
         "pipeline": "Keep a code model resident → send a prefix and suffix for completion, or the selection for an explanation → stream tokens into the editor → stop on the first line that leaves the requested scope.",
         "output": "A streamed completion or explanation, inserted only when the user accepts it.",
         "limits": "Browser-side context windows are small, so whole-repository questions are out of scope; the model sees what you send and nothing else. Licensing varies more than in other categories: several permissive-looking code models ship under their own community terms.",
-        "example": "Input: {prefix, suffix, intent}. Output shape: {completion, tokens, stopped}. Never apply a completion without an explicit accept step.",
+        "example": "Input: '{'prefix, suffix, intent'}'. Output shape: '{'completion, tokens, stopped'}'. Never apply a completion without an explicit accept step.",
         "checks": "Measure first-token latency on the target device, cap the context you send, and confirm the model license covers generated code in your product."
       },
       "video-highlights": {
@@ -880,7 +880,7 @@
         "pipeline": "Sample frames on a fixed stride → classify or describe each sampled window → keep identities across frames with a tracker → use audio events such as applause as a second signal.",
         "output": "Time ranges with labels and scores, ready to be cut or reviewed.",
         "limits": "Temporal models batch 8–32 frames, so the memory spike is the frame stack rather than the weights, and most published video weights have no browser build at all. A fixed stride misses events shorter than the stride.",
-        "example": "Input: {file, strideMs}. Output shape: {ranges[{start, end, label, score}]}. Report the stride alongside the ranges so the resolution of the result is visible.",
+        "example": "Input: '{'file, strideMs'}'. Output shape: '{'ranges['{'start, end, label, score'}']'}'. Report the stride alongside the ranges so the resolution of the result is visible.",
         "checks": "Check that a browser build exists before planning around a model, decode in a worker, and verify the ranges against a few clips by hand."
       }
     }
