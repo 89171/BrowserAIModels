@@ -9,6 +9,12 @@ const nextConfig = {
   output: 'export',
   reactStrictMode: true,
   poweredByHeader: false,
+  // Build with one worker: the prerender pass is memory-hungry with the demo
+  // bundles, and parallel workers are what pushed the local sandbox over.
+  experimental: { cpus: 1 },
+  // Build with one worker: the prerender pass is memory-hungry with the demo
+  // bundles, and parallel workers are what pushed the local sandbox over.
+  experimental: { cpus: 1 },
 };
 
 const config = (phase) => withNextIntl({

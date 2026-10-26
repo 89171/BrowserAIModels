@@ -20,7 +20,14 @@ export async function siteMetadata(locale: string): Promise<Metadata> {
     alternates: { canonical, languages },
     ...socialMetadata(locale, `${SITE_NAME} — ${t('tagline')}`, t('description'), canonical),
     robots: { index: true, follow: true },
-    icons: { icon: '/favicon.svg' },
+    icons: {
+      icon: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+        { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+      ],
+      apple: '/apple-touch-icon.png',
+    },
+    manifest: '/manifest.webmanifest',
   };
 }
 

@@ -5,12 +5,12 @@
     "back": "返回首页"
   },
   "site": {
-    "notice": "本站仅展示模型目录，不运行模型。",
+    "notice": "目录页只展示条目与来源；演示页在浏览器内运行推理。",
     "name": "Web AI 模型目录",
     "shortName": "WebAI",
-    "tagline": "浏览器端侧 AI 模型的精选目录",
-    "description": "浏览面向浏览器 AI 的模型、工具和应用流程，查看来源与明确的验证状态。",
-    "footer": "每个条目都附来源链接与验证状态。本站不运行任何模型。"
+    "tagline": "可在浏览器里运行的 AI 模型、工具与应用",
+    "description": "浏览器端侧 AI 模型目录：收录可在浏览器内运行的模型、工具与应用流程，覆盖文本分类、命名实体识别、嵌入检索、语音识别、OCR、图像分割与文生图等任务，逐条标注来源链接、权重体积、许可与浏览器运行依据，并提供可直接上手的交互演示。",
+    "footer": "每个条目都附来源链接与验证状态。目录本身不运行模型，交互演示在你的浏览器里完成推理。"
   },
   "nav": {
     "breadcrumb": "面包屑导航",
@@ -18,7 +18,8 @@
     "categories": "分类",
     "skipToContent": "跳到主要内容",
     "applications": "应用",
-    "methodology": "验证方法"
+    "methodology": "验证方法",
+    "demos": "演示"
   },
   "languages": {
     "label": "语言",
@@ -53,7 +54,8 @@
     "languages": "语言",
     "links": "链接",
     "demo": "演示",
-    "docs": "文档"
+    "docs": "文档",
+    "exampleN": "示例 {n}"
   },
   "categories": {
     "text": "文本",
@@ -157,7 +159,11 @@
     "image-enhancement": "图片清晰增强",
     "image-enhancementDesc": "让发糊或压缩过的照片恢复清晰——去噪、去模糊与细节重建一次完成。常与放大搭配使用，但目标是在原尺寸上保真。",
     "video-watermark-removal": "视频去水印",
-    "video-watermark-removalDesc": "逐帧修复水印区域。静止水印可以从单帧代表帧修复；背景移动时需要时域采样，结果在设备上重新编码。"
+    "video-watermark-removalDesc": "逐帧修复水印区域。静止水印可以从单帧代表帧修复；背景移动时需要时域采样，结果在设备上重新编码。",
+    "zero-shot-detection": "零样本目标检测",
+    "zero-shot-detectionDesc": "用自由文本描述要找的目标，无需重新训练即可检测；演示只覆盖开放词表检测这一类。",
+    "question-answering": "抽取式问答",
+    "question-answeringDesc": "从给定段落中定位答案片段，答案一定引用原文。"
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -400,11 +406,11 @@
     },
     "whisper-small": {
       "name": "Whisper Small (Transformers.js)",
-      "description": "Xenova/whisper-small 通过 Transformers.js 运行 —— 高精度默认模型,使用量化后的 encoder + 合并 decoder ONNX。toolgarden 的音频转文本默认采用此模型。"
+      "description": "Xenova/whisper-small 通过 Transformers.js 运行 —— 高精度默认模型，使用量化后的 encoder + 合并 decoder ONNX。适合作为浏览器端音频转文字的默认选择。"
     },
     "whisper-base": {
       "name": "Whisper Base (Transformers.js)",
-      "description": "Xenova/whisper-base 通过 Transformers.js 运行 —— balanced 模式,encoder/decoder 体积更小。toolgarden 的音频转文本可切换到此模型。"
+      "description": "Xenova/whisper-base 通过 Transformers.js 运行 —— balanced 模式，encoder/decoder 体积更小。适合与高精度版本搭配，在浏览器端音频转文字里做体积与精度的折中。"
     },
     "whisper-tiny-wasm": {
       "name": "Whisper Tiny (WASM)",
@@ -737,7 +743,8 @@
     "applicationLink": "查看应用流程",
     "none": "未说明",
     "default": "未指定变体",
-    "package": "发布包"
+    "package": "发布包",
+    "sourceExample": "示例演示"
   },
   "applications": {
     "title": "应用流程",
@@ -944,5 +951,122 @@
     ],
     "reviewTitle": "审阅与更正",
     "reviewBody": "每个来源都附带审阅日期，页面取其中最新的日期，而不是构建时间戳，因此一次部署不会被当作内容更新。身份存疑的条目会被标记为待确认，在更正前应排除于选型之外，而不是被悄悄删除。"
+  },
+  "demos": {
+    "title": "交互演示",
+    "intro": "本节的每个页面都在你的浏览器里运行。选定一个任务后可以切换该任务下列出的模型、修改示例输入并对比输出。部分页面会真实下载 ONNX 权重，其余运行确定性模拟引擎，每页都会标明当前属于哪一种。",
+    "notice": "推理发生在这个标签页里、在你的设备上完成，不会上传任何数据。",
+    "open": "打开演示",
+    "modelsCount": "{count} 个模型",
+    "catalogLink": "浏览模型目录",
+    "taskCatalog": "该任务对应的目录条目",
+    "backToDemos": "全部演示",
+    "simulated": "模拟"
+  },
+  "seo": {
+    "common": {
+      "privacyQ": "在浏览器里运行会上传我的数据吗？",
+      "privacyA": "本站演示的推理在标签页内完成，输入不会上传到服务器；权重与运行时首次需要从 CDN 下载，之后由浏览器缓存复用。",
+      "webgpuQ": "需要 WebGPU 吗？",
+      "webgpuA": "不强制。WebAssembly 是所有现代浏览器的保底路径，WebGPU 主要影响解码类模型与图像生成的速度；没有 WebGPU 时会回落到 WASM，结果一致但更慢。"
+    },
+    "task": {
+      "heading": "关于{name}",
+      "p1": "{cat}分类下的{name}在本目录收录了 {total} 条记录：{kinds}。",
+      "p2": "浏览器内运行这类任务的通常做法，是把量化后的权重（ONNX、TFLite 或 MediaPipe 资源包）加载进页面，交给 {frameworks} 执行，再用 WebGPU 或 WebAssembly 后端加速。决定体验的是权重体积、峰值内存与解码方式，而不是参数量。",
+      "p3": "想先看结果，可以直接打开本任务的交互演示：在同一页切换模型、修改示例输入，对比输出差异。每个演示页都会标明当前是真实权重推理还是模拟引擎。",
+      "factsTitle": "任务概览",
+      "factEntries": "条目数",
+      "factEntriesValue": "{total} 条",
+      "factFrameworks": "主要运行时",
+      "factSize": "最小已知权重",
+      "factSizeValue": "{size}",
+      "factSizeUnknown": "尚未核查",
+      "factEvidence": "运行依据",
+      "factEvidenceValue": "{ready} / {total} 条已验证",
+      "faqTitle": "{name}常见问题",
+      "q1": "{name}能在浏览器里直接运行吗？",
+      "a1": "可以。本目录已有 {ready} 条记录具备浏览器运行依据（本站实测或上游示例），说明这条路线成立；能否在你手上的设备流畅运行，取决于权重体积、浏览器版本以及是否启用 WebGPU。",
+      "q2": "运行{name}要下载多大的模型？",
+      "a2": "本目录记录到的最小权重是 {size}，同任务下其余条目尚未核查体积。浏览器端通常使用 int8 或 4-bit 量化版本，首次下载后由 HTTP 缓存或 Cache Storage 复用。",
+      "a2Unknown": "本目录尚未核查这条任务下各条目的权重体积。浏览器端通常使用 int8 或 4-bit 量化版本，接入前建议先确认实际下载量。",
+      "q3": "什么设备适合跑{name}？",
+      "a3": "支持 WebAssembly 的现代浏览器都能起步，启用 WebGPU 时通常更快。移动端内存更紧张，建议先用演示在目标设备上跑一次再决定。",
+      "relatedTitle": "同分类的其他任务",
+      "moreLink": "浏览全部{cat}模型",
+      "metaSuffix": "本站列出该任务下可用的模型、工具与演示，并逐条标注浏览器运行依据。",
+      "p1Pending": "另有 {pending} 条仍在等待验证。",
+      "p1NoEvidence": "这些条目目前都还没有浏览器运行依据，下面的判断只说明候选，不说明可行性。",
+      "p1EvidenceBoth": "其中 {ready} 条具备浏览器运行依据——{tested} 条本站实测，{upstream} 条来自上游浏览器示例。",
+      "p1EvidenceTested": "其中 {ready} 条具备浏览器运行依据，均为本站实测。",
+      "p1EvidenceUpstream": "其中 {ready} 条具备浏览器运行依据，均来自上游浏览器示例。",
+      "kindModel": "{count} 个模型",
+      "kindTool": "{count} 个工具或库",
+      "kindApp": "{count} 个应用",
+      "p1Empty": "{cat}分类下的{name}目前还没有收录条目，页面保留分类位置，等有了可用的实现再补。"
+    },
+    "model": {
+      "heading": "在浏览器里运行{name}",
+      "p1": "{name}属于{cat} / {task}，在目录中登记为{kind}，运行时为{framework}。{size}",
+      "sizeKnown": "已核查的权重体积为 {size}。",
+      "sizeUnknown": "权重体积尚未核查，接入前建议先确认实际下载量。",
+      "evidenceTested": "本站已实测其浏览器内运行情况，可作为选型参考。",
+      "evidenceUpstream": "目前依据来自上游浏览器示例，本站尚未实测。",
+      "evidencePending": "浏览器运行依据仍在等待补充，接入前需要自行验证。",
+      "p2": "在页面中加载这类权重的典型做法，是用 CDN 或自托管分发量化后的 ONNX 权重，交给页面内的推理运行时执行，WebGPU 不可用时回落到 WebAssembly。{license}",
+      "licenseKnown": "代码许可为 {code}、权重许可为 {weights}；商用前请以原始仓库条款为准。",
+      "licenseUnknown": "许可信息尚未完整核实，分发或商用前请查阅原始仓库。",
+      "faqTitle": "{name}常见问题",
+      "q1": "{name}的许可允许商用吗？",
+      "a1": "本目录记录为“{license}”。许可条款以模型原始仓库为准，本站标注只反映核查时的状态；如果找不到明确许可，请勿直接商用。",
+      "q2": "{name}的权重有多大？",
+      "a2": "本目录记录的体积为 {size}。同一模型的不同量化版本差异很大，浏览器端优先选择 int8 或 4-bit 版本。",
+      "a2Unknown": "本目录尚未核查该条目的权重体积。同一模型的不同量化版本差异很大，建议先确认实际下载量再决定。",
+      "q3": "怎样在项目里调用{name}？",
+      "a3": "大多数条目通过 {framework} 加载：把权重放到浏览器可访问的地址，在页面里初始化运行时，再按任务提交文本、图像或音频。具体接口以模型仓库与运行时文档为准。",
+      "a1Unknown": "本目录尚未核实这条记录的许可。分发或商用前，请以模型原始仓库的许可条款为准。"
+    },
+    "category": {
+      "heading": "关于{name}",
+      "body": "{name}分类目前收录 {tasks} 个任务、共 {total} 条记录，其中 {ready} 条具备浏览器运行依据（本站实测或上游示例）。下面按任务展开，每个任务页包含模型对比、来源链接与可交互的演示入口。",
+      "metaSuffix": "按任务查看模型、来源链接与浏览器运行依据。"
+    },
+    "home": {
+      "whyTitle": "为什么把推理放进浏览器",
+      "whyLead": "本地推理的价值不在于取代云端大模型，而在于把一批输入敏感、结果确定的任务搬到离用户更近的地方。",
+      "point1Title": "数据不出设备",
+      "point1": "文本分类、语音转写、嵌入这些任务的输入，往往是用户的原话、原图或整份文档。在标签页里完成推理，就少了一次把原文上传到服务器的必要。",
+      "point2Title": "省掉一次往返",
+      "point2": "这类模型的单次推理通常在几十到几百毫秒之间，比跨区域请求更快，也不占用云端算力。",
+      "point3Title": "权重可缓存",
+      "point3": "权重被浏览器缓存后，弱网或离线场景仍能打开页面；代价是首次要下载几十 MB 到几 GB。",
+      "howTitle": "怎么用这个目录",
+      "how1": "按任务浏览：每个任务页列出该任务下的模型、工具与应用，并标注浏览器运行依据是本站实测、上游示例还是待验证。",
+      "how2": "按约束筛选：权重体积、许可、运行时与内存峰值，决定它能否跑在你的设备和用户群上。",
+      "how3": "用演示验证：交互演示在你的标签页里运行，可以换模型、换输入，直接对比输出。",
+      "tasksTitle": "全部任务索引",
+      "faqTitle": "浏览器 AI 常见问题",
+      "q1": "哪些 AI 模型可以在浏览器里运行？",
+      "a1": "按体积排序最容易判断：几十 MB 的编码器类模型（文本分类、命名实体识别、嵌入、图像分类）最成熟；语音识别、OCR 与分割在 100–300 MB 区间可用；文生图与 1–3B 对话模型需要 WebGPU 与 GB 级下载，属于另一档。",
+      "q2": "浏览器端推理一定要 WebGPU 吗？",
+      "a2": "不需要。WebAssembly 是所有现代浏览器的保底路径，WebGPU 影响的是解码类模型与图像生成的速度；没有 WebGPU 时会回落到 WASM，结果一致但更慢。",
+      "q3": "在浏览器里跑模型会消耗多少流量？",
+      "a3": "首次加载需要下载权重：分类与嵌入模型约 5–130 MB，语音识别约 40–300 MB，文生图与对话模型可达 1–5 GB。之后由浏览器缓存复用，不必重复下载。",
+      "q4": "本地推理的结果可靠吗？",
+      "a4": "同款权重在本地与云端的结果一致，差异主要来自量化精度和后处理实现。演示页会标明是真实权重推理还是模拟引擎，模拟结果不能当作准确率参考。"
+    },
+    "demos": {
+      "extendedTitle": "演示在做什么",
+      "extendedBody": "每个演示页加载该任务下的模型清单，默认用一段内置文本、图片或音频跑一次推理。你可以在同一页切换模型、修改输入，比较不同权重在同一份输入上的输出差异；结果区会标明当前用的是真实权重还是模拟引擎。",
+      "whyTitle": "为什么值得看演示",
+      "point1": "同一任务下不同模型的输出差异，比排行榜上的数字更直观。",
+      "point2": "可以看到首次加载的等待与内存占用，而不只是精度。",
+      "point3": "推理在本地完成，输入不会离开这个标签页。",
+      "faqTitle": "演示常见问题",
+      "q1": "演示需要联网吗？",
+      "a1": "首次打开需要从 CDN 下载运行时与权重，之后同一浏览器通常可以离线复用缓存；模拟演示不下载权重。",
+      "q2": "为什么有的结果显示“模拟”？",
+      "a2": "部分任务暂时没有可用的轻量权重，页面会运行确定性模拟引擎来演示交互流程，结果仅用于说明形态，不代表模型精度。"
+    }
   }
 }

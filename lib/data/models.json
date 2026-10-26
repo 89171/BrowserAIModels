@@ -1,0 +1,1472 @@
+{
+  "text": {
+    "classification": [
+      {
+        "id": "distilbert-sst2",
+        "name": "DistilBERT (SST-2)",
+        "framework": "transformersjs",
+        "size": "~255.5 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Compact BERT variant fine-tuned for binary sentiment classification.",
+        "docsUrl": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english"
+      },
+      {
+        "id": "xlm-roberta-base",
+        "name": "XLM-RoBERTa Base",
+        "framework": "transformersjs",
+        "size": "~1061.9 MB",
+        "license": "mit",
+        "languages": [
+          "100+ languages"
+        ],
+        "description": "Multilingual masked language model; used for zero-shot text classification.",
+        "docsUrl": "https://huggingface.co/Xenova/xlm-roberta-base"
+      },
+      {
+        "id": "toxic-bert",
+        "name": "Toxic-BERT",
+        "framework": "transformersjs",
+        "size": "~417.9 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Detects toxic comments across multiple labels.",
+        "docsUrl": "https://huggingface.co/Xenova/toxic-bert"
+      },
+      {
+        "id": "mobilenet-bert",
+        "name": "MobileBERT",
+        "framework": "transformersjs",
+        "size": "~94.4 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Compact BERT optimized for mobile / browser inference.",
+        "docsUrl": "https://huggingface.co/Xenova/mobilebert-uncased-mnli"
+      }
+    ],
+    "translation": [
+      {
+        "id": "nllb-200",
+        "name": "NLLB-200 Distilled",
+        "framework": "transformersjs",
+        "size": "~3360.4 MB",
+        "license": "cc-by-nc-4-0",
+        "languages": [
+          "200+ languages"
+        ],
+        "description": "NLLB-200 distilled 600M translation model. Weight license: CC-BY-NC-4.0. Exact browser artifact and runtime configuration remain to be verified.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/react-translator",
+        "docsUrl": "https://huggingface.co/Xenova/nllb-200-distilled-600M"
+      },
+      {
+        "id": "opus-mt-en-zh",
+        "name": "Opus-MT (en↔zh)",
+        "framework": "transformersjs",
+        "size": "~425.1 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English",
+          "Chinese"
+        ],
+        "description": "MarianMT-based English ↔ Chinese translation pair.",
+        "docsUrl": "https://huggingface.co/Xenova/opus-mt-en-zh"
+      },
+      {
+        "id": "m2m100-418m",
+        "name": "M2M-100 (418M)",
+        "framework": "transformersjs",
+        "size": "~2359.4 MB",
+        "license": "mit",
+        "languages": [
+          "100 languages"
+        ],
+        "description": "Many-to-many translation model runnable in the browser via ONNX.",
+        "docsUrl": "https://huggingface.co/Xenova/m2m100_418M"
+      }
+    ],
+    "summarization": [
+      {
+        "id": "t5-small",
+        "name": "T5 Small",
+        "framework": "transformersjs",
+        "size": "~294.0 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Lightweight T5 variant for short text summarization.",
+        "docsUrl": "https://huggingface.co/Xenova/t5-small"
+      },
+      {
+        "id": "bart-large-cnn",
+        "name": "BART Large CNN",
+        "framework": "transformersjs",
+        "size": "~1747.6 MB",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "BART fine-tuned on CNN/DailyMail — strong abstractive summarization.",
+        "docsUrl": "https://huggingface.co/Xenova/bart-large-cnn"
+      },
+      {
+        "id": "pegasus-xsum",
+        "name": "PEGASUS XSum",
+        "framework": "transformers",
+        "size": "—",
+        "license": "—",
+        "languages": [
+          "English"
+        ],
+        "description": "Abstractive summarization model trained on XSum.",
+        "docsUrl": "https://huggingface.co/google/pegasus-xsum"
+      }
+    ]
+  },
+  "llm": {
+    "chat": [
+      {
+        "id": "llama-3-8b-instruct",
+        "name": "Llama-3 8B Instruct",
+        "framework": "webllm",
+        "size": "~4308.1 MB",
+        "license": "custom",
+        "languages": [
+          "English"
+        ],
+        "description": "Meta Llama 3 chat-tuned 8B; runs in the browser with WebGPU via WebLLM.",
+        "demoUrl": "https://chat.webllm.ai/",
+        "docsUrl": "https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC"
+      },
+      {
+        "id": "phi-3-mini",
+        "name": "Phi-3 Mini (3.8B)",
+        "framework": "webllm",
+        "size": "~2050.1 MB",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "Microsoft Phi-3 small language model with WebGPU inference.",
+        "demoUrl": "https://chat.webllm.ai/",
+        "docsUrl": "https://huggingface.co/mlc-ai/Phi-3-mini-4k-instruct-q4f16_1-MLC"
+      },
+      {
+        "id": "qwen2-1-5b",
+        "name": "Qwen2 1.5B Instruct",
+        "framework": "webllm",
+        "size": "~828.3 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English",
+          "Chinese"
+        ],
+        "description": "Compact Qwen2 chat model for resource-constrained browsers.",
+        "demoUrl": "https://chat.webllm.ai/",
+        "docsUrl": "https://huggingface.co/mlc-ai/Qwen2-1.5B-Instruct-q4f16_1-MLC"
+      },
+      {
+        "id": "tinyllama-1-1b",
+        "name": "TinyLlama 1.1B",
+        "framework": "transformersjs",
+        "size": "~4198.4 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Small open-source Llama; works in Transformers.js with WASM.",
+        "docsUrl": "https://huggingface.co/Xenova/TinyLlama-1.1B-Chat-v1.0"
+      },
+      {
+        "id": "gemma-2-2b-it",
+        "name": "Gemma 2 2B IT",
+        "framework": "webllm",
+        "size": "~1402.8 MB",
+        "license": "custom",
+        "languages": [
+          "English"
+        ],
+        "description": "Google Gemma 2 2B instruction-tuned — small enough to load on iOS Safari via WebLLM.",
+        "demoUrl": "https://chat.webllm.ai/",
+        "docsUrl": "https://huggingface.co/mlc-ai/gemma-2-2b-it-q4f16_1-MLC"
+      },
+      {
+        "id": "smollm2-1-7b",
+        "name": "SmolLM2 1.7B Instruct",
+        "framework": "webllm",
+        "size": "~918.2 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Hugging Face SmolLM2 1.7B — extremely compact instruct model for browser chat.",
+        "demoUrl": "https://chat.webllm.ai/",
+        "docsUrl": "https://huggingface.co/mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC"
+      },
+      {
+        "id": "deepseek-r1-distill-qwen-1-5b",
+        "name": "DeepSeek R1 Distill (Qwen 1.5B)",
+        "framework": "webllm",
+        "size": "~953.5 MB",
+        "license": "mit",
+        "languages": [
+          "English",
+          "Chinese"
+        ],
+        "description": "DeepSeek-R1 reasoning model distilled into Qwen 1.5B — runs in the browser with chain-of-thought output.",
+        "demoUrl": "https://chat.webllm.ai/",
+        "docsUrl": "https://huggingface.co/mlc-ai/DeepSeek-R1-Distill-Qwen-1.5B-q4f16_1-MLC"
+      }
+    ],
+    "structured-output": [
+      {
+        "id": "jsonformer-llama",
+        "name": "JSONFormer",
+        "framework": "transformers",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Python wrapper for constrained JSON generation with a supplied language model; supports a subset of JSON Schema. It has no standalone model weights.",
+        "docsUrl": "https://github.com/1rgs/jsonformer"
+      },
+      {
+        "id": "outline-llama",
+        "name": "Outlines",
+        "framework": "python",
+        "size": "—",
+        "license": "—",
+        "languages": [],
+        "description": "Structured generation library used with a separately selected model and backend. A Python example is not evidence of browser support.",
+        "docsUrl": "https://github.com/dottxt-ai/outlines"
+      },
+      {
+        "id": "webllm-json-mode",
+        "name": "webllm-json-mode",
+        "framework": "webllm",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://github.com/mlc-ai/web-llm/tree/main/examples/json-mode"
+      }
+    ],
+    "code": [
+      {
+        "id": "codellama-7b",
+        "name": "CodeLlama 7B",
+        "framework": "webllm",
+        "size": "~3615.2 MB",
+        "license": "custom",
+        "languages": [],
+        "description": "Meta CodeLlama — code completion and infill in the browser.",
+        "docsUrl": "https://huggingface.co/mlc-ai/CodeLlama-7b-hf-q4f16_1-MLC"
+      },
+      {
+        "id": "starcoder2-3b",
+        "name": "StarCoder2 3B",
+        "framework": "transformers",
+        "size": "—",
+        "license": "custom",
+        "languages": [],
+        "description": "BigCode StarCoder2 — modern code LLM with permissive licensing.",
+        "docsUrl": "https://huggingface.co/bigcode/starcoder2-3b"
+      },
+      {
+        "id": "deepseek-coder-1-3b",
+        "name": "DeepSeek Coder 1.3B",
+        "framework": "transformersjs",
+        "size": "~5153.1 MB",
+        "license": "other",
+        "languages": [],
+        "description": "Compact DeepSeek Coder model for browser-side code generation.",
+        "docsUrl": "https://huggingface.co/Xenova/deepseek-coder-1.3b-instruct"
+      }
+    ]
+  },
+  "search-rag": {
+    "embedding": [
+      {
+        "id": "all-minilm-l6-v2",
+        "name": "all-MiniLM-L6-v2",
+        "framework": "transformersjs",
+        "size": "~86.2 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Tiny but high-quality sentence embeddings for semantic search.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/webgpu-embedding-benchmark",
+        "docsUrl": "https://huggingface.co/Xenova/all-MiniLM-L6-v2"
+      },
+      {
+        "id": "bge-small-en",
+        "name": "BGE Small EN",
+        "framework": "transformersjs",
+        "size": "~126.9 MB",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "BAAI BGE small embedding model, strong on retrieval benchmarks.",
+        "docsUrl": "https://huggingface.co/Xenova/bge-small-en-v1.5"
+      },
+      {
+        "id": "gte-small",
+        "name": "GTE Small",
+        "framework": "transformersjs",
+        "size": "~126.9 MB",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "Alibaba GTE small embedding model.",
+        "docsUrl": "https://huggingface.co/Xenova/gte-small"
+      },
+      {
+        "id": "bge-m3",
+        "name": "BGE-M3",
+        "framework": "transformersjs",
+        "size": "~4324.9 MB",
+        "license": "mit",
+        "languages": [
+          "100+ languages"
+        ],
+        "description": "Multilingual, multi-granularity, multi-function embedding model.",
+        "docsUrl": "https://huggingface.co/Xenova/bge-m3"
+      },
+      {
+        "id": "instructor-xl",
+        "name": "Instructor-XL",
+        "framework": "transformers",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Instruction-tuned text embedding model for retrieval, clustering and similarity. This source does not establish browser compatibility.",
+        "docsUrl": "https://huggingface.co/hkunlp/instructor-xl"
+      }
+    ],
+    "reranker": [
+      {
+        "id": "ms-marco-minilm",
+        "name": "MS MARCO MiniLM Cross-Encoder",
+        "framework": "transformersjs",
+        "size": "~86.8 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Cross-encoder reranker trained on MS MARCO.",
+        "docsUrl": "https://huggingface.co/Xenova/ms-marco-MiniLM-L-6-v2"
+      },
+      {
+        "id": "bge-reranker-base",
+        "name": "BGE Reranker Base",
+        "framework": "transformersjs",
+        "size": "~1060.9 MB",
+        "license": "mit",
+        "languages": [
+          "English",
+          "Chinese"
+        ],
+        "description": "BAAI BGE reranker — strong out-of-the-box reranker.",
+        "docsUrl": "https://huggingface.co/Xenova/bge-reranker-base"
+      },
+      {
+        "id": "cohere-rerank-wasm",
+        "name": "Cohere Rerank (ONNX)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "ONNX port of a Cohere-style reranker for client-side use.",
+        "docsUrl": "https://onnxruntime.ai/docs/"
+      }
+    ],
+    "semantic-search": [
+      {
+        "id": "hnswlib-wasm",
+        "name": "hnswlib.js",
+        "framework": "wasm",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "HNSW ANN index compiled to WebAssembly — used to do semantic search on top of embeddings.",
+        "docsUrl": "https://github.com/shravansunder/hnswlib-wasm"
+      },
+      {
+        "id": "voyager-wasm",
+        "name": "Voyager (Spotify)",
+        "framework": "native",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Spotify approximate nearest-neighbor search library with Python and Java bindings. No browser WASM implementation has been verified for this entry.",
+        "docsUrl": "https://github.com/spotify/voyager"
+      },
+      {
+        "id": "lancedb-js",
+        "name": "LanceDB JS",
+        "framework": "native",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Embedded vector DB with WASM build for the browser.",
+        "docsUrl": "https://github.com/lancedb/lancedb"
+      },
+      {
+        "id": "vectra-wasm",
+        "name": "Vectra (WASM)",
+        "framework": "wasm",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Vectra — local vector index for semantic search in Node and the browser. WASM build, no server.",
+        "docsUrl": "https://github.com/Stevenic/vectra"
+      }
+    ]
+  },
+  "vision": {
+    "detection": [
+      {
+        "id": "yolov8n",
+        "name": "YOLOv8n",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Ultralytics YOLOv8 nano — fast real-time object detection in the browser.",
+        "docsUrl": "https://github.com/ultralytics/ultralytics"
+      },
+      {
+        "id": "yolov5s",
+        "name": "YOLOv5s",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Classic YOLOv5 small model widely ported to ONNX.",
+        "docsUrl": "https://github.com/ultralytics/yolov5"
+      },
+      {
+        "id": "mediapipe-objectdetection",
+        "name": "MediaPipe Object Detection",
+        "framework": "mediapipe",
+        "size": "~6.9 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "MediaPipe Tasks API — EfficientDet-Lite for object detection.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/object_detector",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/object_detector/web_js"
+      },
+      {
+        "id": "ssd-mobilenet",
+        "name": "SSD MobileNet v2",
+        "framework": "tensorflowjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "MobileNetV2 backbone with SSD head, packaged for tfjs-models.",
+        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/coco-ssd"
+      },
+      {
+        "id": "rtdetr-v2-r18",
+        "name": "RT-DETR v2 R18",
+        "framework": "transformersjs",
+        "size": "~77.3 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/onnx-community/rtdetr_v2_r18vd-ONNX"
+      },
+      {
+        "id": "yolov10n",
+        "name": "YOLOv10n",
+        "framework": "transformersjs",
+        "size": "~9.0 MB",
+        "license": "agpl-3-0",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/onnx-community/yolov10n"
+      }
+    ],
+    "segmentation": [
+      {
+        "id": "sam-tiny",
+        "name": "SAM Tiny (ONNX)",
+        "framework": "transformersjs",
+        "size": "~38.0 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Segment Anything Model — quantized mobile variant for the browser.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/segment-anything-web",
+        "docsUrl": "https://huggingface.co/Xenova/slimsam-77-uniform"
+      },
+      {
+        "id": "mediapipe-selfie",
+        "name": "MediaPipe Selfie Segmentation",
+        "framework": "mediapipe",
+        "size": "~0.2 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Lightweight binary segmentation for people in close-up shots.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/image_segmenter",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/image_segmenter/web_js"
+      },
+      {
+        "id": "rmbg-1-4",
+        "name": "RMBG-1.4",
+        "framework": "transformersjs",
+        "size": "~168.0 MB",
+        "license": "other",
+        "languages": [],
+        "description": "",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/remove-background-web",
+        "docsUrl": "https://huggingface.co/briaai/RMBG-1.4"
+      },
+      {
+        "id": "modnet",
+        "name": "MODNet",
+        "framework": "transformersjs",
+        "size": "~24.7 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/webgpu-video-background-removal",
+        "docsUrl": "https://huggingface.co/Xenova/modnet"
+      },
+      {
+        "id": "u2netp",
+        "name": "U²-Netp",
+        "framework": "transformersjs",
+        "size": "~4.4 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/BritishWerewolf/U-2-Netp"
+      }
+    ],
+    "ocr": [
+      {
+        "id": "tesseractjs",
+        "name": "Tesseract.js",
+        "framework": "tesseract-wasm",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [
+          "100+ languages"
+        ],
+        "description": "Browser/Node.js OCR library wrapping Tesseract via WebAssembly. Language data is downloaded separately; PDF pages must first be converted to images.",
+        "demoUrl": "https://tesseract.projectnaptha.com/",
+        "docsUrl": "https://github.com/naptha/tesseract.js"
+      },
+      {
+        "id": "easy-ocr",
+        "name": "EasyOCR (ONNX)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "80+ languages"
+        ],
+        "description": "Community ONNX port of EasyOCR for the browser.",
+        "docsUrl": "https://github.com/JaidedAI/EasyOCR"
+      },
+      {
+        "id": "paddle-ocr",
+        "name": "PaddleOCR PP-OCRv5 Mobile (Browser)",
+        "framework": "onnxruntime-web",
+        "size": "~15.9 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "80+ languages"
+        ],
+        "description": "PaddleOCR PP-OCRv5 mobile, loaded via @paddleocr/paddleocr-js and run on ONNX Runtime Web (WASM) inside the browser.",
+        "demoUrl": "https://toolgarden.xyz/image/ocr",
+        "docsUrl": "https://github.com/PaddlePaddle/PaddleOCR"
+      },
+      {
+        "id": "mediapipe-text",
+        "name": "MediaPipe Text Detector",
+        "framework": "mediapipe",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "DBNet-based text detector running entirely on-device.",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/text/text_classifier/web_js"
+      }
+    ],
+    "depth": [
+      {
+        "id": "midas-small",
+        "name": "MiDaS v2 Small",
+        "framework": "transformersjs",
+        "size": "~508.4 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Robust monocular depth estimation for the browser.",
+        "docsUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas"
+      },
+      {
+        "id": "depth-anything-small",
+        "name": "Depth Anything v2 Small",
+        "framework": "transformersjs",
+        "size": "~94.5 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "State-of-the-art monocular depth, ported to Transformers.js.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/webgpu-realtime-depth-estimation",
+        "docsUrl": "https://huggingface.co/onnx-community/depth-anything-v2-small"
+      },
+      {
+        "id": "mediapipe-depth",
+        "name": "MediaPipe Objectron (depth hints)",
+        "framework": "mediapipe",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Provides 3D bounding boxes and rough depth from a single image.",
+        "docsUrl": "https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/objectron.md"
+      }
+    ],
+    "image-restoration": [
+      {
+        "id": "nafnet-denoise",
+        "name": "NAFNet (Denoise)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "NAFNet — nonlinear activation free network for image denoising in the browser.",
+        "docsUrl": "https://github.com/megvii-research/NAFNet"
+      }
+    ],
+    "image-classification": [
+      {
+        "id": "mobilenet-tfjs",
+        "name": "MobileNet (TensorFlow.js)",
+        "framework": "tensorflowjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Classifies browser image, canvas or video elements. Model version and width multiplier affect its output and resource requirements.",
+        "demoUrl": "https://storage.googleapis.com/tfjs-models/demos/mobilenet/index.html",
+        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/mobilenet"
+      },
+      {
+        "id": "vit-base-224",
+        "name": "vit-base-224",
+        "framework": "transformersjs",
+        "size": "~330.5 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/vit-base-patch16-224"
+      },
+      {
+        "id": "resnet-50",
+        "name": "resnet-50",
+        "framework": "transformersjs",
+        "size": "~97.4 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/resnet-50"
+      },
+      {
+        "id": "mobilevit-small",
+        "name": "mobilevit-small",
+        "framework": "transformersjs",
+        "size": "~21.6 MB",
+        "license": "other",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/mobilevit-small"
+      }
+    ],
+    "background-removal": [
+      {
+        "id": "imgly-bg-removal",
+        "name": "IMG.LY Background Removal",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "custom",
+        "languages": [],
+        "description": "Browser background-removal package using ONNX Runtime Web. The upstream example documents isnet_quint8 and isnet_fp16 configurations. Exact downloaded weights, sizes and device performance still need verification.",
+        "demoUrl": "https://toolgarden.xyz/image/remove-bg?mode=fast",
+        "docsUrl": "https://github.com/imgly/background-removal-js/blob/main/packages/web/README.md"
+      },
+      {
+        "id": "birefnet-lite-512",
+        "name": "BiRefNet-lite 512",
+        "framework": "transformersjs",
+        "size": "~183.0 MB",
+        "license": "mit",
+        "languages": [],
+        "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison.",
+        "demoUrl": "https://toolgarden.xyz/image/remove-bg?mode=hd",
+        "docsUrl": "https://huggingface.co/studioludens/birefnet-lite-512"
+      }
+    ],
+    "watermark-removal": [
+      {
+        "id": "mi-gan-watermark",
+        "name": "MI-GAN Watermark Removal",
+        "framework": "onnxruntime-web",
+        "size": "~26.8 MB",
+        "license": "mit",
+        "languages": [],
+        "description": "MI-GAN — single-file ONNX watermark remover (~28 MB). Fast mode for clean backgrounds.",
+        "demoUrl": "https://toolgarden.xyz/image/remove-watermark?mode=balanced",
+        "docsUrl": "https://huggingface.co/andraniksargsyan/migan"
+      },
+      {
+        "id": "lama-watermark",
+        "name": "LaMa Watermark Removal (FP32)",
+        "framework": "onnxruntime-web",
+        "size": "~198.4 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "LaMa inpainting FP32 ONNX (~208 MB) for high-quality balanced / HD watermark removal.",
+        "demoUrl": "https://toolgarden.xyz/image/remove-watermark?mode=hd",
+        "docsUrl": "https://huggingface.co/Carve/LaMa-ONNX"
+      }
+    ],
+    "super-resolution": [
+      {
+        "id": "swinir",
+        "name": "Swin2SR (real-world x4)",
+        "framework": "transformersjs",
+        "size": "~50.3 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "SwinIR — transformer-based image restoration (super-resolution, denoising, JPEG deblocking).",
+        "docsUrl": "https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr"
+      },
+      {
+        "id": "esrgan-slim",
+        "name": "ESRGAN Slim (UpscalerJS)",
+        "framework": "tensorflowjs",
+        "size": "~0.9 MB",
+        "license": "mit",
+        "languages": [],
+        "description": "",
+        "demoUrl": "https://toolgarden.xyz/image/upscale?mode=hd",
+        "docsUrl": "https://github.com/thekevinscott/UpscalerJS/tree/main/models/esrgan-slim"
+      }
+    ],
+    "image-enhancement": [
+      {
+        "id": "real-esrgan",
+        "name": "Real-ESRGAN",
+        "framework": "onnxruntime-web",
+        "size": "~32.2 MB",
+        "license": "bsd-3",
+        "languages": [],
+        "description": "Real-ESRGAN general-purpose image super-resolution; runs entirely on WebGPU via onnxruntime-web.",
+        "demoUrl": "https://toolgarden.xyz/image/enhance",
+        "docsUrl": "https://github.com/xinntao/Real-ESRGAN"
+      }
+    ],
+    "object-removal": [
+      {
+        "id": "image-object-eraser",
+        "name": "Image object eraser (MI-GAN / LaMa)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "—",
+        "languages": [],
+        "description": "Brush-mask erasure that inpaints the selected region with MI-GAN and falls back to LaMa for HD passes — the same masked-inpainting pipeline as watermark removal, driven by hand-drawn masks instead of rectangle selections.",
+        "demoUrl": "https://toolgarden.xyz/image/erase",
+        "docsUrl": "https://github.com/Picsart-AI-Research/MI-GAN"
+      }
+    ]
+  },
+  "generative-vision": {
+    "text-to-image": [
+      {
+        "id": "sdxl-turbo",
+        "name": "SDXL-Turbo",
+        "framework": "onnxruntime-web",
+        "size": "~13241.1 MB",
+        "license": "other",
+        "languages": [],
+        "description": "Real-time distilled SDXL; runs on WebGPU with onnxruntime-web.",
+        "docsUrl": "https://huggingface.co/stabilityai/sdxl-turbo"
+      },
+      {
+        "id": "sd-turbo",
+        "name": "SD-Turbo",
+        "framework": "onnxruntime-web",
+        "size": "~2461.2 MB",
+        "license": "other",
+        "languages": [],
+        "description": "Smaller distilled Stable Diffusion variant.",
+        "docsUrl": "https://huggingface.co/onnxruntime/sd-turbo"
+      },
+      {
+        "id": "flux-schnell",
+        "name": "FLUX.1 Schnell (WebGPU)",
+        "framework": "python",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Fast FLUX diffusion model — community ONNX/WebGPU builds.",
+        "docsUrl": "https://huggingface.co/black-forest-labs/FLUX.1-schnell"
+      }
+    ],
+    "inpainting": [
+      {
+        "id": "sdxl-inpaint",
+        "name": "SDXL Inpaint",
+        "framework": "python",
+        "size": "—",
+        "license": "openrail",
+        "languages": [],
+        "description": "SDXL variant fine-tuned for mask-based inpainting.",
+        "docsUrl": "https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1"
+      }
+    ]
+  },
+  "audio": {
+    "asr": [
+      {
+        "id": "whistle",
+        "name": "Whistle (Cactus Compute)",
+        "framework": "wasm",
+        "size": "~16.1 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English",
+          "German",
+          "French",
+          "Spanish",
+          "Italian",
+          "Dutch",
+          "Polish"
+        ],
+        "description": "Cactus Compute's compact speech recognition model with a 16.9 MB quantized .cact file, running locally in the browser through the Needle WebAssembly engine. Supports seven European languages, 16 kHz mono audio up to 30 seconds per pass, word timestamps and keyword biasing.",
+        "demoUrl": "https://www.cactuscompute.com/blog/whistle",
+        "docsUrl": "https://huggingface.co/Cactus-Compute/whistle"
+      },
+      {
+        "id": "whisper-small",
+        "name": "Whisper Small (Transformers.js)",
+        "framework": "transformersjs",
+        "size": "~923.4 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "99 languages"
+        ],
+        "description": "Xenova/whisper-small via Transformers.js — high-precision default; quantized encoder + merged decoder ONNX.",
+        "demoUrl": "https://toolgarden.xyz/audio/to-text?mode=accurate",
+        "docsUrl": "https://huggingface.co/Xenova/whisper-small"
+      },
+      {
+        "id": "whisper-base",
+        "name": "Whisper Base (Transformers.js)",
+        "framework": "transformersjs",
+        "size": "~277.6 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "99 languages"
+        ],
+        "description": "Xenova/whisper-base via Transformers.js — balanced mode; smaller encoder/decoder footprint.",
+        "demoUrl": "https://toolgarden.xyz/audio/to-text?mode=balanced",
+        "docsUrl": "https://huggingface.co/Xenova/whisper-base"
+      },
+      {
+        "id": "whisper-tiny-wasm",
+        "name": "Whisper Tiny (WASM)",
+        "framework": "whisper-wasm",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "99 languages"
+        ],
+        "description": "OpenAI Whisper Tiny compiled to WASM via whisper.cpp — fastest ASR variant in the browser.",
+        "demoUrl": "https://ggml.ai/whisper.cpp/",
+        "docsUrl": "https://github.com/ggml-org/whisper.cpp"
+      }
+    ],
+    "tts": [
+      {
+        "id": "kokoro-82m-fp32",
+        "name": "Kokoro TTS (FP32, 82M voices)",
+        "framework": "transformersjs",
+        "size": "~323.6 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "Chinese",
+          "English"
+        ],
+        "description": "Kokoro 82M FP32 ONNX with 4 bundled voices (zf_001, zm_009, af_maple, bf_vale). Loaded with its own tokenizer, model config and on-demand voice.bin files.",
+        "demoUrl": "https://toolgarden.xyz/audio/tts",
+        "docsUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX"
+      },
+      {
+        "id": "piper-tts",
+        "name": "Piper TTS (ONNX)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "30+ languages"
+        ],
+        "description": "Fast on-device Piper TTS — many open voices.",
+        "docsUrl": "https://huggingface.co/rhasspy/piper-voices"
+      },
+      {
+        "id": "silero-tts",
+        "name": "Silero TTS",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "English",
+          "Russian",
+          "German",
+          "Spanish"
+        ],
+        "description": "Compact Silero TTS models with several built-in speakers.",
+        "docsUrl": "https://github.com/snakers4/silero-models"
+      },
+      {
+        "id": "bark-wasm",
+        "name": "Bark (WASM)",
+        "framework": "transformers",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "Multilingual"
+        ],
+        "description": "Suno Bark — generative audio / speech with non-verbal cues.",
+        "docsUrl": "https://huggingface.co/suno/bark-small"
+      }
+    ],
+    "denoising": [
+      {
+        "id": "rnnoise-wasm",
+        "name": "RNNoise (WASM)",
+        "framework": "wasm",
+        "size": "—",
+        "license": "—",
+        "languages": [],
+        "description": "Xiph.org RNNoise — real-time speech denoising in the browser.",
+        "docsUrl": "https://github.com/xiph/rnnoise"
+      },
+      {
+        "id": "deepfilternet",
+        "name": "DeepFilterNet",
+        "framework": "onnxruntime-web",
+        "size": "~8.2 MB",
+        "license": "mit",
+        "languages": [],
+        "description": "DeepFilterNet — modern speech enhancement via ONNX.",
+        "docsUrl": "https://github.com/Rikorose/DeepFilterNet"
+      },
+      {
+        "id": "facebook-denoiser",
+        "name": "Facebook Denoiser (ONNX)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "FAIR real-time speech denoiser ported to ONNX.",
+        "docsUrl": "https://github.com/facebookresearch/denoiser"
+      }
+    ],
+    "source-separation": [
+      {
+        "id": "htdemucs-4-stem",
+        "name": "HT Demucs (4 stems)",
+        "framework": "onnxruntime-web",
+        "size": "~157.9 MB",
+        "license": "mit",
+        "languages": [],
+        "description": "Hybrid Transformer Demucs 4-stem model (~166 MB ONNX) — the fast split, separating drums, bass, other and vocals.",
+        "demoUrl": "https://toolgarden.xyz/audio/split-stems?mode=4-stem",
+        "docsUrl": "https://huggingface.co/StemSplitio/htdemucs-onnx"
+      },
+      {
+        "id": "htdemucs-6-stem",
+        "name": "HT Demucs (6 stems, default)",
+        "framework": "onnxruntime-web",
+        "size": "~130.1 MB",
+        "license": "mit",
+        "languages": [],
+        "description": "Hybrid Transformer Demucs 6-stem model (~136 MB ONNX) — the balanced split, adding guitar and piano to the four stems.",
+        "demoUrl": "https://toolgarden.xyz/audio/split-stems?mode=6-stem",
+        "docsUrl": "https://huggingface.co/StemSplitio/htdemucs-6s-onnx"
+      },
+      {
+        "id": "open-unmix",
+        "name": "Open-Unmix",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Open-Unmix — reference open-source music source separation.",
+        "docsUrl": "https://github.com/sigsep/open-unmix-pytorch"
+      }
+    ],
+    "audio-classification": [
+      {
+        "id": "mediapipe-audio-classifier",
+        "name": "MediaPipe Audio Classifier",
+        "framework": "mediapipe",
+        "size": "~3.9 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Web task API for audio classification. Select a compatible model asset; task-library support does not specify the weight version or measured latency.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/audio_classifier",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/audio/audio_classifier/web_js"
+      },
+      {
+        "id": "ast-audioset",
+        "name": "ast-audioset",
+        "framework": "transformersjs",
+        "size": "~330.7 MB",
+        "license": "bsd-3",
+        "languages": [],
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593"
+      },
+      {
+        "id": "wav2vec2-keyword-spotting",
+        "name": "wav2vec2-keyword-spotting",
+        "framework": "transformersjs",
+        "size": "~361.1 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "",
+        "docsUrl": "https://huggingface.co/Xenova/wav2vec2-base-superb-ks"
+      }
+    ]
+  },
+  "generative-audio": {
+    "text-to-music": [
+      {
+        "id": "musicgen-small",
+        "name": "MusicGen Small",
+        "framework": "transformersjs",
+        "size": "~2144.8 MB",
+        "license": "cc-by-nc-4-0",
+        "languages": [],
+        "description": "Meta MusicGen small (300M) — text-conditioned music generation that runs entirely in the browser via Transformers.js.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/musicgen-web",
+        "docsUrl": "https://huggingface.co/Xenova/musicgen-small"
+      },
+      {
+        "id": "musicgen-medium",
+        "name": "MusicGen Medium (ONNX)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Meta MusicGen medium (1.5B) — better quality, exported to ONNX for browser-side generation.",
+        "docsUrl": "https://huggingface.co/facebook/musicgen-medium"
+      },
+      {
+        "id": "riffusion",
+        "name": "Riffusion (Stable Diffusion spectrogram)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "Riffusion — generates music by inpainting spectrograms with a Stable Diffusion model; runs in the browser.",
+        "docsUrl": "https://github.com/riffusion/riffusion-hobby"
+      }
+    ],
+    "voice-cloning": [
+      {
+        "id": "openvoice",
+        "name": "OpenVoice v2",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [],
+        "description": "OpenVoice v2 — instant voice cloning with tone-color control; ONNX port runs locally.",
+        "docsUrl": "https://github.com/myshell-ai/OpenVoice"
+      },
+      {
+        "id": "coqui-xtts",
+        "name": "Coqui XTTS v2",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "17 languages"
+        ],
+        "description": "Coqui XTTS v2 — short-clone voice cloning TTS; community ONNX port runs in the browser.",
+        "docsUrl": "https://huggingface.co/coqui/XTTS-v2"
+      }
+    ]
+  },
+  "multimodal": {
+    "vlm": [
+      {
+        "id": "moondream2",
+        "name": "Moondream 2",
+        "framework": "transformersjs",
+        "size": "~7087.6 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Tiny VLM for visual question answering and captioning.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/experimental-moondream-webgpu",
+        "docsUrl": "https://huggingface.co/Xenova/moondream2"
+      },
+      {
+        "id": "llava-1-5-7b",
+        "name": "LLaVA 1.5 7B",
+        "framework": "transformers",
+        "size": "—",
+        "license": "custom",
+        "languages": [
+          "English"
+        ],
+        "description": "LLaVA visual chat model; runs in the browser via WebLLM.",
+        "docsUrl": "https://huggingface.co/llava-hf/llava-1.5-7b-hf"
+      },
+      {
+        "id": "paligemma-3b",
+        "name": "PaliGemma 3B",
+        "framework": "transformersjs",
+        "size": "~13829.2 MB",
+        "license": "custom",
+        "languages": [
+          "English"
+        ],
+        "description": "Google PaliGemma — versatile small VLM with strong OCR.",
+        "docsUrl": "https://huggingface.co/onnx-community/paligemma2-3b-pt-224"
+      },
+      {
+        "id": "florence-2",
+        "name": "Florence-2",
+        "framework": "transformersjs",
+        "size": "~1035.6 MB",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "Microsoft Florence-2 — unified vision foundation model for captioning, detection, OCR and grounding in the browser.",
+        "docsUrl": "https://huggingface.co/onnx-community/Florence-2-base"
+      }
+    ],
+    "clip": [
+      {
+        "id": "clip-vit-base",
+        "name": "CLIP ViT-B/32",
+        "framework": "transformersjs",
+        "size": "~1155.4 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "OpenAI CLIP base model — image/text embeddings in the browser.",
+        "docsUrl": "https://huggingface.co/Xenova/clip-vit-base-patch32"
+      },
+      {
+        "id": "siglip-base",
+        "name": "SigLIP Base",
+        "framework": "transformersjs",
+        "size": "~1551.0 MB",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Google SigLIP — improved image-text similarity learning.",
+        "docsUrl": "https://huggingface.co/Xenova/siglip-base-patch16-224"
+      },
+      {
+        "id": "mobileclip",
+        "name": "MobileCLIP",
+        "framework": "transformersjs",
+        "size": "~205.4 MB",
+        "license": "other",
+        "languages": [
+          "English"
+        ],
+        "description": "Apple MobileCLIP — tiny CLIP-style model for on-device use.",
+        "demoUrl": "https://huggingface.co/spaces/Xenova/webgpu-mobileclip",
+        "docsUrl": "https://github.com/apple-aiml-research/ml-mobileclip"
+      }
+    ],
+    "document-understanding": [
+      {
+        "id": "layoutlmv3",
+        "name": "LayoutLMv3",
+        "framework": "transformersjs",
+        "size": "~478.4 MB",
+        "license": "custom",
+        "languages": [
+          "English"
+        ],
+        "description": "Multimodal document understanding with text + layout + image.",
+        "docsUrl": "https://huggingface.co/microsoft/layoutlmv3-base"
+      },
+      {
+        "id": "donut-base",
+        "name": "Donut (base)",
+        "framework": "transformersjs",
+        "size": "~779.0 MB",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "OCR-free document understanding transformer.",
+        "docsUrl": "https://huggingface.co/Xenova/donut-base-finetuned-docvqa"
+      },
+      {
+        "id": "nougat-small",
+        "name": "Nougat Small",
+        "framework": "transformersjs",
+        "size": "~949.3 MB",
+        "license": "cc-by-4-0",
+        "languages": [
+          "English"
+        ],
+        "description": "Meta Nougat — scientific document parsing.",
+        "docsUrl": "https://huggingface.co/Xenova/nougat-small"
+      }
+    ]
+  },
+  "real-time": {
+    "face": [
+      {
+        "id": "mediapipe-facedetection",
+        "name": "MediaPipe Face Detection",
+        "framework": "mediapipe",
+        "size": "~0.2 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "BlazeFace — short-range and full-range face detection.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/face_detector",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/face_detector/web_js"
+      },
+      {
+        "id": "mediapipe-facemesh",
+        "name": "MediaPipe Face Mesh",
+        "framework": "mediapipe",
+        "size": "~3.6 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Dense 3D face landmarks for AR / analytics.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/face_landmarker",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/face_landmarker/web_js"
+      },
+      {
+        "id": "blazeface",
+        "name": "BlazeFace (tfjs)",
+        "framework": "tensorflowjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Original BlazeFace implementation via TensorFlow.js.",
+        "demoUrl": "https://storage.googleapis.com/tfjs-models/demos/blazeface/index.html",
+        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/blazeface"
+      }
+    ],
+    "pose": [
+      {
+        "id": "mediapipe-pose",
+        "name": "MediaPipe Pose",
+        "framework": "mediapipe",
+        "size": "~5.5 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "ML-based 3D pose estimation from a single image.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/pose_landmarker",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker/web_js"
+      },
+      {
+        "id": "movenet",
+        "name": "MoveNet",
+        "framework": "tensorflowjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Google MoveNet — lightning/ thunder variants for pose.",
+        "demoUrl": "https://storage.googleapis.com/tfjs-models/demos/pose-detection/index.html",
+        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/pose-detection"
+      },
+      {
+        "id": "posenet",
+        "name": "PoseNet",
+        "framework": "tensorflowjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Classic PoseNet for single-person pose estimation.",
+        "demoUrl": "https://storage.googleapis.com/tfjs-models/demos/posenet/camera.html",
+        "docsUrl": "https://github.com/tensorflow/tfjs-models/tree/master/posenet"
+      },
+      {
+        "id": "mediapipe-pose-landmarker",
+        "name": "MediaPipe Pose Landmarker (Tasks API)",
+        "framework": "mediapipe",
+        "size": "~9.0 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "MediaPipe Pose Landmarker — modern Tasks API successor to MediaPipe Pose, with BlazePose GHUM 3D model.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/pose_landmarker",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker/web_js"
+      }
+    ],
+    "hand": [
+      {
+        "id": "mediapipe-hands",
+        "name": "MediaPipe Hands",
+        "framework": "mediapipe",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Real-time hand landmark tracking for gesture interfaces.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/hand_landmarker",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js"
+      },
+      {
+        "id": "mediapipe-handlandmarker",
+        "name": "MediaPipe Hand Landmarker",
+        "framework": "mediapipe",
+        "size": "~7.5 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Newer Tasks API version of MediaPipe Hands.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/hand_landmarker",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js"
+      },
+      {
+        "id": "mediapipe-gesture-recognizer",
+        "name": "mediapipe-gesture-recognizer",
+        "framework": "mediapipe",
+        "size": "~8.0 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/gesture_recognizer",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/gesture_recognizer/web_js"
+      }
+    ],
+    "tracking": [
+      {
+        "id": "mediapipe-holistic",
+        "name": "MediaPipe Holistic",
+        "framework": "mediapipe",
+        "size": "~13.0 MB",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "Unified pipeline that tracks face, pose and hands simultaneously.",
+        "demoUrl": "https://mediapipe-studio.webapps.google.com/demo/holistic_landmarker",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/holistic_landmarker/web_js"
+      },
+      {
+        "id": "mediapipe-objectron",
+        "name": "MediaPipe Objectron",
+        "framework": "mediapipe",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "3D bounding-box tracking for everyday objects.",
+        "docsUrl": "https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/objectron.md"
+      },
+      {
+        "id": "bytetrack-wasm",
+        "name": "ByteTrack (WASM)",
+        "framework": "opencvjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "ByteTrack tracker used together with OpenCV.js for in-browser MOT.",
+        "docsUrl": "https://github.com/FoundationVision/ByteTrack"
+      }
+    ]
+  },
+  "video": {
+    "video-understanding": [
+      {
+        "id": "videoclip",
+        "name": "VideoCLIP",
+        "framework": "transformersjs",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [
+          "English"
+        ],
+        "description": "CLIP-style video-text embedding for retrieval and tagging.",
+        "docsUrl": "https://github.com/facebookresearch/fairseq/tree/main/examples/MMPT"
+      },
+      {
+        "id": "xclip",
+        "name": "X-CLIP",
+        "framework": "transformers",
+        "size": "—",
+        "license": "mit",
+        "languages": [
+          "English"
+        ],
+        "description": "Multimodal contrastive video-language model.",
+        "docsUrl": "https://huggingface.co/microsoft/xclip-base-patch32"
+      },
+      {
+        "id": "videomae",
+        "name": "VideoMAE",
+        "framework": "transformers",
+        "size": "—",
+        "license": "cc-by-nc-4-0",
+        "languages": [],
+        "description": "Masked autoencoder pre-trained for video action classification.",
+        "docsUrl": "https://huggingface.co/MCG-NJU/videomae-base"
+      },
+      {
+        "id": "mediapipe-classifier",
+        "name": "MediaPipe Video Classifier",
+        "framework": "mediapipe",
+        "size": "—",
+        "license": "apache-2-0",
+        "languages": [],
+        "description": "On-device video action classification via the MediaPipe Tasks API.",
+        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/image_classifier/web_js"
+      }
+    ],
+    "video-watermark-removal": [
+      {
+        "id": "video-watermark-repair",
+        "name": "Video watermark removal (MI-GAN / LaMa)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "—",
+        "languages": [],
+        "description": "Samples a representative frame, inpaints the watermark patch with MI-GAN — or LaMa in HD mode, or a temporal median when the background moves — then re-encodes the repaired frames with WebCodecs and muxes the original audio back with ffmpeg.wasm.",
+        "demoUrl": "https://toolgarden.xyz/video/remove-watermark",
+        "docsUrl": "https://github.com/Picsart-AI-Research/MI-GAN"
+      },
+      {
+        "id": "video-watermark-repair-hq",
+        "name": "Video watermark removal HD (LaMa)",
+        "framework": "onnxruntime-web",
+        "size": "—",
+        "license": "—",
+        "languages": [],
+        "description": "The HD pass of the video watermark pipeline: the representative frame is inpainted with big-lama fp32 (~198 MB) instead of MI-GAN, trading ~7x slower inference for markedly better reconstruction of large watermarks and structures crossing the selection edge. Runs on the WASM execution provider only — LaMa deadlocks on WebGPU — and auto mode never selects it; users opt in explicitly.",
+        "demoUrl": "https://toolgarden.xyz/video/remove-watermark?mode=hq",
+        "docsUrl": "https://github.com/advimman/lama"
+      }
+    ]
+  }
+}

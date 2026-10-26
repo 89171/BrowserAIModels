@@ -4,9 +4,17 @@
 
 ## 一、WebAIModels（本仓库）
 - 仓库 `git@github.com:89171/WebAIModels.git`，GitHub 已改名为 **BrowserAIModels**（推送有 moved 提示，仍可推）。
-- 定位：**纯静态目录站**，双语 en/zh，10 分类 / 34 任务页 / 117 条目，**不运行任何模型**，只展示目录与来源核查状态。
+- 定位：静态目录站 + **交互演示区**（10-26 合并 AI-Demos），双语 en/zh，10 分类 / 40 任务页 / 117 条目 / 39 演示页（+每模型深链）。目录页不运行模型；`/demos` 在浏览器内推理。
 - 部署：`output: 'export'` → `out/`，`esa.jsonc` 指 ESA Pages，线上 browseraimodels.xyz。
 - 栈：Next 16.4.1 / React 19.3.1 / next-intl 4.14.9 / Tailwind 4.3.3 / ESLint 10.12.0 / TS 6.0.3。
+
+### 演示区合并约定（10-26，详见 2026-10-26.md）
+- 演示路由 = 目录分类：`lib/data/registry.ts` 按 catalog slugs 分组，`allDemoPaths/hasDemo/getDemo` 在 registry；`lib/data/taxonomy.ts`（旧演示分类）已删。
+- 演示模型列表 = `lib/demo-catalog.ts` 的 union（models.json ∪ data/models.ts）；目录→演示链接走 `lib/demo-links.ts`。
+- ModelTable 示例编号 `table.exampleN`：旧 demoUrl 在前，AI-Demos 页追加在后。
+- `public/ort`、`public/mediapipe` gitignore，由 postinstall `copy:vendor` 生成；samples/vendor 入库。
+- 演示 CSS 全部 scope 在 `.demo-scope`；`main:has(> .demo-scope)` 放开宽度；演示 locale 来自路由（AppProvider prop）。
+- 本机构建：先 `mv .next /tmp`（safe-delete 拦 rmdir），`next.config.mjs` 已设 `experimental.cpus: 1`；tsconfig exclude `out`。
 
 ### 硬约定
 - **不许加 `middleware.ts` / `proxy.ts`**：静态导出不能跑中间件，根页用 meta refresh 跳转。
@@ -17,6 +25,9 @@
 - TS 只能到 6.x（`typescript-eslint` peer 上限 `<6.1.0`）；TS 7 还移除了 tsconfig 的 `baseUrl`。
 - CI 跑 `npm ci → lint → typecheck → test → build`，build 注入 `NEXT_PUBLIC_SITE_URL`。
 
+### 文案红线（10-26 起）
+- 页面可见文本**不得出现 "toolgarden"**（toolgarden.xyz 仅作示例链接）。来源列表对 toolgarden.xyz 域名显示 "示例演示"（`ModelTable.tsx` 的 `UNNAMED_SOURCE_HOSTS` + `catalog.sourceExample`）；`scripts/check-seo.cjs` 会剥离标签扫描全站 HTML，命中即构建失败。
+
 ### 锁文件的坑（10-06~10-09 CI 连续红就是这个）
 在**已有 `node_modules`** 的目录上直接 `npm install`，生成的 lock 会漏记 optional/inBundle
 传递依赖 → CI 第一步 `npm ci` 报 `Missing: X from lock file`，后面全跑不到。改依赖后必须补
@@ -26,7 +37,7 @@
 `messages/*.json` 里 applications 文案含未转义花括号（`{file, strideMs}`）：dev 下 next-intl 报
 `INVALID_MESSAGE`，生产则原样输出，不阻断构建。
 
-## 二、AI-Demos（另一仓库）
+## 二、AI-Demos（另一仓库；演示部分已于 10-26 并入本仓库，以下为其历史约定）
 - `github.com:89171/AI-Demos.git`，**只能走 SSH**（本机无 credential helper）。
 - 带**真实推理**的浏览器端 Demo 站：`lib/engine/index.ts` 的 `runInference(kind, ctx)` 可插拔；
   真实权重在 `lib/engine/real.ts` + `lib/data/real-models.ts`。

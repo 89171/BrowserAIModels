@@ -34,8 +34,12 @@ export async function SiteDocument({ children, locale }: { children: ReactNode; 
           <JsonLd
             data={{
               '@context': 'https://schema.org',
+              // One WebSite node for the whole export; pages reference it by @id
+              // instead of repeating a partial copy.
               '@type': 'WebSite',
+              '@id': `${SITE_URL}/#website`,
               name: tSite('name'),
+              alternateName: 'Browser AI Models',
               url: SITE_URL,
               inLanguage: locale,
               description: tSite('description'),

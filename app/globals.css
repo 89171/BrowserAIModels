@@ -57,3 +57,268 @@ body {
     @apply font-mono tracking-tight;
   }
 }
+
+/* ==========================================================================
+ * Demo section (migrated from AI-Demos)
+ *
+ * The playgrounds were written against their own palette and component classes.
+ * They are scoped under `.demo-scope` instead of `:root` so the catalogue keeps
+ * its black-on-white typography and nothing leaks between the two.
+ * ========================================================================== */
+
+.demo-scope {
+  --bg: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #f4f4f5;
+  --bg-inset: #f7f7f8;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --fg: #09090b;
+  --fg-muted: #52525b;
+  --fg-subtle: #71717a;
+  --fg-faint: #a1a1aa;
+  --accent: #18181b;
+  --accent-fg: #fafafa;
+  --focus: #a1a1aa;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/*
+ * The playgrounds ask for up to 1420px and manage their own gutters, so the
+ * site's prose container is released for these pages only.
+ */
+main:has(> .demo-scope) {
+  max-width: none;
+  padding: 0;
+}
+
+/*
+ * Tailwind v4 preflight lets borders inherit `currentColor` and keeps the style
+ * unset; the demos rely on the v3 behaviour where a bare `border` is a hairline.
+ * `:where()` keeps the specificity at zero so `border-black` style utilities
+ * still win where a component sets one.
+ */
+.demo-scope :where(*, ::before, ::after) {
+  border-color: var(--border);
+  border-style: solid;
+}
+
+.demo-scope .surface {
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.demo-scope .surface-inset {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+}
+
+.demo-scope .surface-subtle {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+}
+
+.demo-scope .hairline {
+  border-color: var(--border);
+}
+
+.demo-scope .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.demo-scope .btn:hover {
+  background: var(--bg-muted);
+}
+
+.demo-scope .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.demo-scope .btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.demo-scope .btn-primary:hover {
+  background: var(--accent);
+  opacity: 0.88;
+}
+
+.demo-scope .btn-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--fg-muted);
+}
+
+.demo-scope .btn-ghost:hover {
+  background: var(--bg-muted);
+  color: var(--fg);
+}
+
+.demo-scope .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg-muted);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 120ms ease;
+  white-space: nowrap;
+}
+
+.demo-scope .chip:hover {
+  border-color: var(--border-strong);
+  color: var(--fg);
+}
+
+.demo-scope .chip-active {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.demo-scope .chip-active:hover {
+  color: var(--accent-fg);
+}
+
+.demo-scope .tag {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  padding: 0.0625rem 0.375rem;
+  font-size: 0.6875rem;
+  color: var(--fg-subtle);
+  background: var(--bg-subtle);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.demo-scope .field {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.875rem;
+  color: var(--fg);
+  outline: none;
+  transition: border-color 120ms ease;
+}
+
+.demo-scope .field:focus {
+  border-color: var(--fg-subtle);
+}
+
+.demo-scope .field::placeholder {
+  color: var(--fg-faint);
+}
+
+.demo-scope textarea.field {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.demo-scope input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border-strong);
+  border-radius: 999px;
+  outline: none;
+}
+
+.demo-scope input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fg);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--border-strong);
+}
+
+.demo-scope .scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.demo-scope .scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+}
+
+.demo-scope .scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.demo-scope .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+.demo-scope .checker {
+  background-image: linear-gradient(45deg, var(--bg-muted) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--bg-muted) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--bg-muted) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--bg-muted) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+@keyframes wb-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.demo-scope .animate-in {
+  animation: wb-fade-up 220ms ease both;
+}
+
+@keyframes wb-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.demo-scope .pulse {
+  animation: wb-pulse 1.4s ease-in-out infinite;
+}
+
+.demo-scope .grid-lines {
+  background-image: linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 32px 32px;
+}

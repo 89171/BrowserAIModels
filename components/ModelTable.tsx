@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { resolveDemoUrl } from '@/lib/catalog';
+import { demoModelPath } from '@/lib/demo-links';
 import type { ModelEntry } from '@/types/taxonomy';
 
 type Props = {
@@ -11,9 +12,56 @@ type Props = {
   basePath?: string;
   /** Set on an entry's own page, where the details are the point of the page. */
   expanded?: boolean;
+  /** `category/subcategory` of the rows, needed to resolve their demo page. */
+  taskPath?: string;
 };
 
-export async function ModelTable({ models, locale, basePath, expanded }: Props) {
+type Example = { href: string; external: boolean };
+
+/**
+ * Hosts we cite without printing the address. The demo deployment behind a
+ * "browser example" source is a working example, not a published document, so
+ * the list links to it and names it generically instead of advertising a domain.
+ */
+const UNNAMED_SOURCE_HOSTS = new Set(['toolgarden.xyz', 'www.toolgarden.xyz']);
+
+function sourceLabel(url: string, fallback: string): string {
+  try {
+    return UNNAMED_SOURCE_HOSTS.has(new URL(url).host) ? fallback : url;
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * Every runnable example for one entry, in a stable order:
+ *
+ *   1. the demo link the catalogue already carried (official or upstream),
+ *   2. demo links declared per deployment variant,
+ *   3. the interactive page migrated from the AI-Demos project, which opens the
+ *      same task with this entry preselected.
+ *
+ * Existing links are never dropped — new ones are appended, and the UI numbers
+ * the list so two examples for one model stay distinguishable.
+ */
+function examplesFor(model: ModelEntry, locale: string, taskPath?: string): Example[] {
+  const out: Example[] = [];
+  const push = (href?: string) => {
+    if (!href || out.some((e) => e.href === href)) return;
+    out.push({ href, external: !href.startsWith('/') });
+  };
+  push(resolveDemoUrl(model, locale));
+  for (const variant of model.variants) push(resolveDemoUrl({ ...model, ...variant }, locale));
+  if (taskPath) {
+    const [category, subcategory] = taskPath.split('/');
+    const path = demoModelPath(category, subcategory, model.id);
+    // next-intl's Link adds the locale prefix; keep the bare path here.
+    if (path) push(path);
+  }
+  return out;
+}
+
+export async function ModelTable({ models, locale, basePath, expanded, taskPath: explicitTask }: Props) {
   const t = await getTranslations({ locale, namespace: 'table' });
   const c = await getTranslations({ locale, namespace: 'catalog' });
   const any = await getTranslations({ locale });
@@ -22,6 +70,7 @@ export async function ModelTable({ models, locale, basePath, expanded }: Props) 
   const tasks = await getTranslations({ locale, namespace: 'subcategories' });
   const resolve = (key: string | undefined, fallback: string) => key && any.has(key) ? any(key) : fallback;
   const unknown = c('unknown');
+  const taskPath = explicitTask ?? basePath?.replace(/^\//, '');
 
   return (
     <section aria-labelledby="model-table-title" className="space-y-4">
@@ -35,7 +84,7 @@ export async function ModelTable({ models, locale, basePath, expanded }: Props) 
           </thead>
           <tbody>
             {models.map(m => {
-              const demo = resolveDemoUrl(m, locale);
+              const examples = examplesFor(m, locale, taskPath);
               return (
                 <Fragment key={m.id}>
                   <tr id={`model-${m.id}`} className="border-t border-black/20 scroll-mt-4">
@@ -69,7 +118,15 @@ export async function ModelTable({ models, locale, basePath, expanded }: Props) 
                     </td>
                     <td className="px-3 py-3 align-top whitespace-nowrap">
                       <div className="flex flex-col gap-2">
-                        {demo && <a href={demo} target="_blank" rel="noreferrer noopener" className="underline">{t('demo')} ↗</a>}
+                        {examples.map((example, index) => example.external ? (
+                          <a key={example.href} href={example.href} target="_blank" rel="noreferrer noopener" className="underline">
+                            {t('exampleN', { n: index + 1 })} ↗
+                          </a>
+                        ) : (
+                          <Link key={example.href} href={example.href} className="underline">
+                            {t('exampleN', { n: index + 1 })} ↗
+                          </Link>
+                        ))}
                         {m.docsUrl && <a href={m.docsUrl} target="_blank" rel="noreferrer noopener" className="underline">{t('docs')} ↗</a>}
                       </div>
                     </td>
@@ -106,7 +163,7 @@ export async function ModelTable({ models, locale, basePath, expanded }: Props) 
                         <p className="text-xs text-black/60">{c('benchmarkHelp')}</p>
                         {m.benchmarks?.length ? <ul className="mt-2 space-y-2">{m.benchmarks.map((b, i) => <li key={i}><a className="underline" href={b.sourceUrl} target="_blank" rel="noreferrer noopener">{b.metric}: {b.value} {b.unit}</a><p>{b.date} · {b.hardware} · {b.os} · {b.browser} · {b.backend} · {b.runtimeVersion} · {b.variantId} · {b.input}</p></li>)}</ul> : <p className="mt-2">{c('notTested')}</p>}
                         <ul className="mt-5 space-y-2 text-xs">{m.sources.map((s, i) => <li key={`${s.url}-${i}`}>
-                          <a href={s.url} target="_blank" rel="noreferrer noopener" className="underline break-all">{c('source')}: {s.url}</a>
+                          <a href={s.url} target="_blank" rel="noreferrer noopener" className="underline break-all">{c('source')}: {sourceLabel(s.url, c('sourceExample'))}</a>
                           <span className="block text-black/60">{s.reviewedAt ? c('reviewedAt', { date: s.reviewedAt }) : unknown}</span>
                         </li>)}</ul>
                       </details>

@@ -1,10 +1,12 @@
 # Web AI Models
 
 A static, bilingual (en/zh) catalog of AI models, tools and application workflows
-that run **in the browser**. The site renders a catalog; it never runs a model.
+that run **in the browser**, plus an interactive demo section. The catalog pages
+only display entries; the demos under `/demos` run inference in the tab.
 
-Every page is pre-rendered: 10 categories, 40 task pages, one page per entry and
-an application-workflow page, in both locales.
+Every page is pre-rendered: 10 categories, 40 task pages, one page per entry, an
+application-workflow page and 39 demo pages (with a URL per preselected model),
+in both locales.
 
 The English homepage is served at `/`; `/en` redirects there using a static
 meta-refresh document. English task and model pages retain their `/en/*` URLs,
@@ -29,6 +31,45 @@ a field rests on:
 Nothing here is inferred from a model's popularity or size, and no entry claims a
 license, a size or a browser capability that a source does not state.
 
+## Demo section (migrated from AI-Demos)
+
+`/[locale]/demos` hosts the interactive playgrounds that used to live in a
+separate app. The catalog and the demos are one site now:
+
+| Path | What it is |
+| --- | --- |
+| `/[locale]/demos` | Index of every task that has a playground |
+| `/[locale]/demos/[category]/[subcategory]` | The playground; switch models inside the task |
+| `/[locale]/demos/[category]/[subcategory]/[model]` | Same page with one entry preselected (canonicalised to the task page) |
+
+How the two codebases were joined:
+
+- **One taxonomy.** The demo registry was written against an older set of
+  category slugs (`llm/embedding`, `vision/text-to-image`, `multimodal/face`, …).
+  Its specs already declared the catalog's slugs, so `lib/data/registry.ts` is now
+  grouped by them — `search-rag`, `generative-vision`, `generative-audio`,
+  `real-time` — and `text/token-classification` became `text/ner`. Route, model
+  list and `real-models.ts` lookup keys now share one vocabulary.
+- **One model list.** `lib/demo-catalog.ts` merges the catalog's entries with the
+  demo snapshot, so a model added here shows up in the switcher without
+  re-running an extraction script, and a catalog link always opens the entry it
+  points at.
+- **One locale.** `AppProvider` reads the locale from the route instead of
+  localStorage; the demo UI's own language and theme toggles are gone because the
+  header already owns both.
+- **Scoped CSS.** The playground palette and `.btn`/`.surface`/`.field` classes
+  live under `.demo-scope` in `app/globals.css`, so nothing leaks into the
+  catalog's black-on-white typography.
+
+Runtime assets are not committed. `npm install` runs `scripts/copy-ort-wasm.cjs`,
+which copies the ONNX Runtime and MediaPipe wasm into `public/ort` and
+`public/mediapipe` (both gitignored, ~120 MB); the sample images/audio/video live
+in `public/samples` and the ffmpeg worker in `public/vendor/ffmpeg`.
+
+The playgrounds are honest about what runs: entries with real ONNX weights
+download and execute them, the rest use a deterministic simulator, and every page
+labels which one it is using.
+
 ## Commands
 
 ```bash
@@ -44,6 +85,34 @@ npm run check:i18n   # en/zh parity, dead keys, and every key the code reference
 hreflang, sitemap and robots URL derives from it, so a placeholder that reaches
 production would point the whole site at a domain we do not own. See
 `.env.example`.
+
+## SEO
+
+Every page ships metadata (title, description, keywords, canonical, hreflang
+alternates, Open Graph/Twitter) and structured data:
+
+| Page | JSON-LD |
+| --- | --- |
+| All | `WebSite` (one node in `SiteDocument`, referenced by `@id`) |
+| Home | `ItemList` of categories + `FAQPage` |
+| Task | `FAQPage` (from `TaskInsights`) + `ItemList` + breadcrumbs |
+| Entry | `SoftwareApplication` + `FAQPage` (from `ModelInsights`) + `WebPage` + breadcrumbs |
+| Demos index | `CollectionPage` + `FAQPage` + breadcrumbs |
+| Demo task | `WebApplication` + breadcrumbs |
+| Demo deep link | `noindex` — the canonical points at the task page, so the near-duplicates stay out of the index and the sitemap |
+
+The intros and FAQ copy under the `seo.*` message namespace are generated from
+the catalogue (`lib/seo.ts` counts entries, evidence and the smallest verified
+weight), so a task page with three entries says something different from one with
+twelve — and gaps ("size not verified yet") are stated as gaps instead of being
+filled with an estimate. Keywords restate what the page shows in the phrases
+people search for ("run NER in the browser", "浏览器 命名实体识别"); they never
+claim a fact the page does not carry.
+
+`npm run build` ends with `check:seo` (`scripts/check-seo.cjs`), which fails the
+build when: the sitemap has duplicate or unreachable URLs, an advertised route has
+no exported HTML, a key page loses its description/canonical/hreflang or its
+structured data, or a demo deep link leaks into the index or the sitemap.
 
 ## Refreshing the catalog
 

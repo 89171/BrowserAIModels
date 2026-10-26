@@ -6,9 +6,10 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link, routing } from '@/i18n/routing';
 import { TAXONOMY, getCategory } from '@/data/taxonomy';
-import { countModels } from '@/data/models';
+import { countModels, getModels } from '@/data/models';
 import { JsonLd } from '@/components/JsonLd';
 import { SITE_URL } from '@/lib/site';
+import { taskFacts } from '@/lib/seo';
 
 export function generateStaticParams() {
   const params: { locale: string; category: string }[] = [];
@@ -29,12 +30,14 @@ export async function generateMetadata({
   const cat = getCategory(category);
   if (!cat) return {};
   const tCats = await getTranslations({ locale, namespace: 'categories' });
+  const tSeo = await getTranslations({ locale, namespace: 'seo.category' });
   const name = tCats(cat.slug as 'text');
-  const desc = tCats(`${cat.slug}Desc` as 'textDesc');
+  const desc = `${tCats(`${cat.slug}Desc` as 'textDesc')} ${tSeo('metaSuffix')}`;
   const url = localizedUrl(locale, `/${category}`);
   return {
     title: name,
     description: desc,
+    keywords: [name, `${name} 模型`, `浏览器 ${name}`, `browser ${name}`, `${name} models`],
     alternates: {
       canonical: url,
       languages: languageAlternates(`/${category}`),
@@ -60,8 +63,12 @@ export default async function CategoryPage({
   const tCats = await getTranslations({ locale, namespace: 'categories' });
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
 
+  const tSeo = await getTranslations({ locale, namespace: 'seo.category' });
   const name = tCats(cat.slug as 'text');
   const desc = tCats(`${cat.slug}Desc` as 'textDesc');
+  const facts = taskFacts(
+    cat.subcategories.flatMap((sub) => getModels(cat.slug, sub.slug)),
+  );
 
   return (
     <div className="space-y-10">
@@ -86,6 +93,20 @@ export default async function CategoryPage({
         </h1>
         <p className="mt-4 text-lg max-w-prose">{desc}</p>
       </header>
+
+      <section aria-labelledby="cat-about" className="space-y-3">
+        <h2 id="cat-about" className="font-mono text-2xl">
+          {tSeo('heading', { name })}
+        </h2>
+        <p className="max-w-prose leading-relaxed">
+          {tSeo('body', {
+            name,
+            tasks: cat.subcategories.length,
+            total: facts.total,
+            ready: facts.ready,
+          })}
+        </p>
+      </section>
 
       <section aria-labelledby="subs">
         <h2 id="subs" className="font-mono text-2xl mb-4">

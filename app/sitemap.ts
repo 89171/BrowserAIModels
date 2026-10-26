@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
 import { TAXONOMY } from '@/data/taxonomy';
 import { MODELS, getModels } from '@/data/models';
+import { allDemoPaths } from '@/lib/data/registry';
 import type { ModelEntry } from '@/types/taxonomy';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 
@@ -28,6 +29,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '', lastModified: lastReviewed(everything) },
     { path: '/applications', lastModified: lastReviewed(everything) },
     { path: '/methodology', lastModified: lastReviewed(everything) },
+    // Demo pages have no per-entry review date; they carry no lastmod rather
+    // than a build timestamp.
+    { path: '/demos', lastModified: undefined },
+    ...allDemoPaths().map(({ category, subcategory }) => ({
+      path: `/demos/${category}/${subcategory}`,
+      lastModified: undefined,
+    })),
     ...TAXONOMY.flatMap((cat) => [
       {
         path: `/${cat.slug}`,

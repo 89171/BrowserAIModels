@@ -11,6 +11,9 @@ import { JsonLd } from '@/components/JsonLd';
 import { ModelTable } from '@/components/ModelTable';
 import { APPLICATIONS } from '@/data/applications';
 import { SITE_URL } from '@/lib/site';
+import { TaskInsights } from '@/components/TaskInsights';
+import { hasDemo } from '@/lib/data/registry';
+import { taskKeywords } from '@/lib/seo';
 
 export function generateStaticParams() {
   const params: {
@@ -39,13 +42,15 @@ export async function generateMetadata({
   if (!cat || !sub) return {};
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
   const tCats = await getTranslations({ locale, namespace: 'categories' });
+  const tSeo = await getTranslations({ locale, namespace: 'seo.task' });
   const name = tSubs(sub.slug as 'classification');
   const catName = tCats(cat.slug as 'text');
-  const desc = tSubs(`${sub.slug}Desc` as 'classificationDesc');
+  const desc = `${tSubs(`${sub.slug}Desc` as 'classificationDesc')} ${tSeo('metaSuffix')}`;
   const url = localizedUrl(locale, `/${category}/${subcategory}`);
   return {
     title: `${name} · ${catName}`,
     description: desc,
+    keywords: taskKeywords(locale, name, catName, getModels(category, subcategory)),
     alternates: {
       canonical: url,
       languages: languageAlternates(`/${category}/${subcategory}`),
@@ -79,6 +84,7 @@ export default async function SubcategoryPage({
   const tApps = await getTranslations({ locale, namespace: 'applications' });
   const related = APPLICATIONS.filter(app => (app.tasks as readonly string[]).includes(`${cat.slug}/${sub.slug}`));
   const tNav = await getTranslations({ locale, namespace: 'nav' });
+  const tDemos = await getTranslations({ locale, namespace: 'demos' });
   const tAny = await getTranslations({ locale });
   const pageUrl = `${SITE_URL}/${locale}/${cat.slug}/${sub.slug}`;
 
@@ -116,6 +122,16 @@ export default async function SubcategoryPage({
         <p className="mt-3 text-sm text-black/60 font-mono">
           {t('modelsCount', { count: models.length })}
         </p>
+        {hasDemo(cat.slug, sub.slug) && (
+          <p className="mt-5">
+            <Link
+              href={`/demos/${cat.slug}/${sub.slug}`}
+              className="inline-block border border-black bg-black px-4 py-2 text-sm text-white hover:bg-white hover:text-black transition-colors"
+            >
+              {tDemos('open')} →
+            </Link>
+          </p>
+        )}
       </header>
 
       {models.length > 0 ? (
@@ -128,6 +144,14 @@ export default async function SubcategoryPage({
         <h2 className="font-mono text-xl mb-3">{tApps('title')}</h2>
         <ul className="flex flex-wrap gap-4">{related.map(app => <li key={app.id}><Link className="underline" href={`/applications#${app.id}`}>{tApps(`items.${app.id}.title`)}</Link></li>)}</ul>
       </section>}
+
+      <TaskInsights
+        locale={locale}
+        category={cat.slug}
+        subcategory={sub.slug}
+        models={models}
+        pageUrl={pageUrl}
+      />
 
       <JsonLd
         data={{

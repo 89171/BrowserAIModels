@@ -18,6 +18,8 @@ const config = [
       '.next-dev/**',
       'out/**',
       'next-env.d.ts',
+      // Vendored, generated runtimes (ONNX Runtime, MediaPipe, ffmpeg.wasm).
+      'public/**',
     ],
   },
 ];

@@ -10,7 +10,9 @@ import { getModels } from '@/data/models';
 import { APPLICATIONS } from '@/data/applications';
 import { JsonLd } from '@/components/JsonLd';
 import { ModelTable } from '@/components/ModelTable';
+import { ModelInsights } from '@/components/ModelInsights';
 import { SITE_URL } from '@/lib/site';
+import { modelKeywords } from '@/lib/seo';
 
 type Params = { locale: string; category: string; subcategory: string; model: string };
 
@@ -42,14 +44,25 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { entry } = found;
   const any = await getTranslations({ locale });
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
+  const tCats = await getTranslations({ locale, namespace: 'categories' });
+  const fw = await getTranslations({ locale, namespace: 'frameworks' });
   const name = entry.nameKey && any.has(entry.nameKey) ? any(entry.nameKey) : entry.name;
   const description =
     entry.descriptionKey && any.has(entry.descriptionKey) ? any(entry.descriptionKey) : entry.description;
   const path = `/${rest.category}/${rest.subcategory}/${entry.id}`;
   const url = localizedUrl(locale, path);
+  const taskName = tSubs(rest.subcategory as 'classification');
   return {
-    title: `${name} · ${tSubs(rest.subcategory as 'classification')}`,
+    title: `${name} · ${taskName}`,
     description,
+    keywords: modelKeywords(
+      locale,
+      name,
+      tCats(rest.category as 'text'),
+      taskName,
+      entry,
+      fw(entry.framework),
+    ),
     alternates: { canonical: url, languages: languageAlternates(path) },
     ...socialMetadata(locale, name, description, url),
   };
@@ -118,7 +131,16 @@ export default async function ModelPage({ params }: { params: Promise<Params> })
 
       {/* One row, details open: this page exists so a single entry has a URL,
           a canonical and its own metadata, not a new rendering of the same data. */}
-      <ModelTable models={[entry]} locale={locale} expanded />
+      <ModelTable models={[entry]} locale={locale} expanded taskPath={`${cat.slug}/${sub.slug}`} />
+
+      <ModelInsights
+        locale={locale}
+        category={cat.slug}
+        subcategory={sub.slug}
+        entry={entry}
+        name={name}
+        pageUrl={pageUrl}
+      />
 
       {apps.length > 0 && (
         <section className="border-t border-black pt-6">
@@ -153,12 +175,25 @@ export default async function ModelPage({ params }: { params: Promise<Params> })
       <JsonLd
         data={{
           '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: tNav('home'), item: localizedUrl(locale) },
-            { '@type': 'ListItem', position: 2, name: catName, item: `${SITE_URL}/${locale}/${cat.slug}` },
-            { '@type': 'ListItem', position: 3, name: subName, item: `${SITE_URL}/${locale}${basePath}` },
-            { '@type': 'ListItem', position: 4, name, item: pageUrl },
+          '@graph': [
+            {
+              '@type': 'WebPage',
+              '@id': pageUrl,
+              url: pageUrl,
+              name,
+              description,
+              inLanguage: locale,
+              isPartOf: { '@id': `${SITE_URL}/#website` },
+            },
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: tNav('home'), item: localizedUrl(locale) },
+                { '@type': 'ListItem', position: 2, name: catName, item: `${SITE_URL}/${locale}/${cat.slug}` },
+                { '@type': 'ListItem', position: 3, name: subName, item: `${SITE_URL}/${locale}${basePath}` },
+                { '@type': 'ListItem', position: 4, name, item: pageUrl },
+              ],
+            },
           ],
         }}
       />

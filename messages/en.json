@@ -5,12 +5,12 @@
     "back": "Back home"
   },
   "site": {
-    "notice": "Display-only catalog. Models are not run by this site.",
+    "notice": "The catalogue only lists entries and sources; the demo pages run inference in your browser.",
     "name": "Web AI Models",
     "shortName": "WebAI",
     "tagline": "A curated catalog of browser-side AI models",
-    "description": "Explore models, tools and application workflows for browser AI, with source links and explicit verification status.",
-    "footer": "Source links and verification status for every entry. No model runs on this site."
+    "description": "A catalogue of AI models, tools and application workflows that run in the browser — text classification, NER, embeddings and RAG, speech recognition, OCR, segmentation and text-to-image — each with source links, weight size, licence and explicit browser evidence, plus a working in-browser demo.",
+    "footer": "Source links and verification status for every entry. The catalogue itself runs nothing — the interactive demos do, on your device."
   },
   "nav": {
     "breadcrumb": "Breadcrumb",
@@ -18,7 +18,8 @@
     "categories": "Categories",
     "skipToContent": "Skip to content",
     "applications": "Applications",
-    "methodology": "Verification"
+    "methodology": "Verification",
+    "demos": "Demos"
   },
   "languages": {
     "label": "Language",
@@ -53,7 +54,8 @@
     "languages": "Languages",
     "links": "Links",
     "demo": "Demo",
-    "docs": "Docs"
+    "docs": "Docs",
+    "exampleN": "Example {n}"
   },
   "categories": {
     "text": "Text",
@@ -157,7 +159,11 @@
     "image-enhancement": "Image enhancement",
     "image-enhancementDesc": "Restores clarity to soft or compressed photos — denoise, deblur and detail recovery in one pass. Often paired with upscaling, but the goal here is fidelity at the original size.",
     "video-watermark-removal": "Video watermark removal",
-    "video-watermark-removalDesc": "Repairs a watermark region across every frame. Static marks can be inpainted from a single representative frame; moving backgrounds may need temporal sampling, and the result is re-encoded on device."
+    "video-watermark-removalDesc": "Repairs a watermark region across every frame. Static marks can be inpainted from a single representative frame; moving backgrounds may need temporal sampling, and the result is re-encoded on device.",
+    "zero-shot-detection": "Zero-shot detection",
+    "zero-shot-detectionDesc": "Describe the target in free text and detect it without retraining; the demo covers open-vocabulary detection only.",
+    "question-answering": "Extractive QA",
+    "question-answeringDesc": "Locate the answer span inside a passage; the answer is always quoted from the source text."
   },
   "frameworks": {
     "transformersjs": "Transformers.js",
@@ -737,7 +743,8 @@
     "applicationLink": "Explore application workflows",
     "none": "Not specified",
     "default": "Unspecified variant",
-    "package": "Package"
+    "package": "Package",
+    "sourceExample": "Example demo"
   },
   "applications": {
     "title": "Application workflows",
@@ -944,5 +951,122 @@
     ],
     "reviewTitle": "Review and corrections",
     "reviewBody": "Each source carries the date it was reviewed, and pages report the latest of those dates rather than a build timestamp, so a deploy never looks like a content change. An entry whose identity is in doubt is marked unresolved and should be excluded from model selection until it is corrected rather than quietly deleted."
+  },
+  "demos": {
+    "title": "Interactive demos",
+    "intro": "Every page in this section runs in your browser. Pick a task, switch between the models listed for it, edit the sample input and compare the outputs. Some pages download real ONNX weights; the rest run a deterministic simulator, and every page states which one it is.",
+    "notice": "Inference happens in this tab, on your device. Nothing is uploaded.",
+    "open": "Open demo",
+    "modelsCount": "{count} models",
+    "catalogLink": "Browse the catalogue",
+    "taskCatalog": "Catalogue entries for this task",
+    "backToDemos": "All demos",
+    "simulated": "Simulated"
+  },
+  "seo": {
+    "common": {
+      "privacyQ": "Does running a model here upload my data?",
+      "privacyA": "The demos on this site infer inside the tab, so inputs never reach a server. Weights and runtimes are fetched from a CDN on first use and then served from the browser cache.",
+      "webgpuQ": "Do I need WebGPU?",
+      "webgpuA": "No. WebAssembly is the fallback every modern browser has; WebGPU mostly changes the speed of decoder models and image generation. Without it the page falls back to WASM — same results, slower."
+    },
+    "task": {
+      "heading": "About {name}",
+      "p1": "{name} under {cat} holds {total} catalogue entries: {kinds}.",
+      "p2": "The usual pattern for this task is to load quantised weights (ONNX, TFLite or a MediaPipe asset bundle) into the page, hand them to {frameworks}, and accelerate with WebGPU or WebAssembly. What decides the experience is weight size, peak memory and decoding path — not the parameter count.",
+      "p3": "To see the output first, open the interactive demo for this task: switch models, edit the sample input and compare results on one page. Every demo states whether it is running real weights or a deterministic simulator.",
+      "factsTitle": "At a glance",
+      "factEntries": "Entries",
+      "factEntriesValue": "{total} in total",
+      "factFrameworks": "Main runtime",
+      "factSize": "Smallest known weights",
+      "factSizeValue": "{size}",
+      "factSizeUnknown": "not checked",
+      "factEvidence": "Browser evidence",
+      "factEvidenceValue": "{ready} of {total} verified",
+      "faqTitle": "{name}: common questions",
+      "q1": "Can {name} run directly in a browser?",
+      "a1": "Yes. {ready} entries already carry browser evidence (tested here or an upstream example), so the approach works; whether it runs smoothly on your device depends on weight size, browser version and whether WebGPU is enabled.",
+      "q2": "How large is the model for {name}?",
+      "a2": "The smallest weight on record here is {size}; the other entries in this task have no verified size yet. Browser builds usually ship int8 or 4-bit quantised variants, downloaded once and reused from the HTTP cache or Cache Storage.",
+      "a2Unknown": "Weight sizes for this task have not been verified yet. Browser builds usually ship int8 or 4-bit quantised variants, so confirm the real download size before committing.",
+      "q3": "Which devices suit {name}?",
+      "a3": "Any modern browser with WebAssembly is a starting point, and WebGPU usually makes it faster. Phones are tighter on memory, so run the demo once on the target device before deciding.",
+      "relatedTitle": "Other tasks in this category",
+      "moreLink": "Browse all {cat} models",
+      "metaSuffix": "Models, tools and demos for this task, each with the browser evidence stated.",
+      "p1Pending": "Another {pending} are still waiting for verification.",
+      "p1NoEvidence": "None of them has browser evidence yet, so what follows describes candidates rather than proven options.",
+      "p1EvidenceBoth": "{ready} of them carry browser evidence — {tested} tested here, {upstream} from upstream browser examples.",
+      "p1EvidenceTested": "{ready} of them carry browser evidence, all tested here.",
+      "p1EvidenceUpstream": "{ready} of them carry browser evidence, all from upstream browser examples.",
+      "kindModel": "{count} models",
+      "kindTool": "{count} tools or libraries",
+      "kindApp": "{count} applications",
+      "p1Empty": "{name} under {cat} has no entries yet; the page stays so the task keeps its place in the taxonomy."
+    },
+    "model": {
+      "heading": "Running {name} in the browser",
+      "p1": "{name} sits under {cat} / {task} and is listed as a {kind} running on {framework}. {size}",
+      "sizeKnown": "Its verified weight size is {size}.",
+      "sizeUnknown": "Its weight size has not been verified, so confirm the real download before integrating.",
+      "evidenceTested": "Its in-browser behaviour has been tested here and can inform selection.",
+      "evidenceUpstream": "The evidence is an upstream browser example; this site has not tested it yet.",
+      "evidencePending": "Browser evidence is still missing, so verify it yourself before adopting it.",
+      "p2": "The typical way to load weights like these is to serve quantised ONNX from a CDN or your own origin, run them through the in-page runtime, and fall back to WebAssembly when WebGPU is unavailable. {license}",
+      "licenseKnown": "Code licence: {code}; weight licence: {weights} — check the original repository before commercial use.",
+      "licenseUnknown": "Licensing is not fully verified; read the original repository before redistributing or shipping commercially.",
+      "faqTitle": "{name}: common questions",
+      "q1": "Can {name} be used commercially?",
+      "a1": "This catalogue records “{license}”. Terms come from the model repository; the label here only reflects what was checked. If no licence is stated, do not ship it commercially.",
+      "q2": "How large are {name} weights?",
+      "a2": "The recorded size is {size}. Quantisation variants differ a lot, so prefer the int8 or 4-bit build for the browser.",
+      "a2Unknown": "Weight size has not been verified. Quantisation variants differ a lot, so confirm the actual download before choosing a build.",
+      "q3": "How do I call {name} from a project?",
+      "a3": "Most entries load through {framework}: host the weights somewhere the browser can fetch, initialise the runtime on the page, then submit text, image or audio for the task. The exact API lives in the model repository and the runtime docs.",
+      "a1Unknown": "This entry's licence has not been verified. Check the model repository before redistributing or shipping commercially."
+    },
+    "category": {
+      "heading": "About {name}",
+      "body": "{name} currently holds {tasks} tasks and {total} entries, of which {ready} carry browser evidence (tested here or an upstream example). The sections below open by task, and each task page has the model comparison, sources and a working demo.",
+      "metaSuffix": "Browse models by task, with source links and browser evidence."
+    },
+    "home": {
+      "whyTitle": "Why put inference in the browser",
+      "whyLead": "Local inference is not here to replace large cloud models. Its value is moving a set of input-sensitive, well-bounded tasks closer to the user.",
+      "point1Title": "Data stays on the device",
+      "point1": "Text classification, speech transcription and embeddings operate on what the user actually typed, photographed or uploaded. Inferring in the tab removes one reason to send that material to a server.",
+      "point2Title": "One round trip fewer",
+      "point2": "These models usually take tens to hundreds of milliseconds per call — faster than a cross-region request, and with no cloud compute to pay for.",
+      "point3Title": "Cacheable weights",
+      "point3": "Once the weights are cached, the page still works on a weak or offline connection; the trade-off is a first load of tens of megabytes to several gigabytes.",
+      "howTitle": "How to use this catalogue",
+      "how1": "Browse by task: each task page lists the models, tools and applications for it, and marks the browser evidence as tested here, an upstream example or still pending.",
+      "how2": "Filter by constraint: weight size, licence, runtime and peak memory decide whether it runs on your device and your users’ devices.",
+      "how3": "Verify with a demo: the playgrounds run in your tab, so you can swap models and inputs and compare outputs directly.",
+      "tasksTitle": "All tasks",
+      "faqTitle": "Browser AI: common questions",
+      "q1": "Which AI models can run in a browser?",
+      "a1": "Size is the quickest guide: encoder models in the tens of megabytes (text classification, NER, embeddings, image classification) are the most mature; speech recognition, OCR and segmentation work in the 100–300 MB range; text-to-image and 1–3B chat models need WebGPU and gigabyte downloads, which is a different tier.",
+      "q2": "Does browser inference require WebGPU?",
+      "a2": "No. WebAssembly is the baseline every modern browser ships; WebGPU changes the speed of decoder models and image generation. Without it the page falls back to WASM: identical results, slower.",
+      "q3": "How much bandwidth does a browser model use?",
+      "a3": "The first load downloads the weights: roughly 5–130 MB for classification and embedding models, 40–300 MB for speech recognition, and 1–5 GB for text-to-image and chat models. Afterwards the browser cache serves them, so they are not re-downloaded.",
+      "q4": "Are local results trustworthy?",
+      "a4": "The same weights produce the same results locally and in the cloud; the differences come from quantisation and post-processing. Each demo states whether it runs real weights or a simulator, and simulated output is not an accuracy reference."
+    },
+    "demos": {
+      "extendedTitle": "What the demos do",
+      "extendedBody": "Every demo page loads the model list for its task and runs one inference on a built-in sample of text, image or audio. You can switch models and edit the input on the same page to compare how different weights answer the same prompt; the result panel says whether real weights or the simulator produced it.",
+      "whyTitle": "Why the demos are worth a look",
+      "point1": "Differences between models on the same task are easier to see than a leaderboard number.",
+      "point2": "You see first-load latency and memory pressure, not just accuracy.",
+      "point3": "Inference happens locally, so the input never leaves the tab.",
+      "faqTitle": "Demo questions",
+      "q1": "Do the demos need a connection?",
+      "a1": "The first visit downloads the runtime and weights from a CDN; after that the same browser can usually reuse the cache offline. Simulated demos download no weights.",
+      "q2": "Why does a result say “simulated”?",
+      "a2": "Some tasks have no lightweight weights available yet, so the page runs a deterministic simulator to demonstrate the interaction. The output shows the shape of the result, not the model’s accuracy."
+    }
   }
 }
