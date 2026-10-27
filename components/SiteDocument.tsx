@@ -18,6 +18,17 @@ export async function SiteDocument({ children, locale }: { children: ReactNode; 
 
   return (
     <html lang={locale} className="bg-white text-black">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "z4263y42w2");`,
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider locale={locale} messages={{ languages: messages.languages }}>
           <a
