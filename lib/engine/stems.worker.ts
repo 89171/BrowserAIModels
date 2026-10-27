@@ -24,9 +24,10 @@ self.addEventListener('message', async (e: MessageEvent<Req>) => {
     const total = left.length;
     const bytes = await fetchModel(url, (ratio) => post({ type: 'progress', phase: 'model', ratio }));
     post({ type: 'progress', phase: 'session', ratio: 0 });
-    // Resolve /ort relative to the page origin: workers have their own location, which is the same origin.
+    // wasmPaths is resolved by createSession: absolute in production (object
+    // storage), /ort/ in dev — the worker shares the page origin either way.
     const ort = await loadOrt();
-    const session = await createSession(bytes, self.location.origin);
+    const session = await createSession(bytes);
 
     const win = new Float32Array(SEG).fill(1);
     for (let i = 0; i < OVERLAP; i++) win[i] = win[SEG - 1 - i] = i / (OVERLAP - 1);

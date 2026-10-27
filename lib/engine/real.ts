@@ -10,6 +10,7 @@
  * `REAL_MODELS` specification, which keeps every other subcategory offline.
  */
 import type { RealModelSpec } from '../data/real-models';
+import { ORT_WASM_PREFIX } from './remote-assets';
 
 export interface ProgressInfo {
   /** accumulated bytes downloaded so far for this pipeline */
@@ -43,14 +44,10 @@ async function importRuntime(): Promise<Runtime> {
       const mod = await import('@huggingface/transformers');
       const env = mod.env;
       env.allowLocalModels = false;
-      // Prefer the vendored binaries in /public/ort (copied by scripts/copy-ort-wasm.cjs)
-      // so the page works without a CDN once the weights are cached.
-      try {
-        const head = await fetch('/ort/ort-wasm-simd-threaded.jsep.mjs', { method: 'HEAD' });
-        if (head.ok && env.backends?.onnx?.wasm) env.backends.onnx.wasm.wasmPaths = '/ort/';
-      } catch {
-        /* fall through to the default CDN paths */
-      }
+      // Always pin the ONNX Runtime binaries: the 26–28 MB builds are hosted in
+      // object storage for production, and /public/ort covers local dev. Leaving
+      // this unset falls back to the jsDelivr CDN, which is slow from CN.
+      if (env.backends?.onnx?.wasm) env.backends.onnx.wasm.wasmPaths = ORT_WASM_PREFIX;
       return mod;
     })();
   }

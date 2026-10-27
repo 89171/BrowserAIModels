@@ -114,6 +114,31 @@ build when: the sitemap has duplicate or unreachable URLs, an advertised route h
 no exported HTML, a key page loses its description/canonical/hreflang or its
 structured data, or a demo deep link leaks into the index or the sitemap.
 
+## Deploying
+
+`esa.jsonc` uploads `./out` to the Pages host, which rejects any single file above
+**25 MiB**. Two kinds of asset break that cap: the vendored ONNX Runtime builds
+(`jsep` 28 MB, `asyncify` 26 MB) and Turbopack's copy of the `asyncify` binary in
+`_next/static/media/`.
+
+Those live in object storage. `NEXT_PUBLIC_ASSET_BASE` (see `.env.example`) is the
+bucket origin; `lib/engine/remote-assets.ts` turns it into the
+`ort.env.wasm.wasmPaths` prefix, so production fetches the binaries cross-origin
+while `npm run dev` keeps using `public/ort/`. Re-upload after bumping
+`onnxruntime-web` and after any change to the wasm filenames:
+
+```bash
+for f in public/ort/*; do fuc "$f"; done   # prints the public URL of each file
+```
+
+`postbuild` then runs `scripts/prune-large-assets.cjs`, which drops those binaries
+from `out/` and fails the build if anything else is still over the cap — a file
+that ships unseen would only fail at the host instead.
+
+The bucket needs a CORS rule that allows `GET`/`HEAD` for the site origin,
+otherwise the browser refuses the cross-origin wasm fetch and every real-weights
+demo dies with `no available backend found`.
+
 ## Refreshing the catalog
 
 ```bash

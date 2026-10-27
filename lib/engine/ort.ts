@@ -3,6 +3,7 @@
  * Transformers.js pipeline. Safe to import from a Worker or the main thread.
  */
 import type * as OrtTypes from 'onnxruntime-web/wasm';
+import { ORT_WASM_PREFIX } from './remote-assets';
 
 // Imported lazily: the package touches import.meta.url at load, which breaks Next's server render.
 export const loadOrt = () => import('onnxruntime-web/wasm');
@@ -37,9 +38,9 @@ export async function fetchModel(url: string, onProgress?: (ratio: number, recei
 }
 
 /** wasm EP, single thread (no COOP/COEP), graph optimiser off — it aborts on large exported graphs. */
-export async function createSession(bytes: Uint8Array<ArrayBuffer>, origin = ''): Promise<OrtTypes.InferenceSession> {
+export async function createSession(bytes: Uint8Array<ArrayBuffer>): Promise<OrtTypes.InferenceSession> {
   const ort = await loadOrt();
   ort.env.wasm.numThreads = 1;
-  ort.env.wasm.wasmPaths = { wasm: `${origin}/ort/ort-wasm-simd-threaded.wasm`, mjs: `${origin}/ort/ort-wasm-simd-threaded.mjs` };
+  ort.env.wasm.wasmPaths = ORT_WASM_PREFIX;
   return ort.InferenceSession.create(bytes, { executionProviders: ['wasm'], graphOptimizationLevel: 'disabled' });
 }
