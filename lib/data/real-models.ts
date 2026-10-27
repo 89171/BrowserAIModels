@@ -57,6 +57,16 @@ export interface RealModelSpec {
   mp?: MpKind;
   /** Quantisation used for the download. */
   dtype: string;
+  /**
+   * Preferred quantisation per execution device. Big matting graphs only fit the
+   * GPU at fp16 while the CPU path needs the int8 build, so the tier is picked
+   * per device instead of being fixed per entry. Falls back to `dtype`.
+   */
+  dtypeByDevice?: { webgpu?: string; wasm?: string };
+  /** The graph is only usable on the WebGPU EP — `fallback` covers the rest. */
+  webgpuOnly?: boolean;
+  /** Checkpoint to run when WebGPU is missing, or when the primary load fails. */
+  fallback?: { repo: string; dtype: string };
   /** One sentence explaining what actually runs. */
   note: L;
   /** True when `repo` is the closest browser-ready stand-in, not the exact upstream checkpoint. */
@@ -264,20 +274,22 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     repo: 'briaai/RMBG-1.4',
     task: 'background-removal',
     dtype: 'q8',
+    dtypeByDevice: { webgpu: 'fp16', wasm: 'q8' },
     substitute: true,
     note: {
-      zh: '真实权重：BRIA RMBG-1.4 逐像素预测 alpha，背景由模型真正抠掉。IMG.LY 的 IS-Net 权重不在 Hugging Face 上，这里以 RMBG-1.4 替代。',
-      en: 'Real weights: BRIA RMBG-1.4 predicts a per-pixel alpha — the background is genuinely removed by the model. IMG.LY’s IS-Net weights are not on Hugging Face, so RMBG-1.4 stands in.',
+      zh: '真实权重：BRIA RMBG-1.4 逐像素预测 alpha（GPU 上用 fp16，仅 CPU 时用 int8）。IMG.LY 的 IS-Net 权重不在 Hugging Face 上，这里以 RMBG-1.4 替代。',
+      en: 'Real weights: BRIA RMBG-1.4 predicts a per-pixel alpha (fp16 on the GPU, int8 on CPU only). IMG.LY’s IS-Net weights are not on Hugging Face, so RMBG-1.4 stands in.',
     },
   },
   'vision/background-removal/birefnet-lite-512': {
-    repo: 'briaai/RMBG-1.4',
+    repo: 'studioludens/birefnet-lite-512',
     task: 'background-removal',
-    dtype: 'q8',
-    substitute: true,
+    dtype: 'fp16',
+    webgpuOnly: true,
+    fallback: { repo: 'briaai/RMBG-1.4', dtype: 'q8' },
     note: {
-      zh: 'BiRefNet-lite 的 fp16 权重约 94 MB 且要求 WebGPU，这里换用 RMBG-1.4（q8）做真实抠图，效果同为整图 alpha 预测。',
-      en: 'BiRefNet-lite’s fp16 weights are ~94 MB and need WebGPU; RMBG-1.4 (q8) performs the real matting instead — both predict a whole-image alpha.',
+      zh: '真实权重：BiRefNet-lite 512（fp16 约 94 MB，fp32 为 183 MB），需要 WebGPU；没有 WebGPU 时自动退回 RMBG-1.4（int8）。',
+      en: 'Real weights: BiRefNet-lite 512 (fp16 ≈94 MB, fp32 183 MB) on WebGPU; without WebGPU it degrades to RMBG-1.4 (int8) automatically.',
     },
   },
   'vision/segmentation/sam-tiny': {
@@ -1215,9 +1227,10 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     repo: 'briaai/RMBG-1.4',
     task: 'background-removal',
     dtype: 'q8',
+    dtypeByDevice: { webgpu: 'fp16', wasm: 'q8' },
     note: {
-      zh: '真实权重：BRIA RMBG-1.4 逐像素预测 alpha，背景由模型真正抠掉。',
-      en: 'Real weights: BRIA RMBG-1.4 predicts a per-pixel alpha — the background is genuinely removed by the model.',
+      zh: '真实权重：BRIA RMBG-1.4 逐像素预测 alpha（GPU 上用 fp16，仅 CPU 时用 int8）。',
+      en: 'Real weights: BRIA RMBG-1.4 predicts a per-pixel alpha (fp16 on the GPU, int8 on CPU only).',
     },
   },
   'vision/segmentation/modnet': {
@@ -1233,6 +1246,7 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     repo: 'briaai/RMBG-1.4',
     task: 'background-removal',
     dtype: 'q8',
+    dtypeByDevice: { webgpu: 'fp16', wasm: 'q8' },
     substitute: true,
     note: {
       zh: 'U²-Netp 的社区权重缺少 Transformers.js 需要的配置文件，改用 RMBG-1.4 做真实抠图，同为整图 alpha 预测。',

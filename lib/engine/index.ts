@@ -1426,7 +1426,10 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         if (!ctx.media?.src) return null;
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         if (spec.task === 'image-segmentation') {
-          const r = await semanticSegment(ctx.media.src, { spec, onProgress: report });
+          const r = await semanticSegment(ctx.media.src, { spec, onProgress: report }, {
+            thresh: num(ctx.params.thresh, 0.5),
+            feather: num(ctx.params.feather, 2),
+          });
           ctx.onPhase?.(ctx.locale === 'zh' ? '预测区域掩码…' : 'Predicting region masks…');
           return {
             payload: {
@@ -1439,7 +1442,13 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
             run: r.meta,
           };
         }
-        const r = await cutForeground(ctx.media.src, { spec, onProgress: report });
+        const r = await cutForeground(
+          ctx.media.src,
+          { spec, onProgress: report },
+          // Both sliders are read by the real matting path too — they used to move
+          // only the simulator's alpha ramp, which is why dragging them looked broken.
+          { thresh: num(ctx.params.thresh, 0.5), feather: num(ctx.params.feather, 2) }
+        );
         ctx.onPhase?.(ctx.locale === 'zh' ? '预测 alpha 掩码…' : 'Predicting the alpha matte…');
         return {
           payload: {

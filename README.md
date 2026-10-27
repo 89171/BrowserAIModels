@@ -139,6 +139,31 @@ The bucket needs a CORS rule that allows `GET`/`HEAD` for the site origin,
 otherwise the browser refuses the cross-origin wasm fetch and every real-weights
 demo dies with `no available backend found`.
 
+## Matting checkpoints
+
+Background removal does not go through the generic Transformers.js pipeline: the
+pipeline hard-quantises the mask (`mul(255).to('uint8')`) before upscaling, which
+is what makes edges look hollow. `lib/engine/matting.ts` owns the whole pixel
+path instead — each checkpoint's preprocessing contract, its mask read-back
+(RMBG emits probabilities, BiRefNet emits logits and needs a sigmoid), a guided
+filter that snaps the alpha ramp to the image's own edges, a level remap driven
+by the "Edge refine"/"Foreground threshold" sliders, float bilinear upscaling and
+edge-colour decontamination.
+
+Two checkpoints are wired up, and both ship a `config.json` that Transformers.js
+would resolve to the wrong architecture class, so `model_type` is overridden and
+they run as bare ONNX graphs:
+
+| Repo | `model_type` override | Notes |
+| --- | --- | --- |
+| `briaai/RMBG-1.4` | `custom` | int8 on WASM, fp16 on WebGPU (`dtypeByDevice`) |
+| `studioludens/birefnet-lite-512` | `birefnet` | fp16, WebGPU only; falls back to RMBG-1.4 |
+
+`getRun` walks a ladder — preferred device/quantisation, then the cheaper graph
+on the same device, then WASM, then the entry's `fallback` checkpoint — so a GPU
+whose driver cannot build an fp16 graph still produces a real cutout instead of
+an error.
+
 ## Refreshing the catalog
 
 ```bash

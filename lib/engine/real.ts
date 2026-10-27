@@ -10,6 +10,7 @@
  * `REAL_MODELS` specification, which keeps every other subcategory offline.
  */
 import type { RealModelSpec } from '../data/real-models';
+import { MATTE_SPECS, isMatte, createMatte, type Matte, type MatteParams } from './matting';
 import { ORT_WASM_PREFIX } from './remote-assets';
 
 export interface ProgressInfo {
@@ -61,6 +62,8 @@ export interface LoadOptions {
   onProgress?: (p: ProgressInfo) => void;
   /** force WASM (used after a WebGPU failure) */
   forceDevice?: string;
+  /** force a quantisation (used by the fallback ladder in `getRun`) */
+  forceDtype?: string;
   /** confidence threshold for object detection */
   threshold?: number;
   /**
@@ -70,10 +73,13 @@ export interface LoadOptions {
   language?: string;
 }
 
-async function loadPipeline({ spec, onProgress, forceDevice }: LoadOptions): Promise<LoadedRun> {
+async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadOptions): Promise<LoadedRun> {
   const mod = await importRuntime();
   const device = forceDevice ?? (prefersWebGPU() ? 'webgpu' : 'wasm');
-  const key = `${spec.task}|${spec.repo}|${spec.dtype}|${device}`;
+  // Large matting graphs only fit the GPU at fp16; the WASM EP keeps the int8
+  // build. Anything without a per-device override just uses `spec.dtype`.
+  const dtype = forceDtype ?? spec.dtypeByDevice?.[device === 'webgpu' ? 'webgpu' : 'wasm'] ?? spec.dtype;
+  const key = `${spec.task}|${spec.repo}|${dtype}|${device}`;
   const cached = pipelineCache.get(key);
   if (cached) {
     // Report 0 bytes: nothing was fetched on this run, the session is reused.
@@ -99,15 +105,18 @@ async function loadPipeline({ spec, onProgress, forceDevice }: LoadOptions): Pro
         onProgress?.({ loaded, total, file: lastFile, ratio: total ? loaded / total : 0 });
       }
     };
-    const pipe: Pipe = spec.repo === 'briaai/RMBG-1.4' ? await loadRmbg(mod, spec, device, progress_callback) : await mod.pipeline(spec.task, spec.repo, {
-      dtype: spec.dtype,
-      device,
-      progress_callback,
-    } as any);
+    const matte = MATTE_SPECS[spec.repo];
+    const pipe: Pipe = matte
+      ? await loadMatte(mod, spec, matte, dtype, device, progress_callback)
+      : await mod.pipeline(spec.task, spec.repo, {
+          dtype,
+          device,
+          progress_callback,
+        } as any);
     return {
       call: (input: unknown, ...args: unknown[]) => pipe(input, ...(args.length ? args : [{}])) as Promise<unknown>,
       repo: spec.repo,
-      dtype: spec.dtype,
+      dtype,
       device,
       bytes: loaded,
     };
@@ -123,47 +132,73 @@ async function loadPipeline({ spec, onProgress, forceDevice }: LoadOptions): Pro
 }
 
 /**
- * RMBG-1.4 ships a custom `BriaRMBG` architecture that the generic background-removal pipeline
- * cannot resolve (it falls through to SegformerForSemanticSegmentation), so load it as a raw model
- * with the preprocessing from its model card and rebuild the RGBA cut-out ourselves.
+ * Load a matting checkpoint as a bare ONNX graph.
+ *
+ * RMBG-1.4 declares `SegformerForSemanticSegmentation` and BiRefNet-lite declares
+ * `swin`, so Transformers.js would build the wrong class for either; both are
+ * pinned to the generic `PreTrainedModel` runner through `model_type` and fed by
+ * `matting.ts`, which owns their real preprocessing/postprocessing contract.
  */
-async function loadRmbg(mod: Runtime, spec: RealModelSpec, device: string, progress_callback: (e: never) => void): Promise<Pipe> {
-  const model = await mod.AutoModel.from_pretrained(spec.repo, { config: { model_type: 'custom' }, dtype: spec.dtype, device, progress_callback });
-  const processor = await mod.AutoProcessor.from_pretrained(spec.repo, {
-    config: {
-      do_normalize: true,
-      do_pad: false,
-      do_rescale: true,
-      do_resize: true,
-      image_mean: [0.5, 0.5, 0.5],
-      feature_extractor_type: 'ImageFeatureExtractor',
-      image_std: [1, 1, 1],
-      resample: 2,
-      rescale_factor: 1 / 255,
-      size: { width: 1024, height: 1024 },
-    },
+async function loadMatte(
+  mod: Runtime,
+  spec: RealModelSpec,
+  matte: (typeof MATTE_SPECS)[string],
+  dtype: string,
+  device: string,
+  progress_callback: (e: never) => void
+): Promise<Pipe> {
+  const model = await mod.AutoModel.from_pretrained(spec.repo, {
+    config: { model_type: matte.arch },
+    dtype,
+    device,
+    progress_callback,
   });
-  return async (src: unknown) => {
-    const image = await mod.RawImage.read(src as string);
-    const { pixel_values } = await processor(image);
-    const { output } = await model({ input: pixel_values });
-    const mask = await mod.RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
-    const cut = image.clone();
-    cut.putAlpha(mask);
-    return cut;
-  };
+  return createMatte(mod, model, matte) as unknown as Pipe;
 }
 
-/** Load a real pipeline, falling back to WASM when WebGPU is unavailable or broken. */
-export async function getRun(opts: LoadOptions): Promise<LoadedRun> {
-  try {
-    return await loadPipeline(opts);
-  } catch (err) {
-    if (!opts.forceDevice && prefersWebGPU()) {
-      return loadPipeline({ ...opts, forceDevice: 'wasm' });
+/**
+ * Try each device/quantisation combination the platform can actually run, in
+ * descending order of quality, then the entry's documented substitute.
+ *
+ * Two steps earn their place: `webgpu + q8` rescues GPUs whose driver cannot
+ * build the fp16 graph, and `wasm + q8` covers the WebGPU-less case without
+ * dragging a 90 MB fp16 download down a CPU pipeline.
+ */
+function attemptLadder(opts: LoadOptions): LoadOptions[] {
+  const { spec, forceDevice, forceDtype, ...rest } = opts;
+  if (forceDevice) return [{ spec, forceDevice, forceDtype, ...rest }];
+
+  const gpu = prefersWebGPU();
+  const cpuDtype = spec.dtypeByDevice?.wasm ?? spec.dtype;
+  const steps: LoadOptions[] = [];
+  if (spec.webgpuOnly) {
+    // Nothing smaller exists for this graph: keep it on the GPU or substitute.
+    if (gpu) steps.push({ spec, forceDevice: 'webgpu', ...rest });
+  } else {
+    steps.push({ spec, forceDevice: gpu ? 'webgpu' : 'wasm', ...rest });
+    if (gpu) {
+      steps.push({ spec, forceDevice: 'webgpu', forceDtype: cpuDtype, ...rest });
+      steps.push({ spec, forceDevice: 'wasm', forceDtype: cpuDtype, ...rest });
     }
-    throw err;
   }
+  if (spec.fallback) {
+    const { fallback, webgpuOnly, dtypeByDevice, ...base } = spec;
+    steps.push({ spec: { ...base, ...fallback }, ...rest });
+  }
+  return steps;
+}
+
+/** Load a real pipeline, degrading device → quantisation → substitute as needed. */
+export async function getRun(opts: LoadOptions): Promise<LoadedRun> {
+  let firstError: unknown;
+  for (const [index, attempt] of attemptLadder(opts).entries()) {
+    try {
+      return await loadPipeline(attempt);
+    } catch (err) {
+      if (index === 0) firstError = err;
+    }
+  }
+  throw firstError ?? new Error('no runnable backend for this model');
 }
 
 /** Forget every cached pipeline (used by the UI when the user wants a cold start). */
@@ -662,11 +697,26 @@ async function alphaCoverage(url: string): Promise<number> {
 /** Background removal: the model predicts a per-pixel alpha matte. */
 export async function cutForeground(
   imageSrc: string,
-  opts: LoadOptions
+  opts: LoadOptions,
+  params?: MatteParams
 ): Promise<{ url: string; coverage: number; meta: LoadedRun }> {
   const run = await getRun(opts);
-  const out = await run.call(imageSrc);
-  const url = await toDataUrl(out);
+  // Only the matting pipelines understand the refine params; passing them to a
+  // generic Transformers.js pipeline would land in its `options` bag.
+  const out: unknown = MATTE_SPECS[run.repo]
+    ? await run.call(imageSrc, params)
+    : await run.call(imageSrc);
+  // Matting checkpoints come back as a ready RGBA buffer: alpha ramp, level
+  // remap and colour decontamination already applied, so no canvas round-trip
+  // through a second quantisation.
+  if (isMatte(out)) {
+    const canvas = createCanvas(out.width, out.height);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('canvas 2d context unavailable');
+    ctx.putImageData(new ImageData(out.pixels, out.width, out.height), 0, 0);
+    return { url: canvas.toDataURL('image/png'), coverage: out.coverage, meta: run };
+  }
+  const url = await toDataUrl(out as Parameters<typeof toDataUrl>[0]);
   return { url, coverage: await alphaCoverage(url), meta: run };
 }
 
@@ -680,10 +730,15 @@ const hexToRgb = (hex: string): [number, number, number] => {
 /** Semantic segmentation: colour every predicted region over the source image. */
 export async function semanticSegment(
   imageSrc: string,
-  opts: LoadOptions
+  opts: LoadOptions,
+  params?: MatteParams
 ): Promise<{ url: string; coverage: number; meta: LoadedRun }> {
   const run = await getRun(opts);
-  const raw = (await run.call(imageSrc)) as
+  const raw = (await run.call(imageSrc, {
+    // Faint regions fall below the mask threshold instead of being painted as if
+    // the model were certain; this is the same slider the matting path uses.
+    ...(params ? { mask_threshold: Math.min(0.95, Math.max(0.05, params.thresh)) } : {}),
+  })) as
     | { mask?: unknown; label?: string; score?: number }[]
     | { mask?: unknown };
   const list = Array.isArray(raw) ? raw : [raw];
@@ -703,7 +758,9 @@ export async function semanticSegment(
     const overlay = createCanvas(width, height);
     const octx = overlay.getContext('2d');
     if (!octx) continue;
+    if (params?.feather) octx.filter = `blur(${Math.max(0.5, params.feather / 2)}px)`;
     octx.drawImage(maskCanvas, 0, 0, width, height);
+    octx.filter = 'none';
     const frame = octx.getImageData(0, 0, width, height);
     const [r, g, b] = hexToRgb(SEG_PALETTE[i % SEG_PALETTE.length]);
     let hits = 0;

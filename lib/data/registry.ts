@@ -564,7 +564,7 @@ export const DEMOS: Record<string, Record<string, DemoSpec>> = {
             { value: 'mask', label: t('掩码叠加', 'Mask overlay') },
           ],
         }),
-        p('feather', t('边缘羽化', 'Edge feather'), 'range', 2, { min: 0, max: 8, step: 1 }),
+        p('feather', t('边缘精修', 'Edge refine'), 'range', 2, { min: 0, max: 8, step: 1 }),
         p('thresh', t('前景阈值', 'Foreground threshold'), 'range', 0.5, { min: 0.2, max: 0.8, step: 0.02 }),
       ],
       samples: [
@@ -590,7 +590,7 @@ export const DEMOS: Record<string, Record<string, DemoSpec>> = {
             { value: 'mask', label: t('掩码叠加', 'Mask overlay') },
           ],
         }),
-        p('feather', t('边缘羽化', 'Edge feather'), 'range', 2, { min: 0, max: 8, step: 1 }),
+        p('feather', t('边缘精修', 'Edge refine'), 'range', 2, { min: 0, max: 8, step: 1 }),
         p('thresh', t('前景阈值', 'Foreground threshold'), 'range', 0.5, { min: 0.2, max: 0.8, step: 0.02 }),
       ],
       samples: [
