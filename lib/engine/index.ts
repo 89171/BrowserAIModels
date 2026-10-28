@@ -11,6 +11,8 @@
  * Swapping in a real runtime (transformers.js / onnxruntime-web / WebLLM) means
  * implementing one branch per `outputKind` — nothing in the UI changes.
  */
+import { resizeMask } from './inpaint-mask';
+import { splitDetectionQueries, translationDirection, validateStructured } from './contracts';
 import type { DemoSpec, Locale, ModelEntry, OutputKind } from '../types';
 import { isTextSample } from '../types';
 import gtRaw from '../data/sample-gt.json';
@@ -109,6 +111,7 @@ export interface RunContext {
   sampleId?: string;
   /** Foreground mask painted by the user (inpainting). Same resolution as the analysis canvas. */
   maskAlpha?: Float32Array;
+  maskSize?: { w: number; h: number };
   /** Watermark selection rectangle in normalised video coordinates (video-inpainting). */
   videoRect?: { x: number; y: number; w: number; h: number };
   onToken?: (partial: string) => void;
@@ -1130,20 +1133,7 @@ function mediaNaturalSize(src: string): Promise<{ width: number; height: number 
   });
 }
 
-/**
- * Pick the Whisper source language. Built-in samples encode it in their id
- * (`speech-zh.mp3`), and picked language (*live input*) falls back to the UI locale.
- */
-function isChineseSample(ctx: RunContext): boolean {
-  const id = `${ctx.spec.subcategory}/${ctx.sampleId ?? ''}`;
-  if (/zh|cn|chinese/i.test(id)) return true;
-  if (/en|english/i.test(id)) return false;
-  return ctx.locale === 'zh';
-}
-
 /* ------------------------------------------- real-weight prompt scaffolding */
-
-const isCjk = (s: string) => /[\u3400-\u9fff]/.test(s);
 
 /** Split a textarea-style field into non-empty lines. */
 const splitList = (value?: string) =>
@@ -1187,6 +1177,7 @@ function zeroShotSetFor(ctx: RunContext): { en: string; zh: string }[] {
 
 /** Donut-style document question, chosen by the selected extraction schema. */
 function documentQuestionFor(ctx: RunContext): string {
+  if (ctx.fields.question?.trim()) return ctx.fields.question.trim();
   const schema = str(ctx.params.schema, 'invoice');
   return schema === 'generic'
     ? 'List the key information on this document as field names and values.'
@@ -1276,9 +1267,9 @@ function stripFence(raw: string): string {
 }
 
 /**
- * Real-weight path. Returns null when the selected catalogue entry ships no
- * browser-ready checkpoint, or when the download / runtime fails — the caller
- * then falls back to the simulator instead of leaving the page broken.
+ * Real-weight path. Returns null for entries without a browser-ready checkpoint
+ * or explicitly selected local algorithms. Download and inference failures
+ * propagate to the UI instead of substituting simulated results.
  */
 async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: LoadedRun } | null> {
   if (typeof window === 'undefined') return null;
@@ -1298,6 +1289,11 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
   };
 
   try {
+    const inputMode = ctx.spec.inputMode;
+    if (inputMode?.includes('image') || inputMode?.includes('audio') || inputMode === 'video') {
+      if (!ctx.media?.src) throw new Error(ctx.locale === 'zh' ? '请先选择或上传媒体文件' : 'Select or upload a media file first');
+    }
+    if (inputMode === 'text' && !ctx.text.trim()) throw new Error(ctx.locale === 'zh' ? '请输入文本' : 'Enter some text first');
     switch (ctx.spec.outputKind) {
       case 'labels': {
         if (spec.task === 'image-classification' || spec.task === 'audio-classification') {
@@ -1312,11 +1308,11 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         if (spec.task === 'zero-shot-image-classification') {
           if (!ctx.media?.src) return null;
           const labels = splitList(ctx.fields.labels);
-          if (!labels.length) return null;
+          if (!labels.length) throw new Error('Enter candidate labels / 请输入候选标签');
           ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
           const r = await zeroShotClassifyImage(ctx.media.src, labels, { spec, onProgress: report });
           ctx.onPhase?.(ctx.locale === 'zh' ? '比对图文相似度…' : 'Comparing image and text…');
-          return { payload: { kind: 'labels', task: 'zero-shot-image', labels: r.labels }, run: r.meta };
+          return { payload: { kind: 'labels', task: 'zero-shot-image', labels: r.labels.slice(0, num(ctx.params.topK, 5)) }, run: r.meta };
         }
         if (spec.task === 'zero-shot-classification') {
           if (!ctx.text.trim()) return null;
@@ -1329,7 +1325,7 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
             payload: {
               kind: 'labels',
               task: 'zero-shot',
-              labels: r.labels.map((l) => ({
+              labels: r.labels.filter((l) => l.score >= num(ctx.params.threshold, 0)).map((l) => ({
                 label: ctx.locale === 'zh' ? zhOf.get(l.label) ?? l.label : l.label,
                 score: l.score,
               })),
@@ -1341,13 +1337,13 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         const r = await classifyText(ctx.text, { spec, onProgress: report });
         ctx.onPhase?.(ctx.locale === 'zh' ? '推理…' : 'Running inference…');
-        return { payload: { kind: 'labels', labels: r.labels }, run: r.meta };
+        return { payload: { kind: 'labels', labels: r.labels.filter((l) => l.score >= num(ctx.params.threshold, 0)) }, run: r.meta };
       }
       case 'embedding': {
         const lines = ctx.lines.filter((l) => l.trim().length > 0);
-        if (!lines.length) return null;
+        if (!lines.length) throw new Error('Enter at least one sentence / 请至少输入一句文本');
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
-        const { vectors, meta } = await embedLines(lines, { spec, onProgress: report });
+        const { vectors, meta } = await embedLines(lines, { spec, onProgress: report, normalize: ctx.params.normalize !== false });
         ctx.onPhase?.(ctx.locale === 'zh' ? '编码句向量…' : 'Encoding sentences…');
         const dim = Math.min(num(ctx.params.dim, 16), vectors[0]?.length ?? 16);
         const matrix = vectors.map((a) => vectors.map((b) => (cosine(a, b) + 1) / 2));
@@ -1366,7 +1362,7 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       case 'ranking': {
         const query = ctx.fields.query?.trim();
         const docs = ctx.lines.filter((l) => l.trim().length > 0);
-        if (!query || !docs.length) return null;
+        if (!query || !docs.length) throw new Error('Enter a query and candidate documents / 请输入查询和候选文本');
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         const r = await scorePairs(query, docs, { spec, onProgress: report });
         ctx.onPhase?.(ctx.locale === 'zh' ? '交叉编码打分…' : 'Scoring pairs…');
@@ -1384,7 +1380,7 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       case 'search': {
         const query = ctx.fields.query?.trim();
         const docs = ctx.lines.filter((l) => l.trim().length > 0);
-        if (!query || !docs.length) return null;
+        if (!query || !docs.length) throw new Error('Enter a query and candidate documents / 请输入查询和候选文本');
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         const r = await rankByEmbedding(query, docs, { spec, onProgress: report });
         ctx.onPhase?.(ctx.locale === 'zh' ? '计算向量相似度…' : 'Scoring similarity…');
@@ -1397,8 +1393,8 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       case 'detection': {
         if (!ctx.media?.src) return null;
         if (spec.task === 'zero-shot-object-detection') {
-          const queries = splitList(ctx.fields.labels);
-          if (!queries.length) return null;
+          const queries = splitDetectionQueries(ctx.fields.labels ?? '');
+          if (!queries.length) throw new Error('Enter detection queries / 请输入检测目标');
           ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
           const r = await detectZeroShot(ctx.media.src, queries, num(ctx.params.conf, 0.1), { spec, onProgress: report });
           ctx.onPhase?.(ctx.locale === 'zh' ? '比对文字与候选框…' : 'Matching text to boxes…');
@@ -1467,18 +1463,19 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         const r = await transcribeAudio(ctx.media.src, {
           spec,
           onProgress: report,
-          language: isChineseSample(ctx) ? 'zh' : 'en',
+          language: ctx.params.lang === 'zh' || ctx.params.lang === 'en' ? ctx.params.lang : undefined,
+          timestamps: ctx.params.timestamps !== false,
         });
         ctx.onPhase?.(ctx.locale === 'zh' ? '转写音频…' : 'Transcribing audio…');
         return {
           payload: {
             kind: 'transcript',
-            language: ctx.locale === 'zh' ? 'zh' : 'en',
+            language: str(ctx.params.lang, 'auto'),
             text: r.text,
             segments: r.segments.length
               ? r.segments
               : [{ start: 0, end: 0, text: r.text }],
-            confidence: 0.9,
+            confidence: 0,
           },
           run: r.meta,
         };
@@ -1487,9 +1484,8 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         if (!ctx.text.trim()) return null;
         // Every browser-ready TTS checkpoint here is English-only; Chinese text produces an empty token
         // sequence and an opaque OrtRun failure, so skip the weights instead of failing inside ORT.
-        if (!/[A-Za-z]/.test(ctx.text)) {
-          ctx.onPhase?.(ctx.locale === 'zh' ? '该真实模型仅支持英文文本，回退演示模式（切换到 English 可真实合成）…' : 'This real model is English-only; falling back to demo mode…');
-          return null;
+        if (!/[A-Za-z]/.test(ctx.text) || /[\u3400-\u9fff]/.test(ctx.text)) {
+          throw new Error(ctx.locale === 'zh' ? '该模型仅支持英文，请输入英文文本。' : 'This model supports English text only.');
         }
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         const r = await synthesiseSpeech(ctx.text, { spec, onProgress: report });
@@ -1565,7 +1561,7 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
             { spec, onProgress: report },
             {
               temperature: num(ctx.params.temperature, 0.7),
-              maxNewTokens: Math.max(32, Math.min(320, num(ctx.params.maxTokens, 160))),
+              maxNewTokens: Math.max(32, Math.min(2048, num(ctx.params.maxTokens, 512))),
             }
           );
           ctx.onPhase?.(ctx.locale === 'zh' ? '生成回答…' : 'Generating…');
@@ -1580,13 +1576,13 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       case 'restoration': {
         if (!ctx.media?.src) return null;
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
-        const r = await enhanceImage(ctx.media.src, { spec, onProgress: report });
+        const r = await enhanceImage(ctx.media.src, { spec, onProgress: report }, num(ctx.params.strength, 0.7));
         ctx.onPhase?.(ctx.locale === 'zh' ? '重建图像…' : 'Reconstructing image…');
         return {
           payload: {
             kind: 'restoration',
             url: r.url,
-            referenceUrl: ctx.media.src,
+            referenceUrl: ctx.params.compare === false ? undefined : ctx.media.src,
             metrics: [{ label: ctx.locale === 'zh' ? '处理模型' : 'Model', value: spec.repo.split('/')[1] ?? spec.repo }],
           },
           run: r.meta,
@@ -1603,15 +1599,17 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         if (!ctx.text.trim()) return null;
         if (spec.task === 'translation') {
           // The Marian pair is directional: pick the sibling checkpoint for CJK input.
-          const directional = isCjk(ctx.text) ? { ...spec, repo: 'Xenova/opus-mt-zh-en' } : spec;
+          const direction = translationDirection(ctx.text, str(ctx.params.sourceLang, 'auto'), str(ctx.params.targetLang, 'en'));
+          if (!direction.repo) throw new Error(ctx.locale === 'zh' ? '源语言与目标语言相同，请选择不同的语言。' : 'Source and target languages must differ.');
+          const directional = { ...spec, repo: direction.repo };
           ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
-          const r = await translateText(ctx.text, { spec: directional, onProgress: report });
+          const r = await translateText(ctx.text, { spec: directional, onProgress: report, maxNewTokens: num(ctx.params.maxTokens, 256) });
           ctx.onPhase?.(ctx.locale === 'zh' ? '逐句解码…' : 'Decoding…');
           return { payload: { kind: 'text', text: r.text }, run: r.meta };
         }
         if (spec.task === 'question-answering') {
           const question = (ctx.fields.question ?? '').trim();
-          if (!question) return null;
+          if (!question) throw new Error('Enter a question / 请输入问题');
           ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
           const r = await answerQuestion(question, ctx.text, { spec, onProgress: report });
           ctx.onPhase?.(ctx.locale === 'zh' ? '定位答案…' : 'Locating the answer…');
@@ -1622,10 +1620,10 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         }
         if (spec.task !== 'summarization') return null;
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
-        const r = await summariseText(ctx.text, { spec, onProgress: report });
+        const r = await summariseText(ctx.text, { spec, onProgress: report, maxNewTokens: num(ctx.params.maxLength, 96) });
         ctx.onPhase?.(ctx.locale === 'zh' ? '生成摘要…' : 'Summarising…');
         return {
-          payload: { kind: 'text', text: r.text, extra: { summary: r.text } },
+          payload: { kind: 'text', text: ctx.params.style === 'bullets' ? splitSentences(r.text).map((line) => `• ${line}`).join('\n') : r.text, extra: { summary: r.text } },
           run: r.meta,
         };
       }
@@ -1645,7 +1643,9 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
           maxNewTokens: 220,
         });
         ctx.onPhase?.(ctx.locale === 'zh' ? '生成结构化输出…' : 'Generating structured output…');
-        return { payload: { kind: 'json', value: extractJsonObject(r.text), raw: r.text }, run: r.meta };
+        const value = extractJsonObject(r.text);
+        if (ctx.params.strict !== false) validateStructured(value, str(ctx.params.schema, 'job'));
+        return { payload: { kind: 'json', value, raw: r.text }, run: r.meta };
       }
       case 'code': {
         if (spec.task !== 'text-generation' || !ctx.text.trim()) return null;
@@ -1667,7 +1667,7 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       case 'audio-compare': {
         if (!ctx.media?.src || spec.task !== 'rnnoise') return null;
         ctx.onPhase?.(ctx.locale === 'zh' ? 'RNNoise 逐帧降噪…' : 'RNNoise denoising frame by frame…');
-        const r = await rnnoiseDenoise(ctx.media.src, 1 - num(ctx.params.strength, 0.8));
+        const r = await rnnoiseDenoise(ctx.media.src, 1 - num(ctx.params.strength, 0.8), ctx.params.hpf !== false);
         return { payload: { kind: 'audio-compare', ...r, method: 'RNNoise (GRU)' }, run: { call: async () => null, repo: spec.repo, dtype: spec.dtype, device: 'wasm', bytes: 0 } };
       }
       case 'stems': {
@@ -1700,7 +1700,7 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
           locale: ctx.locale,
           onPhase: ctx.onPhase,
         });
-        if (!res.ok) return null;
+        if (!res.ok) throw new Error(res.detail || res.code);
         return {
           payload: {
             kind: 'video-inpainting',
@@ -1720,19 +1720,23 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       case 'inpainting': {
         if (!ctx.media?.src || spec.ort !== 'migan') return null;
         const img = await loadImage(ctx.media.src);
-        const canvas = toCanvas(img, 720);
-        const size = canvas.width * canvas.height;
-        let alpha = ctx.maskAlpha && ctx.maskAlpha.length === size ? ctx.maskAlpha : new Float32Array(size);
+        if (img.naturalWidth * img.naturalHeight > 24_000_000) throw new Error('Image exceeds 24 megapixels / 图片超过 2400 万像素，请缩小后重试');
+        const canvas = toCanvas(img, Infinity);
+        let alpha = ctx.maskAlpha && ctx.maskSize
+          ? resizeMask(ctx.maskAlpha, ctx.maskSize, canvas.width, canvas.height)
+          : new Float32Array(canvas.width * canvas.height);
         if (!alpha.some((v) => v > 0.35)) {
           const truth = truthFor(ctx.media);
           if (truth?.masks?.length) alpha = maskFromRects(canvas.width, canvas.height, truth.masks);
         }
-        const res = await miganInpaint(canvas, alpha, spec.repo, (r) =>
-          ctx.onPhase?.(ctx.locale === 'zh' ? `下载权重 ${Math.round(r * 100)}%` : `Downloading weights ${Math.round(r * 100)}%`)
-        );
+        if (!alpha.some((v) => v > 0.35)) throw new Error(ctx.locale === 'zh' ? '请先涂抹需要修复的区域' : 'Paint the area to repair first');
         ctx.onPhase?.(ctx.locale === 'zh' ? 'MI-GAN 补全…' : 'MI-GAN filling…');
+        const res = await miganInpaint(canvas, alpha, spec.repo, (r) =>
+          ctx.onPhase?.(ctx.locale === 'zh' ? `下载权重 ${Math.round(r * 100)}%` : `Downloading weights ${Math.round(r * 100)}%`),
+          num(ctx.params.feather, 6)
+        );
         return {
-          payload: { kind: 'inpainting', url: res.url, originalUrl: canvas.toDataURL('image/png'), filled: res.filled, method: 'MI-GAN' },
+          payload: { kind: 'inpainting', url: res.url, originalUrl: ctx.media.src, filled: res.filled, method: 'MI-GAN' },
           run: { call: async () => null, repo: spec.repo, dtype: spec.dtype, device: 'wasm', bytes: 0 },
         };
       }
@@ -1808,11 +1812,8 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
         return null;
     }
   } catch (err) {
-    console.warn('[AI-Demos] real inference failed, falling back to the simulator', err);
-    ctx.onPhase?.(
-      ctx.locale === 'zh' ? '真实权重加载失败，回退演示模式…' : 'Real weights failed, falling back to demo mode…'
-    );
-    return null;
+    const detail = err instanceof Error ? err.message : String(err);
+    throw new Error(`${ctx.locale === 'zh' ? '真实推理失败，请重试' : 'Real inference failed; please retry'}: ${detail}`, { cause: err });
   }
 }
 

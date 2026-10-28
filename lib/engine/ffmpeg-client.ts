@@ -75,9 +75,15 @@ export class FfmpegClient {
   async load(onPhase?: (phase: string) => void): Promise<void> {
     onPhase?.('下载 ffmpeg-core…');
     const coreURL = await toBlobURL(`${FFMPEG_CORE_CDN}/ffmpeg-core.js`, 'text/javascript');
-    onPhase?.('下载 ffmpeg-core.wasm…');
-    const wasmURL = await toBlobURL(`${FFMPEG_CORE_CDN}/ffmpeg-core.wasm`, 'application/wasm');
-    await this.request('LOAD', { coreURL, wasmURL });
+    let wasmURL: string | undefined;
+    try {
+      onPhase?.('下载 ffmpeg-core.wasm…');
+      wasmURL = await toBlobURL(`${FFMPEG_CORE_CDN}/ffmpeg-core.wasm`, 'application/wasm');
+      await this.request('LOAD', { coreURL, wasmURL });
+    } finally {
+      URL.revokeObjectURL(coreURL);
+      if (wasmURL) URL.revokeObjectURL(wasmURL);
+    }
     onPhase?.('ffmpeg 就绪');
   }
 

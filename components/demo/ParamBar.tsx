@@ -7,8 +7,12 @@ export function ParamBar({
   spec,
   values,
   onChange,
+  supported,
+  englishChineseOnly,
 }: {
   spec: DemoSpec;
+  supported?: Set<string>;
+  englishChineseOnly?: boolean;
   values: Record<string, string | number | boolean>;
   onChange: (key: string, value: string | number | boolean) => void;
 }) {
@@ -23,13 +27,15 @@ export function ParamBar({
       </div>
       <div className="space-y-3">
         {params.map((p) => (
-          <ParamRow
-            key={p.key}
-            spec={p}
-            value={values[p.key] ?? p.default}
-            onChange={(v) => onChange(p.key, v)}
-            locale={locale}
-          />
+          <fieldset key={p.key} disabled={supported && !supported.has(p.key)} className={supported && !supported.has(p.key) ? 'opacity-50' : ''}>
+            <ParamRow
+              spec={englishChineseOnly && (p.key === 'sourceLang' || p.key === 'targetLang') ? { ...p, options: p.options?.filter((o) => ['auto', 'en', 'zh'].includes(o.value)) } : p}
+              value={values[p.key] ?? p.default}
+              onChange={(v) => onChange(p.key, v)}
+              locale={locale}
+            />
+            {supported && !supported.has(p.key) && <p className="mt-1 text-[10px]">{locale === 'zh' ? '当前模型不支持此选项' : 'Not supported by this model'}</p>}
+          </fieldset>
         ))}
       </div>
     </div>

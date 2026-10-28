@@ -165,11 +165,23 @@ function MaskCanvas({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const drawing = useRef(false);
+  const previousPoint = useRef<{ x: number; y: number } | null>(null);
+  const ready = useRef(false);
 
   useEffect(() => {
+    let cancelled = false;
+    ready.current = false;
+    drawing.current = false;
+    previousPoint.current = null;
+    const current = canvasRef.current;
+    if (current) {
+      current.getContext('2d')!.clearRect(0, 0, current.width, current.height);
+      onMask(new Float32Array(current.width * current.height), current.width, current.height);
+    }
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
+      if (cancelled) return;
       const scale = Math.min(1, 720 / Math.max(img.naturalWidth, img.naturalHeight));
       const w = Math.round(img.naturalWidth * scale);
       const h = Math.round(img.naturalHeight * scale);
@@ -180,26 +192,37 @@ function MaskCanvas({
       c.height = h;
       const ctx = c.getContext('2d')!;
       ctx.clearRect(0, 0, w, h);
-      ctx.drawImage(img, 0, 0, w, h);
+      // This canvas contains only brush strokes. Drawing the source here would
+      // make every opaque image pixel part of the mask extracted below.
+      ready.current = true;
       onMask(new Float32Array(w * h), w, h);
     };
     img.src = src;
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src, maskKey]);
 
   const paint = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const c = canvasRef.current;
-    if (!c) return;
+    if (!c || !ready.current) return;
     const rect = c.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * c.width;
     const y = ((e.clientY - rect.top) / rect.height) * c.height;
     const ctx = c.getContext('2d')!;
-    ctx.globalAlpha = 0.85;
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = '#f97316';
+    ctx.strokeStyle = '#f97316';
+    ctx.lineWidth = brush * 2;
+    ctx.lineCap = 'round';
+    if (previousPoint.current) {
+      ctx.beginPath();
+      ctx.moveTo(previousPoint.current.x, previousPoint.current.y);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
     ctx.beginPath();
     ctx.arc(x, y, brush, 0, Math.PI * 2);
     ctx.fill();
-    ctx.globalAlpha = 1;
+    previousPoint.current = { x, y };
   };
 
   const pushMask = () => {
@@ -212,30 +235,39 @@ function MaskCanvas({
     onMask(m, c.width, c.height);
   };
 
+  const finishStroke = () => {
+    if (!drawing.current) return;
+    drawing.current = false;
+    previousPoint.current = null;
+    pushMask();
+  };
+
   return (
-    <div className="overflow-hidden rounded-lg border" style={{ background: 'var(--bg-inset)' }}>
+    <div className="relative overflow-hidden rounded-lg border" style={{ background: 'var(--bg-inset)' }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full" />
       <canvas
         ref={canvasRef}
-        className="block w-full cursor-crosshair touch-none"
+        className="relative block w-full cursor-crosshair touch-none opacity-60"
         style={{ aspectRatio: size.w && size.h ? `${size.w} / ${size.h}` : '16 / 10' }}
         onPointerDown={(e) => {
+          if (!ready.current || !e.isPrimary || e.button !== 0) return;
           drawing.current = true;
+          previousPoint.current = null;
           e.currentTarget.setPointerCapture(e.pointerId);
           paint(e);
         }}
         onPointerMove={(e) => {
+          if (drawing.current && e.isPrimary) paint(e);
+        }}
+        onPointerUp={(e) => {
+          if (!e.isPrimary) return;
           if (drawing.current) paint(e);
+          finishStroke();
+          if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
         }}
-        onPointerUp={() => {
-          drawing.current = false;
-          pushMask();
-        }}
-        onPointerLeave={() => {
-          if (drawing.current) {
-            drawing.current = false;
-            pushMask();
-          }
-        }}
+        onPointerCancel={finishStroke}
+        onLostPointerCapture={finishStroke}
       />
     </div>
   );

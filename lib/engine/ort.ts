@@ -17,7 +17,7 @@ export async function fetchModel(url: string, onProgress?: (ratio: number, recei
   const res = hit ?? (await fetch(url));
   if (!res.ok) throw new Error(`model download failed: ${res.status}`);
   const total = Number(res.headers.get('Content-Length')) || 0;
-  const body = res.clone().body;
+  const body = res.body;
   const chunks: Uint8Array[] = [];
   let got = 0;
   if (body) {
@@ -30,6 +30,8 @@ export async function fetchModel(url: string, onProgress?: (ratio: number, recei
       onProgress?.(total ? got / total : 0, got, total);
     }
   }
+  if (!body) throw new Error('Model response has no body');
+  onProgress?.(1, got, total || got);
   const out = new Uint8Array(new ArrayBuffer(got));
   let off = 0;
   for (const c of chunks) (out.set(c, off), (off += c.byteLength));

@@ -564,7 +564,7 @@ export async function removeVideoWatermark(options: VideoWatermarkOptions): Prom
 
     let finalBlob = videoBlob;
     let hasAudio = false;
-    if (useMigan || useLama) {
+    {
       try {
         onPhase?.(locale === 'zh' ? 'ffmpeg.wasm 回填音轨…' : 'Muxing the original audio with ffmpeg.wasm…');
         finalBlob = await muxOriginalAudio(videoBlob, src);

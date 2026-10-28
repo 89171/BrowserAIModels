@@ -32,6 +32,7 @@ export interface RealModelSpec {
     | 'rnnoise'
     | 'onnxruntime'
     | 'text-classification'
+    | 'text-ranking'
     | 'zero-shot-classification'
     | 'zero-shot-image-classification'
     | 'feature-extraction'
@@ -658,7 +659,7 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
 
   /* ------------------------------------------- multimodal / document reading */
   'multimodal/document-understanding/donut-base': {
-    repo: 'Xenova/donut-base-finetuned-cord-v2',
+    repo: 'Xenova/donut-base-finetuned-docvqa',
     task: 'document-question-answering',
     dtype: 'q8',
     substitute: true,
@@ -1002,7 +1003,7 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     },
   },
   'multimodal/document-understanding/layoutlmv3': {
-    repo: 'Xenova/donut-base-finetuned-cord-v2',
+    repo: 'Xenova/donut-base-finetuned-docvqa',
     task: 'document-question-answering',
     dtype: 'q8',
     substitute: true,
@@ -1087,7 +1088,7 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     },
   },
 
-  'text/token-classification/bert-base-ner': {
+  'text/ner/bert-base-ner': {
     repo: 'Xenova/bert-base-NER',
     task: 'token-classification',
     dtype: 'q8',
@@ -1096,7 +1097,7 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
       en: 'Real weights: BERT-base fine-tuned on CoNLL-2003 (~109 MB); token predictions are merged into whole entities in the browser.',
     },
   },
-  'text/token-classification/distilbert-multilingual-ner': {
+  'text/ner/distilbert-multilingual-ner': {
     repo: 'Xenova/distilbert-base-multilingual-cased-ner-hrl',
     task: 'token-classification',
     dtype: 'q8',

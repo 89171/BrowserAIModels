@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/i18n/routing';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '@/lib/client-context';
 import { FRAMEWORK_LABEL, LICENSE_LABEL } from '@/lib/data/models';
 import { BROWSER_INFEASIBLE, realSpecFor } from '@/lib/data/real-models';
@@ -12,6 +12,8 @@ import { runInference, type RunResult } from '@/lib/engine';
 import { AudioPanel, ImagePanel, LinesEditor, SampleBar, TextField, VideoPanel, sampleToInput, type VideoRect } from './InputPanel';
 import { ParamBar } from './ParamBar';
 import { ResultView } from './results';
+import { LatestRun, releaseOutputUrls } from '@/lib/engine/latest-run';
+import { initialDemoParams, supportedParams } from '@/lib/engine/contracts';
 import { LiveOverlay } from './LiveOverlay';
 
 export function DemoPlayground({
@@ -51,13 +53,7 @@ export function DemoPlayground({
   const [input, setInput] = useState<InputState>(() =>
     spec ? sampleToInput(spec.samples[0], locale) : { text: '', fields: {}, lines: [] }
   );
-  const [params, setParams] = useState<Record<string, string | number | boolean>>(() => {
-    const out: Record<string, string | number | boolean> = {};
-    spec?.params?.forEach((p) => {
-      out[p.key] = p.default;
-    });
-    return out;
-  });
+  const [params, setParams] = useState<Record<string, string | number | boolean>>(() => initialDemoParams(spec, input.text));
   const [running, setRunning] = useState(false);
   const [phase, setPhase] = useState<string | undefined>();
   const [result, setResult] = useState<RunResult | null>(null);
@@ -73,6 +69,28 @@ export function DemoPlayground({
   const rectRef = useRef<VideoRect | null>(needsVideoRect ? DEFAULT_VIDEO_RECT : null);
   const [selRect, setSelRect] = useState<VideoRect | null>(needsVideoRect ? DEFAULT_VIDEO_RECT : null);
 
+  const runs = useRef(new LatestRun());
+  useEffect(() => {
+    const queue = runs.current;
+    return () => queue.invalidate();
+  }, []);
+  useEffect(() => {
+    const src = input.media?.src;
+    const queue = runs.current;
+    return () => {
+      if (src?.startsWith('blob:')) queue.afterIdle(() => URL.revokeObjectURL(src));
+    };
+  }, [input.media?.src]);
+  useEffect(() => () => releaseOutputUrls(result?.payload), [result]);
+
+  const invalidate = () => {
+    runs.current.invalidate();
+    setRunning(false);
+    setPhase(undefined);
+    setResult(null);
+    setError(null);
+  };
+
   const model = models.find((m) => m.id === modelId) ?? models[0];
 
   /*
@@ -86,6 +104,7 @@ export function DemoPlayground({
     if (!spec) return;
     const s = spec.samples.find((x) => x.id === id);
     if (!s) return;
+    invalidate();
     setSampleId(id);
     setInput(sampleToInput(s, locale));
     setResult(null);
@@ -95,6 +114,8 @@ export function DemoPlayground({
   };
 
   const update = (patch: Partial<InputState>) => {
+    invalidate();
+    if (patch.media !== undefined) maskRef.current = null;
     setInput((prev) => ({ ...prev, ...patch }));
   };
 
@@ -105,11 +126,13 @@ export function DemoPlayground({
         ? models.find((m) => m.id === overrides.modelId) ?? model
         : model;
       const state = overrides?.input ?? input;
+      const runId = runs.current.begin();
+      setResult(null);
       setRunning(true);
       setError(null);
       setPhase(undefined);
       try {
-        const res = await runInference(spec.outputKind, {
+        const res = await runs.current.enqueue(runId, () => runInference(spec.outputKind, {
           spec,
           model: activeModel,
           locale,
@@ -127,16 +150,22 @@ export function DemoPlayground({
               }
             : undefined,
           maskAlpha: maskRef.current?.alpha,
+          maskSize: maskRef.current ? { w: maskRef.current.w, h: maskRef.current.h } : undefined,
           videoRect: rectRef.current ?? undefined,
-          onPhase: setPhase,
-        });
+          onPhase: (message) => { if (runs.current.current(runId)) setPhase(message); },
+        }));
+        if (!res) return;
+        if (!runs.current.current(runId)) { releaseOutputUrls(res.payload); return; }
         setResult(res);
       } catch (e) {
+        if (!runs.current.current(runId)) return;
         setError(e instanceof Error ? e.message : String(e));
         setResult(null);
       } finally {
-        setRunning(false);
-        setPhase(undefined);
+        if (runs.current.current(runId)) {
+          setRunning(false);
+          setPhase(undefined);
+        }
       }
     },
     [spec, model, models, input, params, locale, sampleId]
@@ -144,44 +173,7 @@ export function DemoPlayground({
 
   const changeModel = (id: string) => {
     setModelId(id);
-    const nextModel = models.find((m) => m.id === id);
-    // Keep the sample, swap only the weights — this is the point of the demo.
-    setTimeout(() => {
-      if (!spec || !nextModel) return;
-      setRunning(true);
-      setError(null);
-      (async () => {
-        try {
-          const res = await runInference(spec.outputKind, {
-            spec,
-            model: nextModel,
-            locale,
-            text: input.text,
-            fields: input.fields,
-            lines: input.lines.filter((l) => l.trim().length > 0),
-            params,
-            sampleId,
-            media: input.media
-              ? {
-                  src: input.media.src,
-                  builtin: input.media.builtin,
-                  sampleId: input.media.sampleId,
-                  reference: input.media.reference,
-                }
-              : undefined,
-            maskAlpha: maskRef.current?.alpha,
-            videoRect: rectRef.current ?? undefined,
-            onPhase: setPhase,
-          });
-          setResult(res);
-        } catch (e) {
-          setError(e instanceof Error ? e.message : String(e));
-        } finally {
-          setRunning(false);
-          setPhase(undefined);
-        }
-      })();
-    }, 0);
+    void run({ modelId: id });
   };
 
   if (!spec || !model) {
@@ -195,6 +187,11 @@ export function DemoPlayground({
     );
   }
 
+  const real = realSpecFor(category, subcategory, model.id);
+  const allowedParams = supportedParams(spec, real);
+  const textFields = real?.task === 'image-to-text' && spec.outputKind === 'chat' ? []
+    : real?.task === 'document-question-answering' ? [{ key: 'question', label: { zh: '文档问题（英文）', en: 'Document question (English)' }, placeholder: { zh: '例如：What is the invoice number?', en: 'e.g. What is the invoice number?' } }]
+    : spec.textFields;
   const needsText = spec.inputMode === 'text';
   const needsLines = spec.inputMode === 'lines';
   const needsImage = spec.inputMode === 'image' || spec.inputMode === 'image+text';
@@ -222,6 +219,11 @@ export function DemoPlayground({
         <p className="mt-2 max-w-3xl text-[12px] leading-5" style={{ color: 'var(--fg-subtle)' }}>
           {spec.task[locale]}
         </p>
+        {real?.task === 'image-to-text' && spec.outputKind === 'chat' && (
+          <p className="mt-2 text-[12px]" style={{ color: 'var(--fg-subtle)' }}>
+            {locale === 'zh' ? '当前模型生成整图描述，不支持按问题作答。' : 'This model captions the image; question answering is not supported.'}
+          </p>
+        )}
       </header>
 
       {/* model switcher */}
@@ -346,7 +348,7 @@ export function DemoPlayground({
                   rows={8}
                   hint={`${input.text.length}`}
                 />
-                {spec.textFields?.map((f) => (
+                {textFields?.map((f) => (
                   <TextField
                     key={f.key}
                     label={f.label[locale]}
@@ -362,7 +364,7 @@ export function DemoPlayground({
 
             {needsLines && (
               <div className="space-y-4">
-                {spec.textFields?.map((f) => (
+                {textFields?.map((f) => (
                   <TextField
                     key={f.key}
                     label={f.label[locale]}
@@ -391,12 +393,13 @@ export function DemoPlayground({
                   onBrushMask={(alpha, w, h) => {
                     // Keep the pixels in a ref so painting never re-renders the canvas;
                     // only the mask size is mirrored into state (it changes once).
+                    invalidate();
                     maskRef.current = { alpha, w, h };
                     setMaskDims((prev) => (prev && prev.w === w && prev.h === h ? prev : { w, h }));
                   }}
                   maskKey={maskKey}
                 />
-                {spec.textFields?.map((f) => (
+                {textFields?.map((f) => (
                   <TextField
                     key={f.key}
                     label={f.label[locale]}
@@ -418,7 +421,7 @@ export function DemoPlayground({
                   peaks={audioPeaks}
                   onPeaks={setAudioPeaks}
                 />
-                {spec.textFields?.map((f) => (
+                {textFields?.map((f) => (
                   <TextField
                     key={f.key}
                     label={f.label[locale]}
@@ -440,6 +443,7 @@ export function DemoPlayground({
                 onSelection={
                   needsVideoRect
                     ? (rect) => {
+                        invalidate();
                         rectRef.current = rect;
                         setSelRect(rect);
                       }
@@ -452,7 +456,9 @@ export function DemoPlayground({
               <ParamBar
                 spec={spec}
                 values={params}
-                onChange={(k, v) => setParams((prev) => ({ ...prev, [k]: v }))}
+                supported={allowedParams}
+                englishChineseOnly={real?.task === 'translation'}
+                onChange={(k, v) => { invalidate(); setParams((prev) => ({ ...prev, [k]: v })); }}
               />
             </div>
 
@@ -461,6 +467,7 @@ export function DemoPlayground({
                 type="button"
                 className="btn w-full"
                 onClick={() => {
+                  invalidate();
                   maskRef.current = null;
                   setMaskDims(undefined);
                   setMaskKey((k) => k + 1);

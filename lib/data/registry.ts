@@ -308,8 +308,8 @@ export const DEMOS: Record<string, Record<string, DemoSpec>> = {
       subcategory: 'structured-output',
       tagline: t('让模型只吐合法 JSON', 'Constrain the model to valid JSON'),
       task: t(
-        '通过语法约束或 Schema 引导，保证输出严格符合预期结构，便于下游程序消费。',
-        'Grammar constraints or schema guidance guarantee output that downstream programs can consume directly.'
+        '通过 Schema 提示生成 JSON；严格模式会校验字段和类型，不符合时提示重试。',
+        'Generate JSON with a schema prompt. Strict mode validates fields and types and reports invalid output for retry.'
       ),
       inputMode: 'text',
       outputKind: 'json',

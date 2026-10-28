@@ -32,12 +32,13 @@ export interface LoadedRun {
   bytes: number;
 }
 
-type Pipe = (input: unknown, ...args: any[]) => Promise<unknown>;
+type Pipe = ((input: unknown, ...args: any[]) => Promise<unknown>) & { dispose?: () => Promise<void> };
+type CachedRun = LoadedRun & { dispose: () => Promise<void> };
 
 type Runtime = any;
 
 let runtimePromise: Promise<Runtime> | null = null;
-const pipelineCache = new Map<string, Promise<LoadedRun>>();
+const pipelineCache = new Map<string, Promise<CachedRun>>();
 
 async function importRuntime(): Promise<Runtime> {
   if (!runtimePromise) {
@@ -50,7 +51,7 @@ async function importRuntime(): Promise<Runtime> {
       // this unset falls back to the jsDelivr CDN, which is slow from CN.
       if (env.backends?.onnx?.wasm) env.backends.onnx.wasm.wasmPaths = ORT_WASM_PREFIX;
       return mod;
-    })();
+    })().catch((error) => { runtimePromise = null; throw error; });
   }
   return runtimePromise;
 }
@@ -66,14 +67,14 @@ export interface LoadOptions {
   forceDtype?: string;
   /** confidence threshold for object detection */
   threshold?: number;
-  /**
-   * Forced source language for ASR. Whisper defaults to English decoding when
-   * this is unset, which silently mangles non-English audio.
-   */
+  /** Forced ASR source language; omit to let multilingual Whisper detect it. */
   language?: string;
+  timestamps?: boolean;
+  normalize?: boolean;
+  maxNewTokens?: number;
 }
 
-async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadOptions): Promise<LoadedRun> {
+async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadOptions): Promise<CachedRun> {
   const mod = await importRuntime();
   const device = forceDevice ?? (prefersWebGPU() ? 'webgpu' : 'wasm');
   // Large matting graphs only fit the GPU at fp16; the WASM EP keeps the int8
@@ -82,14 +83,26 @@ async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadO
   const key = `${spec.task}|${spec.repo}|${dtype}|${device}`;
   const cached = pipelineCache.get(key);
   if (cached) {
+    pipelineCache.delete(key);
+    pipelineCache.set(key, cached);
     // Report 0 bytes: nothing was fetched on this run, the session is reused.
     return { ...(await cached), bytes: 0 };
   }
 
-  const job = (async (): Promise<LoadedRun> => {
+  // Execution is serialized by getRun, so no cached pipeline is in use here.
+  // Evict before loading, not after a third large model has exhausted memory.
+  while (pipelineCache.size >= 2) {
+    const oldest = pipelineCache.keys().next().value!;
+    const entry = pipelineCache.get(oldest)!;
+    pipelineCache.delete(oldest);
+    await entry.then((run) => run.dispose()).catch(() => undefined);
+  }
+
+  const job = (async (): Promise<CachedRun> => {
     let loaded = 0;
     let total = 0;
     let lastFile: string | undefined;
+    const files = new Map<string, { loaded: number; total: number }>();
     const progress_callback = (e: {
       status?: string;
       file?: string;
@@ -100,15 +113,18 @@ async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadO
     }) => {
       if (e.file && e.file !== lastFile) lastFile = e.file;
       if (e.status === 'progress' && typeof e.loaded === 'number' && typeof e.total === 'number') {
-        loaded = Math.max(loaded, e.loaded);
-        total = Math.max(total, e.total);
+        files.set(e.file ?? '', { loaded: e.loaded, total: e.total });
+        loaded = [...files.values()].reduce((sum, f) => sum + f.loaded, 0);
+        total = [...files.values()].reduce((sum, f) => sum + f.total, 0);
         onProgress?.({ loaded, total, file: lastFile, ratio: total ? loaded / total : 0 });
       }
     };
     const matte = MATTE_SPECS[spec.repo];
     const pipe: Pipe = matte
       ? await loadMatte(mod, spec, matte, dtype, device, progress_callback)
-      : await mod.pipeline(spec.task, spec.repo, {
+      : spec.task === 'text-ranking'
+        ? await loadReranker(mod, spec, dtype, device, progress_callback)
+        : await mod.pipeline(spec.task, spec.repo, {
           dtype,
           device,
           progress_callback,
@@ -119,6 +135,7 @@ async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadO
       dtype,
       device,
       bytes: loaded,
+      dispose: async () => { await pipe.dispose?.(); },
     };
   })();
 
@@ -153,7 +170,9 @@ async function loadMatte(
     device,
     progress_callback,
   });
-  return createMatte(mod, model, matte) as unknown as Pipe;
+  const pipe = createMatte(mod, model, matte) as unknown as Pipe;
+  pipe.dispose = () => model.dispose();
+  return pipe;
 }
 
 /**
@@ -188,22 +207,100 @@ function attemptLadder(opts: LoadOptions): LoadOptions[] {
   return steps;
 }
 
-/** Load a real pipeline, degrading device → quantisation → substitute as needed. */
-export async function getRun(opts: LoadOptions): Promise<LoadedRun> {
-  let firstError: unknown;
-  for (const [index, attempt] of attemptLadder(opts).entries()) {
-    try {
-      return await loadPipeline(attempt);
-    } catch (err) {
-      if (index === 0) firstError = err;
+/** Explicit cross-encoder contract: tokenize both sides and retain single-logit scores. */
+async function loadReranker(mod: Runtime, spec: RealModelSpec, dtype: string, device: string, progress_callback: (e: never) => void): Promise<Pipe> {
+  const tokenizer = await mod.AutoTokenizer.from_pretrained(spec.repo);
+  const model = await mod.AutoModelForSequenceClassification.from_pretrained(spec.repo, { dtype, device, progress_callback });
+  const pipe: Pipe = async (query: unknown, candidates: string[]) => {
+    const scores: number[] = [];
+    for (let start = 0; start < candidates.length; start += 8) {
+      const docs = candidates.slice(start, start + 8);
+      const inputs = tokenizer(docs.map(() => String(query)), {
+        text_pair: docs, padding: true, truncation: true, max_length: 512,
+      });
+      const { logits } = await model(inputs);
+      try {
+        if (logits.dims.at(-1) !== 1) throw new Error('Expected a single relevance logit per query/document pair');
+        for (const value of logits.data) scores.push(1 / (1 + Math.exp(-Number(value))));
+      } finally { logits.dispose?.(); }
     }
-  }
-  throw firstError ?? new Error('no runnable backend for this model');
+    return scores;
+  };
+  pipe.dispose = () => model.dispose();
+  return pipe;
 }
 
-/** Forget every cached pipeline (used by the UI when the user wants a cold start). */
-export function clearRuntimeCache() {
-  pipelineCache.clear();
+// Serialize load + execution: ORT pipelines share state, and large parallel
+// downloads/inferences can exhaust GPU memory. Only two idle models are retained.
+let runQueue: Promise<unknown> = Promise.resolve();
+const failedGpu = new Set<string>();
+function enqueue<T>(job: () => Promise<T>): Promise<T> {
+  const result = runQueue.then(job, job);
+  runQueue = result.catch(() => undefined);
+  return result;
+}
+async function trimPipelines() {
+  while (pipelineCache.size > 2) {
+    const key = pipelineCache.keys().next().value!;
+    const entry = pipelineCache.get(key)!;
+    pipelineCache.delete(key);
+    await entry.then((run) => run.dispose()).catch(() => undefined);
+  }
+}
+
+/** Input and network failures must never disable a backend for later requests. */
+function isGpuFailure(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const { name, message } = error as { name?: string; message?: string };
+  return name === 'GPUValidationError' ||
+    /(?:webgpu|gpu) device (?:lost|unavailable)|unsupported (?:webgpu|gpu) kernel|(?:webgpu|gpu) (?:is )?not supported/i.test(message ?? '');
+}
+
+/** A lazy handle with serialized execution and device/quantisation fallback. */
+export async function getRun(opts: LoadOptions): Promise<LoadedRun> {
+  const meta: LoadedRun = {
+    repo: opts.spec.repo, dtype: opts.spec.dtype, device: 'wasm', bytes: 0,
+    call: (input, ...args) => enqueue(async () => {
+      let firstError: unknown;
+      const attempted = new Set<string>();
+      try {
+        for (const attempt of attemptLadder(opts)) {
+          const device = attempt.forceDevice ?? (prefersWebGPU() ? 'webgpu' : 'wasm');
+          const dtype = attempt.forceDtype ?? attempt.spec.dtypeByDevice?.[device === 'webgpu' ? 'webgpu' : 'wasm'] ?? attempt.spec.dtype;
+          const key = `${attempt.spec.task}|${attempt.spec.repo}|${dtype}|${device}`;
+          if (attempted.has(key) || (!opts.forceDevice && device === 'webgpu' && failedGpu.has(key))) continue;
+          attempted.add(key);
+          try {
+            const run = await loadPipeline(attempt);
+            const output = await run.call(input, ...args);
+            meta.repo = run.repo;
+            meta.dtype = run.dtype;
+            meta.device = run.device;
+            meta.bytes = run.bytes;
+            return output;
+          } catch (error) {
+            firstError ??= error;
+            if (device === 'webgpu' && isGpuFailure(error)) failedGpu.add(key);
+            const failed = pipelineCache.get(key);
+            pipelineCache.delete(key);
+            await failed?.then((run) => run.dispose()).catch(() => undefined);
+          }
+        }
+        throw firstError ?? new Error('no runnable backend for this model');
+      } finally { await trimPipelines(); }
+    }),
+  };
+  return meta;
+}
+
+/** Wait for active inference, then release runtime allocations as well as references. */
+export function clearRuntimeCache(): Promise<void> {
+  return enqueue(async () => {
+    const entries = [...pipelineCache.values()];
+    pipelineCache.clear();
+    failedGpu.clear();
+    await Promise.all(entries.map((entry) => entry.then((r) => r.dispose()).catch(() => undefined)));
+  });
 }
 
 /* --------------------------------------------------------------- task helpers */
@@ -299,9 +396,10 @@ export async function embedLines(
   opts: LoadOptions
 ): Promise<{ vectors: number[][]; meta: LoadedRun }> {
   const run = await getRun(opts);
-  const out = (await run.call(lines, { pooling: 'mean', normalize: true })) as {
+  const out = (await run.call(lines, { pooling: /bge-/i.test(opts.spec.repo) ? 'cls' : 'mean', normalize: opts.normalize !== false })) as {
     dims: number[];
     data: Float32Array | number[];
+    dispose?: () => void;
   };
   const [n, dim] = out.dims.length === 2 ? out.dims : [lines.length, out.dims[out.dims.length - 1]];
   const flat = Array.from(out.data as ArrayLike<number>);
@@ -309,8 +407,9 @@ export async function embedLines(
   for (let i = 0; i < n; i++) {
     const v = flat.slice(i * dim, (i + 1) * dim);
     const norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0)) || 1;
-    vectors.push(v.map((x) => x / norm));
+    vectors.push(opts.normalize === false ? v : v.map((x) => x / norm));
   }
+  out.dispose?.();
   return { vectors, meta: run };
 }
 
@@ -373,17 +472,20 @@ export async function transcribeAudio(
   opts: LoadOptions
 ): Promise<{ text: string; segments: TranscribedSegment[]; meta: LoadedRun }> {
   const run = await getRun(opts);
-  // Whisper decodes as English unless told otherwise, so always pass a language.
+  // Omit language for automatic detection; chunk long recordings explicitly.
   const out = (await run.call(audioSrc, {
-    return_timestamps: true,
-    ...(opts.language ? { language: opts.language, task: 'transcribe' } : {}),
+    return_timestamps: opts.timestamps ? 'word' : false,
+    chunk_length_s: 30,
+    stride_length_s: 5,
+    task: 'transcribe',
+    ...(opts.language ? { language: opts.language } : {}),
   })) as {
     text?: string;
     chunks?: { timestamp: [number, number | null]; text: string }[];
   };
   const segments: TranscribedSegment[] = (out.chunks ?? []).map((c) => ({
     start: Math.round((c.timestamp?.[0] ?? 0) * 100) / 100,
-    end: Math.round((c.timestamp?.[1] ?? 0) * 100) / 100,
+    end: Math.round((c.timestamp?.[1] ?? c.timestamp?.[0] ?? 0) * 100) / 100,
     text: c.text.trim(),
   }));
   return { text: (out.text ?? '').trim(), segments, meta: run };
@@ -424,7 +526,7 @@ export async function summariseText(
   opts: LoadOptions
 ): Promise<{ text: string; meta: LoadedRun }> {
   const run = await getRun(opts);
-  const max = Math.max(24, Math.min(180, Math.round(text.length / 3)));
+  const max = Math.max(24, Math.min(256, opts.maxNewTokens ?? Math.round(text.length / 3)));
   const out = (await run.call(text, { max_new_tokens: max })) as
     | { summary_text?: string }[]
     | { summary_text?: string };
@@ -460,11 +562,23 @@ async function toDataUrl(image: unknown): Promise<string> {
 /** Image-to-image tasks such as super-resolution. */
 export async function enhanceImage(
   imageSrc: string,
-  opts: LoadOptions
+  opts: LoadOptions,
+  strength = 1,
 ): Promise<{ url: string; meta: LoadedRun }> {
   const run = await getRun(opts);
   const out = await run.call(imageSrc);
-  return { url: await toDataUrl(out), meta: run };
+  const generated = await toCanvas(out);
+  if (!generated) throw new Error('Invalid image reconstruction output');
+  if (strength < 1) {
+    const original = await loadImage(imageSrc);
+    const blended = createCanvas(generated.width, generated.height);
+    const context = blended.getContext('2d')!;
+    context.drawImage(original, 0, 0, blended.width, blended.height);
+    context.globalAlpha = Math.max(0, strength);
+    context.drawImage(generated, 0, 0);
+    return { url: blended.toDataURL('image/png'), meta: run };
+  }
+  return { url: generated.toDataURL('image/png'), meta: run };
 }
 
 /** Monocular depth estimation: returns the greyscale depth map. */
@@ -483,7 +597,7 @@ export async function classifyText(
 ): Promise<{ labels: { label: string; score: number }[]; meta: LoadedRun }> {
   const run = await getRun(opts);
   const multiLabel = opts.spec.repo.includes('toxic');
-  const out = (await run.call(text, multiLabel ? { topk: null } : { topk: 5 })) as
+  const out = (await run.call(text, multiLabel ? { top_k: null } : { top_k: 5 })) as
     | { label: string; score: number }[]
     | { label: string; score: number };
   const list = Array.isArray(out) ? out : [out];
@@ -495,41 +609,12 @@ export async function classifyText(
 
 /* ------------------------------------------------------- cross-encoder rerank */
 
-/**
- * Reduce whatever label/score shape the classifier returns into one relevance
- * number. Cross-encoders emit either a positive-class entry or a two-label pair.
- */
-function pickPositiveScore(entry: unknown): number {
-  const list = Array.isArray(entry) ? entry : [entry];
-  const positive = list.find((x) =>
-    /label_1|positive|entail|relevant|yes/i.test(String((x as { label?: string })?.label ?? ''))
-  );
-  const chosen = (positive ?? list[0]) as { score?: number } | undefined;
-  return Number(chosen?.score ?? 0);
-}
-
-/** Relevance score for every (query, candidate) pair via a cross-encoder. */
-export async function scorePairs(
-  query: string,
-  docs: string[],
-  opts: LoadOptions
-): Promise<{ scores: number[]; meta: LoadedRun }> {
-  const run = await getRun(opts);
-  let scores: number[] = [];
-  try {
-    const out = (await run.call(query, { text_pair: docs })) as unknown;
-    const entries = Array.isArray(out) ? out : [out];
-    scores = entries.map((e) => pickPositiveScore(e));
-  } catch {
-    scores = [];
-  }
-  if (scores.length !== docs.length) {
-    // Some builds only accept one pair per call — score them individually.
-    scores = [];
-    for (const doc of docs) {
-      const out = (await run.call(query, { text_pair: doc })) as unknown;
-      scores.push(pickPositiveScore(out));
-    }
+/** Relevance scores in input order, using the explicit cross-encoder adapter. */
+export async function scorePairs(query: string, docs: string[], opts: LoadOptions): Promise<{ scores: number[]; meta: LoadedRun }> {
+  const run = await getRun({ ...opts, spec: { ...opts.spec, task: 'text-ranking' } });
+  const scores = await run.call(query, docs) as number[];
+  if (scores.length !== docs.length || scores.some((score) => !Number.isFinite(score))) {
+    throw new Error('Invalid reranker output');
   }
   return { scores, meta: run };
 }
@@ -540,7 +625,9 @@ export async function rankByEmbedding(
   docs: string[],
   opts: LoadOptions
 ): Promise<{ scores: number[]; meta: LoadedRun }> {
-  const { vectors, meta } = await embedLines([query, ...docs], opts);
+  const prefix = /bge-.*zh/i.test(opts.spec.repo) ? '为这个句子生成表示以用于检索相关文章：'
+    : /bge-/i.test(opts.spec.repo) ? 'Represent this sentence for searching relevant passages: ' : '';
+  const { vectors, meta } = await embedLines([prefix + query, ...docs], { ...opts, normalize: true });
   const q = vectors[0] ?? [];
   const scores = vectors.slice(1).map((v) => {
     let dot = 0;
@@ -558,7 +645,7 @@ export async function translateText(
   opts: LoadOptions
 ): Promise<{ text: string; meta: LoadedRun }> {
   const run = await getRun(opts);
-  const max = Math.min(256, Math.max(48, Math.round(text.length * 1.6)));
+  const max = Math.min(1024, Math.max(32, opts.maxNewTokens ?? Math.round(text.length * 1.6)));
   const out = (await run.call(text, { max_new_tokens: max })) as
     | { translation_text?: string }[]
     | { translation_text?: string };
