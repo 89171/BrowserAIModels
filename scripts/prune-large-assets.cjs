@@ -47,6 +47,7 @@ if (!fs.existsSync(outDir)) {
   console.error('[prune-assets] out/ not found — run next build first');
   process.exit(1);
 }
+fixWorkerExtensions();
 
 /** Remote-hosted binaries: the whole vendored ORT dir, plus the copies Turbopack
  * emits next to the ORT bundles (only reachable when `wasmPaths` is unset, which
@@ -54,9 +55,40 @@ if (!fs.existsSync(outDir)) {
 const isRemoteBinary = (file) => {
   const rel = path.relative(outDir, file).split(path.sep).join('/');
   if (rel.startsWith('ort/')) return true;
-  if (rel.startsWith('_next/static/media/') && /^ort-wasm-.*\.wasm$/.test(path.basename(rel))) return true;
+  if (rel.startsWith('_next/static/media/') && /^ort[\.-][^/]*\.(wasm|mjs)$/.test(path.basename(rel))) return true;
   return false;
 };
+
+/**
+ * Turbopack emits module workers with their source extension, so
+ * `stems.worker.ts` ships as `media/stems.worker.<hash>.ts`. Hosts map `.ts` to
+ * a non-executable MIME type (here: video/mp2t) and Chrome refuses module
+ * workers with it — the same failure that `.mjs` bundles had. The hashed
+ * filename is referenced verbatim in the chunks, so renaming to `.js` plus a
+ * literal swap of that one string fixes both sides (same length, no offsets).
+ */
+function fixWorkerExtensions() {
+  const media = path.join(outDir, '_next', 'static', 'media');
+  if (!fs.existsSync(media)) return;
+  const renamed = [];
+  for (const entry of fs.readdirSync(media)) {
+    if (!entry.endsWith('.ts')) continue;
+    fs.renameSync(path.join(media, entry), path.join(media, entry.slice(0, -3) + '.js'));
+    renamed.push([entry, entry.slice(0, -3) + '.js']);
+  }
+  if (!renamed.length) return;
+  const chunkDirs = [media, path.join(outDir, '_next', 'static', 'chunks')];
+  for (const dir of chunkDirs) {
+    for (const file of walk(dir)) {
+      if (!file.endsWith('.js')) continue;
+      let src = fs.readFileSync(file, 'utf8');
+      const before = src;
+      for (const [from, to] of renamed) src = src.split(from).join(to);
+      if (src !== before) fs.writeFileSync(file, src);
+    }
+  }
+  for (const [from, to] of renamed) console.log(`[prune-assets] renamed media/${from} -> media/${to} (chunk refs patched)`);
+}
 
 const files = walk(outDir);
 const removed = [];
