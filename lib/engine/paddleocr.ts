@@ -5,7 +5,9 @@ let instance: Promise<Ocr> | undefined;
 
 function getOcr(): Promise<Ocr> {
   if (!instance) {
-    const sdkUrl = '/paddleocr/index.mjs';
+    // .js, not .mjs: the CDN serves .mjs as application/octet-stream and Chrome
+    // rejects ES modules with a non-JS MIME type.
+    const sdkUrl = '/paddleocr/index.js';
     instance = (import(/* webpackIgnore: true */ sdkUrl) as Promise<typeof import('@paddleocr/paddleocr-js')>).then(({ PaddleOCR }) => PaddleOCR.create({
       textDetectionModelName: 'PP-OCRv5_mobile_det',
       textRecognitionModelName: 'PP-OCRv5_mobile_rec',

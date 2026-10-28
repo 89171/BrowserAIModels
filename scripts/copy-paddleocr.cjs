@@ -9,7 +9,11 @@ fs.mkdirSync(destination, { recursive: true });
 fs.cpSync(path.join(source, 'assets'), path.join(destination, 'assets'), { recursive: true });
 esbuild.buildSync({
   entryPoints: [path.join(source, 'index.mjs')],
-  outfile: path.join(destination, 'index.mjs'),
+  // Emit .js, not .mjs: EdgeOne Pages serves .mjs as application/octet-stream,
+  // and Chrome refuses to execute ES modules with a non-JS MIME type. The
+  // SDK resolves its worker via `new URL('./assets/…', import.meta.url)`, so
+  // the bundle must stay same-origin next to public/paddleocr/assets anyway.
+  outfile: path.join(destination, 'index.js'),
   bundle: true,
   format: 'esm',
   platform: 'browser',

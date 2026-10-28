@@ -8,7 +8,9 @@ const recognizers = new Map<string, Promise<RecognizerModel>>();
 
 function getSdk() {
   if (!sdk) {
-    const sdkUrl = '/easyocr/index.mjs';
+    // .js, not .mjs: the CDN serves .mjs as application/octet-stream and Chrome
+    // rejects ES modules with a non-JS MIME type.
+    const sdkUrl = '/easyocr/index.js';
     sdk = (import(/* webpackIgnore: true */ sdkUrl) as Promise<WebModule>).then((module) => module.easy);
     sdk.catch(() => { sdk = undefined; });
   }

@@ -7,7 +7,9 @@ const destination = path.join(root, 'public/easyocr');
 fs.mkdirSync(destination, { recursive: true });
 esbuild.buildSync({
   entryPoints: [path.join(root, 'scripts/easyocr-entry.mjs')],
-  outfile: path.join(destination, 'index.mjs'),
+  // Emit .js, not .mjs: EdgeOne Pages serves .mjs as application/octet-stream,
+  // and Chrome refuses to execute ES modules with a non-JS MIME type.
+  outfile: path.join(destination, 'index.js'),
   bundle: true,
   format: 'esm',
   platform: 'browser',
