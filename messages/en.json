@@ -354,28 +354,21 @@
     },
     "easy-ocr": {
       "name": "EasyOCR (ONNX)",
-      "description": "Community ONNX port of EasyOCR for the browser."
+      "description": "EasyOCR.js runs CRAFT detection and gen2 recognition in the browser with ONNX Runtime."
     },
     "paddle-ocr": {
       "name": "PaddleOCR PP-OCRv5 Mobile",
       "description": "The PP-OCRv5 mobile detection and recognition pair run through PaddleOCR.js. Both archives are small enough to self-host, which is what removes the runtime dependency on a third-party model host."
     },
-    "mediapipe-text": {
-      "name": "MediaPipe Text Detector",
-      "description": "DBNet-based text detector running entirely on-device."
-    },
     "midas-small": {
-      "name": "MiDaS v2 Small",
+      "name": "DPT-Hybrid (MiDaS 3.0)",
       "description": "Robust monocular depth estimation for the browser."
     },
     "depth-anything-small": {
       "name": "Depth Anything v2 Small",
       "description": "State-of-the-art monocular depth, ported to Transformers.js."
     },
-    "mediapipe-depth": {
-      "name": "MediaPipe Objectron (depth hints)",
-      "description": "Provides 3D bounding boxes and rough depth from a single image."
-    },
+
     "sdxl-turbo": {
       "name": "SDXL-Turbo",
       "description": "Real-time distilled SDXL; runs on WebGPU with onnxruntime-web."
@@ -548,10 +541,7 @@
       "name": "VideoMAE",
       "description": "Masked autoencoder pre-trained for video action classification."
     },
-    "mediapipe-classifier": {
-      "name": "MediaPipe Video Classifier",
-      "description": "On-device video action classification via the MediaPipe Tasks API."
-    },
+
     "real-esrgan": {
       "name": "Real-ESRGAN x4plus (fp16)",
       "description": "The x4plus super-resolution model exported to ONNX with fp16 weights, run in 128-pixel tiles so memory tracks the tile rather than the image. Delivered as two byte-for-byte parts that the browser joins before building the session."

@@ -52,6 +52,9 @@ test('known identity and license corrections cannot regress', () => {
   assert.equal(byId.get('jsonformer-llama').kind, 'tool');
   assert.equal(byId.get('jsonformer-llama').variants.length, 0);
   assert.equal(byId.get('tesseractjs').framework, 'tesseract-wasm');
+  assert(!byId.has('mediapipe-depth'));
+  assert(!byId.has('mediapipe-classifier'));
+  assert.equal(byId.get('midas-small').name, 'DPT-Hybrid (MiDaS 3.0)');
   assert.equal(byId.get('voyager-wasm').docsUrl, 'https://github.com/spotify/voyager');
   // The HD background-removal mode was filed under IMG.LY while its identity was
   // unknown. It loads BiRefNet-lite on WebGPU, and the entry must not drift back.

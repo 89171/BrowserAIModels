@@ -24,6 +24,8 @@ export interface RealModelSpec {
   task:
     | 'mediapipe'
     | 'tesseract'
+    | 'paddleocr'
+    | 'easyocr'
     | 'token-classification'
     | 'question-answering'
     | 'image-classification'
@@ -366,34 +368,22 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
   },
 
   /* ------------------------------------------------------------- vision/ocr */
-  'vision/ocr/paddle-ocr': {
-    repo: 'Xenova/trocr-small-printed',
-    task: 'image-to-text',
-    dtype: 'q8',
-    substitute: true,
-    note: {
-      zh: 'PaddleOCR 没有浏览器 ONNX 权重，改用 TrOCR-small（印刷体）做真实识别；它对整图读一行文字，不像 OCR 分框。',
-      en: 'PaddleOCR has no browser weights, so TrOCR-small (printed) does the real recognition — it reads whole images rather than per-box text.',
-    },
-  },
   'vision/ocr/easy-ocr': {
-    repo: 'Xenova/trocr-small-handwritten',
-    task: 'image-to-text',
-    dtype: 'q8',
-    substitute: true,
+    repo: 'qduc/easyocr.js: CRAFT + EasyOCR gen2 recognizer',
+    task: 'easyocr',
+    dtype: 'fp32',
     note: {
-      zh: 'EasyOCR 的识别网络没有浏览器权重，改用 TrOCR-small（手写体）真实读取文字。',
-      en: 'EasyOCR’s recogniser ships no browser weights; TrOCR-small (handwritten) reads the text for real instead.',
+      zh: 'EasyOCR.js 浏览器移植：CRAFT 检测文本区域，使用 EasyOCR 第二代识别模型逐行解码。首次使用下载约 100 MB 权重。',
+      en: 'EasyOCR.js browser port: CRAFT detects text regions and an EasyOCR gen2 recognizer decodes each line. The first run downloads about 100 MB of weights.',
     },
   },
-  'vision/ocr/mediapipe-text': {
-    repo: 'Xenova/trocr-small-printed',
-    task: 'image-to-text',
-    dtype: 'q8',
-    substitute: true,
+  'vision/ocr/paddle-ocr': {
+    repo: 'PP-OCRv5_mobile_det + PP-OCRv5_mobile_rec',
+    task: 'paddleocr',
+    dtype: 'fp32',
     note: {
-      zh: 'MediaPipe Text 走 TFJS，这里用 TrOCR-small（印刷体）的 ONNX 权重做真实识别。',
-      en: 'MediaPipe Text runs on TFJS, so TrOCR-small (printed) ONNX weights do the real recognition here.',
+      zh: '真实运行 PaddleOCR PP-OCRv5 mobile 检测与识别流水线，支持中英文多行文字，返回实际文字框和置信度。首次运行需下载模型。',
+      en: 'Runs the PaddleOCR PP-OCRv5 mobile detection and recognition pipeline for multiline Chinese and English, with real boxes and confidence scores. Models download on first use.',
     },
   },
 
@@ -447,17 +437,6 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     note: {
       zh: '真实权重：Tesseract.js（WASM 引擎 + 对应语言的 fast 训练数据，首次运行从 CDN 下载并缓存），逐行返回坐标与置信度。',
       en: 'Real weights: Tesseract.js (WASM engine + fast traineddata per language, fetched from a CDN on first run and cached) with per-line boxes and confidence.',
-    },
-  },
-  'video/video-understanding/mediapipe-classifier': {
-    repo: MP_URL['classify'],
-    task: 'mediapipe',
-    mp: 'classify',
-    dtype: 'float32',
-    substitute: true,
-    note: {
-      zh: 'MediaPipe 没有公开的视频动作分类器，这里对抽样帧逐帧运行 EfficientNet-Lite0（约 18 MB，ImageNet 1000 类），并把相邻同类帧合并成时间段。',
-      en: 'MediaPipe ships no public video action classifier, so EfficientNet-Lite0 (~18 MB, ImageNet-1k) classifies each sampled frame and adjacent frames with the same label merge into segments.',
     },
   },
   /* ---------------------------------------------- vision / watermark removal */
@@ -596,7 +575,7 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     },
   },
   'vision/depth/depth-anything-small': {
-    repo: 'Xenova/depth-anything-small-hf',
+    repo: 'onnx-community/depth-anything-v2-small',
     task: 'depth-estimation',
     dtype: 'q8',
     note: {
@@ -604,17 +583,6 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
       en: 'Real weights: Depth Anything V2 Small regresses the depth map pixel by pixel.',
     },
   },
-  'vision/depth/mediapipe-depth': {
-    repo: 'Xenova/depth-anything-small-hf',
-    task: 'depth-estimation',
-    dtype: 'q8',
-    substitute: true,
-    note: {
-      zh: 'MediaPipe Depth 走 TFJS，这里用 Depth Anything V2 Small 的 ONNX 权重做真实深度回归。',
-      en: 'MediaPipe Depth runs on TFJS; Depth Anything V2 Small ONNX weights do the real depth regression here.',
-    },
-  },
-
   /* --------------------------------------------------------- multimodal/vlm */
   'multimodal/vlm/moondream2': {
     repo: 'Xenova/vit-gpt2-image-captioning',
@@ -629,12 +597,12 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
 
   /* --------------------------------------------------------- multimodal/clip */
   'multimodal/clip/clip-vit-base': {
-    repo: 'onnx-community/clip-vit-base-patch32-ONNX',
+    repo: 'Xenova/clip-vit-base-patch32',
     task: 'zero-shot-image-classification',
     dtype: 'q8',
     note: {
-      zh: '真实权重：CLIP ViT-B/32（合并单文件 146 MB）把图片与候选标签编码到同一空间做零样本打分。CLIP 是英文模型，中文候选标签的判别力较弱，切到英文界面效果更好。',
-      en: 'Real weights: CLIP ViT-B/32 (single merged 146 MB file) embeds image and labels in one space for zero-shot scoring. CLIP is English-only, so English candidate labels discriminate far better.',
+      zh: '真实权重：CLIP ViT-B/32把图片与候选标签编码到同一空间做零样本打分。CLIP 是英文模型，中文候选标签的判别力较弱，切到英文界面效果更好。',
+      en: 'Real weights: CLIP ViT-B/32 embeds image and labels in one space for zero-shot scoring. CLIP is English-only, so English candidate labels discriminate far better.',
     },
   },
   'multimodal/clip/siglip-base': {
@@ -1345,3 +1313,12 @@ export const BROWSER_INFEASIBLE: Record<string, L> = {
     en: 'OpenVoice / XTTS-v2 ship no browser-loadable weights and the speaker-encoder + streaming synthesis pipelines are missing — they cannot run in a browser.',
   },
 };
+
+/** Catalogue entries without an implemented OCR pipeline must never simulate recognition. */
+export function ocrUnavailableReason(category: string, subcategory: string, modelId: string): L | undefined {
+  if (category !== 'vision' || subcategory !== 'ocr' || realSpecFor(category, subcategory, modelId)) return undefined;
+  return {
+    zh: '此模型尚未接入完整的文字检测与识别流水线。请选择 Tesseract.js、PaddleOCR 或 EasyOCR；不会使用其他模型代替或生成模拟识别结果。',
+    en: 'This model does not yet have an integrated text detection and recognition pipeline. Choose Tesseract.js, PaddleOCR, or EasyOCR. No substitute or simulated recognition is used.',
+  };
+}

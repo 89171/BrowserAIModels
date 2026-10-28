@@ -181,7 +181,7 @@ function dispatcher(realSpec, helpers) {
     './random': load('lib/engine/random.ts'),
     './real': helpers,
     './text-tasks': { tokensOf: (s) => s.split(/\s+/) },
-    '../data/real-models': { realSpecFor: () => realSpec, REAL_SUBCATEGORIES: new Set(), BROWSER_INFEASIBLE: {} },
+    '../data/real-models': { realSpecFor: () => realSpec, ocrUnavailableReason: () => undefined, REAL_SUBCATEGORIES: new Set(), BROWSER_INFEASIBLE: {} },
   }, { window: {} });
 }
 function context(kind, params = {}) {
@@ -310,4 +310,65 @@ test('both localized translation samples start with a valid language pair', () =
     assert.equal(params.maxTokens, 256);
     assert.equal(translationDirection(text, locale, locale).repo, null);
   }
+});
+
+
+test('OCR catalogue uses real Paddle and EasyOCR pipelines and blocks missing adapters', () => {
+  const models = load('lib/data/real-models.ts', { '../engine/mediapipe': { MP_URL: {} } });
+  assert.equal(models.realSpecFor('vision', 'ocr', 'paddle-ocr').task, 'paddleocr');
+  assert.equal(models.realSpecFor('vision', 'ocr', 'paddle-ocr').substitute, undefined);
+  assert.equal(models.realSpecFor('vision', 'ocr', 'easy-ocr').task, 'easyocr');
+  for (const id of ['mediapipe-text', 'unknown']) {
+    assert.equal(models.realSpecFor('vision', 'ocr', id), undefined);
+    assert(models.ocrUnavailableReason('vision', 'ocr', id).zh);
+  }
+  assert.equal(models.ocrUnavailableReason('vision', 'ocr', 'tesseractjs'), undefined);
+  assert.equal(models.ocrUnavailableReason('vision', 'ocr', 'paddle-ocr'), undefined);
+  assert.equal(models.ocrUnavailableReason('vision', 'ocr', 'easy-ocr'), undefined);
+  assert.equal(models.ocrUnavailableReason('vision', 'classification', 'unknown'), undefined);
+});
+
+test('Paddle output preserves multiple lines and actual confidence, normalizing polygons', () => {
+  const { paddleResult } = load('lib/engine/paddleocr.ts');
+  const result = paddleResult({ image: { width: 200, height: 100 }, items: [
+    { text: '  中文  ', score: 0.82, poly: [[20, 10], [100, 12], [98, 30], [22, 28]] },
+    { text: 'English', score: 0.73, poly: [[-2, 50], [210, 50], [210, 80], [-2, 80]] },
+    { text: ' ', score: 0.99, poly: [[0, 0], [1, 0], [1, 1], [0, 1]] },
+  ] });
+  assert.equal(result.text, '中文\nEnglish');
+  assert.equal(result.lines.length, 2);
+  assert.equal(result.lines[0].x, 0.1);
+  assert.equal(result.lines[0].h, 0.2);
+  assert.equal(result.lines[0].conf, 0.82);
+  assert.equal(result.lines[1].w, 1);
+  assert.equal(paddleResult({ image: { width: 100, height: 100 }, items: [] }).text, '');
+});
+
+
+test('EasyOCR preserves real polygon positions, confidence, and separate lines', () => {
+  const { easyResult } = load('lib/engine/easyocr.ts');
+  const result = easyResult([
+    { text: '中文', confidence: 0.83, box: [[20, 10], [100, 10], [100, 30], [20, 30]] },
+    { text: 'English', confidence: 0.72, box: [[20, 50], [120, 50], [120, 70], [20, 70]] },
+  ], 200, 100);
+  assert.equal(result.text, '中文\nEnglish');
+  assert.equal(result.lines[0].x, 0.1);
+  assert.equal(result.lines[1].y, 0.5);
+  assert.equal(result.lines[1].conf, 0.72);
+});
+
+
+test('demo mappings load the catalogue checkpoint when no substitute is declared', () => {
+  const { MODELS } = load('data/models.ts');
+  const { REAL_MODELS } = load('lib/data/real-models.ts', { '../engine/mediapipe': { MP_URL: {} } });
+  for (const [key, spec] of Object.entries(REAL_MODELS)) {
+    const [category, subcategory, id] = key.split('/');
+    const model = MODELS[category]?.[subcategory]?.find((entry) => entry.id === id);
+    if (!model?.modelId || spec.substitute || spec.task === 'mediapipe') continue;
+    assert.equal(spec.repo, model.modelId, key);
+  }
+  assert.equal(REAL_MODELS['vision/depth/depth-anything-small'].repo, 'onnx-community/depth-anything-v2-small');
+  assert.equal(REAL_MODELS['multimodal/clip/clip-vit-base'].repo, 'Xenova/clip-vit-base-patch32');
+  assert.equal(REAL_MODELS['vision/depth/mediapipe-depth'], undefined);
+  assert.equal(REAL_MODELS['video/video-understanding/mediapipe-classifier'], undefined);
 });

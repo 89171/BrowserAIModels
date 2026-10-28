@@ -61,8 +61,10 @@ import {
   type Stem,
 } from './audio-tasks';
 import { clamp, mulberry32, round, seedFrom } from './random';
-import { BROWSER_INFEASIBLE, REAL_SUBCATEGORIES, realSpecFor } from '../data/real-models';
+import { BROWSER_INFEASIBLE, REAL_SUBCATEGORIES, realSpecFor, ocrUnavailableReason } from '../data/real-models';
 import { classifyImage, detectLandmarks, detectObjectsMp, makeTracker } from './mediapipe';
+import { easyOcr } from './easyocr';
+import { paddleOcr } from './paddleocr';
 import { tesseractOcr } from './tesseract';
 import { rnnoiseDenoise } from './rnnoise';
 import { miganInpaint } from './migan';
@@ -863,6 +865,8 @@ export async function runInference(
   kind: OutputKind,
   ctx: RunContext
 ): Promise<RunResult> {
+  const unavailable = ocrUnavailableReason(ctx.spec.category, ctx.spec.subcategory, ctx.model.id);
+  if (unavailable) throw new Error(unavailable[ctx.locale]);
   const started = performance.now();
   const { model } = ctx;
   const { device, backend } = deviceOf(model);
@@ -878,7 +882,7 @@ export async function runInference(
     payload = real.payload;
     const task = realSpecFor(ctx.spec.category, ctx.spec.subcategory, model.id)?.task;
     const mp = task === 'mediapipe';
-    const label = task === 'tesseract' ? 'Tesseract.js · WASM' : task === 'rnnoise' ? 'RNNoise · WASM' : task === 'onnxruntime' ? 'onnxruntime-web · WASM' : null;
+    const label = task === 'easyocr' ? 'EasyOCR.js · WASM' : task === 'paddleocr' ? 'PaddleOCR · WASM' : task === 'tesseract' ? 'Tesseract.js · WASM' : task === 'rnnoise' ? 'RNNoise · WASM' : task === 'onnxruntime' ? 'onnxruntime-web · WASM' : null;
     deviceLabel = label ?? (mp ? 'MediaPipe Tasks · WASM (XNNPACK)' : real.run.device === 'webgpu' ? 'Transformers.js · WebGPU' : 'Transformers.js · WASM (SIMD)');
     backendLabel = mp ? 'WASM (XNNPACK)' : real.run.device === 'webgpu' ? 'WebGPU' : 'WASM (SIMD)';
   } else {
@@ -1503,6 +1507,22 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
       }
       case 'ocr': {
         if (!ctx.media?.src) return null;
+        if (spec.task === 'easyocr') {
+          ctx.onPhase?.(ctx.locale === 'zh' ? '加载 EasyOCR 并检测、识别文字…' : 'Loading EasyOCR, detecting and recognizing text…');
+          const result = await easyOcr(ctx.media.src, str(ctx.params.lang, 'chi_sim+eng'));
+          return {
+            payload: { kind: 'ocr', ...result, imageUrl: ctx.media.src },
+            run: { call: async () => null, repo: spec.repo, dtype: spec.dtype, device: 'wasm', bytes: 0 },
+          };
+        }
+        if (spec.task === 'paddleocr') {
+          ctx.onPhase?.(ctx.locale === 'zh' ? '加载 PaddleOCR 并检测、识别文字…' : 'Loading PaddleOCR, detecting and recognizing text…');
+          const result = await paddleOcr(ctx.media.src);
+          return {
+            payload: { kind: 'ocr', ...result, imageUrl: ctx.media.src },
+            run: { call: async () => null, repo: spec.repo, dtype: spec.dtype, device: 'wasm', bytes: 0 },
+          };
+        }
         if (spec.task === 'tesseract') {
           ctx.onPhase?.(ctx.locale === 'zh' ? '加载 Tesseract 引擎与语言数据…' : 'Loading Tesseract engine and language data…');
           const [r, size] = await Promise.all([tesseractOcr(ctx.media.src, str(ctx.params.lang, 'chi_sim+eng')), mediaNaturalSize(ctx.media.src)]);

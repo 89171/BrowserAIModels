@@ -4,7 +4,7 @@ import { Link } from '@/i18n/routing';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '@/lib/client-context';
 import { FRAMEWORK_LABEL, LICENSE_LABEL } from '@/lib/data/models';
-import { BROWSER_INFEASIBLE, realSpecFor } from '@/lib/data/real-models';
+import { BROWSER_INFEASIBLE, realSpecFor, ocrUnavailableReason } from '@/lib/data/real-models';
 import { computesRealSignal } from '@/lib/engine';
 import { getDemo } from '@/lib/data/registry';
 import type { DemoSpec, InputState, Locale, ModelEntry } from '@/lib/types';
@@ -173,6 +173,10 @@ export function DemoPlayground({
 
   const changeModel = (id: string) => {
     setModelId(id);
+    if (ocrUnavailableReason(category, subcategory, id)) {
+      invalidate();
+      return;
+    }
     void run({ modelId: id });
   };
 
@@ -188,6 +192,7 @@ export function DemoPlayground({
   }
 
   const real = realSpecFor(category, subcategory, model.id);
+  const unavailable = ocrUnavailableReason(category, subcategory, model.id);
   const allowedParams = supportedParams(spec, real);
   const textFields = real?.task === 'image-to-text' && spec.outputKind === 'chat' ? []
     : real?.task === 'document-question-answering' ? [{ key: 'question', label: { zh: '文档问题（英文）', en: 'Document question (English)' }, placeholder: { zh: '例如：What is the invoice number?', en: 'e.g. What is the invoice number?' } }]
@@ -248,6 +253,7 @@ export function DemoPlayground({
           {models.map((m) => {
             const active = m.id === modelId;
             const real = realSpecFor(category, subcategory, m.id);
+            const unavailable = ocrUnavailableReason(category, subcategory, m.id);
             const infeasible = !real ? BROWSER_INFEASIBLE[`${category}/${subcategory}`] : undefined;
             return (
               <button
@@ -288,7 +294,7 @@ export function DemoPlayground({
                     <span
                       className="mono shrink-0 rounded border px-1 py-px text-[9.5px] leading-none"
                       title={
-                        infeasible
+                        unavailable ? unavailable[locale] : infeasible
                           ? infeasible[locale]
                           : spec && computesRealSignal(spec.outputKind)
                             ? tr('simulatorSignalHint')
@@ -301,7 +307,7 @@ export function DemoPlayground({
                         opacity: active ? 0.9 : 1,
                       }}
                     >
-                      {infeasible ? tr('infeasibleBadge') : tr('simulatorBadge')}
+                      {unavailable ? (locale === 'zh' ? '尚未接入' : 'Not integrated') : infeasible ? tr('infeasibleBadge') : tr('simulatorBadge')}
                     </span>
                   )}
                 </div>
@@ -481,10 +487,11 @@ export function DemoPlayground({
               type="button"
               className="btn btn-primary w-full !py-2.5"
               onClick={() => run()}
-              disabled={running}
+              disabled={running || Boolean(unavailable)}
             >
               {running ? tr('running') : result ? tr('rerun') : tr('run')}
             </button>
+            {unavailable && <p className="rounded-lg border px-3 py-2 text-[11px]" role="status">{unavailable[locale]}</p>}
             {error && (
               <p className="rounded-lg border px-3 py-2 text-[11px]" style={{ color: 'var(--fg-muted)' }}>
                 {tr('loadFailed')}: {error}

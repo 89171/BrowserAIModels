@@ -3318,16 +3318,23 @@ export const MODELS: CategoryModels = {
         "descriptionKey": "models.easy-ocr.description",
         "name": "EasyOCR (ONNX)",
         "framework": "onnxruntime-web",
-        "description": "Community ONNX port of EasyOCR for the browser.",
-        "docsUrl": "https://github.com/JaidedAI/EasyOCR",
+        "description": "EasyOCR.js browser port of EasyOCR: CRAFT detector plus gen2 recognizer via ONNX Runtime Web.",
+        "docsUrl": "https://github.com/qduc/easyocr.js",
         "kind": "model",
         "tasks": [
           "ocr"
         ],
         "browserEvidence": {
-          "status": "pending"
+          "status": "upstream-example",
+          "url": "https://github.com/qduc/easyocr.js",
+          "reviewedAt": "2026-10-28"
         },
         "sources": [
+          {
+            "url": "https://github.com/qduc/easyocr.js",
+            "kind": "browser-example",
+            "reviewedAt": "2026-10-28"
+          },
           {
             "url": "https://github.com/JaidedAI/EasyOCR",
             "kind": "model-or-project",
@@ -3353,12 +3360,13 @@ export const MODELS: CategoryModels = {
           {
             "id": "easy-ocr",
             "label": "default",
-            "reportedDownloadSize": "~30 MB"
+            "reportedDownloadSize": "~105 MB (CRAFT + Chinese recognizer)"
           }
         ],
         "reportedLicense": "apache-2-0",
-        "codeLicense": "mit",
-        "runtimeVersion": "onnxruntime-web@1.30.0"
+        "codeLicense": "apache-2-0",
+        "runtimeVersion": "@qduc/easyocr-web@0.1.3",
+        "npmPackage": "@qduc/easyocr-web"
       },
       {
         "id": "paddle-ocr",
@@ -3433,63 +3441,6 @@ export const MODELS: CategoryModels = {
         "backends": [
           "wasm"
         ]
-      },
-      {
-        "id": "mediapipe-text",
-        "nameKey": "models.mediapipe-text.name",
-        "descriptionKey": "models.mediapipe-text.description",
-        "name": "MediaPipe Text Detector",
-        "framework": "mediapipe",
-        "description": "DBNet-based text detector running entirely on-device.",
-        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/text/text_classifier/web_js",
-        "kind": "model",
-        "tasks": [
-          "ocr"
-        ],
-        "browserEvidence": {
-          "status": "pending"
-        },
-        "sources": [
-          {
-            "url": "https://developers.google.com/edge/mediapipe/solutions/text/text_classifier/web_js",
-            "kind": "conflicting-reference",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://developers.google.com/edge/mediapipe/solutions/text/text_embedder/web_js",
-            "kind": "conflicting-reference",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://github.com/google-ai-edge/mediapipe",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://www.npmjs.com/package/@mediapipe/tasks-text",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          }
-        ],
-        "naturalLanguages": [
-          "English"
-        ],
-        "programmingLanguages": [],
-        "capabilities": [
-          "Latin scripts"
-        ],
-        "variants": [
-          {
-            "id": "mediapipe-text",
-            "label": "default",
-            "reportedDownloadSize": "~4 MB"
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "identityUnresolved": true,
-        "codeLicense": "apache-2-0",
-        "runtimeVersion": "@mediapipe/tasks-text@1.0.1",
-        "npmPackage": "@mediapipe/tasks-text"
       }
     ],
     "depth": [
@@ -3497,7 +3448,7 @@ export const MODELS: CategoryModels = {
         "id": "midas-small",
         "nameKey": "models.midas-small.name",
         "descriptionKey": "models.midas-small.description",
-        "name": "MiDaS v2 Small",
+        "name": "DPT-Hybrid (MiDaS 3.0)",
         "framework": "transformersjs",
         "description": "Robust monocular depth estimation for the browser.",
         "docsUrl": "https://huggingface.co/Xenova/dpt-hybrid-midas",
@@ -3665,61 +3616,6 @@ export const MODELS: CategoryModels = {
         "runtimeVersion": "@huggingface/transformers@4.3.0",
         "weightLicense": "apache-2-0",
         "demoUrl": "https://huggingface.co/spaces/Xenova/webgpu-realtime-depth-estimation"
-      },
-      {
-        "id": "mediapipe-depth",
-        "nameKey": "models.mediapipe-depth.name",
-        "descriptionKey": "models.mediapipe-depth.description",
-        "name": "MediaPipe Objectron (depth hints)",
-        "framework": "mediapipe",
-        "description": "Provides 3D bounding boxes and rough depth from a single image.",
-        "docsUrl": "https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/objectron.md",
-        "kind": "model",
-        "tasks": [
-          "depth"
-        ],
-        "browserEvidence": {
-          "status": "pending"
-        },
-        "sources": [
-          {
-            "url": "https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/objectron.md",
-            "kind": "model-or-project",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://developers.google.com/edge/mediapipe/solutions/guide",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://github.com/google-ai-edge/mediapipe",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://www.npmjs.com/package/@mediapipe/objectron",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "3D Object Detection"
-        ],
-        "variants": [
-          {
-            "id": "mediapipe-depth",
-            "label": "default",
-            "reportedDownloadSize": "~8 MB"
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "codeLicense": "apache-2-0",
-        "runtimeVersion": "@mediapipe/objectron@0.4.1675468480",
-        "identityUnresolved": true,
-        "npmPackage": "@mediapipe/objectron"
       }
     ],
     "image-restoration": [
@@ -7978,56 +7874,6 @@ export const MODELS: CategoryModels = {
         "reportedLicense": "other",
         "modelId": "MCG-NJU/videomae-base",
         "weightLicense": "cc-by-nc-4-0"
-      },
-      {
-        "id": "mediapipe-classifier",
-        "nameKey": "models.mediapipe-classifier.name",
-        "descriptionKey": "models.mediapipe-classifier.description",
-        "name": "MediaPipe Video Classifier",
-        "framework": "mediapipe",
-        "description": "On-device video action classification via the MediaPipe Tasks API.",
-        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/image_classifier/web_js",
-        "kind": "model",
-        "tasks": [
-          "video-understanding"
-        ],
-        "browserEvidence": {
-          "status": "pending"
-        },
-        "sources": [
-          {
-            "url": "https://developers.google.com/edge/mediapipe/solutions/vision/image_classifier/web_js",
-            "kind": "conflicting-reference",
-            "reviewedAt": "2026-10-03"
-          },
-          {
-            "url": "https://github.com/google-ai-edge/mediapipe",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          },
-          {
-            "url": "https://www.npmjs.com/package/@mediapipe/tasks-vision",
-            "kind": "documentation",
-            "reviewedAt": "2026-10-06"
-          }
-        ],
-        "naturalLanguages": [],
-        "programmingLanguages": [],
-        "capabilities": [
-          "Kinetics-400"
-        ],
-        "variants": [
-          {
-            "id": "mediapipe-classifier",
-            "label": "default",
-            "reportedDownloadSize": "~6 MB"
-          }
-        ],
-        "reportedLicense": "apache-2-0",
-        "identityUnresolved": true,
-        "codeLicense": "apache-2-0",
-        "runtimeVersion": "@mediapipe/tasks-vision@1.0.1",
-        "npmPackage": "@mediapipe/tasks-vision"
       }
     ],
     "video-watermark-removal": [

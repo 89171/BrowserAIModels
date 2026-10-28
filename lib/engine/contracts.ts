@@ -49,7 +49,7 @@ export function supportedParams(spec: DemoSpec, real?: RealModelSpec): Set<strin
       Boolean(MATTE_SPECS[real.repo]) ? ['thresh', 'feather'] : [],
     depth: [], restoration: ['strength', 'compare'],
     inpainting: ['brushSize', 'feather'], transcript: ['lang', 'timestamps'], 'synth-audio': [],
-    'audio-compare': ['strength', 'hpf'], stems: ['model'], ocr: real.task === 'tesseract' ? ['lang'] : [],
+    'audio-compare': ['strength', 'hpf'], stems: ['model'], ocr: real.task === 'tesseract' || real.task === 'easyocr' ? ['lang'] : [],
     'landmarks-face': [], 'landmarks-pose': [], 'landmarks-hand': [], tracking: ['maxAge', 'conf'],
     'video-timeline': ['fps', 'maxSegments'], 'video-inpainting': ['method'],
   };

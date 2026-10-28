@@ -354,28 +354,21 @@
     },
     "easy-ocr": {
       "name": "EasyOCR (ONNX)",
-      "description": "社区移植的 EasyOCR ONNX 版本,可在浏览器中运行。"
+      "description": "EasyOCR.js 在浏览器中通过 ONNX Runtime 运行 CRAFT 检测与第二代文字识别模型。"
     },
     "paddle-ocr": {
       "name": "PaddleOCR PP-OCRv5 Mobile",
       "description": "通过 PaddleOCR.js 运行的 PP-OCRv5 mobile 检测 + 识别模型对。两个压缩包体积都足够小，可自托管，从而去掉运行时对第三方模型源的依赖。"
     },
-    "mediapipe-text": {
-      "name": "MediaPipe 文本检测器",
-      "description": "基于 DBNet 的文本检测器,完全在端侧运行。"
-    },
     "midas-small": {
-      "name": "MiDaS v2 Small",
+      "name": "DPT-Hybrid (MiDaS 3.0)",
       "description": "面向浏览器的鲁棒单目深度估计模型。"
     },
     "depth-anything-small": {
       "name": "Depth Anything v2 Small",
       "description": "已移植到 Transformers.js 的 SOTA 单目深度估计模型。"
     },
-    "mediapipe-depth": {
-      "name": "MediaPipe Objectron (深度提示)",
-      "description": "从单张图像得到 3D 边界框与粗略深度信息。"
-    },
+
     "sdxl-turbo": {
       "name": "SDXL-Turbo",
       "description": "实时蒸馏的 SDXL;在 WebGPU 上通过 onnxruntime-web 运行。"
@@ -548,10 +541,7 @@
       "name": "VideoMAE",
       "description": "面向视频动作分类预训练的掩码自编码器。"
     },
-    "mediapipe-classifier": {
-      "name": "MediaPipe 视频分类器",
-      "description": "通过 MediaPipe Tasks API 在端侧运行的视频动作分类器。"
-    },
+
     "real-esrgan": {
       "name": "Real-ESRGAN x4plus（fp16）",
       "description": "x4plus 超分模型的 ONNX 导出，权重为 fp16，按 128 像素分块推理，使内存随分块而非整图增长。以两段逐字节切分的文件分发，由浏览器在建会话前合并。"

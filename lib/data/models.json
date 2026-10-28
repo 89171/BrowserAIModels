@@ -573,13 +573,13 @@
         "id": "easy-ocr",
         "name": "EasyOCR (ONNX)",
         "framework": "onnxruntime-web",
-        "size": "—",
-        "license": "mit",
+        "size": "~100 MB",
+        "license": "apache-2-0",
         "languages": [
           "80+ languages"
         ],
-        "description": "Community ONNX port of EasyOCR for the browser.",
-        "docsUrl": "https://github.com/JaidedAI/EasyOCR"
+        "description": "EasyOCR.js browser port of EasyOCR: CRAFT detector plus gen2 recognizer via ONNX Runtime Web.",
+        "docsUrl": "https://github.com/qduc/easyocr.js"
       },
       {
         "id": "paddle-ocr",
@@ -593,24 +593,12 @@
         "description": "PaddleOCR PP-OCRv5 mobile, loaded via @paddleocr/paddleocr-js and run on ONNX Runtime Web (WASM) inside the browser.",
         "demoUrl": "https://toolgarden.xyz/image/ocr",
         "docsUrl": "https://github.com/PaddlePaddle/PaddleOCR"
-      },
-      {
-        "id": "mediapipe-text",
-        "name": "MediaPipe Text Detector",
-        "framework": "mediapipe",
-        "size": "—",
-        "license": "apache-2-0",
-        "languages": [
-          "English"
-        ],
-        "description": "DBNet-based text detector running entirely on-device.",
-        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/text/text_classifier/web_js"
       }
     ],
     "depth": [
       {
         "id": "midas-small",
-        "name": "MiDaS v2 Small",
+        "name": "DPT-Hybrid (MiDaS 3.0)",
         "framework": "transformersjs",
         "size": "~508.4 MB",
         "license": "apache-2-0",
@@ -628,16 +616,6 @@
         "description": "State-of-the-art monocular depth, ported to Transformers.js.",
         "demoUrl": "https://huggingface.co/spaces/Xenova/webgpu-realtime-depth-estimation",
         "docsUrl": "https://huggingface.co/onnx-community/depth-anything-v2-small"
-      },
-      {
-        "id": "mediapipe-depth",
-        "name": "MediaPipe Objectron (depth hints)",
-        "framework": "mediapipe",
-        "size": "—",
-        "license": "apache-2-0",
-        "languages": [],
-        "description": "Provides 3D bounding boxes and rough depth from a single image.",
-        "docsUrl": "https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/objectron.md"
       }
     ],
     "image-restoration": [
@@ -1432,16 +1410,6 @@
         "languages": [],
         "description": "Masked autoencoder pre-trained for video action classification.",
         "docsUrl": "https://huggingface.co/MCG-NJU/videomae-base"
-      },
-      {
-        "id": "mediapipe-classifier",
-        "name": "MediaPipe Video Classifier",
-        "framework": "mediapipe",
-        "size": "—",
-        "license": "apache-2-0",
-        "languages": [],
-        "description": "On-device video action classification via the MediaPipe Tasks API.",
-        "docsUrl": "https://developers.google.com/edge/mediapipe/solutions/vision/image_classifier/web_js"
       }
     ],
     "video-watermark-removal": [
