@@ -107,6 +107,14 @@ export function DemoPlayground({
     invalidate();
     setSampleId(id);
     setInput(sampleToInput(s, locale));
+    // Samples whose id matches a `schema` select option (structured-output)
+    // drive the prompt and strict validation in real-weights mode — keep the
+    // param in sync, otherwise picking "event"/"ticket" still runs and
+    // validates against the default "job" schema and strict mode always fails.
+    const schemaParam = spec.params?.find((p) => p.key === 'schema' && p.type === 'select');
+    if (schemaParam?.options?.some((o) => o.value === id)) {
+      setParams((prev) => (prev.schema === id ? prev : { ...prev, schema: id }));
+    }
     setResult(null);
     setError(null);
     maskRef.current = null;
