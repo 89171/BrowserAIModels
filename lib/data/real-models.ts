@@ -74,6 +74,12 @@ export interface RealModelSpec {
   note: L;
   /** True when `repo` is the closest browser-ready stand-in, not the exact upstream checkpoint. */
   substitute?: boolean;
+  /**
+   * The checkpoint only speaks English, so CJK input must not be pushed through
+   * it: a seq2seq summariser fed Chinese degenerates into number soup or a
+   * repetition loop. Such runs fall back to the local extractive summariser.
+   */
+  englishOnly?: boolean;
 }
 
 export const REAL_MODELS: Record<string, RealModelSpec> = {
@@ -421,13 +427,14 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
 
   /* --------------------------------------------------- text / summarization */
   'text/summarization/pegasus-xsum': {
-    repo: 'Xenova/t5-small',
+    repo: 'Xenova/flan-t5-small',
     task: 'summarization',
     dtype: 'q8',
     substitute: true,
+    englishOnly: true,
     note: {
-      zh: 'Pegasus / DistilBART 的浏览器权重超过 340 MB，改用 T5-small 做真实摘要（偏抽取式，不像 XSum 那样一句话概括）。',
-      en: 'Pegasus / DistilBART browser weights exceed 340 MB, so T5-small summarises for real (more extractive than XSum-style one-liners).',
+      zh: 'Pegasus / DistilBART 的浏览器权重超过 340 MB，改用 FLAN-T5-small（指令微调版，约 90 MB）做真实摘要；中文输入走本地抽取式算法；这样小的模型偶尔会抄错个别数字。',
+      en: 'Pegasus / DistilBART browser weights exceed 340 MB, so the instruction-tuned FLAN-T5-small (~90 MB) writes the summary; Chinese input uses the local extractive pass. A model this small can misquote an occasional digit.',
     },
   },
   'vision/ocr/tesseractjs': {
@@ -535,12 +542,14 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     },
   },
   'text/summarization/t5-small': {
-    repo: 'Xenova/t5-small',
+    repo: 'Xenova/flan-t5-small',
     task: 'summarization',
     dtype: 'q8',
+    substitute: true,
+    englishOnly: true,
     note: {
-      zh: '真实权重：T5-small（约 60 MB）逐 token 生成摘要，偏抽取式。',
-      en: 'Real weights: T5-small (~60 MB) generates the summary token by token; output is fairly extractive.',
+      zh: '真实权重：FLAN-T5-small（指令微调版，约 90 MB）逐 token 生成摘要。原始 t5-small 只做过 span-corruption 预训练，并不会摘要，所以换成同尺寸的指令微调版；中文输入走本地抽取式算法；这样小的模型偶尔会抄错个别数字。',
+      en: 'Real weights: FLAN-T5-small (instruction-tuned, ~90 MB) writes the summary token by token. Plain t5-small is span-corruption pretrained and never learned to summarise, so the instruction-tuned sibling of the same size stands in; Chinese input uses the local extractive pass. A model this small can misquote an occasional digit.',
     },
   },
   'vision/image-restoration/nafnet-denoise': {
@@ -842,13 +851,14 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     },
   },
   'text/summarization/bart-large-cnn': {
-    repo: 'Xenova/t5-small',
+    repo: 'Xenova/flan-t5-small',
     task: 'summarization',
     dtype: 'q8',
     substitute: true,
+    englishOnly: true,
     note: {
-      zh: 'BART-large-CNN 的浏览器权重约 400 MB，改用 T5-small（约 60 MB）做真实摘要，偏抽取式。',
-      en: 'BART-large-CNN is ~400 MB in the browser, so T5-small (~60 MB) summarises for real; output is fairly extractive.',
+      zh: 'BART-large-CNN 的浏览器权重约 400 MB，改用 FLAN-T5-small（约 90 MB）做真实摘要；中文输入走本地抽取式算法；这样小的模型偶尔会抄错个别数字。',
+      en: 'BART-large-CNN is ~400 MB in the browser, so FLAN-T5-small (~90 MB) summarises for real; Chinese input uses the local extractive pass. A model this small can misquote an occasional digit.',
     },
   },
   'search-rag/reranker/bge-reranker-base': {

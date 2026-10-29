@@ -169,6 +169,12 @@ export function ResultView({ result, running, phase }: { result: RunResult | nul
                 : tr('weightsCached')}
             </span>
           </>
+        ) : result.meta.local ? (
+          // Deliberately computed by a local algorithm instead of the shipped
+          // weights (e.g. Chinese input on an English-only summariser).
+          <span className="tag" title={result.meta.note}>
+            {locale === 'zh' ? '本地算法' : 'Local algorithm'}
+          </span>
         ) : (
           <span className="tag" title={result.meta.note}>
             {result.meta.simulated ? tr('demoMode') : locale === 'zh' ? '真实计算' : 'Computed'}
@@ -180,6 +186,11 @@ export function ResultView({ result, running, phase }: { result: RunResult | nul
           {locale === 'zh'
             ? '* 原模型没有浏览器可直接推理的权重，这里加载的是同类任务的实际检查点（ONNX / TFLite）。'
             : '* The original checkpoint has no browser build; a real ONNX or TFLite model for the same task is loaded instead.'}
+        </p>
+      ) : null}
+      {result.meta.local && result.meta.note ? (
+        <p className="text-[11px] leading-5" style={{ color: 'var(--fg-faint)' }}>
+          {result.meta.note}
         </p>
       ) : null}
       <Body payload={result.payload} />

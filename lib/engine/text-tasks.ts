@@ -163,7 +163,10 @@ const STOP = new Set(['的', '了', '和', '是', '在', '我', '有', '就', '�
 
 export function splitSentences(text: string): string[] {
   return text
-    .split(/(?<=[。！？!?；;])|\n+/)
+    // CJK terminators, hard line breaks, and English full stops only when the
+    // next sentence starts with a capital/quote — decimals such as "1.24" and
+    // abbreviations inside a sentence must not be split.
+    .split(/(?<=[。！？!?；;])|\n+|(?<=\.)\s+(?=[A-Z"“（(])/)
     .map((s) => s.trim())
     .filter((s) => s.length > 1);
 }
@@ -171,7 +174,8 @@ export function splitSentences(text: string): string[] {
 export function keywords(text: string, limit = 8): { word: string; count: number }[] {
   const map = new Map<string, number>();
   for (const tk of tokensOf(text)) {
-    if (tk.length < 2 || STOP.has(tk)) continue;
+    // Bare numbers ("18", "3") are not keywords, they are measurements.
+    if (tk.length < 2 || STOP.has(tk) || /^\d+$/.test(tk)) continue;
     map.set(tk, (map.get(tk) ?? 0) + 1);
   }
   return [...map.entries()]
@@ -195,8 +199,10 @@ export function extractiveSummary(text: string, limit: number): { summary: strin
   });
   const top = [...scored].sort((a, b) => b.score - a.score).slice(0, Math.max(2, Math.min(4, Math.ceil(sentences.length / 3))));
   top.sort((a, b) => a.i - b.i);
+  // Chinese sentences run together, Latin ones need the space back.
+  const joiner = /[\u3400-\u9fff]/.test(text) ? '' : ' ';
   return {
-    summary: top.map((t) => t.s).join(''),
+    summary: top.map((t) => t.s).join(joiner),
     points: [...scored].sort((a, b) => b.score - a.score).slice(0, 5).map((t) => t.s),
     keywords: kw.slice(0, limit),
   };

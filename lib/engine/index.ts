@@ -125,6 +125,8 @@ export interface ResultMeta {
   backend: string;
   /** true when the result comes from a shipped fixture or a rule-based fallback */
   simulated: boolean;
+  /** true when a local, non-neural algorithm computed the result on purpose */
+  local?: boolean;
   note?: string;
   tokens?: number;
   /** set when real ONNX weights were downloaded and executed */
@@ -186,6 +188,18 @@ const str = (v: string | number | boolean | undefined, fallback: string): string
   typeof v === 'string' ? v : fallback;
 const bool = (v: string | number | boolean | undefined, fallback: boolean): boolean =>
   typeof v === 'boolean' ? v : fallback;
+
+/**
+ * True when the passage is mostly Chinese. Every browser-ready summariser we
+ * ship was fine-tuned on English corpora; handed Chinese, a seq2seq checkpoint
+ * emits stray digits and commas ("12.4, 18.6%, 6.2%…") or loops on one phrase,
+ * so such input takes the local extractive route instead of the weights.
+ */
+export function isCjkDominant(text: string): boolean {
+  const cjk = (text.match(/[\u3400-\u9fff]/g) ?? []).length;
+  const latin = (text.match(/[A-Za-z]/g) ?? []).length;
+  return cjk >= 8 && cjk > latin;
+}
 
 const DEVICE_LABEL: Record<string, string> = {
   transformersjs: 'Transformers.js · WASM/WebGPU',
@@ -871,8 +885,17 @@ export async function runInference(
   const { model } = ctx;
   const { device, backend } = deviceOf(model);
 
+  // English-only summarisers cannot read Chinese: keep the weights on disk and
+  // answer with the local extractive pass, labelled as such in the result meta.
+  const localSummary =
+    ctx.spec.outputKind === 'text' &&
+    ctx.spec.category === 'text' &&
+    ctx.spec.subcategory === 'summarization' &&
+    realSpecFor('text', 'summarization', model.id)?.englishOnly === true &&
+    isCjkDominant(ctx.text);
+
   // First choice: really download and execute ONNX weights for this catalogue entry.
-  const real = await tryReal(ctx);
+  const real = localSummary ? null : await tryReal(ctx);
 
   let payload: DemoPayload;
   let deviceLabel = device;
@@ -893,12 +916,20 @@ export async function runInference(
     // like the weights silently failed to load.
     const sizeMb = Number((model.size.match(/([\d.]+)/) ?? [0, '80'])[1]) || 80;
     ctx.onPhase?.(
-      ctx.locale === 'zh'
-        ? '演示模式：不下载权重，用模拟引擎计算…'
-        : 'Demo mode: no weights to download, running the simulator…'
+      localSummary
+        ? ctx.locale === 'zh'
+          ? '中文输入：改用本地抽取式摘要（不加载英文权重）…'
+          : 'Chinese input: local extractive summary (English weights skipped)…'
+        : ctx.locale === 'zh'
+          ? '演示模式：不下载权重，用模拟引擎计算…'
+          : 'Demo mode: no weights to download, running the simulator…'
     );
-    await new Promise((r) => setTimeout(r, clamp(120 + sizeMb / 26, 120, 900)));
+    if (!localSummary) await new Promise((r) => setTimeout(r, clamp(120 + sizeMb / 26, 120, 900)));
     payload = await runDispatch(kind, ctx);
+    if (localSummary) {
+      deviceLabel = ctx.locale === 'zh' ? '本地抽取式算法' : 'Local extractive';
+      backendLabel = 'JS';
+    }
   }
 
   const latencyMs = Math.round(performance.now() - started);
@@ -916,7 +947,11 @@ export async function runInference(
     : undefined;
   const note = real
     ? realSpec?.note[ctx.locale]
-    : infeasible
+    : localSummary
+      ? ctx.locale === 'zh'
+        ? '中文输入：当前浏览器权重是英文摘要模型，这里改用本地抽取式算法（按词频给句子打分），不是神经网络生成的。'
+        : 'Chinese input: the browser weights are English-only, so the local extractive summariser (sentence scoring by term frequency) wrote this, not the network.'
+      : infeasible
       ? infeasible[ctx.locale]
       : noWeights
         ? ctx.locale === 'zh'
@@ -937,6 +972,7 @@ export async function runInference(
       backend: backendLabel,
       simulated,
       note,
+      local: localSummary || undefined,
       tokens: payload.kind === 'chat' || payload.kind === 'code' || payload.kind === 'text' ? tokensOf(String((payload as { text?: string; code?: string }).text ?? (payload as { code?: string }).code ?? '')).length : undefined,
       real: real
         ? {
@@ -1639,6 +1675,10 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
           };
         }
         if (spec.task !== 'summarization') return null;
+        // Every browser-ready summariser we ship is English-only; feeding Chinese
+        // to a seq2seq checkpoint yields number soup ("12.4, 18.6%, 6.2%…") or a
+        // repetition loop, so CJK input takes the local extractive route instead.
+        if (spec.englishOnly && isCjkDominant(ctx.text)) return null;
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         const r = await summariseText(ctx.text, { spec, onProgress: report, maxNewTokens: num(ctx.params.maxLength, 96) });
         ctx.onPhase?.(ctx.locale === 'zh' ? '生成摘要…' : 'Summarising…');

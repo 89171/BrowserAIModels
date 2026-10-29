@@ -527,6 +527,11 @@ export async function summariseText(
 ): Promise<{ text: string; meta: LoadedRun }> {
   const run = await getRun(opts);
   const max = Math.max(24, Math.min(256, opts.maxNewTokens ?? Math.round(text.length / 3)));
+  // Greedy decoding with plain max_new_tokens is deliberate: no_repeat_ngram_size
+  // bans legitimate repetitions ("year on year" twice in one sentence) and a
+  // forced min_new_tokens pushes this small model past its natural stop, where it
+  // starts inventing figures. Chinese never reaches the weights — see
+  // `isCjkDominant` — so the degenerate repetition loop it can cause is moot.
   const out = (await run.call(text, { max_new_tokens: max })) as
     | { summary_text?: string }[]
     | { summary_text?: string };
