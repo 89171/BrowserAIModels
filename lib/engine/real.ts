@@ -720,10 +720,15 @@ export async function generateText(
     do_sample: !greedy,
     ...(greedy ? {} : { temperature: gen.temperature }),
     repetition_penalty: 1.1,
+    // Ask for the completion only. The pipeline otherwise echoes the prompt, and
+    // the echo comes back without the `<|im_start|>` special tokens, so the
+    // `startsWith(prompt)` strip below misses it — the echoed JSON *schema* then
+    // wins the `{…}` scan in extractJsonObject and strict validation always fails.
+    return_full_text: false,
   })) as { generated_text?: string }[] | { generated_text?: string };
   const list = Array.isArray(out) ? out : [out];
   const raw = list[0]?.generated_text ?? '';
-  // The text-generation pipeline echoes the prompt back on the first result.
+  // Older pipeline builds ignore `return_full_text`; strip the echo if present.
   const text = raw.startsWith(prompt) ? raw.slice(prompt.length) : raw;
   return { text: text.trim(), meta: run };
 }
