@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { weightDownloadBytes } from '@/lib/model-size';
 import { formatGib } from '@/lib/seo';
 import { SITE_URL } from '@/lib/site';
 import type { ModelEntry } from '@/types/taxonomy';
@@ -40,10 +41,7 @@ export async function ModelInsights({
   const taskName = tSubs(subcategory as 'classification');
   const frameworkLabel = fw(entry.framework);
 
-  const bytes = entry.variants
-    .map((variant) => variant.downloadBytes)
-    .filter((value): value is number => typeof value === 'number' && value > 0)
-    .sort((a, b) => a - b)[0];
+  const bytes = weightDownloadBytes(entry);
   // Unit included, because the copy reads it as a size.
   const size = formatGib(bytes);
 

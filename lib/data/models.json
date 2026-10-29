@@ -5,7 +5,7 @@
         "id": "distilbert-sst2",
         "name": "DistilBERT (SST-2)",
         "framework": "transformersjs",
-        "size": "~255.5 MB",
+        "size": "~64.5 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -17,7 +17,7 @@
         "id": "xlm-roberta-base",
         "name": "XLM-RoBERTa Base",
         "framework": "transformersjs",
-        "size": "~1061.9 MB",
+        "size": "~267 MiB",
         "license": "mit",
         "languages": [
           "100+ languages"
@@ -29,7 +29,7 @@
         "id": "toxic-bert",
         "name": "Toxic-BERT",
         "framework": "transformersjs",
-        "size": "~417.9 MB",
+        "size": "~92.7 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -41,7 +41,7 @@
         "id": "mobilenet-bert",
         "name": "MobileBERT",
         "framework": "transformersjs",
-        "size": "~94.4 MB",
+        "size": "~20.0 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -55,7 +55,7 @@
         "id": "nllb-200",
         "name": "NLLB-200 Distilled",
         "framework": "transformersjs",
-        "size": "~3360.4 MB",
+        "size": "~853 MiB",
         "license": "cc-by-nc-4-0",
         "languages": [
           "200+ languages"
@@ -68,7 +68,7 @@
         "id": "opus-mt-en-zh",
         "name": "Opus-MT (en↔zh)",
         "framework": "transformersjs",
-        "size": "~425.1 MB",
+        "size": "~108 MiB",
         "license": "apache-2-0",
         "languages": [
           "English",
@@ -81,7 +81,7 @@
         "id": "m2m100-418m",
         "name": "M2M-100 (418M)",
         "framework": "transformersjs",
-        "size": "~2359.4 MB",
+        "size": "~603 MiB",
         "license": "mit",
         "languages": [
           "100 languages"
@@ -95,7 +95,7 @@
         "id": "t5-small",
         "name": "T5 Small",
         "framework": "transformersjs",
-        "size": "~294.0 MB",
+        "size": "~74.5 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -107,7 +107,7 @@
         "id": "bart-large-cnn",
         "name": "BART Large CNN",
         "framework": "transformersjs",
-        "size": "~1747.6 MB",
+        "size": "~392 MiB",
         "license": "mit",
         "languages": [
           "English"
@@ -135,7 +135,7 @@
         "id": "llama-3-8b-instruct",
         "name": "Llama-3 8B Instruct",
         "framework": "webllm",
-        "size": "~4308.1 MB",
+        "size": "~4.2 GB",
         "license": "custom",
         "languages": [
           "English"
@@ -148,7 +148,7 @@
         "id": "phi-3-mini",
         "name": "Phi-3 Mini (3.8B)",
         "framework": "webllm",
-        "size": "~2050.1 MB",
+        "size": "~2.0 GB",
         "license": "mit",
         "languages": [
           "English"
@@ -161,7 +161,7 @@
         "id": "qwen2-1-5b",
         "name": "Qwen2 1.5B Instruct",
         "framework": "webllm",
-        "size": "~828.3 MB",
+        "size": "~828 MiB",
         "license": "apache-2-0",
         "languages": [
           "English",
@@ -175,7 +175,7 @@
         "id": "tinyllama-1-1b",
         "name": "TinyLlama 1.1B",
         "framework": "transformersjs",
-        "size": "~4198.4 MB",
+        "size": "~681 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -187,7 +187,7 @@
         "id": "gemma-2-2b-it",
         "name": "Gemma 2 2B IT",
         "framework": "webllm",
-        "size": "~1402.8 MB",
+        "size": "~1.4 GB",
         "license": "custom",
         "languages": [
           "English"
@@ -200,7 +200,7 @@
         "id": "smollm2-1-7b",
         "name": "SmolLM2 1.7B Instruct",
         "framework": "webllm",
-        "size": "~918.2 MB",
+        "size": "~918 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -213,7 +213,7 @@
         "id": "deepseek-r1-distill-qwen-1-5b",
         "name": "DeepSeek R1 Distill (Qwen 1.5B)",
         "framework": "webllm",
-        "size": "~953.5 MB",
+        "size": "~954 MiB",
         "license": "mit",
         "languages": [
           "English",
@@ -261,7 +261,7 @@
         "id": "codellama-7b",
         "name": "CodeLlama 7B",
         "framework": "webllm",
-        "size": "~3615.2 MB",
+        "size": "~3.5 GB",
         "license": "custom",
         "languages": [],
         "description": "Meta CodeLlama — code completion and infill in the browser.",
@@ -281,7 +281,7 @@
         "id": "deepseek-coder-1-3b",
         "name": "DeepSeek Coder 1.3B",
         "framework": "transformersjs",
-        "size": "~5153.1 MB",
+        "size": "~1.3 GB",
         "license": "other",
         "languages": [],
         "description": "Compact DeepSeek Coder model for browser-side code generation.",
@@ -295,7 +295,7 @@
         "id": "all-minilm-l6-v2",
         "name": "all-MiniLM-L6-v2",
         "framework": "transformersjs",
-        "size": "~86.2 MB",
+        "size": "~21.9 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -308,7 +308,7 @@
         "id": "bge-small-en",
         "name": "BGE Small EN",
         "framework": "transformersjs",
-        "size": "~126.9 MB",
+        "size": "~32.4 MiB",
         "license": "mit",
         "languages": [
           "English"
@@ -320,7 +320,7 @@
         "id": "gte-small",
         "name": "GTE Small",
         "framework": "transformersjs",
-        "size": "~126.9 MB",
+        "size": "~32.4 MiB",
         "license": "mit",
         "languages": [
           "English"
@@ -332,7 +332,7 @@
         "id": "bge-m3",
         "name": "BGE-M3",
         "framework": "transformersjs",
-        "size": "~4324.9 MB",
+        "size": "~1.1 GB",
         "license": "mit",
         "languages": [
           "100+ languages"
@@ -358,7 +358,7 @@
         "id": "ms-marco-minilm",
         "name": "MS MARCO MiniLM Cross-Encoder",
         "framework": "transformersjs",
-        "size": "~86.8 MB",
+        "size": "~22.1 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -370,7 +370,7 @@
         "id": "bge-reranker-base",
         "name": "BGE Reranker Base",
         "framework": "transformersjs",
-        "size": "~1060.9 MB",
+        "size": "~266 MiB",
         "license": "mit",
         "languages": [
           "English",
@@ -461,7 +461,7 @@
         "id": "mediapipe-objectdetection",
         "name": "MediaPipe Object Detection",
         "framework": "mediapipe",
-        "size": "~6.9 MB",
+        "size": "~6.9 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "MediaPipe Tasks API — EfficientDet-Lite for object detection.",
@@ -482,7 +482,7 @@
         "id": "rtdetr-v2-r18",
         "name": "RT-DETR v2 R18",
         "framework": "transformersjs",
-        "size": "~77.3 MB",
+        "size": "~20.0 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "",
@@ -492,7 +492,7 @@
         "id": "yolov10n",
         "name": "YOLOv10n",
         "framework": "transformersjs",
-        "size": "~9.0 MB",
+        "size": "~2.5 MiB",
         "license": "agpl-3-0",
         "languages": [],
         "description": "",
@@ -504,7 +504,7 @@
         "id": "sam-tiny",
         "name": "SAM Tiny (ONNX)",
         "framework": "transformersjs",
-        "size": "~38.0 MB",
+        "size": "~13.1 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Segment Anything Model — quantized mobile variant for the browser.",
@@ -515,7 +515,7 @@
         "id": "mediapipe-selfie",
         "name": "MediaPipe Selfie Segmentation",
         "framework": "mediapipe",
-        "size": "~0.2 MB",
+        "size": "~0.2 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Lightweight binary segmentation for people in close-up shots.",
@@ -526,7 +526,7 @@
         "id": "rmbg-1-4",
         "name": "RMBG-1.4",
         "framework": "transformersjs",
-        "size": "~168.0 MB",
+        "size": "~42.3 MiB",
         "license": "other",
         "languages": [],
         "description": "",
@@ -537,7 +537,7 @@
         "id": "modnet",
         "name": "MODNet",
         "framework": "transformersjs",
-        "size": "~24.7 MB",
+        "size": "~6.3 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "",
@@ -548,7 +548,7 @@
         "id": "u2netp",
         "name": "U²-Netp",
         "framework": "transformersjs",
-        "size": "~4.4 MB",
+        "size": "~4.4 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "",
@@ -585,7 +585,7 @@
         "id": "paddle-ocr",
         "name": "PaddleOCR PP-OCRv5 Mobile (Browser)",
         "framework": "onnxruntime-web",
-        "size": "~15.9 MB",
+        "size": "~20.5 MiB",
         "license": "apache-2-0",
         "languages": [
           "80+ languages"
@@ -600,7 +600,7 @@
         "id": "midas-small",
         "name": "DPT-Hybrid (MiDaS 3.0)",
         "framework": "transformersjs",
-        "size": "~508.4 MB",
+        "size": "~113 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Robust monocular depth estimation for the browser.",
@@ -610,7 +610,7 @@
         "id": "depth-anything-small",
         "name": "Depth Anything v2 Small",
         "framework": "transformersjs",
-        "size": "~94.5 MB",
+        "size": "~18.2 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "State-of-the-art monocular depth, ported to Transformers.js.",
@@ -646,7 +646,7 @@
         "id": "vit-base-224",
         "name": "vit-base-224",
         "framework": "transformersjs",
-        "size": "~330.5 MB",
+        "size": "~48.9 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "",
@@ -656,7 +656,7 @@
         "id": "resnet-50",
         "name": "resnet-50",
         "framework": "transformersjs",
-        "size": "~97.4 MB",
+        "size": "~24.6 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "",
@@ -666,7 +666,7 @@
         "id": "mobilevit-small",
         "name": "mobilevit-small",
         "framework": "transformersjs",
-        "size": "~21.6 MB",
+        "size": "~6.0 MiB",
         "license": "other",
         "languages": [],
         "description": "",
@@ -689,7 +689,7 @@
         "id": "birefnet-lite-512",
         "name": "BiRefNet-lite 512",
         "framework": "transformersjs",
-        "size": "~183.0 MB",
+        "size": "~93.9 MiB",
         "license": "mit",
         "languages": [],
         "description": "Legacy HD demo entry: its name, BiRefNet description and RMBG-1.4 reference disagree. Model identity, weights, size and license are unresolved; do not use it as a verified model comparison.",
@@ -702,7 +702,7 @@
         "id": "mi-gan-watermark",
         "name": "MI-GAN Watermark Removal",
         "framework": "onnxruntime-web",
-        "size": "~26.8 MB",
+        "size": "~26.8 MiB",
         "license": "mit",
         "languages": [],
         "description": "MI-GAN — single-file ONNX watermark remover (~28 MB). Fast mode for clean backgrounds.",
@@ -713,7 +713,7 @@
         "id": "lama-watermark",
         "name": "LaMa Watermark Removal (FP32)",
         "framework": "onnxruntime-web",
-        "size": "~198.4 MB",
+        "size": "~198 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "LaMa inpainting FP32 ONNX (~208 MB) for high-quality balanced / HD watermark removal.",
@@ -726,7 +726,7 @@
         "id": "swinir",
         "name": "Swin2SR (real-world x4)",
         "framework": "transformersjs",
-        "size": "~50.3 MB",
+        "size": "~14.8 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "SwinIR — transformer-based image restoration (super-resolution, denoising, JPEG deblocking).",
@@ -736,7 +736,7 @@
         "id": "esrgan-slim",
         "name": "ESRGAN Slim (UpscalerJS)",
         "framework": "tensorflowjs",
-        "size": "~0.9 MB",
+        "size": "~0.9 MiB",
         "license": "mit",
         "languages": [],
         "description": "",
@@ -749,7 +749,7 @@
         "id": "real-esrgan",
         "name": "Real-ESRGAN",
         "framework": "onnxruntime-web",
-        "size": "~32.2 MB",
+        "size": "~32.2 MiB",
         "license": "bsd-3",
         "languages": [],
         "description": "Real-ESRGAN general-purpose image super-resolution; runs entirely on WebGPU via onnxruntime-web.",
@@ -777,7 +777,7 @@
         "id": "sdxl-turbo",
         "name": "SDXL-Turbo",
         "framework": "onnxruntime-web",
-        "size": "~13241.1 MB",
+        "size": "~12.9 GB",
         "license": "other",
         "languages": [],
         "description": "Real-time distilled SDXL; runs on WebGPU with onnxruntime-web.",
@@ -787,7 +787,7 @@
         "id": "sd-turbo",
         "name": "SD-Turbo",
         "framework": "onnxruntime-web",
-        "size": "~2461.2 MB",
+        "size": "~2.4 GB",
         "license": "other",
         "languages": [],
         "description": "Smaller distilled Stable Diffusion variant.",
@@ -823,7 +823,7 @@
         "id": "whistle",
         "name": "Whistle (Cactus Compute)",
         "framework": "wasm",
-        "size": "~16.1 MB",
+        "size": "~16.1 MiB",
         "license": "apache-2-0",
         "languages": [
           "English",
@@ -842,7 +842,7 @@
         "id": "whisper-small",
         "name": "Whisper Small (Transformers.js)",
         "framework": "transformersjs",
-        "size": "~923.4 MB",
+        "size": "~191 MiB",
         "license": "apache-2-0",
         "languages": [
           "99 languages"
@@ -855,7 +855,7 @@
         "id": "whisper-base",
         "name": "Whisper Base (Transformers.js)",
         "framework": "transformersjs",
-        "size": "~277.6 MB",
+        "size": "~73.3 MiB",
         "license": "apache-2-0",
         "languages": [
           "99 languages"
@@ -883,7 +883,7 @@
         "id": "kokoro-82m-fp32",
         "name": "Kokoro TTS (FP32, 82M voices)",
         "framework": "transformersjs",
-        "size": "~323.6 MB",
+        "size": "~121 MiB",
         "license": "apache-2-0",
         "languages": [
           "Chinese",
@@ -948,7 +948,7 @@
         "id": "deepfilternet",
         "name": "DeepFilterNet",
         "framework": "onnxruntime-web",
-        "size": "~8.2 MB",
+        "size": "~8.2 MiB",
         "license": "mit",
         "languages": [],
         "description": "DeepFilterNet — modern speech enhancement via ONNX.",
@@ -970,7 +970,7 @@
         "id": "htdemucs-4-stem",
         "name": "HT Demucs (4 stems)",
         "framework": "onnxruntime-web",
-        "size": "~157.9 MB",
+        "size": "~158 MiB",
         "license": "mit",
         "languages": [],
         "description": "Hybrid Transformer Demucs 4-stem model (~166 MB ONNX) — the fast split, separating drums, bass, other and vocals.",
@@ -981,7 +981,7 @@
         "id": "htdemucs-6-stem",
         "name": "HT Demucs (6 stems, default)",
         "framework": "onnxruntime-web",
-        "size": "~130.1 MB",
+        "size": "~130 MiB",
         "license": "mit",
         "languages": [],
         "description": "Hybrid Transformer Demucs 6-stem model (~136 MB ONNX) — the balanced split, adding guitar and piano to the four stems.",
@@ -1004,7 +1004,7 @@
         "id": "mediapipe-audio-classifier",
         "name": "MediaPipe Audio Classifier",
         "framework": "mediapipe",
-        "size": "~3.9 MB",
+        "size": "~3.9 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Web task API for audio classification. Select a compatible model asset; task-library support does not specify the weight version or measured latency.",
@@ -1015,7 +1015,7 @@
         "id": "ast-audioset",
         "name": "ast-audioset",
         "framework": "transformersjs",
-        "size": "~330.7 MB",
+        "size": "~49.0 MiB",
         "license": "bsd-3",
         "languages": [],
         "description": "",
@@ -1025,7 +1025,7 @@
         "id": "wav2vec2-keyword-spotting",
         "name": "wav2vec2-keyword-spotting",
         "framework": "transformersjs",
-        "size": "~361.1 MB",
+        "size": "~63.5 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -1041,7 +1041,7 @@
         "id": "musicgen-small",
         "name": "MusicGen Small",
         "framework": "transformersjs",
-        "size": "~2144.8 MB",
+        "size": "~571 MiB",
         "license": "cc-by-nc-4-0",
         "languages": [],
         "description": "Meta MusicGen small (300M) — text-conditioned music generation that runs entirely in the browser via Transformers.js.",
@@ -1100,7 +1100,7 @@
         "id": "moondream2",
         "name": "Moondream 2",
         "framework": "transformersjs",
-        "size": "~7087.6 MB",
+        "size": "~707 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -1125,7 +1125,7 @@
         "id": "paligemma-3b",
         "name": "PaliGemma 3B",
         "framework": "transformersjs",
-        "size": "~13829.2 MB",
+        "size": "~2.7 GB",
         "license": "custom",
         "languages": [
           "English"
@@ -1137,7 +1137,7 @@
         "id": "florence-2",
         "name": "Florence-2",
         "framework": "transformersjs",
-        "size": "~1035.6 MB",
+        "size": "~213 MiB",
         "license": "mit",
         "languages": [
           "English"
@@ -1151,7 +1151,7 @@
         "id": "clip-vit-base",
         "name": "CLIP ViT-B/32",
         "framework": "transformersjs",
-        "size": "~1155.4 MB",
+        "size": "~240 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -1163,7 +1163,7 @@
         "id": "siglip-base",
         "name": "SigLIP Base",
         "framework": "transformersjs",
-        "size": "~1551.0 MB",
+        "size": "~292 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -1175,7 +1175,7 @@
         "id": "mobileclip",
         "name": "MobileCLIP",
         "framework": "transformersjs",
-        "size": "~205.4 MB",
+        "size": "~52.1 MiB",
         "license": "other",
         "languages": [
           "English"
@@ -1190,7 +1190,7 @@
         "id": "layoutlmv3",
         "name": "LayoutLMv3",
         "framework": "transformersjs",
-        "size": "~478.4 MB",
+        "size": "~478 MiB",
         "license": "custom",
         "languages": [
           "English"
@@ -1202,7 +1202,7 @@
         "id": "donut-base",
         "name": "Donut (base)",
         "framework": "transformersjs",
-        "size": "~779.0 MB",
+        "size": "~209 MiB",
         "license": "mit",
         "languages": [
           "English"
@@ -1214,7 +1214,7 @@
         "id": "nougat-small",
         "name": "Nougat Small",
         "framework": "transformersjs",
-        "size": "~949.3 MB",
+        "size": "~244 MiB",
         "license": "cc-by-4-0",
         "languages": [
           "English"
@@ -1230,7 +1230,7 @@
         "id": "mediapipe-facedetection",
         "name": "MediaPipe Face Detection",
         "framework": "mediapipe",
-        "size": "~0.2 MB",
+        "size": "~0.2 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "BlazeFace — short-range and full-range face detection.",
@@ -1241,7 +1241,7 @@
         "id": "mediapipe-facemesh",
         "name": "MediaPipe Face Mesh",
         "framework": "mediapipe",
-        "size": "~3.6 MB",
+        "size": "~3.6 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Dense 3D face landmarks for AR / analytics.",
@@ -1265,7 +1265,7 @@
         "id": "mediapipe-pose",
         "name": "MediaPipe Pose",
         "framework": "mediapipe",
-        "size": "~5.5 MB",
+        "size": "~5.5 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "ML-based 3D pose estimation from a single image.",
@@ -1298,7 +1298,7 @@
         "id": "mediapipe-pose-landmarker",
         "name": "MediaPipe Pose Landmarker (Tasks API)",
         "framework": "mediapipe",
-        "size": "~9.0 MB",
+        "size": "~9.0 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "MediaPipe Pose Landmarker — modern Tasks API successor to MediaPipe Pose, with BlazePose GHUM 3D model.",
@@ -1322,7 +1322,7 @@
         "id": "mediapipe-handlandmarker",
         "name": "MediaPipe Hand Landmarker",
         "framework": "mediapipe",
-        "size": "~7.5 MB",
+        "size": "~7.5 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Newer Tasks API version of MediaPipe Hands.",
@@ -1333,7 +1333,7 @@
         "id": "mediapipe-gesture-recognizer",
         "name": "mediapipe-gesture-recognizer",
         "framework": "mediapipe",
-        "size": "~8.0 MB",
+        "size": "~8.0 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "",
@@ -1346,7 +1346,7 @@
         "id": "mediapipe-holistic",
         "name": "MediaPipe Holistic",
         "framework": "mediapipe",
-        "size": "~13.0 MB",
+        "size": "~13.0 MiB",
         "license": "apache-2-0",
         "languages": [],
         "description": "Unified pipeline that tracks face, pose and hands simultaneously.",

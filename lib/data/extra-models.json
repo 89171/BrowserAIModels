@@ -5,7 +5,7 @@
         "id": "distilbert-squad",
         "name": "DistilBERT (SQuAD)",
         "framework": "transformersjs",
-        "size": "~67 MB",
+        "size": "~62.5 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -17,7 +17,7 @@
         "id": "distilbert-squad-uncased",
         "name": "DistilBERT uncased (SQuAD)",
         "framework": "transformersjs",
-        "size": "~67 MB",
+        "size": "~63.6 MiB",
         "license": "apache-2-0",
         "languages": [
           "English"
@@ -31,7 +31,7 @@
         "id": "bert-base-ner",
         "name": "BERT-base NER",
         "framework": "transformersjs",
-        "size": "~109 MB",
+        "size": "~89.3 MiB",
         "license": "mit",
         "languages": [
           "English"
@@ -43,7 +43,7 @@
         "id": "distilbert-multilingual-ner",
         "name": "DistilBERT Multilingual NER",
         "framework": "transformersjs",
-        "size": "~135 MB",
+        "size": "~129 MiB",
         "license": "apache-2-0",
         "languages": [
           "10 languages"
@@ -59,7 +59,7 @@
         "id": "mobilevit-small",
         "name": "MobileViT Small",
         "framework": "transformersjs",
-        "size": "~6 MB",
+        "size": "~6.0 MiB",
         "license": "other",
         "languages": [
           "ImageNet-1k"
@@ -71,7 +71,7 @@
         "id": "resnet-50",
         "name": "ResNet-50",
         "framework": "transformersjs",
-        "size": "~26 MB",
+        "size": "~24.6 MiB",
         "license": "apache-2-0",
         "languages": [
           "ImageNet-1k"
@@ -83,7 +83,7 @@
         "id": "vit-base",
         "name": "ViT Base (patch16-224)",
         "framework": "transformersjs",
-        "size": "~88 MB",
+        "size": "~84 MiB",
         "license": "apache-2-0",
         "languages": [
           "ImageNet-1k"
@@ -97,7 +97,7 @@
         "id": "owlvit-base",
         "name": "OWL-ViT Base",
         "framework": "transformersjs",
-        "size": "~155 MB",
+        "size": "~121 MiB",
         "license": "apache-2-0",
         "languages": [
           "Open vocabulary"
@@ -113,7 +113,7 @@
         "id": "ast-audioset",
         "name": "Audio Spectrogram Transformer",
         "framework": "transformersjs",
-        "size": "~91 MB",
+        "size": "~49.0 MiB",
         "license": "bsd-3",
         "languages": [
           "AudioSet-527"
@@ -125,7 +125,7 @@
         "id": "wav2vec2-keyword-spotting",
         "name": "Wav2Vec2 Keyword Spotting",
         "framework": "transformersjs",
-        "size": "~96 MB",
+        "size": "~63.5 MiB",
         "license": "apache-2-0",
         "languages": [
           "Speech Commands"

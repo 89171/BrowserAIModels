@@ -1,4 +1,5 @@
 import type { FrameworkId, ModelEntry } from '@/types/taxonomy';
+import { weightDownloadBytes } from '@/lib/model-size';
 
 /**
  * Facts used by the page intros and by the "at a glance" blocks. Everything here
@@ -33,7 +34,7 @@ export function taskFacts(entries: ModelEntry[]): TaskFacts {
   }
 
   const sizes = entries
-    .flatMap((entry) => entry.variants.map((variant) => variant.downloadBytes))
+    .map((entry) => weightDownloadBytes(entry))
     .filter((bytes): bytes is number => typeof bytes === 'number' && bytes > 0);
 
   return {
@@ -124,10 +125,7 @@ export function modelKeywords(
   entry: KeywordEntry,
   frameworkLabel: string,
 ): string[] {
-  const size = (entry.variants ?? [])
-    .map((variant) => variant.downloadBytes)
-    .filter((bytes): bytes is number => typeof bytes === 'number' && bytes > 0)
-    .sort((a, b) => a - b)[0];
+  const size = weightDownloadBytes(entry);
   const sizeLabel = formatGib(size);
   const zh = [
     name,

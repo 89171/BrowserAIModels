@@ -4,19 +4,24 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const ts = require('typescript');
 
-function load(file) {
+// The transpiled file is evaluated on its own, so `@/…` imports have to be
+// resolved here rather than by Node's loader.
+function load(file, deps = {}) {
   const exports = {};
   vm.runInNewContext(
     ts.transpileModule(fs.readFileSync(file, 'utf8'), {
       compilerOptions: { module: ts.ModuleKind.CommonJS },
     }).outputText,
-    { exports },
+    { exports, require: (id) => (deps[id] ? load(deps[id], deps) : require(id)) },
     { filename: file },
   );
   return exports;
 }
 
-const { taskFacts, formatMib, formatGib, taskKeywords, modelKeywords, homeKeywords } = load('lib/seo.ts');
+const { taskFacts, formatMib, formatGib, taskKeywords, modelKeywords, homeKeywords } = load(
+  'lib/seo.ts',
+  { '@/lib/model-size': 'lib/model-size.ts' },
+);
 
 const entry = (overrides) => ({
   id: 'x',
