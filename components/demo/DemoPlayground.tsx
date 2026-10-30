@@ -180,6 +180,13 @@ export function DemoPlayground({
   );
 
   const changeModel = (id: string) => {
+    // External-demo entries have no on-site run at all: open their hosted demo
+    // instead of switching and producing simulator output.
+    const target = models.find((m) => m.id === id);
+    if (target?.externalDemo) {
+      if (target.demoUrl) window.open(target.demoUrl, '_blank', 'noopener');
+      return;
+    }
     setModelId(id);
     if (ocrUnavailableReason(category, subcategory, id)) {
       invalidate();
@@ -263,11 +270,13 @@ export function DemoPlayground({
             const real = realSpecFor(category, subcategory, m.id);
             const unavailable = ocrUnavailableReason(category, subcategory, m.id);
             const infeasible = !real ? BROWSER_INFEASIBLE[`${category}/${subcategory}`] : undefined;
+            const external = Boolean(m.externalDemo && m.demoUrl);
+            const Card = external ? 'a' : 'button';
             return (
-              <button
+              <Card
                 key={m.id}
-                type="button"
-                onClick={() => changeModel(m.id)}
+                type={external ? undefined : 'button'}
+                {...(external ? { href: m.demoUrl, target: '_blank', rel: 'noreferrer' } : { onClick: () => changeModel(m.id) })}
                 className="group max-w-[260px] rounded-lg border px-3 py-2 text-left transition-colors"
                 style={{
                   background: active ? 'var(--accent)' : 'var(--bg)',
@@ -291,6 +300,20 @@ export function DemoPlayground({
                       }}
                     >
                       {real.substitute ? '◇' : '◆'} {tr('browserWeights')}
+                    </span>
+                  ) : external ? (
+                    // Distinct from the simulator badge: this entry never runs
+                    // locally at all — the card is a link to its hosted demo.
+                    <span
+                      className="mono shrink-0 rounded border px-1 py-px text-[9.5px] leading-none"
+                      title={tr('externalDemoHint')}
+                      style={{
+                        borderStyle: 'solid',
+                        borderColor: 'var(--border)',
+                        color: 'var(--fg-muted)',
+                      }}
+                    >
+                      {tr('externalDemoBadge')}
                     </span>
                   ) : (
                     // Say the quiet part out loud: nothing will be downloaded.
@@ -327,7 +350,7 @@ export function DemoPlayground({
                   <span>·</span>
                   <span className="mono">{m.size}</span>
                 </div>
-              </button>
+              </Card>
             );
           })}
         </div>
@@ -495,11 +518,14 @@ export function DemoPlayground({
               type="button"
               className="btn btn-primary w-full !py-2.5"
               onClick={() => run()}
-              disabled={running || Boolean(unavailable)}
+              disabled={running || Boolean(unavailable) || Boolean(model.externalDemo)}
             >
               {running ? tr('running') : result ? tr('rerun') : tr('run')}
             </button>
             {unavailable && <p className="rounded-lg border px-3 py-2 text-[11px]" role="status">{unavailable[locale]}</p>}
+            {model.externalDemo && !unavailable && (
+              <p className="rounded-lg border px-3 py-2 text-[11px]" role="status">{tr('externalDemoRunHint')}</p>
+            )}
             {error && (
               <p className="rounded-lg border px-3 py-2 text-[11px]" style={{ color: 'var(--fg-muted)' }}>
                 {tr('loadFailed')}: {error}

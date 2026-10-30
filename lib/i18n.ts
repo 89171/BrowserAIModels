@@ -140,6 +140,15 @@ export const UI = {
     zh: '浏览器不可行：该子类的模型权重 / 推理管线当前无法在浏览器中运行（体积过大或管线缺失），同类所有条目都是模拟演示，并非实现被省略。',
     en: 'Browser-infeasible: no model of this subcategory can run in a browser today (multi-GB weights or a missing pipeline). Every entry here is a simulated demo — not an omitted implementation.',
   },
+  externalDemoBadge: { zh: '在线示例 ↗', en: 'Live demo ↗' },
+  externalDemoHint: {
+    zh: '该模型不在本站运行：点击卡片会在新标签页打开它的在线示例（服务端权重或站外 WASM demo），本地播放器不会切换到它。',
+    en: 'This model does not run on this site: clicking its card opens the hosted demo (server weights or an out-of-site WASM demo) in a new tab; the local playground never switches to it.',
+  },
+  externalDemoRunHint: {
+    zh: 'OXR-1.0 的权重在服务端（1.3B · vLLM），本站不内置演示——点击上方「OXR-1.0」卡片或「官方演示」按钮即可在新标签页体验。',
+    en: 'OXR-1.0 runs on servers (1.3B · vLLM); there is no on-site demo. Click the OXR-1.0 card above or the "Official demo" button to open it in a new tab.',
+  },
 } satisfies Record<string, { zh: string; en: string }>;
 
 export type UIKey = keyof typeof UI;

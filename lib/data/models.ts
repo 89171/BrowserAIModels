@@ -4,10 +4,23 @@ import extra from './extra-models.json';
 
 // models.json is regenerated from ../WebAIModels by scripts/extract-models.cjs; entries that
 // the upstream catalogue does not list live in extra-models.json so a re-extract cannot drop them.
+// Subcategory lists are concatenated (extras appended, duplicates dropped by id) rather than
+// replaced — otherwise one extra entry would hide every models.json entry of its subcategory
+// and become the first, i.e. default-selected, model on the demo page.
+const mergeCategory = (rawCat: object = {}, extraCat: object = {}) =>
+  Object.fromEntries(
+    [...new Set([...Object.keys(rawCat), ...Object.keys(extraCat)])].map((sub) => {
+      const a = (rawCat as Record<string, ModelEntry[]>)[sub] ?? [];
+      const b = (extraCat as Record<string, ModelEntry[]>)[sub] ?? [];
+      const seen = new Set<string>();
+      return [sub, [...a, ...b].filter((m) => (seen.has(m.id) ? false : seen.add(m.id)))];
+    })
+  );
+
 const merged = Object.fromEntries(
   [...new Set([...Object.keys(raw), ...Object.keys(extra)])].map((c) => [
     c,
-    { ...(raw as Record<string, object>)[c], ...(extra as Record<string, object>)[c] },
+    mergeCategory((raw as Record<string, object>)[c], (extra as Record<string, object>)[c]),
   ])
 );
 
@@ -28,6 +41,8 @@ export const FRAMEWORK_LABEL: Record<string, string> = {
   'whisper-wasm': 'whisper.cpp (WASM)',
   opencvjs: 'OpenCV.js',
   tflite: 'TFLite',
+  wasm: 'WebAssembly',
+  api: 'Server API',
 };
 
 export const LICENSE_LABEL: Record<string, string> = {

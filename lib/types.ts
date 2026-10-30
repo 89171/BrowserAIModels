@@ -31,6 +31,11 @@ export interface ModelEntry {
   description: string;
   demoUrl?: string;
   docsUrl?: string;
+  /**
+   * The entry has no on-site demo at all: selecting it in the switcher opens
+   * `demoUrl` in a new tab instead of switching and running the simulator.
+   */
+  externalDemo?: boolean;
 }
 
 export type ModelCatalog = Record<string, Record<string, ModelEntry[]>>;

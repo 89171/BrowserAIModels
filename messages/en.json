@@ -19,7 +19,14 @@
     "skipToContent": "Skip to content",
     "applications": "Applications",
     "methodology": "Verification",
-    "demos": "Demos"
+    "demos": "Demos",
+    "blog": "Blog"
+  },
+  "blog": {
+    "title": "Blog",
+    "intro": "Model notes and benchmark write-ups: the story behind every entry in the catalog.",
+    "readMore": "Read more",
+    "backToBlog": "Back to all posts"
   },
   "languages": {
     "label": "Language",

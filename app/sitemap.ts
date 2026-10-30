@@ -3,6 +3,7 @@ import { routing } from '@/i18n/routing';
 import { TAXONOMY } from '@/data/taxonomy';
 import { MODELS, getModels } from '@/data/models';
 import { allDemoPaths } from '@/lib/data/registry';
+import { blogPosts } from '@/lib/data/blog';
 import type { ModelEntry } from '@/types/taxonomy';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 
@@ -35,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...allDemoPaths().map(({ category, subcategory }) => ({
       path: `/demos/${category}/${subcategory}`,
       lastModified: undefined,
+    })),
+    // Blog: the post date is the real change signal.
+    { path: '/blog', lastModified: blogPosts.map((p) => p.date).sort().at(-1) },
+    ...blogPosts.map((post) => ({
+      path: `/blog/${post.slug}`,
+      lastModified: post.date,
     })),
     ...TAXONOMY.flatMap((cat) => [
       {

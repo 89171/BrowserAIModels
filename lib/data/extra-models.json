@@ -134,5 +134,24 @@
         "docsUrl": "https://huggingface.co/docs/transformers.js"
       }
     ]
+  },
+  "multimodal": {
+    "document-understanding": [
+      {
+        "id": "oxr-1.0",
+        "name": "OXR-1.0",
+        "framework": "api",
+        "size": "~2.6 GiB · bf16",
+        "license": "custom",
+        "languages": [
+          "English",
+          "Chinese"
+        ],
+        "description": "SoMark's open 1.3B document parsing model (Optical Everything Recognition): PDFs and document images to Markdown/JSON with layout coordinates, reading order, tables, formulas and 13 element types. #1 on OmniDocBench / olmOCR-Bench / DocParsingBench. Weights run server-side (vLLM); try the hosted WASM demo.",
+        "demoUrl": "https://huggingface.co/spaces/fusorlabs/oxr-wasm",
+        "docsUrl": "https://github.com/SoMarkAI/OXR",
+        "externalDemo": true
+      }
+    ]
   }
 }

@@ -19,7 +19,14 @@
     "skipToContent": "跳到主要内容",
     "applications": "应用",
     "methodology": "验证方法",
-    "demos": "演示"
+    "demos": "演示",
+    "blog": "博客"
+  },
+  "blog": {
+    "title": "博客",
+    "intro": "模型解读与评测笔记：把目录里每个条目的来龙去脉讲清楚。",
+    "readMore": "阅读全文",
+    "backToBlog": "返回博客列表"
   },
   "languages": {
     "label": "语言",
