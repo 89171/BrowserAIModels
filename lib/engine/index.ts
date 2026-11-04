@@ -949,8 +949,8 @@ export async function runInference(
     ? realSpec?.note[ctx.locale]
     : localSummary
       ? ctx.locale === 'zh'
-        ? '中文输入：当前浏览器权重是英文摘要模型，这里改用本地抽取式算法（按词频给句子打分），不是神经网络生成的。'
-        : 'Chinese input: the browser weights are English-only, so the local extractive summariser (sentence scoring by term frequency) wrote this, not the network.'
+        ? '中文输入：当前浏览器权重是英文摘要模型，这里改用本地抽取式算法（按词频给句子打分），不是神经网络生成的；想验证真实权重，切到「英文示例（真实权重）」。'
+        : 'Chinese input: the browser weights are English-only, so the local extractive summariser (sentence scoring by term frequency) wrote this, not the network. Switch to “English sample (real weights)” to watch the checkpoint run.'
       : infeasible
       ? infeasible[ctx.locale]
       : noWeights

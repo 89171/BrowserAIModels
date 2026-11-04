@@ -195,8 +195,8 @@ export const DEMOS: Record<string, Record<string, DemoSpec>> = {
       subcategory: 'summarization',
       tagline: t('把长文压成要点', 'Compress long documents into key points'),
       task: t(
-        '编码器-解码器模型生成抽象式摘要，同时抽取关键句作为对照。',
-        'An encoder-decoder model produces an abstractive summary, with extracted key sentences for comparison.'
+        '编码器-解码器模型生成抽象式摘要，同时抽取关键句作为对照。浏览器权重仅支持英文：英文输入走真实模型推理，中文输入使用本地抽取式算法（不使用模型）。',
+        'An encoder-decoder model produces an abstractive summary, with extracted key sentences for comparison. The browser checkpoint is English-only: English input runs the real weights, Chinese input falls back to the local extractive algorithm (no model).'
       ),
       inputMode: 'text',
       outputKind: 'text',
@@ -221,6 +221,15 @@ export const DEMOS: Record<string, Record<string, DemoSpec>> = {
           t('会议纪要', 'Meeting notes'),
           '本周项目例会先同步了上周遗留问题的关闭情况，共 12 个阻塞项中 9 个已解决，剩余 3 个集中在支付渠道对接。随后产品同学介绍了新版首页方案，会上主要争议在于信息密度，设计侧主张精简卡片数量，运营侧希望保留更多入口。最终决定采用 A/B 实验的方式验证，实验周期两周，以次日留存和点击转化作为核心指标。技术侧提出埋点方案需要在周三前完成评审，否则会影响到上线时间。最后确认下次例会改为周三上午十点，地点在 12 楼会议室。',
           'The weekly sync opened with the status of last week\u2019s blockers: 9 of 12 were resolved, with the remaining 3 concentrated in payment channel integration. Product then presented the new homepage proposal, where the main debate was information density — design wanted fewer cards while operations wanted to keep more entry points. The team agreed to settle it with a two-week A/B test using next-day retention and click-through as the primary metrics. Engineering flagged that the tracking plan must pass review by Wednesday or the launch date slips. Finally, the next sync moves to Wednesday 10:00 in the 12th-floor meeting room.'
+        ),
+        // Deliberately English in both locales: the shipped checkpoint is an
+        // English-only encoder-decoder, so this is the sample that exercises the
+        // real weights from the Chinese UI (see `isCjkDominant`).
+        text(
+          'english',
+          t('英文示例（真实权重）', 'English sample (real weights)'),
+          'Shares in the chipmaker fell 7% in early trading after it guided third-quarter revenue to between 8.1 and 8.5 billion dollars, below the 8.9 billion analysts had expected. The company blamed export restrictions and a slower ramp at its new Arizona plant, which is now expected to reach full capacity in the second half of next year rather than this quarter. Gross margin is forecast at 51%, down from 58% a year ago. Executives said data-centre demand remains strong and that orders for the next generation of accelerators are sold out through 2027. Analysts remain split on whether the shortfall reflects a supply problem or a broader slowdown in AI spending.',
+          'Shares in the chipmaker fell 7% in early trading after it guided third-quarter revenue to between 8.1 and 8.5 billion dollars, below the 8.9 billion analysts had expected. The company blamed export restrictions and a slower ramp at its new Arizona plant, which is now expected to reach full capacity in the second half of next year rather than this quarter. Gross margin is forecast at 51%, down from 58% a year ago. Executives said data-centre demand remains strong and that orders for the next generation of accelerators are sold out through 2027. Analysts remain split on whether the shortfall reflects a supply problem or a broader slowdown in AI spending.'
         ),
       ],
     },

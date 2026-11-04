@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '@/lib/client-context';
 import { FRAMEWORK_LABEL, LICENSE_LABEL } from '@/lib/data/models';
 import { BROWSER_INFEASIBLE, realSpecFor, ocrUnavailableReason } from '@/lib/data/real-models';
-import { computesRealSignal } from '@/lib/engine';
+import { computesRealSignal, isCjkDominant } from '@/lib/engine';
 import { getDemo } from '@/lib/data/registry';
 import type { DemoSpec, InputState, Locale, ModelEntry } from '@/lib/types';
 import { runInference, type RunResult } from '@/lib/engine';
@@ -385,6 +385,13 @@ export function DemoPlayground({
                   rows={8}
                   hint={`${input.text.length}`}
                 />
+                {spec.category === 'text' && spec.subcategory === 'summarization' && isCjkDominant(input.text) && (
+                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--fg-subtle)' }}>
+                    {locale === 'zh'
+                      ? '浏览器端摘要权重仅支持英文：中文输入将使用本地抽取式算法（按词频挑关键句，不使用模型）；英文输入才会下载并运行真实模型。'
+                      : 'The browser summarisation checkpoint is English-only: Chinese input uses the local extractive algorithm (no model); English input downloads and runs the real weights.'}
+                  </p>
+                )}
                 {textFields?.map((f) => (
                   <TextField
                     key={f.key}
