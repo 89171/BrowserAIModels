@@ -534,9 +534,14 @@ export function DemoPlayground({
               <p className="rounded-lg border px-3 py-2 text-[11px]" role="status">{tr('externalDemoRunHint')}</p>
             )}
             {error && (
-              <p className="rounded-lg border px-3 py-2 text-[11px]" style={{ color: 'var(--fg-muted)' }}>
-                {tr('loadFailed')}: {error}
-              </p>
+              <div
+                className="rounded-lg border px-3 py-2 text-[12px] leading-relaxed"
+                role="alert"
+                style={{ borderColor: 'var(--border-strong)', color: 'var(--fg)' }}
+              >
+                <span className="font-semibold">{tr('loadFailed')}</span>
+                <span className="mt-0.5 block" style={{ color: 'var(--fg-muted)' }}>{error}</span>
+              </div>
             )}
           </div>
         </section>
@@ -550,6 +555,16 @@ export function DemoPlayground({
             </span>
           </div>
           <ResultView result={result} running={running} phase={phase} />
+          {error && !running && (
+            <div
+              className="mt-4 rounded-lg border px-3 py-3 text-[12px] leading-relaxed"
+              role="alert"
+              style={{ borderColor: 'var(--border-strong)' }}
+            >
+              <div className="font-semibold">{tr('loadFailed')}</div>
+              <div className="mt-1" style={{ color: 'var(--fg-muted)' }}>{error}</div>
+            </div>
+          )}
         </section>
       </div>
 

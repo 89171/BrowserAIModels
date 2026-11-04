@@ -58,6 +58,67 @@ async function importRuntime(): Promise<Runtime> {
 
 const prefersWebGPU = () => typeof navigator !== 'undefined' && !!(navigator as { gpu?: unknown }).gpu;
 
+/*
+ * The hub is unreachable from mainland-China networks (the TCP connection is
+ * silently dropped, so fetch neither resolves nor rejects — the UI would spin
+ * forever with no error). Probe both hosts once per session with a short
+ * timeout, remember the winner, and point Transformers.js at it. Anything
+ * short of a network failure counts as "reachable": 401/403/404 responses all
+ * prove the route works.
+ */
+const DEFAULT_HOST = 'https://huggingface.co';
+const MIRROR_HOST = 'https://hf-mirror.com';
+const PROBE_REPO = 'Xenova/flan-t5-small';
+
+let resolvedHost: string | null = null;
+
+async function probeHost(host: string): Promise<boolean> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 4500);
+  try {
+    await fetch(`${host}/api/models/${PROBE_REPO}`, { signal: ctrl.signal, mode: 'cors' });
+    return true;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Pick the hub host for this session and pin it on the runtime. Throws a
+ * bilingual, actionable error when neither host answers — much better than the
+ * previous behaviour of an endless silent "downloading weights" phase.
+ */
+export async function ensureRemoteHost(
+  locale: 'zh' | 'en',
+  onPhase?: (message: string) => void
+): Promise<string> {
+  if (resolvedHost) return resolvedHost;
+  onPhase?.(locale === 'zh' ? '检查模型仓库连通性…' : 'Checking hub connectivity…');
+  if (await probeHost(DEFAULT_HOST)) {
+    resolvedHost = DEFAULT_HOST;
+  } else {
+    onPhase?.(
+      locale === 'zh'
+        ? '主站不可达，切换镜像 hf-mirror.com…'
+        : 'Hub unreachable, switching to the hf-mirror.com mirror…'
+    );
+    if (await probeHost(MIRROR_HOST)) {
+      resolvedHost = MIRROR_HOST;
+    } else {
+      throw new Error(
+        locale === 'zh'
+          ? '无法连接模型仓库：huggingface.co 与镜像 hf-mirror.com 均不可达，请检查网络或代理后重试。'
+          : 'Cannot reach the model hub: neither huggingface.co nor the hf-mirror.com mirror responds. Check your network or proxy and retry.'
+      );
+    }
+  }
+  const mod = await importRuntime();
+  mod.env.remoteHost = resolvedHost;
+  return resolvedHost;
+}
+
 export interface LoadOptions {
   spec: RealModelSpec;
   onProgress?: (p: ProgressInfo) => void;
@@ -76,6 +137,7 @@ export interface LoadOptions {
 
 async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadOptions): Promise<CachedRun> {
   const mod = await importRuntime();
+  if (resolvedHost) mod.env.remoteHost = resolvedHost;
   const device = forceDevice ?? (prefersWebGPU() ? 'webgpu' : 'wasm');
   // Large matting graphs only fit the GPU at fp16; the WASM EP keeps the int8
   // build. Anything without a per-device override just uses `spec.dtype`.

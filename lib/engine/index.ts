@@ -89,7 +89,7 @@ import {
   translateText,
   zeroShotClassifyImage,
   zeroShotClassifyText,
-  type LoadedRun, tagEntities, answerQuestion, classifyMedia, detectZeroShot } from './real';
+  type LoadedRun, tagEntities, answerQuestion, classifyMedia, detectZeroShot, ensureRemoteHost } from './real';
 
 const GT = gtRaw as unknown as Record<string, GroundTruth>;
 
@@ -1329,6 +1329,10 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
   };
 
   try {
+    // Probe the hub before anything else: from mainland-China networks the
+    // default host silently hangs, so this is where the user would otherwise
+    // stare at "downloading weights" forever with no error at all.
+    await ensureRemoteHost(ctx.locale, ctx.onPhase);
     const inputMode = ctx.spec.inputMode;
     if (inputMode?.includes('image') || inputMode?.includes('audio') || inputMode === 'video') {
       if (!ctx.media?.src) throw new Error(ctx.locale === 'zh' ? '请先选择或上传媒体文件' : 'Select or upload a media file first');
@@ -1873,7 +1877,15 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
     }
   } catch (err) {
     const detail = err instanceof Error ? err.message : String(err);
-    throw new Error(`${ctx.locale === 'zh' ? '真实推理失败，请重试' : 'Real inference failed; please retry'}: ${detail}`, { cause: err });
+    const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
+    const prefix = offline
+      ? ctx.locale === 'zh'
+        ? '网络不可用，无法下载模型权重'
+        : 'You appear to be offline — model weights cannot be downloaded'
+      : ctx.locale === 'zh'
+        ? `真实推理失败（${spec.repo}）`
+        : `Real inference failed (${spec.repo})`;
+    throw new Error(`${prefix}: ${detail}`, { cause: err });
   }
 }
 

@@ -197,6 +197,7 @@ const meta = { repo: 'test', device: 'wasm', dtype: 'q8', bytes: 0 };
 test('dispatcher honors uploaded audio language instead of stale Chinese sample ID', async () => {
   let options;
   const engine = dispatcher(spec('whisper', 'automatic-speech-recognition'), {
+    ensureRemoteHost: async () => 'https://huggingface.co',
     transcribeAudio: async (_, opts) => { options = opts; return { text: 'hello', segments: [], meta }; },
   });
   const out = await engine.runInference('transcript', context('transcript', { lang: 'en', timestamps: false }));
@@ -206,13 +207,17 @@ test('dispatcher honors uploaded audio language instead of stale Chinese sample 
 });
 
 test('failed real inference surfaces the error without fabricating a simulated result', async () => {
-  const engine = dispatcher(spec(), { classifyText: async () => { throw new Error('model download 503'); } });
+  const engine = dispatcher(spec(), {
+    ensureRemoteHost: async () => 'https://huggingface.co',
+    classifyText: async () => { throw new Error('model download 503'); },
+  });
   await assert.rejects(engine.runInference('labels', context('labels')), /model download 503/);
 });
 
 test('dispatcher forwards the selected translation direction and token budget', async () => {
   let options;
   const engine = dispatcher(spec('original', 'translation'), {
+    ensureRemoteHost: async () => 'https://huggingface.co',
     translateText: async (_, opts) => { options = opts; return { text: '你好', meta }; },
   });
   await engine.runInference('text', context('text', { sourceLang: 'en', targetLang: 'zh', maxTokens: 64 }));
