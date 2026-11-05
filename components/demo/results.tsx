@@ -238,6 +238,8 @@ function Body({ payload }: { payload: DemoPayload }) {
       return <InpaintingView p={p} />;
     case 'transcript':
       return <TranscriptView p={p} />;
+    case 'vad':
+      return <VadView p={p} />;
     case 'synth-audio':
       return <SynthView p={p} />;
     case 'audio-compare':
@@ -883,6 +885,102 @@ function TranscriptView({ p }: { p: Extract<DemoPayload, { kind: 'transcript' }>
 }
 
 /* ----------------------------------------------------------------- audio */
+
+function VadView({ p }: { p: Extract<DemoPayload, { kind: 'vad' }> }) {
+  const { locale } = useApp();
+  const [t, setT] = useState<number | null>(null);
+  const speech = p.speechRatio * 100;
+  return (
+    <div className="space-y-3">
+      <div>
+        <div className="mb-1.5 flex items-center justify-between text-[11px]" style={{ color: 'var(--fg-subtle)' }}>
+          <span>{locale === 'zh' ? '波形 · 高亮为语音区间' : 'Waveform · highlighted = speech'}</span>
+          <span className="mono">
+            {t !== null ? `${t.toFixed(2)}s / ` : ''}{p.duration.toFixed(1)}s
+          </span>
+        </div>
+        <div
+          className="relative overflow-hidden rounded-lg border"
+          style={{ background: 'var(--bg-inset)' }}
+          onMouseLeave={() => setT(null)}
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setT(((e.clientX - rect.left) / rect.width) * p.duration);
+          }}
+        >
+          <div className="flex h-20 items-center gap-[1.5px] px-2 py-2">
+            {p.peaks.map((v, i) => {
+              const time = (i / p.peaks.length) * p.duration;
+              const inSpeech = p.segments.some((s) => time >= s.start && time < s.end);
+              return (
+                <span
+                  key={i}
+                  className="min-w-0 flex-1 rounded-sm"
+                  style={{
+                    height: `${Math.max(2, v * 74)}px`,
+                    background: inSpeech ? 'var(--fg)' : 'var(--fg-subtle)',
+                    opacity: inSpeech ? 0.9 : 0.3,
+                  }}
+                />
+              );
+            })}
+          </div>
+          <div className="relative h-3 border-t" style={{ borderColor: 'var(--border)' }}>
+            {p.segments.map((s, i) => (
+              <div
+                key={i}
+                className="absolute inset-y-0"
+                style={{
+                  left: `${(s.start / p.duration) * 100}%`,
+                  width: `${Math.max(0.5, ((s.end - s.start) / p.duration) * 100)}%`,
+                  background: 'var(--fg)',
+                  opacity: 0.85,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        {p.segments.map((s, i) => (
+          <div key={i} className="surface-inset flex items-center gap-3 rounded-md px-2.5 py-1.5">
+            <span className="mono shrink-0 text-[10px]" style={{ color: 'var(--fg-faint)' }}>
+              {s.start.toFixed(2)} – {s.end.toFixed(2)}
+            </span>
+            <div className="min-w-0 flex-1">
+              <Bar value={s.confidence} />
+            </div>
+            <span className="mono shrink-0 text-[10px]" style={{ color: 'var(--fg-subtle)' }}>
+              {(s.confidence * 100).toFixed(0)}%
+            </span>
+          </div>
+        ))}
+        {!p.segments.length && (
+          <p className="text-center text-[12px]" style={{ color: 'var(--fg-faint)' }}>
+            {locale === 'zh' ? '没有检测到语音区间：试试调低阈值。' : 'No speech segments found — try lowering the threshold.'}
+          </p>
+        )}
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        <Stat label={locale === 'zh' ? '语音区间' : 'Segments'} value={p.segments.length} />
+        <Stat label={locale === 'zh' ? '语音占比' : 'Speech ratio'} value={`${speech.toFixed(1)}%`} />
+        <Stat
+          label={locale === 'zh' ? '判定方式' : 'Detector'}
+          value={p.source === 'silero' ? 'Silero VAD' : locale === 'zh' ? '能量门限' : 'Energy gate'}
+        />
+      </div>
+      <p className="text-[10px] leading-4" style={{ color: 'var(--fg-faint)' }}>
+        {p.source === 'silero'
+          ? locale === 'zh'
+            ? '语音概率由 Silero VAD 权重逐帧推理得出；每个区间的百分比是该段平均置信度。'
+            : 'Speech probabilities come from the Silero VAD weights frame by frame; the percentage on each segment is its mean confidence.'
+          : locale === 'zh'
+            ? '演示模式：语音区间由短时能量门限判定（真实的信号处理，未加载神经网络权重）。'
+            : 'Demo mode: segments come from a short-window energy gate (real signal processing, no neural weights).'}
+      </p>
+    </div>
+  );
+}
 
 function SynthView({ p }: { p: Extract<DemoPayload, { kind: 'synth-audio' }> }) {
   const { locale } = useApp();

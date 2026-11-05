@@ -117,6 +117,7 @@ export type OutputKind =
   | 'generated-image'
   | 'inpainting'
   | 'transcript'
+  | 'vad'
   | 'synth-audio'
   | 'audio-compare'
   | 'stems'

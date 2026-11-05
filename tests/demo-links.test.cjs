@@ -34,12 +34,8 @@ test('every demo page is reachable from the catalogue taxonomy', () => {
   }
 });
 
-test('every catalogue task except audio/vad ships a demo page', () => {
+test('every catalogue task ships a demo page', () => {
   for (const task of catalogueTasks) {
-    if (task === 'audio/vad') {
-      assert.equal(hasDemo('audio', 'vad'), false, 'audio/vad unexpectedly gained a demo');
-      continue;
-    }
     assert(demoTasks.has(task), `missing demo for ${task}`);
   }
 });

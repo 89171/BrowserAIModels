@@ -186,7 +186,8 @@
     "python": "Python (browser port unverified)",
     "native": "Native / Python / Java",
     "unknown": "Runtime unresolved",
-    "wasm": "WebAssembly library"
+    "wasm": "WebAssembly library",
+    "api": "Server API"
   },
   "licenses": {
     "apache-2-0": "Apache-2.0",

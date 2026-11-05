@@ -32,6 +32,7 @@ export interface RealModelSpec {
     | 'audio-classification'
     | 'zero-shot-object-detection'
     | 'rnnoise'
+    | 'silero'
     | 'onnxruntime'
     | 'text-classification'
     | 'text-ranking'
@@ -505,6 +506,25 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     note: {
       zh: 'Facebook Denoiser 没有可用的浏览器 ONNX 权重，改用 RNNoise 做真实降噪。',
       en: 'Facebook Denoiser has no usable browser ONNX weights; RNNoise performs the real denoising instead.',
+    },
+  },
+  'audio/vad/silero-vad-web': {
+    repo: 'https://raw.githubusercontent.com/snakers4/silero-vad/master/src/silero_vad/data/silero_vad.onnx',
+    task: 'silero',
+    dtype: 'fp32',
+    note: {
+      zh: '真实权重：Silero VAD（2.3 MB ONNX）逐 32 ms 帧输出语音概率，LSTM 状态跨帧传递；区间由概率、阈值与最短语音/静音时长切出。',
+      en: 'Real weights: Silero VAD (2.3 MB ONNX) emits a speech probability per 32 ms frame with the LSTM state carried across frames; segments come from the threshold plus minimum speech/silence durations.',
+    },
+  },
+  'audio/vad/pyannote-segmentation': {
+    repo: 'https://raw.githubusercontent.com/snakers4/silero-vad/master/src/silero_vad/data/silero_vad.onnx',
+    task: 'silero',
+    dtype: 'fp32',
+    substitute: true,
+    note: {
+      zh: 'pyannote-segmentation 的浏览器 ONNX 需要自建 Kaldi fbank 特征前端，这里加载 Silero VAD 完成真实的逐帧语音活动判别。',
+      en: 'The browser ONNX build of pyannote-segmentation needs a hand-rolled Kaldi fbank front-end, so Silero VAD performs the real frame-wise speech detection instead.',
     },
   },
   'audio/source-separation/htdemucs-4-stem': {

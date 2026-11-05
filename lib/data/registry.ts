@@ -925,6 +925,27 @@ export const DEMOS: Record<string, Record<string, DemoSpec>> = {
         aud('zhmusic', t('带背景音乐', 'With music bed'), 'mix-zh-music.mp3', t('人声与音乐混合，考察鲁棒性', 'Speech mixed with music')),
       ],
     },
+    vad: {
+      category: 'audio',
+      subcategory: 'vad',
+      tagline: t('找出一段音频里哪些时间有人在说话', 'Find the time ranges where someone is speaking'),
+      task: t(
+        '语音活动检测逐帧输出「这是人声」的概率，再用阈值和最短语音/静音时长把概率序列切成区间。它不识别说了什么，也不区分说话人。',
+        'A VAD model outputs the probability that each frame contains speech, then the threshold and minimum speech/silence durations turn the probability track into segments. It never says what was said or who said it.'
+      ),
+      inputMode: 'audio',
+      outputKind: 'vad',
+      params: [
+        p('threshold', t('语音阈值', 'Speech threshold'), 'range', 0.5, { min: 0.1, max: 0.9, step: 0.05 }),
+        p('minSpeech', t('最短语音时长 (ms)', 'Min speech (ms)'), 'range', 250, { min: 0, max: 1000, step: 50 }),
+        p('minSilence', t('最短静音时长 (ms)', 'Min silence (ms)'), 'range', 100, { min: 0, max: 1000, step: 50 }),
+      ],
+      samples: [
+        aud('zh', t('中文日常对话', 'Chinese conversation'), 'speech-zh.mp3', t('连续朗读，中间有短停顿', 'Continuous read-aloud with short pauses')),
+        aud('en', t('英语朗读', 'English read-aloud'), 'speech-en.mp3', t('两段语音，中间间隔约 0.2 秒', 'Two utterances about 0.2 s apart')),
+        aud('zhmusic', t('人声 + 音乐', 'Speech over music'), 'mix-zh-music.mp3', t('背景音乐考察 VAD 是否误判', 'Background music tests whether the VAD misfires')),
+      ],
+    },
     'audio-classification': {
       category: 'audio',
       subcategory: 'audio-classification',

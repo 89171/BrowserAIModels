@@ -67,6 +67,7 @@ import { easyOcr } from './easyocr';
 import { paddleOcr } from './paddleocr';
 import { tesseractOcr } from './tesseract';
 import { rnnoiseDenoise } from './rnnoise';
+import { energyVad, sileroVad } from './vad';
 import { miganInpaint } from './migan';
 import { separateReal } from './stems';
 import { removeVideoWatermark, type VideoRepairMethod } from './video-watermark';
@@ -158,6 +159,7 @@ export type DemoPayload =
   | { kind: 'generated-image'; url: string; seed: number; steps: number; guidance: number; palette: string }
   | { kind: 'inpainting'; url: string; originalUrl: string; filled: number; method?: string }
   | { kind: 'transcript'; language: string; text: string; segments: { start: number; end: number; text: string }[]; confidence: number }
+  | { kind: 'vad'; duration: number; segments: { start: number; end: number; confidence: number }[]; peaks: number[]; speechRatio: number; source: 'silero' | 'energy' }
   | { kind: 'synth-audio'; text: string; waveform: number[]; url?: string; voice?: string }
   | { kind: 'audio-compare'; before: number[]; after: number[]; url: string; snrGainDb: number; method?: string }
   | { kind: 'stems'; stems: Stem[] }
@@ -660,6 +662,24 @@ function runAudioFamily(ctx: RunContext, buffer: AudioBuffer, kind: OutputKind):
       const res = denoise(buffer, num(params.strength, 0.8), bool(params.hpf, true));
       return { kind: 'audio-compare', before: res.before, after: res.after, url: res.url, snrGainDb: res.snrGainDb };
     }
+    case 'vad': {
+      // Real Silero weights arrive through tryReal; this is the no-weights
+      // fallback: an energy gate that still reports genuine speech regions.
+      const src = ctx.media?.src;
+      if (!src) throw new Error('audio required');
+      return energyVad(src, {
+        threshold: clamp(num(params.threshold, 0.5), 0.1, 0.9),
+        minSpeechMs: num(params.minSpeech, 250),
+        minSilenceMs: num(params.minSilence, 100),
+      }).then((res) => ({
+        kind: 'vad' as const,
+        duration: res.duration,
+        segments: res.segments,
+        peaks: res.peaks,
+        speechRatio: res.speechRatio,
+        source: 'energy' as const,
+      }));
+    }
     case 'stems': {
       const count = Number(str(params.model, '2')) as 2 | 4;
       return { kind: 'stems', stems: separate(buffer, count) };
@@ -905,7 +925,7 @@ export async function runInference(
     payload = real.payload;
     const task = realSpecFor(ctx.spec.category, ctx.spec.subcategory, model.id)?.task;
     const mp = task === 'mediapipe';
-    const label = task === 'easyocr' ? 'EasyOCR.js · WASM' : task === 'paddleocr' ? 'PaddleOCR · WASM' : task === 'tesseract' ? 'Tesseract.js · WASM' : task === 'rnnoise' ? 'RNNoise · WASM' : task === 'onnxruntime' ? 'onnxruntime-web · WASM' : null;
+    const label = task === 'easyocr' ? 'EasyOCR.js · WASM' : task === 'paddleocr' ? 'PaddleOCR · WASM' : task === 'tesseract' ? 'Tesseract.js · WASM' : task === 'rnnoise' ? 'RNNoise · WASM' : task === 'silero' ? 'Silero VAD · onnxruntime-web' : task === 'onnxruntime' ? 'onnxruntime-web · WASM' : null;
     deviceLabel = label ?? (mp ? 'MediaPipe Tasks · WASM (XNNPACK)' : real.run.device === 'webgpu' ? 'Transformers.js · WebGPU' : 'Transformers.js · WASM (SIMD)');
     backendLabel = mp ? 'WASM (XNNPACK)' : real.run.device === 'webgpu' ? 'WebGPU' : 'WASM (SIMD)';
   } else {
@@ -1086,7 +1106,7 @@ async function runDispatch(kind: OutputKind, ctx: RunContext): Promise<DemoPaylo
   const textFamily: OutputKind[] = ['labels', 'text', 'json', 'code', 'chat', 'embedding', 'ranking', 'search'];
   const imageFamily: OutputKind[] = ['detection', 'segmentation', 'ocr', 'depth', 'restoration', 'generated-image', 'inpainting', 'landmarks-face', 'landmarks-pose', 'landmarks-hand'];
   /** tasks that need a decoded audio input */
-  const audioInputFamily: OutputKind[] = ['transcript', 'audio-compare', 'stems'];
+  const audioInputFamily: OutputKind[] = ['transcript', 'vad', 'audio-compare', 'stems'];
   /** audio tasks driven by text only */
   const audioTextFamily: OutputKind[] = ['synth-audio', 'music'];
 
@@ -1728,6 +1748,30 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
           run: r.meta,
         };
       }
+      case 'vad': {
+        // Only Silero ships a plain ONNX graph a browser can run; pyannote's
+        // segmentation checkpoint needs a Kaldi fbank front-end and takes the
+        // substitute spec below instead.
+        if (spec.task !== 'silero' || !ctx.media?.src) return null;
+        ctx.onPhase?.(ctx.locale === 'zh' ? '下载权重…' : 'Downloading weights…');
+        const r = await sileroVad(ctx.media.src, spec.repo, {
+          threshold: clamp(num(ctx.params.threshold, 0.5), 0.1, 0.9),
+          minSpeechMs: num(ctx.params.minSpeech, 250),
+          minSilenceMs: num(ctx.params.minSilence, 100),
+        });
+        ctx.onPhase?.(ctx.locale === 'zh' ? '逐帧判别语音概率…' : 'Scoring speech probability frame by frame…');
+        return {
+          payload: {
+            kind: 'vad',
+            duration: r.duration,
+            segments: r.segments,
+            peaks: r.peaks,
+            speechRatio: r.speechRatio,
+            source: 'silero',
+          },
+          run: { call: async () => null, repo: spec.repo, dtype: spec.dtype, device: 'wasm', bytes: r.bytes },
+        };
+      }
       case 'audio-compare': {
         if (!ctx.media?.src || spec.task !== 'rnnoise') return null;
         ctx.onPhase?.(ctx.locale === 'zh' ? 'RNNoise 逐帧降噪…' : 'RNNoise denoising frame by frame…');
@@ -1910,6 +1954,7 @@ const REAL_SIGNAL_KINDS = new Set<string>([
   'music',
   'audio-compare',
   'stems',
+  'vad',
   'landmarks',
   'landmarks-face',
   'landmarks-pose',
