@@ -40,3 +40,22 @@ test('canonical and alternate URLs preserve English prefixes for nested pages', 
     assert.equal(languageAlternates(path)['x-default'], `https://example.com/en${path}`);
   }
 });
+
+const { blogPosts } = load('lib/data/blog.ts');
+
+test('blog internal links store no locale, so the renderer can prefix the active one', () => {
+  const hrefs = blogPosts.flatMap((post) =>
+    Object.values(post.i18n)
+      .flatMap((content) => content.blocks)
+      .filter((block) => block.type === 'links')
+      .flatMap((block) => block.items.map((item) => item.href)),
+  );
+  assert(hrefs.length > 0, 'expected blog posts to carry link blocks');
+  for (const href of hrefs) {
+    if (/^[a-z]+:\/\//i.test(href)) continue;
+    assert(href.startsWith('/'), `${href} must be site-absolute`);
+    assert(!/^\/(en|zh)(\/|$)/.test(href), `${href} must not hard-code a locale`);
+    assert.equal(paths.localizedPath('zh', href), `/zh${href}`);
+    assert.equal(paths.localizedPath('en', href), `/en${href}`);
+  }
+});

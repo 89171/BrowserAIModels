@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link, routing } from '@/i18n/routing';
 import { blogPosts, findPost, type BlogBlock } from '@/lib/data/blog';
+import { localizedPath } from '@/lib/paths';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -53,7 +54,13 @@ function Inline({ text }: { text: string }) {
   );
 }
 
-function Block({ block }: { block: BlogBlock }) {
+/**
+ * Blog bodies store internal links without a locale prefix so the same block
+ * can be shared by both languages; the renderer adds the active locale here.
+ */
+const isExternal = (href: string) => /^[a-z]+:\/\//i.test(href) || href.startsWith('//');
+
+function Block({ block, locale }: { block: BlogBlock; locale: string }) {
   switch (block.type) {
     case 'h2':
       return <h2 className="font-mono text-2xl pt-4">{block.text}</h2>;
@@ -117,18 +124,21 @@ function Block({ block }: { block: BlogBlock }) {
     case 'links':
       return (
         <ul className="space-y-1.5 text-sm">
-          {block.items.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="underline underline-offset-2 hover:opacity-60"
-              >
-                {item.label} ↗
-              </a>
-            </li>
-          ))}
+          {block.items.map((item) => {
+            const external = isExternal(item.href);
+            return (
+              <li key={item.href}>
+                <a
+                  href={external ? item.href : localizedPath(locale, item.href)}
+                  {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                  className="underline underline-offset-2 hover:opacity-60"
+                >
+                  {item.label}
+                  {external ? ' ↗' : ''}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       );
   }
@@ -179,7 +189,7 @@ export default async function BlogPostPage({ params }: Props) {
         </header>
 
         {c.blocks.map((block, i) => (
-          <Block key={i} block={block} />
+          <Block key={i} block={block} locale={locale} />
         ))}
       </article>
 
