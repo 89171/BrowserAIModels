@@ -13,9 +13,75 @@ export type BlogBlock =
   | { type: 'table'; caption?: string; head: string[]; rows: string[][] }
   | { type: 'links'; items: { label: string; href: string }[] };
 
+/**
+ * A coarse topic grouping, separate from `tags`. Tags name concrete libraries
+ * and tasks (49 of them, most used once) and work as free-form filters; the
+ * category is the fixed axis the index is grouped by and the filter bar offers.
+ */
+export type BlogCategory =
+  | 'vision'
+  | 'audio'
+  | 'language'
+  | 'multimodal'
+  | 'runtime';
+
+export interface BlogCategoryInfo {
+  key: BlogCategory;
+  label: { zh: string; en: string };
+  description: { zh: string; en: string };
+}
+
+/** Display order shared by the grouped index, the filter chips and the home teaser. */
+export const blogCategories: BlogCategoryInfo[] = [
+  {
+    key: 'vision',
+    label: { zh: '视觉与感知', en: 'Vision & perception' },
+    description: {
+      zh: '检测、抠图、修复、擦除、实时感知，以及视频逐帧处理。',
+      en: 'Detection, matting, restoration, erasing, real-time perception and frame-by-frame video work.',
+    },
+  },
+  {
+    key: 'audio',
+    label: { zh: '音频与语音', en: 'Audio & speech' },
+    description: {
+      zh: '语音识别、语音活动检测、合成、分轨与声音分类。',
+      en: 'Speech recognition, voice activity detection, synthesis, stem separation and audio classification.',
+    },
+  },
+  {
+    key: 'language',
+    label: { zh: '语言模型与检索', en: 'Language models & retrieval' },
+    description: {
+      zh: '小尺寸 LLM 的体积取舍，以及本地检索链路怎么搭。',
+      en: 'Size trade-offs in small LLMs and how the local retrieval half fits together.',
+    },
+  },
+  {
+    key: 'multimodal',
+    label: { zh: '多模态与文档', en: 'Multimodal & documents' },
+    description: {
+      zh: '视觉语言模型、CLIP 与文档解析。',
+      en: 'Vision-language models, CLIP and document parsing.',
+    },
+  },
+  {
+    key: 'runtime',
+    label: { zh: '运行时与引擎', en: 'Runtime & engines' },
+    description: {
+      zh: 'Transformers.js、ONNX Runtime、WebGPU、WASM 与 WebNN 在浏览器里怎么分工。',
+      en: 'How Transformers.js, ONNX Runtime, WebGPU, WASM and WebNN divide the work in a browser.',
+    },
+  },
+];
+
+export const blogCategoryByKey = (key: string): BlogCategoryInfo | undefined =>
+  blogCategories.find((c) => c.key === key);
+
 export interface BlogPost {
   slug: string;
   date: string; // ISO date, drives ordering and the displayed publish date
+  category: BlogCategory;
   tags: string[];
   i18n: {
     zh: { title: string; description: string; blocks: BlogBlock[] };
@@ -77,16 +143,17 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'browser-ai-runtime-comparison',
     date: '2026-11-07',
+    category: 'runtime',
     tags: ['transformers.js', 'onnxruntime-web', 'webgpu', 'wasm', 'browser-ai'],
     i18n: {
       zh: {
         title: 'Transformers.js、ONNX Runtime、WebGPU，在浏览器里怎么分工',
         description:
-          '本站演示页底下的推理栈不止一种：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks、几个专用 WASM 库，还有 WebGPU 和只在 Chromium 落地的 WebNN。按实际接线和踩过的坑记一下差别。',
+          '本站演示页底下的推理栈不止一种：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks、几个专用 WASM 库，还有 WebGPU 和只在 Chromium 落地的 WebNN。同一页里可能三种一起跑。',
         blocks: [
           {
             type: 'p',
-            text: '点开本站任意一个演示页，浏览器做的事差不多：下载权重，把图片或音频变成张量，跑一次前向，再把结果画回画布。只在「跑一次前向」这步上，我们前后用了五六种方案。有的页面把 ONNX 权重交给 Transformers.js，有的直接建一个 onnxruntime-web 会话自己拼输入输出，还有的整个 SDK 是别人编译好的 WASM。这篇按实际接线记一下差别，顺带写上几个部署时卡过我们的坑，那些跟模型精度无关，但决定页面能不能打开。',
+            text: '点开本站任意一个演示页，浏览器做的事差不多：下载权重，把图片或音频变成张量，跑一次前向，再把结果画回画布。只在「跑一次前向」这步上，我们前后用了五六种方案。有的页面把 ONNX 权重交给 Transformers.js，有的直接建一个 onnxruntime-web 会话自己拼输入输出，还有的整个 SDK 是别人编译好的 WASM。部署时卡过我们几回，问题都跟模型精度无关，只影响页面能不能打开。',
           },
           { type: 'h2', text: '先把这几样东西摆到不同层上' },
           {
@@ -218,11 +285,11 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'What Transformers.js, ONNX Runtime Web and WebGPU each do in a browser',
         description:
-          'The demos on this site do not all use one runtime: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks, a few purpose-built WASM libraries, plus WebGPU and the WebNN EP. Notes on how they differ, from the code we actually shipped.',
+          'The demos on this site do not all use one runtime: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks, a few purpose-built WASM libraries, plus WebGPU and the WebNN EP. One page can run three of them at once.',
         blocks: [
           {
             type: 'p',
-            text: 'Open any demo on this site and the browser does roughly the same thing: download weights, turn an image or an audio clip into tensors, run one forward pass, draw the result back onto a canvas. For that one forward pass we have used five or six different setups. Some pages hand ONNX weights to Transformers.js, some open an onnxruntime-web session and assemble the inputs themselves, and some ship an SDK that someone else compiled to WASM. These are notes on how the wiring differs, plus a few deployment problems that blocked us along the way. None of them have anything to do with model accuracy, but they decide whether the page loads at all.',
+            text: 'Open any demo on this site and the browser does roughly the same thing: download weights, turn an image or an audio clip into tensors, run one forward pass, draw the result back onto a canvas. For that one forward pass we have used five or six different setups. Some pages hand ONNX weights to Transformers.js, some open an onnxruntime-web session and assemble the inputs themselves, and some ship an SDK that someone else compiled to WASM. Deployment blocked us a few times, over things unrelated to model accuracy that decided whether the page loaded at all.',
           },
           { type: 'h2', text: 'These pieces sit at different layers' },
           {
@@ -356,12 +423,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'detection-to-matte',
     date: '2026-11-07',
+    category: 'vision',
     tags: ['vision', 'detection', 'segmentation', 'background-removal'],
     i18n: {
       zh: {
         title: '从 YOLO 的框到 RMBG 的软 alpha',
         description:
-          'vision 分类下最小的检测模型 2.5 MiB，抠图模型能到 93.9 MiB。差出来的三十多倍体积买了什么，把三个演示页的输出放在一起看比较清楚。',
+          'vision 分类下最小的检测模型 2.5 MiB，抠图模型能到 93.9 MiB。三十多倍的体积差，落在边缘那两三个像素上。三个演示页用的是同一批样例图。',
         blocks: [
           {
             type: 'p',
@@ -392,7 +460,7 @@ export const blogPosts: BlogPost[] = [
           },
           {
             type: 'p',
-            text: '拿到模型输出还没完。BiRefNet 给的是原始 logits，实测范围能到 -18 到 +19，得先过 sigmoid；RMBG 那边出来的是 0 到 1 的概率。之后按 sigmoid → min-max → 引导滤波 → levels → 双线性放大 → 反溢色的顺序做后处理，feather 和 thresh 两个滑杆分别管羽化和黑白场。最后那步专治开头说的那圈背景色。边缘上这两三个像素的差别，比榜单上 IoU 差几个点更看得出来。',
+            text: '拿到模型输出还没完。BiRefNet 给的是原始 logits，实测范围能到 -18 到 +19，得先过 sigmoid；RMBG 那边出来的是 0 到 1 的概率。之后依次过 sigmoid、min-max、引导滤波、levels、双线性放大和反溢色，feather 和 thresh 两个滑杆分别管羽化和黑白场。最后那步专治开头说的那圈背景色。边缘上这两三个像素的差别，比榜单上 IoU 差几个点更看得出来。',
           },
           {
             type: 'table',
@@ -448,7 +516,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'From a YOLO box to a soft alpha',
         description:
-          'The smallest detector in our vision category is 2.5 MiB; the largest matting model is 93.9 MiB. Running the three demos side by side shows what the extra weight changes in the output.',
+          'The smallest detector in our vision category is 2.5 MiB; the largest matting model is 93.9 MiB. The extra weight shows up along the edge, in two or three pixels. All three demos use the same sample images.',
         blocks: [
           {
             type: 'p',
@@ -537,16 +605,17 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'speech-pipeline-asr-tts-cloning',
     date: '2026-11-07',
+    category: 'audio',
     tags: ['audio', 'asr', 'tts', 'voice-cloning'],
     i18n: {
       zh: {
         title: '浏览器里的 ASR、TTS 与声音克隆',
         description:
-          'audio 和 generative-audio 两个分类里，Whisper 系权重从 16.1 MiB 到 191 MiB，Kokoro 82M 是 121 MiB。哪些能在标签页里真跑起来、下载要等多久，按演示页里的实际情况记一下。',
+          'audio 和 generative-audio 两个分类里，Whisper 系权重从 16.1 MiB 到 191 MiB，Kokoro 82M 是 121 MiB。能让标签页真跑起来的只有其中几档，首次下载还得等。',
         blocks: [
           {
             type: 'p',
-            text: '语音数据不适合传来传去，用户对延迟又特别敏感，所以这块我们尽量放在端上做。目录里分成 `audio`（asr / tts / denoising / source-separation / audio-classification）和 `generative-audio`（text-to-music / voice-cloning）。这篇只顺着识别、合成、克隆往下看，降噪、分离、VAD 另外有文章。',
+            text: '语音数据不适合传来传去，用户对延迟又特别敏感，所以这块我们尽量放在端上做。目录里分成 `audio`（asr / tts / denoising / source-separation / audio-classification）和 `generative-audio`（text-to-music / voice-cloning）。降噪、分离、VAD 各有自己的演示页，这里接的是识别、合成、克隆三段。',
           },
           { type: 'h2', text: 'Whisper 的 30 秒窗口' },
           {
@@ -621,11 +690,11 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'ASR, TTS and voice cloning in a browser tab',
         description:
-          'Our audio and generative-audio categories put Whisper-family weights between 16.1 MiB and 191 MiB, with Kokoro 82M at 121 MiB. Which ones actually run in a tab, and how long the download takes.',
+          'Our audio and generative-audio categories put Whisper-family weights between 16.1 MiB and 191 MiB, with Kokoro 82M at 121 MiB. Only some of them run in a tab, and the first download takes a while.',
         blocks: [
           {
             type: 'p',
-            text: 'Audio is awkward to ship over the network and users notice latency immediately, so we try to keep it on the device. The catalogue splits into `audio` (asr / tts / denoising / source-separation / audio-classification) and `generative-audio` (text-to-music / voice-cloning). Here we follow recognition, synthesis and cloning; denoising, separation and VAD have their own posts.',
+            text: 'Audio is awkward to ship over the network and users notice latency immediately, so we try to keep it on the device. The catalogue splits into `audio` (asr / tts / denoising / source-separation / audio-classification) and `generative-audio` (text-to-music / voice-cloning). Denoising, separation and VAD have their own posts; the three stages wired up here are recognition, synthesis and cloning.',
           },
           { type: 'h2', text: 'The 30-second Whisper window' },
           {
@@ -702,12 +771,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'real-time-face-pose-hand',
     date: '2026-11-07',
+    category: 'vision',
     tags: ['real-time', 'mediapipe', 'pose', 'tracking'],
     i18n: {
       zh: {
         title: '一帧 16.7 毫秒里跑完人脸、姿态和手部',
         description:
-          'real-time 分类下几个模型的实测体积加起来不到 15 MB。这篇记一下我们怎么把关键点、平滑和跟踪塞进一帧预算，以及哪几处调过之后才不抖。',
+          'real-time 分类下几个模型的实测体积加起来不到 15 MB。一帧预算里要塞进关键点、平滑和跟踪，骨架抖过一阵才调稳。',
         blocks: [
           {
             type: 'p',
@@ -781,7 +851,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Fitting face, pose and hands into a 16.7 ms frame',
         description:
-          'The models in our real-time category add up to under 15 MB. Notes on fitting landmarks, smoothing and tracking into one frame budget, and on the changes that finally stopped the skeleton shaking.',
+          'The models in our real-time category add up to under 15 MB. Landmarks, smoothing and tracking all have to fit inside one frame budget, and the skeleton shook until we changed a few things.',
         blocks: [
           {
             type: 'p',
@@ -857,12 +927,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'in-browser-llm-size-tradeoffs',
     date: '2026-11-07',
+    category: 'language',
     tags: ['llm', 'quantization', 'webgpu', 'structured-output'],
     i18n: {
       zh: {
         title: '浏览器里的 LLM，从 681 MiB 到 4.2 GB',
         description:
-          'llm 分类下最小的 TinyLlama 681 MiB，最大的 Llama-3 8B 要 4.2 GB。按目录里的实测数字，把体积怎么算、生成速度卡在哪、以及我们会挑哪一档过一遍。',
+          'llm 分类下最小的 TinyLlama 681 MiB，最大的 Llama-3 8B 要 4.2 GB。每生成一个 token 都要把权重读一遍，体积直接决定生成速度，选档时先看这个。',
         blocks: [
           {
             type: 'p',
@@ -891,7 +962,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'h2', text: '生成速度卡在读权重' },
           {
             type: 'p',
-            text: '生成阶段每吐一个 token，都要把权重整个读一遍，tokens/s 差不多就是内存带宽除以模型体积。同一块 GPU 上 828 MiB 比 4.2 GB 快五倍，不是算力差五倍，是要读的数据少五倍。这也解释了两个常见现象：长 prompt 首 token 慢、后面快，因为 prefill 是并行矩阵乘，decode 是串行读权重；端侧模型宁可砍参数也不肯放弃 4 bit。',
+            text: '生成阶段每吐一个 token，都要把权重整个读一遍，tokens/s 差不多就是内存带宽除以模型体积。同一块 GPU 上 828 MiB 比 4.2 GB 快五倍，算力没变，要读的数据少五倍。这也解释了两个常见现象：长 prompt 首 token 慢、后面快，因为 prefill 是并行矩阵乘，decode 是串行读权重；端侧模型宁可砍参数也不肯放弃 4 bit。',
           },
           {
             type: 'p',
@@ -945,7 +1016,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Browser LLMs, from 681 MiB to 4.2 GB',
         description:
-          'Our llm category runs from TinyLlama at 681 MiB to Llama-3 8B at 4.2 GB. Working through the measured sizes, what limits generation speed, and which tier we actually pick.',
+          'Our llm category runs from TinyLlama at 681 MiB to Llama-3 8B at 4.2 GB. Every generated token reads the whole weight set, so size sets the speed, and that is what we check first when picking a tier.',
         blocks: [
           {
             type: 'p',
@@ -974,7 +1045,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'h2', text: 'Generation is limited by reading weights' },
           {
             type: 'p',
-            text: 'Every generated token reads the entire weight set once, so tokens/s is roughly memory bandwidth divided by model size. On the same GPU, 828 MiB is five times faster than 4.2 GB not because the compute is five times faster but because there is five times less to read. That explains two familiar things: a long prompt means a slow first token and fast later ones, because prefill is a parallel matmul while decode reads weights serially; and on-device models cut parameters before giving up 4 bit.',
+            text: 'Every generated token reads the entire weight set once, so tokens/s is roughly memory bandwidth divided by model size. On the same GPU, 828 MiB is five times faster than 4.2 GB. The compute is unchanged; there is five times less to read. That explains two familiar things: a long prompt means a slow first token and fast later ones, because prefill is a parallel matmul while decode reads weights serially; and on-device models cut parameters before giving up 4 bit.',
           },
           {
             type: 'p',
@@ -1030,12 +1101,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'browser-rag-embedding-rerank',
     date: '2026-11-07',
+    category: 'language',
     tags: ['search-rag', 'embedding', 'reranker', 'rag'],
     i18n: {
       zh: {
         title: '浏览器里做 RAG，检索这半边怎么搭',
         description:
-          'search-rag 分类下有嵌入模型、交叉编码器和几个向量索引库。这篇记一下索引内存怎么算、哪一步必须留在本地，以及换嵌入模型时我们踩过的坑。',
+          'search-rag 分类下有嵌入模型、交叉编码器和几个向量索引库。换过一次嵌入模型，索引得整个重建；向量出设备这一步没法省。',
         blocks: [
           {
             type: 'p',
@@ -1124,7 +1196,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Building the retrieval half of RAG in the browser',
         description:
-          'Our search-rag category has embedding models, cross-encoders and several vector index libraries. Notes on working out index memory, which step has to stay local, and the embedding-model swap that cost us a rebuild.',
+          'Our search-rag category has embedding models, cross-encoders and several vector index libraries. Swapping the embedding model cost us a full index rebuild, and the vectors cannot leave the device.',
         blocks: [
           {
             type: 'p',
@@ -1215,12 +1287,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'webnn-browser-neural-network-inference',
     date: '2026-11-05',
+    category: 'runtime',
     tags: ['webnn', 'webgpu', 'wasm', 'browser-ai'],
     i18n: {
       zh: {
         title: 'WebNN 现在能在浏览器里做什么',
         description:
-          'W3C 的 WebNN 是眼下唯一能碰到 NPU 的 Web API。这篇记一下它现在在 Chrome 里怎么开、和 ONNX 权重怎么接、以及哪些任务真能从 NPU 上拿到好处。',
+          'W3C 的 WebNN 是眼下唯一能碰到 NPU 的 Web API，Chromium 之外还没着落。接的是现成 ONNX 权重，不用转格式。',
         blocks: [
           {
             type: 'p',
@@ -1335,7 +1408,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'What WebNN can actually do in a browser today',
         description:
-          'WebNN is the only web API that can reach an NPU. How to turn it on in Chrome today, how ONNX weights plug into it, and which workloads actually gain something from the NPU.',
+          'WebNN is the only web API that can reach an NPU, and outside Chromium it has not landed yet. It takes existing ONNX weights with no conversion.',
         blocks: [
           {
             type: 'p',
@@ -1452,12 +1525,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'voice-activity-detection',
     date: '2026-11-05',
+    category: 'audio',
     tags: ['audio', 'vad', 'speech'],
     i18n: {
       zh: {
         title: '用 Silero VAD 在浏览器里切出语音区间',
         description:
-          'VAD 只判断哪几段有人在说话。这篇写我们接 Silero VAD 的 ONNX 权重时踩的坑，以及目录里另一个 pyannote-segmentation 为什么在演示页里由 Silero 代跑。',
+          'VAD 只判断哪几段有人在说话。接 Silero VAD 的 ONNX 权重时踩过几个坑，目录里另一个 pyannote-segmentation 在演示页上仍由 Silero 代跑。',
         blocks: [
           {
             type: 'p',
@@ -1538,7 +1612,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Cutting speech ranges out of audio with Silero VAD',
         description:
-          'VAD only decides which ranges contain speech. These are notes from wiring up the Silero ONNX weights, including why the other model in our catalogue is run by Silero in the demo.',
+          'VAD only decides which ranges contain speech. Wiring up the Silero ONNX weights had a few traps, and the other model in our catalogue is run by Silero in the demo.',
         blocks: [
           {
             type: 'p',
@@ -1621,6 +1695,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'oxr-1.0-document-parsing',
     date: '2026-10-30',
+    category: 'multimodal',
     tags: ['document-understanding', 'ocr', 'multimodal'],
     i18n: {
       zh: {
@@ -1630,11 +1705,11 @@ export const blogPosts: BlogPost[] = [
         blocks: [
           {
             type: 'p',
-            text: 'SoMark 团队（守扣科技）开源了文档解析模型 **OXR**（Optical Everything Recognition）。主模型 1.3B 参数，开源一周左右拿下三个公开文档解析基准的第一，GitHub 星标首周破千。PDF 和文档图片进去，出来的是 Markdown / JSON，每个内容块还带原页上的版面坐标，按阅读顺序排好。团队管这叫「Agent 友好数据」，意思是解析完不用再加工就能进知识库、RAG 或 Agent 流程。',
+            text: 'SoMark 团队（守扣科技）开源了文档解析模型 OXR（Optical Everything Recognition）。主模型 1.3B 参数，开源一周左右拿下三个公开文档解析基准的第一，GitHub 星标首周破千。PDF 和文档图片进去，出来的是 Markdown / JSON，每个内容块还带原页上的版面坐标，按阅读顺序排好。团队管这叫「Agent 友好数据」，意思是解析完不用再加工就能进知识库、RAG 或 Agent 流程。',
           },
           {
             type: 'p',
-            text: 'OXR 支持文字、标题、表格、公式、化学方程式、化学结构式、代码块、印章等 **13 类文档元素**：表格输出为 HTML/Markdown（保留行列与单元格结构），公式按 LaTeX 输出，化学方程式用 mhchem 语法、化学结构式用 SMILES 表示，多栏报纸、论文与 A3 试卷按阅读顺序还原。',
+            text: 'OXR 支持文字、标题、表格、公式、化学方程式、化学结构式、代码块、印章等 13 类文档元素：表格输出为 HTML/Markdown（保留行列与单元格结构），公式按 LaTeX 输出，化学方程式用 mhchem 语法、化学结构式用 SMILES 表示，多栏报纸、论文与 A3 试卷按阅读顺序还原。',
           },
           { type: 'h2', text: '三榜第一，速度也是第一梯队' },
           {
@@ -1644,7 +1719,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'table', ...OXR_BENCH_TABLE.zh },
           {
             type: 'p',
-            text: '速度方面，官方在**单张 NVIDIA RTX PRO 6000 Blackwell（96GB）**上，用 OmniDocBench 固定抽取的 100 页做完整解析：OXR-1.0 用时 101 秒，约为 PaddleOCR-VL-1.6 的 1.43 倍吞吐、MinerU2.5-Pro 的 2.52 倍。',
+            text: '速度方面，官方在单张 NVIDIA RTX PRO 6000 Blackwell（96GB）上，用 OmniDocBench 固定抽取的 100 页做完整解析：OXR-1.0 用时 101 秒，约为 PaddleOCR-VL-1.6 的 1.43 倍吞吐、MinerU2.5-Pro 的 2.52 倍。',
           },
           { type: 'table', ...OXR_SPEED_TABLE.zh },
           {
@@ -1654,7 +1729,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'h2', text: '用 RSI 把解析错误变成训练数据' },
           {
             type: 'p',
-            text: 'OXR 是从零预训练的，后训练阶段用了**递归自我改进（RSI, Recursive Self-Improvement）**。团队说这是文档解析领域第一个不需要新增人工标注数据的 RSI 流程，步骤是：',
+            text: 'OXR 是从零预训练的，后训练阶段用了递归自我改进（RSI, Recursive Self-Improvement）。团队说这是文档解析领域第一个不需要新增人工标注数据的 RSI 流程，步骤是：',
           },
           {
             type: 'ul',
@@ -1696,7 +1771,7 @@ export const blogPosts: BlogPost[] = [
           ] },
           {
             type: 'p',
-            text: '本站「多模态 → 文档理解」演示页也收了 OXR-1.0。权重跑在服务端，没有浏览器版本，所以点那张卡片会跳到上面的在线示例，不会在本地推理。',
+            text: '本站多模态分类下的文档理解演示页也收了 OXR-1.0。权重跑在服务端，没有浏览器版本，所以点那张卡片会跳到上面的在线示例，不会在本地推理。',
           },
         ],
       },
@@ -1707,11 +1782,11 @@ export const blogPosts: BlogPost[] = [
         blocks: [
           {
             type: 'p',
-            text: 'The SoMark team has open-sourced **OXR** (Optical Everything Recognition), a document-parsing model whose main network is 1.3B parameters. Within about a week of release it took first place on three public parsing benchmarks and passed 1,000 GitHub stars. PDFs and document images come out as Markdown / JSON, with layout coordinates for each block on the original page, ordered by reading sequence. The team calls this agent-friendly data, meaning it can go straight into a knowledge base, a RAG pipeline or an agent without another processing step.',
+            text: 'The SoMark team has open-sourced OXR (Optical Everything Recognition), a document-parsing model whose main network is 1.3B parameters. Within about a week of release it took first place on three public parsing benchmarks and passed 1,000 GitHub stars. PDFs and document images come out as Markdown / JSON, with layout coordinates for each block on the original page, ordered by reading sequence. The team calls this agent-friendly data, meaning it can go straight into a knowledge base, a RAG pipeline or an agent without another processing step.',
           },
           {
             type: 'p',
-            text: 'OXR recognises **13 element types**: text, titles, tables, formulas, chemical equations, chemical structures, code blocks, stamps and more. Tables come out as HTML/Markdown with row and cell structure intact, formulas as LaTeX, chemical equations in mhchem syntax, molecular structures as SMILES, and multi-column newspapers, papers and A3 exam sheets are reassembled in reading order.',
+            text: 'OXR recognises 13 element types: text, titles, tables, formulas, chemical equations, chemical structures, code blocks, stamps and more. Tables come out as HTML/Markdown with row and cell structure intact, formulas as LaTeX, chemical equations in mhchem syntax, molecular structures as SMILES, and multi-column newspapers, papers and A3 exam sheets are reassembled in reading order.',
           },
           { type: 'h2', text: 'First on three benchmarks, fast too' },
           {
@@ -1721,7 +1796,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'table', ...OXR_BENCH_TABLE.en },
           {
             type: 'p',
-            text: 'For speed, the team parsed a fixed 100-page draw from OmniDocBench on a **single NVIDIA RTX PRO 6000 Blackwell (96 GB)**. OXR-1.0 finished in 101 seconds, roughly 1.43× the throughput of PaddleOCR-VL-1.6 and 2.52× that of MinerU2.5-Pro.',
+            text: 'For speed, the team parsed a fixed 100-page draw from OmniDocBench on a single NVIDIA RTX PRO 6000 Blackwell (96 GB). OXR-1.0 finished in 101 seconds, roughly 1.43× the throughput of PaddleOCR-VL-1.6 and 2.52× that of MinerU2.5-Pro.',
           },
           { type: 'table', ...OXR_SPEED_TABLE.en },
           {
@@ -1731,7 +1806,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'h2', text: 'Turning parse errors into training data with RSI' },
           {
             type: 'p',
-            text: 'OXR is pre-trained from scratch, and its post-training introduces a **recursive self-improvement (RSI)** loop. Per the team it is the first in document parsing that needs no newly hand-labelled data:',
+            text: 'OXR is pre-trained from scratch, and its post-training introduces a recursive self-improvement (RSI) loop. Per the team it is the first in document parsing that needs no newly hand-labelled data:',
           },
           {
             type: 'ul',
@@ -1754,7 +1829,7 @@ export const blogPosts: BlogPost[] = [
           { type: 'h2', text: 'How to get started' },
           {
             type: 'p',
-            text: 'The quickest way in is the hosted **online demo** (free uploads) or the **free API** (no sign-up). For Node.js there is the official `somark-js` SDK, Node 18+ with a CLI:',
+            text: 'The quickest way in is the hosted online demo (free uploads) or the free API (no sign-up). For Node.js there is the official `somark-js` SDK, Node 18+ with a CLI:',
           },
           {
             type: 'code',
@@ -1773,8 +1848,692 @@ export const blogPosts: BlogPost[] = [
           ] },
           {
             type: 'p',
-            text: 'This site also lists OXR-1.0 under Multimodal → Document understanding. Its weights run on servers with no browser build, so clicking that card on the demo page opens the hosted demo above rather than running anything locally.',
+            text: 'This site also lists OXR-1.0 under the document-understanding demo in Multimodal. Its weights run on servers with no browser build, so clicking that card on the demo page opens the hosted demo above rather than running anything locally.',
           },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'vlm-in-browser-what-runs',
+    date: '2026-11-07',
+    category: 'multimodal',
+    tags: ['multimodal', 'vlm', 'image-to-text', 'clip', 'weights'],
+    i18n: {
+      zh: {
+        title: '四个 VLM 卡片，跑起来的是同一个图描述模型',
+        description:
+          '四个条目的最小档从 213 MiB 排到 2.7 GB，可点开哪一张，下载的却是同一份图像描述权重。提问框里的字没进模型，CLIP 那半边反倒跑的是真权重。',
+        blocks: [
+          {
+            type: 'p',
+            text: '结果栏里四个都带一个 `*`，权重那一栏写的都是 `vit-gpt2-image-captioning`。目录给的名字是 Moondream 2、LLaVA 1.5 7B、PaliGemma 3B 和 Florence-2，浏览器下载的却是同一份 q8 图像描述检查点。星号是页面自己加的，原模型没有能直接推理的浏览器权重，就找了个同类任务的真检查点顶上。四张卡挨个点过，每次都一样。',
+          },
+          { type: 'h2', text: '四张卡片标了多大' },
+          {
+            type: 'table',
+            caption: 'multimodal/vlm 四个条目的实测体积，取互斥精度档里最小的一档',
+            head: ['条目', '最小档', '其余精度档', '页面实际加载'],
+            rows: [
+              ['Florence-2', '~213 MiB · q4f16', 'q8 262 MiB / fp16 519 MiB / fp32 1.0 GB', 'ViT-GPT2 q8'],
+              ['Moondream 2', '~707 MiB · q4f16', 'q8 1.7 GB / fp16 3.5 GB / fp32 6.9 GB', 'ViT-GPT2 q8'],
+              ['PaliGemma 3B', '~2.7 GB · q4f16', 'q8 3.4 GB / fp16 6.8 GB / fp32 13.5 GB', 'ViT-GPT2 q8'],
+              ['LLaVA 1.5 7B', '未实测（历史估值 ~4.5 GB）', '无实测清单', 'ViT-GPT2 q8'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '表里这一列是至少要下多少。带 q4f16 的模型在 WebGPU 上常常换成 fp16，跑完那次真实下了多少字节，结果栏里另有一行。LLaVA 没有实测文件清单，按目录的规矩留空，括号里是早期版本留下的估值。',
+          },
+          { type: 'h2', text: '提问框里的字没往下传' },
+          {
+            type: 'p',
+            text: '示例问题写的是「图中有哪些主要物体？它们大致在什么位置？」。真实权重分支拿到图片只调 `captionImage()`，走 `image-to-text` 管线，取 `generated_text` 返回。输入框里的字没往下传，输出是一句图描述，多轮也谈不上。我们试过把问题拼在描述前面充作回答，两段话各说各的，读着别扭，最后在页面上写明这是一次性描述。',
+          },
+          {
+            type: 'code',
+            label: '真实权重分支里图文这条线的全部输入',
+            text: "const run = await getRun(opts);\nconst out = await run.call(imageSrc);   // 只有图片，没有 question\nconst list = Array.isArray(out) ? out : [out];\nreturn { text: (list[0]?.generated_text ?? '').trim(), meta: run };",
+          },
+          { type: 'h2', text: '为什么没上真 VLM' },
+          {
+            type: 'p',
+            text: '权重表里四条说明写得很直白。Moondream 2 在浏览器端跑不动，LLaVA 1.5 7B、PaliGemma 3B、Florence-2 在当前运行时加载不了。它们要么得配自己的 processor 和生成配置，要么权重本身就是几 GB 级，通用 `pipeline()` 接不上。替身标记和说明都留在结果栏里，切卡片时看得见。',
+          },
+          { type: 'h2', text: 'CLIP 那半边是真的' },
+          {
+            type: 'p',
+            text: '同一层的 `multimodal/clip` 能跑真权重。CLIP ViT-B/32 走 `zero-shot-image-classification`，把图片和候选标签编码到同一个空间打分，最小档 ~240 MiB · q4f16；SigLIP Base ~293 MiB · q4f16。MobileCLIP 标 ~52.1 MiB · q8，权重布局和浏览器零样本管线不兼容，页面换成合并版 CLIP ViT-B/32。CLIP 只认英文，中文候选标签判别力明显弱，切到英文界面会准一些。',
+          },
+          {
+            type: 'p',
+            text: '视觉问答演示里挑一张内置示例，切到带真实权重的卡片，结果栏的星号和权重名字就在那儿。四个条目的详情页列在下面，体积和精度档在各自的变体表上。',
+          },
+          { type: 'links', items: [
+            { label: '本站演示 · 看图回答问题', href: '/demos/multimodal/vlm' },
+            { label: '本站演示 · 图文对齐', href: '/demos/multimodal/clip' },
+            { label: '模型详情 · Florence-2', href: '/multimodal/vlm/florence-2' },
+            { label: '模型详情 · Moondream 2', href: '/multimodal/vlm/moondream2' },
+            { label: '模型详情 · PaliGemma 3B', href: '/multimodal/vlm/paligemma-3b' },
+            { label: '模型详情 · LLaVA 1.5 7B', href: '/multimodal/vlm/llava-1-5-7b' },
+            { label: '模型详情 · CLIP ViT-B/32', href: '/multimodal/clip/clip-vit-base' },
+            { label: 'Hugging Face · Xenova/moondream2', href: 'https://huggingface.co/Xenova/moondream2' },
+            { label: 'Hugging Face · onnx-community/Florence-2-base', href: 'https://huggingface.co/onnx-community/Florence-2-base' },
+            { label: 'Hugging Face · Xenova/vit-gpt2-image-captioning', href: 'https://huggingface.co/Xenova/vit-gpt2-image-captioning' },
+          ] },
+        ],
+      },
+      en: {
+        title: 'Four VLM cards, one image-captioning checkpoint behind them',
+        description:
+          'The four entries under multimodal/vlm range from 213 MiB to 2.7 GB at their smallest tier, yet every card downloads the same image-captioning checkpoint. The words typed into the question box never reach the model, while the CLIP side of the category runs real weights.',
+        blocks: [
+          {
+            type: 'p',
+            text: 'Every result carries a `*`, and the weights field on all four cards reads `vit-gpt2-image-captioning`. The catalogue names are Moondream 2, LLaVA 1.5 7B, PaliGemma 3B and Florence-2. The browser downloads one q8 image-captioning checkpoint for all of them. That asterisk is added by the page: the original model has no browser-ready weights, so a real checkpoint from a comparable task runs in its place. We clicked through all four cards and got the same result each time.',
+          },
+          { type: 'h2', text: 'What the four cards list' },
+          {
+            type: 'table',
+            caption: 'Measured sizes for multimodal/vlm, taking the smallest of the mutually exclusive precision builds',
+            head: ['Entry', 'Smallest tier', 'Other tiers', 'What the page loads'],
+            rows: [
+              ['Florence-2', '~213 MiB · q4f16', 'q8 262 MiB / fp16 519 MiB / fp32 1.0 GB', 'ViT-GPT2 q8'],
+              ['Moondream 2', '~707 MiB · q4f16', 'q8 1.7 GB / fp16 3.5 GB / fp32 6.9 GB', 'ViT-GPT2 q8'],
+              ['PaliGemma 3B', '~2.7 GB · q4f16', 'q8 3.4 GB / fp16 6.8 GB / fp32 13.5 GB', 'ViT-GPT2 q8'],
+              ['LLaVA 1.5 7B', 'Not measured (historic estimate ~4.5 GB)', 'No measured listing', 'ViT-GPT2 q8'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'That column is the minimum you would have to download. A q4f16 entry often switches to fp16 on WebGPU, and the result bar has a separate line for what this run actually downloaded. LLaVA has no measured file listing, so the field stays empty. The number in parentheses is an estimate left over from an older catalogue version.',
+          },
+          { type: 'h2', text: 'The question box' },
+          {
+            type: 'p',
+            text: 'The sample question asks what the main objects are and roughly where they sit. The real-weights branch calls `captionImage()` on the image, goes through an `image-to-text` pipeline and returns `generated_text`. The words typed into the box never reach any model. What you get is a caption, with no multi-turn support. We tried prefixing the question to the caption to fake an answer, and the two halves read like different conversations, so the page now says that this is a one-shot description.',
+          },
+          {
+            type: 'code',
+            label: 'Every input the real-weights branch gives the image + text line',
+            text: "const run = await getRun(opts);\nconst out = await run.call(imageSrc);   // image only, no question\nconst list = Array.isArray(out) ? out : [out];\nreturn { text: (list[0]?.generated_text ?? '').trim(), meta: run };",
+          },
+          { type: 'h2', text: 'Why there is no real VLM here' },
+          {
+            type: 'p',
+            text: 'The four notes in the weights table are short and specific. Moondream 2 is too heavy for the browser. LLaVA 1.5 7B, PaliGemma 3B and Florence-2 cannot be loaded by the runtime we use. Those models need their own processors and generation configs, or their weights are several GB, and a generic `pipeline()` call does not cover them. The substitute marker and the explanatory note stay in the result bar, visible to anyone switching cards.',
+          },
+          { type: 'h2', text: 'The CLIP side runs real weights' },
+          {
+            type: 'p',
+            text: 'One layer over, `multimodal/clip` runs real weights. CLIP ViT-B/32 uses `zero-shot-image-classification` to score an image against candidate labels in a shared space, at ~240 MiB · q4f16 for the smallest tier. SigLIP Base is ~293 MiB · q4f16. MobileCLIP is listed at ~52.1 MiB · q8, but its weight layout does not fit the browser zero-shot pipeline, so the page loads the merged CLIP ViT-B/32 checkpoint. CLIP is English-only, and Chinese candidate labels discriminate poorly. The English interface gives better scores.',
+          },
+          {
+            type: 'p',
+            text: 'Open the visual QA demo, pick a built-in sample, switch to a card with real weights and look at the asterisk and the weights name. All four model pages are linked below with their size and precision variants.',
+          },
+          { type: 'links', items: [
+            { label: 'On this site · Visual question answering demo', href: '/demos/multimodal/vlm' },
+            { label: 'On this site · Image-text alignment demo', href: '/demos/multimodal/clip' },
+            { label: 'Model page · Florence-2', href: '/multimodal/vlm/florence-2' },
+            { label: 'Model page · Moondream 2', href: '/multimodal/vlm/moondream2' },
+            { label: 'Model page · PaliGemma 3B', href: '/multimodal/vlm/paligemma-3b' },
+            { label: 'Model page · LLaVA 1.5 7B', href: '/multimodal/vlm/llava-1-5-7b' },
+            { label: 'Model page · CLIP ViT-B/32', href: '/multimodal/clip/clip-vit-base' },
+            { label: 'Hugging Face · Xenova/moondream2', href: 'https://huggingface.co/Xenova/moondream2' },
+            { label: 'Hugging Face · onnx-community/Florence-2-base', href: 'https://huggingface.co/onnx-community/Florence-2-base' },
+            { label: 'Hugging Face · Xenova/vit-gpt2-image-captioning', href: 'https://huggingface.co/Xenova/vit-gpt2-image-captioning' },
+          ] },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'image-restoration-swin2sr-family',
+    date: '2026-11-07',
+    category: 'vision',
+    tags: ['vision', 'super-resolution', 'restoration', 'depth', 'onnx'],
+    i18n: {
+      zh: {
+        title: '超分、去噪、去模糊，三页都接到了 Swin2SR 上',
+        description:
+          '滑杆长得一样，是三页共用 `restoration` 一种输出。四张卡片接上权重之后，真实加载的仓库只有三个，全来自 Swin2SR 家族。深度那页反倒两张都跑自己的权重。',
+        blocks: [
+          {
+            type: 'p',
+            text: '四张卡片接完真实权重，名字各不相同的条目只对应三个仓库，全是 Swin2SR 的导出。超分辨率、图像恢复、图像增强三页的控件本来就是一套：恢复任务下拉、强度 0 到 1、对比原图开关，UI 共用 `restoration` 这一种输出。演示模式下按 task 走 canvas 像素算法，真实权重模式下换成 `enhanceImage()`。',
+          },
+          {
+            type: 'table',
+            caption: '恢复类条目的实测体积和真实加载的仓库',
+            head: ['条目', '实测体积', '真实权重', '替身'],
+            rows: [
+              ['Swin2SR (real-world x4)', '~14.8 MiB · q4f16', 'Xenova/swin2sr-classical-sr-x2-64 (q4)', '是，实际跑 2×'],
+              ['ESRGAN Slim (UpscalerJS)', '~0.9 MiB', 'Xenova/swin2sr-classical-sr-x2-64 (q4)', '是，TFJS 格式加载不了'],
+              ['NAFNet (Denoise)', '未实测（历史估值 ~25 MB）', 'Xenova/swin2SR-lightweight-x2-64 (q8)', '是'],
+              ['Real-ESRGAN', '~32.2 MiB · fp16', 'Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr (q4)', '是'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '目录里 Swin2SR 那条挂的文档链接指向 realworld ×4 的导出，演示里加载的是 classical ×2 的 q4 版本；×4 那份放在图像增强页给 Real-ESRGAN 当替身。UpscalerJS 的 ESRGAN-slim 是 TFJS 格式，Transformers.js 读不了。NAFNet 没有浏览器 ONNX 权重，用的是轻量版 Swin2SR。四处输出像素都由模型重建，卡片上写的名字和加载的仓库对不上，结果栏挂了星号说明。',
+          },
+          { type: 'h2', text: '真实模式下 task 下拉失效' },
+          {
+            type: 'p',
+            text: '真实分支按卡片查权重表，把图片交给 `enhanceImage()`，task 不参与。「去噪 / 去模糊 / 超分」三个选项在这时不会换网络，想换网络得换卡片。还在起作用的是强度：小于 1 时先把原图按生成图尺寸画一遍，再以 `globalAlpha = strength` 把生成结果叠上去。演示模式下两个滑杆都进 canvas 算法，行为不一样。',
+          },
+          {
+            type: 'code',
+            label: 'enhanceImage 里的强度混合',
+            text: "const out = await run.call(imageSrc);\nconst generated = await toCanvas(out);\nif (strength < 1) {\n  ctx.drawImage(original, 0, 0, generated.width, generated.height);\n  ctx.globalAlpha = Math.max(0, strength);\n  ctx.drawImage(generated, 0, 0);\n  return blended.toDataURL('image/png');\n}\nreturn generated.toDataURL('image/png');",
+          },
+          {
+            type: 'p',
+            text: '导出 PNG 时还卡过一次。Transformers.js 的 RawImage 在 Web 上 `toCanvas()` 给的是 OffscreenCanvas，没有 `toDataURL`，得先画回 DOM canvas 才能拿到 PNG 给页面用。三个页面都自带退化图和干净参考图（`street-noisy.png`、`street-lowres.png` 对 `street.png`），「对比原图」打开就能来回看。2× 或 4× 的输出尺寸会变，强度混合里原图也会被拉到生成图的尺寸。',
+          },
+          { type: 'h2', text: '深度那页的两张卡片' },
+          {
+            type: 'p',
+            text: '`vision/depth` 是这一组里唯一两张卡片都跑真权重的。DPT-Hybrid-MiDaS 最小档 ~113 MiB · q4f16，Depth Anything v2 Small ~18.2 MiB · q4f16，都走 `depth-estimation` 管线，逐像素回归相对深度。页面先拿灰度图，再套 gray / turbo / viridis 三套色表，原图叠加滑杆是 0 到 0.8。两个体积差了六倍，差在编码器。街景和桌面近景两组样例可以切着看。',
+          },
+          {
+            type: 'p',
+            text: 'NAFNet 那行留空，是没有实测文件清单。首次点运行会下载并缓存，同一张卡片再跑一次，结果栏的下载字节数是 0。表里的数字读自托管方的权重文件字节数。',
+          },
+          { type: 'links', items: [
+            { label: '本站演示 · 超分辨率', href: '/demos/vision/super-resolution' },
+            { label: '本站演示 · 图像恢复', href: '/demos/vision/image-restoration' },
+            { label: '本站演示 · 图像增强', href: '/demos/vision/image-enhancement' },
+            { label: '本站演示 · 单目深度', href: '/demos/vision/depth' },
+            { label: '模型详情 · Swin2SR', href: '/vision/super-resolution/swinir' },
+            { label: '模型详情 · ESRGAN Slim', href: '/vision/super-resolution/esrgan-slim' },
+            { label: '模型详情 · NAFNet', href: '/vision/image-restoration/nafnet-denoise' },
+            { label: '模型详情 · Real-ESRGAN', href: '/vision/image-enhancement/real-esrgan' },
+            { label: '模型详情 · DPT-Hybrid (MiDaS)', href: '/vision/depth/midas-small' },
+            { label: '模型详情 · Depth Anything v2 Small', href: '/vision/depth/depth-anything-small' },
+            { label: 'Hugging Face · Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr', href: 'https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr' },
+            { label: 'GitHub · xinntao/Real-ESRGAN', href: 'https://github.com/xinntao/Real-ESRGAN' },
+            { label: 'GitHub · megvii-research/NAFNet', href: 'https://github.com/megvii-research/NAFNet' },
+            { label: 'Hugging Face · onnx-community/depth-anything-v2-small', href: 'https://huggingface.co/onnx-community/depth-anything-v2-small' },
+          ] },
+        ],
+      },
+      en: {
+        title: 'Super-resolution, denoising and deblurring all land on Swin2SR',
+        description:
+          'The sliders look identical because all three pages share one `restoration` output kind. With real weights wired up, four differently named cards resolve to three repositories, all Swin2SR exports. The depth page is the odd one out: both of its cards run their own weights.',
+        blocks: [
+          {
+            type: 'p',
+            text: 'Four cards with four different names resolved to just three repositories once the real weights were wired up, and every one of them is a Swin2SR export. The controls on super-resolution, image restoration and image enhancement were already identical: a task selector, strength from 0 to 1, and a reference toggle. The UI shares a single `restoration` output kind. Demo mode sends the task to canvas pixel operations, while the real-weights branch calls `enhanceImage()`.',
+          },
+          {
+            type: 'table',
+            caption: 'Measured sizes for the restoration entries and the repositories actually loaded',
+            head: ['Entry', 'Measured size', 'Real weights', 'Substitute'],
+            rows: [
+              ['Swin2SR (real-world x4)', '~14.8 MiB · q4f16', 'Xenova/swin2sr-classical-sr-x2-64 (q4)', 'Yes, 2x in practice'],
+              ['ESRGAN Slim (UpscalerJS)', '~0.9 MiB', 'Xenova/swin2sr-classical-sr-x2-64 (q4)', 'Yes, TFJS format will not load'],
+              ['NAFNet (Denoise)', 'Not measured (historic estimate ~25 MB)', 'Xenova/swin2SR-lightweight-x2-64 (q8)', 'Yes'],
+              ['Real-ESRGAN', '~32.2 MiB · fp16', 'Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr (q4)', 'Yes'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'The documentation link for that entry points at the realworld x4 export, but the demo loads the q4 classical x2 checkpoint. The x4 export stands in for Real-ESRGAN on the enhancement page. ESRGAN-slim from UpscalerJS ships as TFJS, which Transformers.js cannot read. NAFNet has no browser ONNX weights, so a lightweight Swin2SR takes over. In all four cases the output pixels are reconstructed by a real model, and the name on the card does not match the repository that ran. The result bar carries an asterisk and explains this.',
+          },
+          { type: 'h2', text: 'The task selector does nothing in real mode' },
+          {
+            type: 'p',
+            text: 'The real branch looks up the weights table by card and hands the image to `enhanceImage()`. The task value is unused, so denoise, deblur and super-resolution do not switch networks in that mode. Switching networks means switching cards. Strength is the control that still does something. Below 1, the original is drawn at the generated size first, then the output is composited on top with `globalAlpha = strength`. In demo mode both controls feed canvas algorithms and behave differently.',
+          },
+          {
+            type: 'code',
+            label: 'Strength blending inside enhanceImage',
+            text: "const out = await run.call(imageSrc);\nconst generated = await toCanvas(out);\nif (strength < 1) {\n  ctx.drawImage(original, 0, 0, generated.width, generated.height);\n  ctx.globalAlpha = Math.max(0, strength);\n  ctx.drawImage(generated, 0, 0);\n  return blended.toDataURL('image/png');\n}\nreturn generated.toDataURL('image/png');",
+          },
+          {
+            type: 'p',
+            text: 'Getting a PNG out caused one more detour. On the web, `RawImage.toCanvas()` from Transformers.js returns an OffscreenCanvas, which has no `toDataURL`, so the pixels go back through a DOM canvas before the page gets a PNG. All three pages ship degraded samples with clean references (`street-noisy.png` and `street-lowres.png` against `street.png`) and the reference toggle lets you flip between them. A 2x or 4x run changes the output size, and the strength blend stretches the original to that size too.',
+          },
+          { type: 'h2', text: 'Both depth cards' },
+          {
+            type: 'p',
+            text: '`vision/depth` is the one page in this group where both cards run their own weights. DPT-Hybrid-MiDaS is ~113 MiB · q4f16 at the smallest tier and Depth Anything v2 Small is ~18.2 MiB · q4f16. Both use the `depth-estimation` pipeline and regress a relative depth value per pixel. The page starts from a greyscale map, applies gray, turbo or viridis, and blends with the source from 0 to 0.8. The sixfold size gap comes from the encoder. The street and desk samples are there to compare the two maps.',
+          },
+          {
+            type: 'p',
+            text: 'NAFNet stays empty because it has no measured file listing. The first run downloads and caches, and a second run of the same card reports zero downloaded bytes in the result bar. The numbers in the table were read off the weight files on the host.',
+          },
+          { type: 'links', items: [
+            { label: 'On this site · Super-resolution demo', href: '/demos/vision/super-resolution' },
+            { label: 'On this site · Image restoration demo', href: '/demos/vision/image-restoration' },
+            { label: 'On this site · Image enhancement demo', href: '/demos/vision/image-enhancement' },
+            { label: 'On this site · Monocular depth demo', href: '/demos/vision/depth' },
+            { label: 'Model page · Swin2SR', href: '/vision/super-resolution/swinir' },
+            { label: 'Model page · ESRGAN Slim', href: '/vision/super-resolution/esrgan-slim' },
+            { label: 'Model page · NAFNet', href: '/vision/image-restoration/nafnet-denoise' },
+            { label: 'Model page · Real-ESRGAN', href: '/vision/image-enhancement/real-esrgan' },
+            { label: 'Model page · DPT-Hybrid (MiDaS)', href: '/vision/depth/midas-small' },
+            { label: 'Model page · Depth Anything v2 Small', href: '/vision/depth/depth-anything-small' },
+            { label: 'Hugging Face · Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr', href: 'https://huggingface.co/Xenova/swin2SR-realworld-sr-x4-64-bsrgan-psnr' },
+            { label: 'GitHub · xinntao/Real-ESRGAN', href: 'https://github.com/xinntao/Real-ESRGAN' },
+            { label: 'GitHub · megvii-research/NAFNet', href: 'https://github.com/megvii-research/NAFNet' },
+            { label: 'Hugging Face · onnx-community/depth-anything-v2-small', href: 'https://huggingface.co/onnx-community/depth-anything-v2-small' },
+          ] },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'inpainting-watermark-object-removal',
+    date: '2026-11-07',
+    category: 'vision',
+    tags: ['vision', 'inpainting', 'watermark-removal', 'object-removal', 'onnxruntime'],
+    i18n: {
+      zh: {
+        title: '涂掉水印和擦掉路人，落到同一个 26.8 MiB 权重',
+        description:
+          '三页的笔刷和滑杆几乎一样，真实权重也共用一份 MI-GAN ONNX。单图页的 LaMa 卡片退成替身，视频高清档却把那份 LaMa 权重真加载起来了。',
+        blocks: [
+          {
+            type: 'p',
+            text: '笔刷 8 到 96 像素，边缘融合 0 到 24，补全方式有上下文补全、模糊填充、邻近克隆，三页用的都是这套控件。接上真实权重之后，目录里看着是四种不同的模型，大部分落到同一份 26.8 MiB 的 ONNX 图上。',
+          },
+          {
+            type: 'table',
+            caption: '三页的卡片与真实加载的检查点',
+            head: ['页面', '卡片', '标称体积', '真实加载'],
+            rows: [
+              ['去水印', 'MI-GAN', '~26.8 MiB', 'MI-GAN ONNX (uint8)'],
+              ['去水印', 'LaMa FP32', '~198 MiB · fp32', 'MI-GAN，结果栏带星号'],
+              ['物体擦除', 'Image object eraser', '未实测', 'MI-GAN ONNX (uint8)'],
+              ['局部重绘', 'SDXL Inpaint', '未实测（历史估值 ~3.8 GB）', 'MI-GAN，结果栏带星号'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '单图去水印页里 LaMa 被标成替身。权重表写的原因是那份 198 MiB 的 fp32 ONNX 在 wasm 执行提供者上连会话都建不起来，于是退回 26.8 MiB 的 MI-GAN。视频去水印的高清档加载的是 `Carve/LaMa-ONNX` 的 `lama_fp32.onnx`，只走 WASM，WebGPU 下会死锁，推理大约比 MI-GAN 慢 7 倍，大水印和结构重建更完整。',
+          },
+          { type: 'h2', text: '蒙版怎么裁' },
+          {
+            type: 'p',
+            text: '`miganInpaint()` 先按 alpha 大于 0.35 的像素算出笔触包围框，再向四周扩出至少 48 像素、或边长 0.8 倍的上下文，裁出一个居中的正方形块。蒙版整个是空的就直接返回原图，不触发下载。裁出来的块压到 512×512，拆成 CHW 的 uint8 图像张量，另做一张同尺寸 mask：255 表示保留，alpha 大于 0.35 的位置置 0 交给模型补。输出形状必须是 `1,3,512,512`，对不上直接报错。会话按权重 URL 缓存在 Map 里，权重文件进 Cache Storage 的 `ai-demos-onnx-v1`，第二次点运行不用再下。',
+          },
+          {
+            type: 'code',
+            label: 'MI-GAN 的输入契约',
+            text: "const imageTensor = new ort.Tensor('uint8', img, [1, 3, SIZE, SIZE]);\nconst maskTensor = new ort.Tensor('uint8', mask, [1, 1, SIZE, SIZE]);\n// 255 = keep the pixel, 0 = let the model rebuild it\nconst result = await session.run({ image: imageTensor, mask: maskTensor });\nif (result.result.dims.join(',') !== '1,3,512,512') throw new Error('Unexpected output shape');",
+          },
+          {
+            type: 'p',
+            text: '生成块贴回原分辨率时，边缘按 `featherMask()` 给出的 alpha 做线性混合。那个函数两遍扫描，算每个被涂像素到未涂抹区域的距离，再除以滑杆值压成 0 到 1 的斜坡，滑杆因此叫「边缘融合」。笔触太淡，alpha 不到 0.35 就进不了蒙版，会留下浅色残影。把水印连着一大片背景整块涂满也不行：正方形压进 512×512 之后，真正要补的笔画只剩一小块，边上容易糊成一片。只描水印笔画、把周围像素留给模型当上下文，观感稳得多。',
+          },
+          { type: 'h2', text: '单线程' },
+          {
+            type: 'p',
+            text: '这类自定义 ONNX 图没有对应的 Transformers.js 管线，我们直接建 `onnxruntime-web/wasm` 会话。托管平台没给 COOP/COEP，`crossOriginIsolated` 是 false，`SharedArrayBuffer` 拿不到，`numThreads` 只能设 1。`graphOptimizationLevel` 也关掉了，大导出图上优化器会直接 abort。三页等待的时间主要在首次下载和建会话，结果栏会显示这次实际下载的字节数。',
+          },
+          {
+            type: 'p',
+            text: 'SDXL Inpaint 那张卡片标着约 3.8 GB，没有浏览器可加载的权重，页面写明由 MI-GAN 代跑。文生图那页整类被标成浏览器不可行。',
+          },
+          { type: 'links', items: [
+            { label: '本站演示 · 去水印', href: '/demos/vision/watermark-removal' },
+            { label: '本站演示 · 物体擦除', href: '/demos/vision/object-removal' },
+            { label: '本站演示 · 局部重绘', href: '/demos/generative-vision/inpainting' },
+            { label: '本站演示 · 视频去水印', href: '/demos/video/video-watermark-removal' },
+            { label: '模型详情 · MI-GAN', href: '/vision/watermark-removal/mi-gan-watermark' },
+            { label: '模型详情 · LaMa FP32', href: '/vision/watermark-removal/lama-watermark' },
+            { label: '模型详情 · Image object eraser', href: '/vision/object-removal/image-object-eraser' },
+            { label: '模型详情 · SDXL Inpaint', href: '/generative-vision/inpainting/sdxl-inpaint' },
+            { label: 'Hugging Face · andraniksargsyan/migan', href: 'https://huggingface.co/andraniksargsyan/migan' },
+            { label: 'Hugging Face · Carve/LaMa-ONNX', href: 'https://huggingface.co/Carve/LaMa-ONNX' },
+            { label: 'GitHub · Picsart-AI-Research/MI-GAN', href: 'https://github.com/Picsart-AI-Research/MI-GAN' },
+            { label: 'Hugging Face · SDXL Inpaint', href: 'https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1' },
+          ] },
+        ],
+      },
+      en: {
+        title: 'Erasing a watermark and erasing a passer-by both end up at one 26.8 MiB checkpoint',
+        description:
+          'The watermark, object removal and inpainting pages share the same brush and sliders, and they share one MI-GAN ONNX file for real weights. The LaMa card falls back to a substitute on the single-image page, while the HD pass on the video page actually loads that LaMa checkpoint.',
+        blocks: [
+          {
+            type: 'p',
+            text: 'A brush from 8 to 96 pixels, edge feather from 0 to 24, and three fill methods (context aware, blur, clone nearby). All three pages use these same controls. Four different models in the catalogue, and most of them end up at the same 26.8 MiB ONNX graph once real weights are wired up.',
+          },
+          {
+            type: 'table',
+            caption: 'Cards on the three pages and the checkpoints actually loaded',
+            head: ['Page', 'Card', 'Listed size', 'What runs'],
+            rows: [
+              ['Watermark removal', 'MI-GAN', '~26.8 MiB', 'MI-GAN ONNX (uint8)'],
+              ['Watermark removal', 'LaMa FP32', '~198 MiB · fp32', 'MI-GAN, with an asterisk in the result bar'],
+              ['Object removal', 'Image object eraser', 'Not measured', 'MI-GAN ONNX (uint8)'],
+              ['Inpainting', 'SDXL Inpaint', 'Not measured (historic estimate ~3.8 GB)', 'MI-GAN, with an asterisk'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'On the single-image watermark page LaMa is marked as a substitute. The weights table gives the reason: that 198 MiB fp32 ONNX graph cannot even create a session on the wasm execution provider, so the page falls back to the 26.8 MiB MI-GAN. The HD pass on the video watermark page really loads `lama_fp32.onnx` from `Carve/LaMa-ONNX`, wasm only, because WebGPU deadlocks on it. Inference is roughly seven times slower than MI-GAN and buys noticeably better reconstruction on large watermarks and structural edges.',
+          },
+          { type: 'h2', text: 'Cropping the mask' },
+          {
+            type: 'p',
+            text: '`miganInpaint()` first finds the bounding box of pixels whose alpha exceeds 0.35, then pads it with at least 48 pixels or 0.8 times the side length, and crops a centred square around it. An empty mask returns the original image immediately, with no download. The crop is squeezed to 512x512 and split into a CHW uint8 image tensor plus a mask of the same size. A mask value of 255 keeps the pixel, and any pixel with alpha above 0.35 becomes 0 for the model to rebuild. The output has to be `1,3,512,512` or the call throws. Sessions are cached in a Map keyed by the weights URL, and weight files go into the `ai-demos-onnx-v1` Cache Storage bucket, so a second run downloads nothing.',
+          },
+          {
+            type: 'code',
+            label: 'The MI-GAN input contract',
+            text: "const imageTensor = new ort.Tensor('uint8', img, [1, 3, SIZE, SIZE]);\nconst maskTensor = new ort.Tensor('uint8', mask, [1, 1, SIZE, SIZE]);\n// 255 = keep the pixel, 0 = let the model rebuild it\nconst result = await session.run({ image: imageTensor, mask: maskTensor });\nif (result.result.dims.join(',') !== '1,3,512,512') throw new Error('Unexpected output shape');",
+          },
+          {
+            type: 'p',
+            text: 'The generated patch is composited back at the original resolution, with a linear blend driven by `featherMask()`. That function scans twice to measure each painted pixel distance to the unpainted region, then divides by the slider value to make a 0 to 1 ramp. A stroke that is too faint, with alpha below 0.35, never enters the mask and leaves a pale ghost behind. Painting the watermark together with a wide band of background does not work either. Once that square is squeezed into 512x512, the strokes that actually need filling occupy only a small part of it, and the edges turn mushy. Tracing just the watermark strokes and leaving surrounding pixels as context holds up much better.',
+          },
+          { type: 'h2', text: 'Single-threaded sessions' },
+          {
+            type: 'p',
+            text: 'Custom ONNX graphs like this have no matching Transformers.js pipeline, so we create an `onnxruntime-web/wasm` session directly. The hosting platform sends no COOP or COEP headers, `crossOriginIsolated` is false, `SharedArrayBuffer` is unavailable, and `numThreads` has to be 1. `graphOptimizationLevel` is disabled too, since the optimiser aborts on large exported graphs. On all three pages the wait is mostly the first download and session creation. The result bar reports the bytes downloaded on that run.',
+          },
+          {
+            type: 'p',
+            text: 'SDXL Inpaint is listed at about 3.8 GB with no browser-loadable weights, and the page says that MI-GAN runs in its place. The text-to-image page marks the whole category as browser-infeasible.',
+          },
+          { type: 'links', items: [
+            { label: 'On this site · Watermark removal demo', href: '/demos/vision/watermark-removal' },
+            { label: 'On this site · Object removal demo', href: '/demos/vision/object-removal' },
+            { label: 'On this site · Inpainting demo', href: '/demos/generative-vision/inpainting' },
+            { label: 'On this site · Video watermark removal demo', href: '/demos/video/video-watermark-removal' },
+            { label: 'Model page · MI-GAN', href: '/vision/watermark-removal/mi-gan-watermark' },
+            { label: 'Model page · LaMa FP32', href: '/vision/watermark-removal/lama-watermark' },
+            { label: 'Model page · Image object eraser', href: '/vision/object-removal/image-object-eraser' },
+            { label: 'Model page · SDXL Inpaint', href: '/generative-vision/inpainting/sdxl-inpaint' },
+            { label: 'Hugging Face · andraniksargsyan/migan', href: 'https://huggingface.co/andraniksargsyan/migan' },
+            { label: 'Hugging Face · Carve/LaMa-ONNX', href: 'https://huggingface.co/Carve/LaMa-ONNX' },
+            { label: 'GitHub · Picsart-AI-Research/MI-GAN', href: 'https://github.com/Picsart-AI-Research/MI-GAN' },
+            { label: 'Hugging Face · SDXL Inpaint', href: 'https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1' },
+          ] },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'video-watermark-removal-webcodecs',
+    date: '2026-11-07',
+    category: 'vision',
+    tags: ['video', 'webcodecs', 'inpainting', 'ffmpeg', 'temporal'],
+    i18n: {
+      zh: {
+        title: '8 秒视频去水印，时域中值比模型先用上',
+        description:
+          '视频去水印页会在时间轴上取十几帧，看水印背后的画面动不动。动了直接求时域中值，静止才对一帧跑 MI-GAN，多数情况连权重都不用下。隔壁视频理解页的三张卡片只剩历史估值，能跑的是逐帧分类。',
+        blocks: [
+          {
+            type: 'p',
+            text: '内置样例是 8 秒街景。第一版想每帧都跑修补网络，几百帧算下来根本等不完。后来改成先在时间轴上取十几帧，看水印区域背后的画面动不动：动就直接取时域中值，静止才对一帧做 AI 补全，再把这块补丁贴回每一帧。大部分情况连权重都不用下载。',
+          },
+          { type: 'h2', text: '`motion` 怎么算' },
+          {
+            type: 'p',
+            text: '取帧数按时长算，最少 8 帧最多 24 帧，两端各留 5%（上限 0.25 秒）。8 秒样片会取到 13 帧。对选区逐像素求时间中值，再算每帧偏离中值的平均幅度、除以 255，`motion` 达到 0.015 判成背景在动，走时域中值；低于这个值才调 MI-GAN 补一张代表帧。判定和补丁都在浏览器里完成，视频不上传。',
+          },
+          {
+            type: 'table',
+            caption: '修复方式下拉里四项各自跑什么',
+            head: ['方式', '实际跑什么', '权重', '什么时候用'],
+            rows: [
+              ['auto', '按 motion 二选一', '可能完全不下载', '默认，先让它判'],
+              ['temporal', '逐像素时域中值', '无', '背景在动、水印固定'],
+              ['ai', 'MI-GAN 单帧补全', '26.8 MiB', '背景静止'],
+              ['hq', 'big-lama fp32 单帧补全', '198 MiB，仅 WASM', '大水印、结构重建，慢约 7 倍'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '`hq` 得手动选，auto 不会挑它。LaMa 权重拿不到时会依次降到 MI-GAN、再降到时域中值，不会卡在下载失败上。那份图在 WebGPU 下会死锁，代码里连尝试都不做，直接走 WASM。',
+          },
+          { type: 'h2', text: '逐帧重编码' },
+          {
+            type: 'p',
+            text: '补丁做好后用 `requestVideoFrameCallback` 逐帧把视频画到 canvas，叠上补丁，包成 `VideoFrame` 交给 `VideoEncoder`。帧率固定 30。码率按宽乘高乘 30 再乘 0.07，夹在 1.2 Mbps 到 20 Mbps 之间。AVC 配置从高到低试 7 个 `avc1.*` 候选，`isConfigSupported()` 挑第一个能用的。编码队列超过 8 帧就让 `requestAnimationFrame` 等一等。每 2 秒插一个关键帧，容器交给 `mp4-muxer` 的内存 fastStart。',
+          },
+          {
+            type: 'code',
+            label: '把原音轨接回来的 ffmpeg.wasm 命令',
+            text: "await ffmpeg.exec([\n  '-i', 'output-silent.mp4',\n  '-i', 'input-source.mp4',\n  '-map', '0:v:0',\n  '-map', '1:a:0?',\n  '-c:v', 'copy',\n  '-c:a', 'aac',\n  '-b:a', '160k',\n  '-movflags', '+faststart',\n  'output-with-audio.mp4',\n]);",
+          },
+          {
+            type: 'p',
+            text: 'WebCodecs 只给视频轨，音轨丢了。真实权重模式下再拉一次 ffmpeg.wasm 把原视频的音频接回来，命令里 `1:a:0?` 的问号表示源文件没有音轨也不报错。浏览器没有 `VideoEncoder` 时页面直接报不支持，输入限制是 120 秒和 200 MiB。演示模式省掉 MI-GAN 权重和音轨回填，一律走时域中值。',
+          },
+          { type: 'h2', text: '视频理解页的抽帧分类' },
+          {
+            type: 'p',
+            text: '`video/video-understanding` 的 VideoCLIP、X-CLIP、VideoMAE 三张卡片在目录里只有历史估值，约 300 / 350 / 430 MB，都没有能直接下载的浏览器权重。真实分支改用 MediaPipe 的 EfficientNet-Lite0，约 18 MB，对抽样帧逐帧分类，相邻同类帧合并成时间段。抽帧频率 1 到 12 fps，默认 4；最多分段 2 到 10，默认 6。它现在回答的是哪几秒画面里出现了什么，动作识别和时序推理那部分还没接上，结果栏标了替身。',
+          },
+          { type: 'links', items: [
+            { label: '本站演示 · 视频去水印', href: '/demos/video/video-watermark-removal' },
+            { label: '本站演示 · 视频理解', href: '/demos/video/video-understanding' },
+            { label: '模型详情 · 视频去水印（MI-GAN / LaMa）', href: '/video/video-watermark-removal/video-watermark-repair' },
+            { label: '模型详情 · 视频去水印高清档', href: '/video/video-watermark-removal/video-watermark-repair-hq' },
+            { label: '模型详情 · VideoCLIP', href: '/video/video-understanding/videoclip' },
+            { label: '模型详情 · X-CLIP', href: '/video/video-understanding/xclip' },
+            { label: '模型详情 · VideoMAE', href: '/video/video-understanding/videomae' },
+            { label: 'W3C · WebCodecs', href: 'https://www.w3.org/TR/webcodecs/' },
+            { label: 'GitHub · Picsart-AI-Research/MI-GAN', href: 'https://github.com/Picsart-AI-Research/MI-GAN' },
+            { label: 'GitHub · advimman/lama', href: 'https://github.com/advimman/lama' },
+            { label: 'Hugging Face · microsoft/xclip-base-patch32', href: 'https://huggingface.co/microsoft/xclip-base-patch32' },
+            { label: 'Hugging Face · MCG-NJU/videomae-base', href: 'https://huggingface.co/MCG-NJU/videomae-base' },
+          ] },
+        ],
+      },
+      en: {
+        title: 'Removing a watermark from an 8-second clip: temporal median before any model',
+        description:
+          'The video watermark demo samples a dozen frames along the timeline to see whether the area behind the watermark moves. If it does, a temporal median rebuilds it and no weights are downloaded. A static background gets one MI-GAN inpaint on a representative frame. WebCodecs re-encodes the result at a fixed framerate, and the video understanding page still classifies sampled frames.',
+        blocks: [
+          {
+            type: 'p',
+            text: 'The built-in sample is an 8-second street clip. Running the inpainting network on every frame was the first plan, and a few hundred frames made that obviously too slow. We changed it to sample a dozen frames along the timeline and check whether the area behind the watermark moves. A moving one is rebuilt straight from a temporal median. A static one gets an AI inpaint on a single representative frame, and that patch is composited onto every frame. Most runs download no weights at all.',
+          },
+          { type: 'h2', text: 'How `motion` is computed' },
+          {
+            type: 'p',
+            text: 'The sample count scales with duration, clamped between 8 and 24 frames, with a 5 percent margin at each end capped at 0.25 seconds. The 8-second sample produces 13 frames. We take a per-pixel temporal median across the selection and compute the mean deviation from it, divided by 255. A `motion` value of 0.015 or above counts as a moving background and selects the temporal median. Anything lower calls MI-GAN for a single-frame patch. The decision, the patch and the video all stay in the browser.',
+          },
+          {
+            type: 'table',
+            caption: 'What each of the four repair modes actually runs',
+            head: ['Mode', 'What runs', 'Weights', 'When to pick it'],
+            rows: [
+              ['auto', 'Chooses from motion', 'Possibly none', 'Default, let it decide'],
+              ['temporal', 'Per-pixel temporal median', 'None', 'Moving background, fixed watermark'],
+              ['ai', 'MI-GAN single-frame inpaint', '26.8 MiB', 'Static background'],
+              ['hq', 'big-lama fp32 single-frame inpaint', '198 MiB, wasm only', 'Large watermarks and structure, about 7x slower'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '`hq` is opt-in only, and auto never selects it. Without the LaMa weights the code degrades to MI-GAN and then to the temporal patch, so a failed download does not stall the run. LaMa deadlocks on WebGPU, so the code does not even try that backend and goes straight to wasm.',
+          },
+          { type: 'h2', text: 'Re-encoding frame by frame' },
+          {
+            type: 'p',
+            text: 'Once the patch is ready, `requestVideoFrameCallback` draws each frame onto a canvas, composites the patch, wraps the canvas in a `VideoFrame` and hands it to `VideoEncoder`. Framerate is fixed at 30. Bitrate is width times height times 30 times 0.07, clamped between 1.2 Mbps and 20 Mbps. Seven `avc1.*` config candidates are tried from highest to lowest and `isConfigSupported()` picks the first usable one. When the encoder queue passes 8 frames, a `requestAnimationFrame` pump waits. A keyframe goes in every 2 seconds, and `mp4-muxer` writes the container with in-memory fastStart.',
+          },
+          {
+            type: 'code',
+            label: 'The ffmpeg.wasm command that puts the original audio back',
+            text: "await ffmpeg.exec([\n  '-i', 'output-silent.mp4',\n  '-i', 'input-source.mp4',\n  '-map', '0:v:0',\n  '-map', '1:a:0?',\n  '-c:v', 'copy',\n  '-c:a', 'aac',\n  '-b:a', '160k',\n  '-movflags', '+faststart',\n  'output-with-audio.mp4',\n]);",
+          },
+          {
+            type: 'p',
+            text: 'WebCodecs gives us a video track only, so the audio is gone. In the real-weights path we load ffmpeg.wasm once more to mux the original audio back. The question mark in `1:a:0?` keeps the command valid when the source has no audio track. A browser without `VideoEncoder` gets an unsupported-browser error. Input is capped at 120 seconds and 200 MiB. Demo mode skips both the MI-GAN weights and the audio mux, and always uses the temporal median.',
+          },
+          { type: 'h2', text: 'Frame classification on the understanding page' },
+          {
+            type: 'p',
+            text: 'The VideoCLIP, X-CLIP and VideoMAE cards under `video/video-understanding` carry only historic size estimates in the catalogue, roughly 300, 350 and 430 MB. None of them has browser-downloadable weights. Their real branch uses MediaPipe EfficientNet-Lite0 at about 18 MB, classifies each sampled frame, and merges adjacent frames with the same label into segments. Sampling rate runs from 1 to 12 fps with a default of 4, and the segment cap from 2 to 10 with a default of 6. The page answers what appears in which seconds. Action recognition and temporal reasoning are not wired up, and the result bar marks the substitute.',
+          },
+          { type: 'links', items: [
+            { label: 'On this site · Video watermark removal demo', href: '/demos/video/video-watermark-removal' },
+            { label: 'On this site · Video understanding demo', href: '/demos/video/video-understanding' },
+            { label: 'Model page · Video watermark removal (MI-GAN / LaMa)', href: '/video/video-watermark-removal/video-watermark-repair' },
+            { label: 'Model page · Video watermark removal HD', href: '/video/video-watermark-removal/video-watermark-repair-hq' },
+            { label: 'Model page · VideoCLIP', href: '/video/video-understanding/videoclip' },
+            { label: 'Model page · X-CLIP', href: '/video/video-understanding/xclip' },
+            { label: 'Model page · VideoMAE', href: '/video/video-understanding/videomae' },
+            { label: 'W3C · WebCodecs', href: 'https://www.w3.org/TR/webcodecs/' },
+            { label: 'GitHub · Picsart-AI-Research/MI-GAN', href: 'https://github.com/Picsart-AI-Research/MI-GAN' },
+            { label: 'GitHub · advimman/lama', href: 'https://github.com/advimman/lama' },
+            { label: 'Hugging Face · microsoft/xclip-base-patch32', href: 'https://huggingface.co/microsoft/xclip-base-patch32' },
+            { label: 'Hugging Face · MCG-NJU/videomae-base', href: 'https://huggingface.co/MCG-NJU/videomae-base' },
+          ] },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'stem-separation-audio-classification',
+    date: '2026-11-07',
+    category: 'audio',
+    tags: ['audio', 'source-separation', 'demucs', 'audio-classification', 'wasm'],
+    i18n: {
+      zh: {
+        title: '6 分钟上限、7.8 秒一段，HT-Demucs 在标签页里分轨',
+        description:
+          '分轨跑在 Worker 里的裸 ONNX 上，整段音频拆成 7.8 秒的小块，重叠相加接起来。代码里的时长上限是累加器占内存逼出来的。声音分类那页卡片标的最小档和页面实际下载的 q8 文件对不上，2 轨伴奏是各轨求和凑出来的。',
+        blocks: [
+          {
+            type: 'p',
+            text: 'HT-Demucs 的裸 ONNX 图跑在 Worker 里，代码里写着 6 分钟上限。旁边那行注释给的理由很实在：每条音轨、每个声道都要一份全长的 float32 累加器。再长的音频得改成边推理边写回。现在的做法是把整段拆成 7.8 秒的小块，重叠相加接起来。',
+          },
+          {
+            type: 'table',
+            caption: '目录里三张卡片的实测体积和实际加载的权重',
+            head: ['卡片', '实测体积', '实际加载', '输出'],
+            rows: [
+              ['HT Demucs (4 stems)', '~158 MiB · fp16', 'htdemucs_fp16weights.onnx', '人声 / 鼓 / 贝斯 / 其他'],
+              ['HT Demucs (6 stems，默认)', '~130 MiB · fp16', 'htdemucs_6s_fp16weights.onnx', '4 轨 + 吉他 + 钢琴'],
+              ['Open-Unmix', '未实测（历史估值 ~60 MB）', '4 轨那份，结果栏带星号', '同 4 轨'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '6 轨那份比 4 轨小约 28 MiB，两个仓库导出不一样，轨数和体积对不上。卡片上的 fp16 后缀标精度档，加载的也是 fp16 权重，喂给会话的输入张量却是 float32。',
+          },
+          { type: 'h2', text: 'Worker 里的分段' },
+          {
+            type: 'p',
+            text: '输入先按 44.1 kHz 解成左右两个 Float32Array，用 `postMessage` 把 buffer 直接转给 Worker，省一次拷贝。模型契约是 `mix [1, 2, 343980]` 到 `stems [1, N, 2, 343980]`，343980 个样本正好 7.8 秒。重叠取四分之一，步长 257985，两端用线性渐变窗压下去。每条音轨、每个声道各有一份全长累加器，最后按权重归一化，再转回主线程。',
+          },
+          {
+            type: 'code',
+            label: 'stems.worker.ts 里的分段与会话调用',
+            text: "const SEG = 343_980;              // 7.8 s @ 44.1 kHz\nconst OVERLAP = SEG / 4;\nconst STRIDE = SEG - OVERLAP;     // 257985\nfor (let i = 0; i < OVERLAP; i++) win[i] = win[SEG - 1 - i] = i / (OVERLAP - 1);\nconst res = await session.run({ mix: new ort.Tensor('float32', input, [1, 2, SEG]) });\nconst out = res.stems.data;        // [1, N, 2, SEG]",
+          },
+          {
+            type: 'p',
+            text: '演示页选「2 轨」时，代码取人声那一轨，再把其余各轨逐样本加起来当伴奏。默认卡片是 6 轨，伴奏就是五轨之和。「时移增强」那个滑杆只在演示模式生效，真实权重分支没接。播放器是单声道，左右声道先取平均，只有峰值超过 1 才整体压增益，其余情况保留各轨的相对电平。',
+          },
+          {
+            type: 'p',
+            text: '会话同样走 wasm 单线程、优化器关闭。首次运行最慢的一步是建会话，页面上给的提示是约半分钟；权重进 Cache Storage 之后第二次运行不再下载。内置样例有中文人声加伴奏、英文人声加伴奏两个。',
+          },
+          { type: 'h2', text: '声音分类那页' },
+          {
+            type: 'p',
+            text: '`audio/audio-classification` 用的是 Transformers.js 的 `audio-classification` 管线。AST 在 AudioSet 的 527 类上打标签，Wav2Vec2 关键词识别只认 12 个语音指令（yes / no / up / down 之类）。目录里两张卡片的最小档是 ~49.0 MiB · q4f16 和 ~63.5 MiB · q4f16，页面按 q8 加载，文件分别是 86.6 MiB 和 91.4 MiB，结果栏报的是这次实际下载的字节数。MediaPipe Audio Classifier 标 ~3.9 MiB，需要单独的任务资产，页面换成 AST 并挂了星号。',
+          },
+          {
+            type: 'p',
+            text: '返回条数滑杆是 1 到 10，默认 5。三个内置样例分别是英语语音、人声加音乐、纯音乐，后两个用来看模型会不会把伴奏算成人声。演示模式的兜底算法只按 500 Hz 低通分频的能量比和过零率，给「语音 / 音乐 / 环境音」三类打分，跟 527 类没关系。',
+          },
+          { type: 'links', items: [
+            { label: '本站演示 · 音轨分离', href: '/demos/audio/source-separation' },
+            { label: '本站演示 · 声音分类', href: '/demos/audio/audio-classification' },
+            { label: '模型详情 · HT Demucs 4 轨', href: '/audio/source-separation/htdemucs-4-stem' },
+            { label: '模型详情 · HT Demucs 6 轨', href: '/audio/source-separation/htdemucs-6-stem' },
+            { label: '模型详情 · Open-Unmix', href: '/audio/source-separation/open-unmix' },
+            { label: '模型详情 · MediaPipe Audio Classifier', href: '/audio/audio-classification/mediapipe-audio-classifier' },
+            { label: '模型详情 · AST (AudioSet)', href: '/audio/audio-classification/ast-audioset' },
+            { label: '模型详情 · Wav2Vec2 关键词识别', href: '/audio/audio-classification/wav2vec2-keyword-spotting' },
+            { label: 'Hugging Face · StemSplitio/htdemucs-onnx', href: 'https://huggingface.co/StemSplitio/htdemucs-onnx' },
+            { label: 'Hugging Face · StemSplitio/htdemucs-6s-onnx', href: 'https://huggingface.co/StemSplitio/htdemucs-6s-onnx' },
+            { label: 'Hugging Face · Xenova/ast-finetuned-audioset-10-10-0.4593', href: 'https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593' },
+            { label: 'Hugging Face · Xenova/wav2vec2-base-superb-ks', href: 'https://huggingface.co/Xenova/wav2vec2-base-superb-ks' },
+            { label: 'GitHub · sigsep/open-unmix-pytorch', href: 'https://github.com/sigsep/open-unmix-pytorch' },
+          ] },
+        ],
+      },
+      en: {
+        title: 'A six-minute cap and 7.8-second chunks: HT-Demucs separating stems in a tab',
+        description:
+          'Stem separation runs a bare ONNX graph in a Worker, with the track cut into overlapping 7.8-second segments and joined back with overlap-add. The cap on duration comes from the accumulators each stem needs. The audio classification page has its own pair of numbers: the smallest tier printed on a card and the q8 file the page really downloads. Choosing 2 stems on the demo sums the other stems into one instrumental track.',
+        blocks: [
+          {
+            type: 'p',
+            text: 'The bare HT-Demucs ONNX graph runs inside a Worker, and the code caps input at six minutes. The comment next to that cap gives the reason without dressing it up: every stem and every channel needs a full-length float32 accumulator. Longer audio would need streaming output as inference goes. For now the track is split into 7.8-second segments and joined back with overlap-add.',
+          },
+          {
+            type: 'table',
+            caption: 'Measured sizes for the three catalogue cards and the weights actually loaded',
+            head: ['Card', 'Measured size', 'What loads', 'Output'],
+            rows: [
+              ['HT Demucs (4 stems)', '~158 MiB · fp16', 'htdemucs_fp16weights.onnx', 'Vocals / drums / bass / other'],
+              ['HT Demucs (6 stems, default)', '~130 MiB · fp16', 'htdemucs_6s_fp16weights.onnx', '4 stems plus guitar and piano'],
+              ['Open-Unmix', 'Not measured (historic estimate ~60 MB)', 'The 4-stem file, with an asterisk', 'Same 4 stems'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'The 6-stem file is about 28 MiB smaller than the 4-stem one. They are exports from two different repositories. The fp16 suffix on a card names the precision tier, and fp16 weights are what load, while the input tensor handed to the session is float32.',
+          },
+          { type: 'h2', text: 'Inside the Worker' },
+          {
+            type: 'p',
+            text: 'Input audio is decoded at 44.1 kHz into left and right Float32Arrays, and the buffers are transferred to the Worker with `postMessage` to avoid a copy. The model contract is `mix [1, 2, 343980]` to `stems [1, N, 2, 343980]`, and 343980 samples is exactly 7.8 seconds. Overlap is one quarter, the stride is 257985 samples, and a linear fade window tapers both ends. Each stem and channel has its own full-length accumulator, normalised by weight at the end, before the result goes back to the main thread.',
+          },
+          {
+            type: 'code',
+            label: 'Segmentation and the session call in stems.worker.ts',
+            text: "const SEG = 343_980;              // 7.8 s @ 44.1 kHz\nconst OVERLAP = SEG / 4;\nconst STRIDE = SEG - OVERLAP;     // 257985\nfor (let i = 0; i < OVERLAP; i++) win[i] = win[SEG - 1 - i] = i / (OVERLAP - 1);\nconst res = await session.run({ mix: new ort.Tensor('float32', input, [1, 2, SEG]) });\nconst out = res.stems.data;        // [1, N, 2, SEG]",
+          },
+          {
+            type: 'p',
+            text: 'Choosing 2 stems on the demo takes the vocal stem and sums every other stem sample by sample into an instrumental track. With the default 6-stem card, that instrumental is a sum of five stems. The shift trick slider only affects demo mode and is not wired into the real-weights branch. Players are mono, so the two channels are averaged, and gain is reduced only when the peak exceeds 1. Otherwise the relative levels between stems are preserved.',
+          },
+          {
+            type: 'p',
+            text: 'The session is wasm, single-threaded, with the graph optimiser off. The slowest part of a first run is session creation, which the page labels as roughly 30 seconds. Weights go into Cache Storage, so a second run downloads nothing. There are two built-in samples, a Chinese vocal with backing and an English vocal with backing.',
+          },
+          { type: 'h2', text: 'The audio classification page' },
+          {
+            type: 'p',
+            text: '`audio/audio-classification` uses the Transformers.js `audio-classification` pipeline. AST scores the 527 AudioSet classes, while Wav2Vec2 keyword spotting recognises 12 spoken commands such as yes, no, up and down. The two catalogue cards list ~49.0 MiB · q4f16 and ~63.5 MiB · q4f16 at their smallest tier, but the page loads q8, which means 86.6 MiB and 91.4 MiB files. The card shows the minimum tier and the result bar reports the bytes downloaded on that run. MediaPipe Audio Classifier is listed at ~3.9 MiB, but it needs a separate task asset, so the page loads AST instead and marks the substitute.',
+          },
+          {
+            type: 'p',
+            text: 'Top-K runs from 1 to 10 with a default of 5. The three built-in samples are English speech, vocals with music and a music bed. The last two are there to show whether a model counts the backing track as speech. The demo-mode fallback scores three classes (speech, music, ambient noise) from the energy ratio around a 500 Hz low-pass split and the zero-crossing rate, which has nothing to do with the 527 AudioSet labels.',
+          },
+          { type: 'links', items: [
+            { label: 'On this site · Stem separation demo', href: '/demos/audio/source-separation' },
+            { label: 'On this site · Audio classification demo', href: '/demos/audio/audio-classification' },
+            { label: 'Model page · HT Demucs 4-stem', href: '/audio/source-separation/htdemucs-4-stem' },
+            { label: 'Model page · HT Demucs 6-stem', href: '/audio/source-separation/htdemucs-6-stem' },
+            { label: 'Model page · Open-Unmix', href: '/audio/source-separation/open-unmix' },
+            { label: 'Model page · MediaPipe Audio Classifier', href: '/audio/audio-classification/mediapipe-audio-classifier' },
+            { label: 'Model page · AST (AudioSet)', href: '/audio/audio-classification/ast-audioset' },
+            { label: 'Model page · Wav2Vec2 keyword spotting', href: '/audio/audio-classification/wav2vec2-keyword-spotting' },
+            { label: 'Hugging Face · StemSplitio/htdemucs-onnx', href: 'https://huggingface.co/StemSplitio/htdemucs-onnx' },
+            { label: 'Hugging Face · StemSplitio/htdemucs-6s-onnx', href: 'https://huggingface.co/StemSplitio/htdemucs-6s-onnx' },
+            { label: 'Hugging Face · Xenova/ast-finetuned-audioset-10-10-0.4593', href: 'https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593' },
+            { label: 'Hugging Face · Xenova/wav2vec2-base-superb-ks', href: 'https://huggingface.co/Xenova/wav2vec2-base-superb-ks' },
+            { label: 'GitHub · sigsep/open-unmix-pytorch', href: 'https://github.com/sigsep/open-unmix-pytorch' },
+          ] },
         ],
       },
     },
@@ -1783,3 +2542,92 @@ export const blogPosts: BlogPost[] = [
 
 export const findPost = (slug: string): BlogPost | undefined =>
   blogPosts.find((p) => p.slug === slug);
+
+/**
+ * Newest first. Most posts share a publish date, so ties fall back to the order
+ * they were appended in: later entries are the ones written more recently.
+ * The index, the home teaser and related-post tie-breaks all use this order.
+ */
+export function sortedPosts(): BlogPost[] {
+  return blogPosts
+    .map((post, index) => ({ post, index }))
+    .sort((a, b) => b.post.date.localeCompare(a.post.date) || b.index - a.index)
+    .map(({ post }) => post);
+}
+
+/**
+ * Rank every other post by shared tags first, then by the coarse category.
+ * Ties keep `sortedPosts()` order so the section stays stable as posts are added.
+ * Only real matches are listed; padding with unrelated posts would turn the
+ * section into a generic "latest posts" widget. A post with no match at all
+ * falls back to the newest ones so the section is never empty.
+ */
+export function relatedPosts(slug: string, limit = 3): BlogPost[] {
+  const current = findPost(slug);
+  if (!current) return [];
+  const order = sortedPosts();
+  const rank = new Map(order.map((post, index) => [post.slug, index]));
+  const tags = new Set(current.tags);
+  const scored = order
+    .filter((post) => post.slug !== slug)
+    .map((post) => ({
+      post,
+      score:
+        post.tags.filter((tag) => tags.has(tag)).length * 2 +
+        (post.category === current.category ? 3 : 0),
+    }))
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        (rank.get(a.post.slug) ?? 0) - (rank.get(b.post.slug) ?? 0),
+    );
+  const matches = scored.filter((entry) => entry.score > 0).slice(0, limit);
+  return (matches.length ? matches : scored.slice(0, limit)).map(
+    ({ post }) => post,
+  );
+}
+
+/**
+ * Task pages link back to the posts that discuss them. The mapping is read from
+ * the posts' own link blocks, so a new post shows up on the right task pages as
+ * soon as it links to them, with no second list to keep in sync. Model deep links
+ * and demo deep links collapse onto their task page.
+ */
+const linkIndex = new Map<string, BlogPost[]>();
+
+function taskKey(href: string): string | undefined {
+  const parts = href.split(/[?#]/)[0].split('/').filter(Boolean);
+  if (parts[0] === 'demos' && parts.length >= 3) {
+    return `demos:${parts[1]}/${parts[2]}`;
+  }
+  if (
+    parts.length >= 2 &&
+    !['demos', 'blog', 'applications', 'methodology'].includes(parts[0])
+  ) {
+    return `catalog:${parts[0]}/${parts[1]}`;
+  }
+  return undefined;
+}
+
+export function postsForPath(path: string, limit = 3): BlogPost[] {
+  if (linkIndex.size === 0) {
+    for (const post of sortedPosts()) {
+      const keys = new Set<string>();
+      for (const loc of ['zh', 'en'] as const) {
+        for (const block of post.i18n[loc].blocks) {
+          if (block.type !== 'links') continue;
+          for (const item of block.items) {
+            if (!item.href.startsWith('/')) continue;
+            const key = taskKey(item.href);
+            if (key) keys.add(key);
+          }
+        }
+      }
+      for (const key of keys) {
+        linkIndex.set(key, [...(linkIndex.get(key) ?? []), post]);
+      }
+    }
+  }
+  const key = taskKey(path);
+  return key ? (linkIndex.get(key) ?? []).slice(0, limit) : [];
+}
