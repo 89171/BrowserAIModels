@@ -75,6 +75,285 @@ const OXR_SPEED_TABLE = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'browser-ai-runtime-comparison',
+    date: '2026-11-07',
+    tags: ['transformers.js', 'onnxruntime-web', 'webgpu', 'wasm', 'browser-ai'],
+    i18n: {
+      zh: {
+        title: 'Transformers.js、ONNX Runtime、WebGPU，在浏览器里怎么分工',
+        description:
+          '本站演示页底下的推理栈不止一种：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks、几个专用 WASM 库，还有 WebGPU 和只在 Chromium 落地的 WebNN。按实际接线和踩过的坑记一下差别。',
+        blocks: [
+          {
+            type: 'p',
+            text: '点开本站任意一个演示页，浏览器做的事差不多：下载权重，把图片或音频变成张量，跑一次前向，再把结果画回画布。只在「跑一次前向」这步上，我们前后用了五六种方案。有的页面把 ONNX 权重交给 Transformers.js，有的直接建一个 onnxruntime-web 会话自己拼输入输出，还有的整个 SDK 是别人编译好的 WASM。这篇按实际接线记一下差别，顺带写上几个部署时卡过我们的坑，那些跟模型精度无关，但决定页面能不能打开。',
+          },
+          { type: 'h2', text: '先把这几样东西摆到不同层上' },
+          {
+            type: 'p',
+            text: '把 Transformers.js、ONNX、WebGPU 放在一起比之前，得先说它们不在一个层面。ONNX 定的是权重文件怎么存、算子叫什么名字，onnxruntime-web 才是读这个文件并执行的东西，Transformers.js 又在它上面包了一层任务管线，WebGPU 和 WebAssembly 只管提供算力，完全不认识模型。本站四十多个演示任务里，这四层都在场。',
+          },
+          {
+            type: 'table',
+            caption: '按层次摆开，最后一列是本站用到的地方',
+            head: ['层次', '代表', '负责什么', '本站'],
+            rows: [
+              ['模型格式', 'ONNX、GGUF、TFLite', '权重序列化与算子定义', '绝大多数是 ONNX'],
+              ['推理运行时', 'onnxruntime-web、XNNPACK、TVM', '加载计算图，把算子调度到 CPU 或 GPU', 'ORT 的 wasm 与 webgpu 执行提供者'],
+              ['任务级封装', 'Transformers.js、MediaPipe Tasks、TensorFlow.js', '预处理、推理、后处理打包成一个调用', 'pipeline() 和 FaceLandmarker 之类'],
+              ['浏览器硬件 API', 'WebAssembly、WebGPU、WebNN', '给算力，不解析模型', 'numThreads、device、执行提供者都落到这层'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '选型时通常先问三件事：权重有没有现成的 ONNX 导出，前后处理要不要自己写，目标浏览器能拿到哪块芯片。速度反而是最后才测的，因为同一套权重在 WASM 和 WebGPU 上只差一个配置。',
+          },
+          { type: 'h2', text: 'Transformers.js 管的是整条管线' },
+          {
+            type: 'p',
+            text: '一句 `pipeline()` 背后是下载权重、选 tokenizer 或 processor、推理、把 logits 变成标签，全都不用自己写。项目锁的是 `@huggingface/transformers` 4.3.x，运行时约 30 MB 的 ESM，第一次点运行才动态 import。每个 (repo, dtype, device) 组合的管线留在内存 Map 里，权重文件进 Cache Storage，所以第二次打开同一个模型，结果栏里下载字节数是 0。',
+          },
+          {
+            type: 'p',
+            text: '有两处必须手动钉住。onnxruntime-web 那二十几 MB 的 WASM 二进制要用 `env.backends.onnx.wasm.wasmPaths` 指到自己托管的目录，不设的话会回落到 jsDelivr CDN，国内访问很慢。模型仓库也一样，huggingface.co 连不通时会探测一次并切到 hf-mirror.com，否则页面会一直停在「下载权重」不动。',
+          },
+          {
+            type: 'code',
+            label: '本站加载管线的简化版',
+            text: "const mod = await import('@huggingface/transformers');\nmod.env.allowLocalModels = false;\nmod.env.backends.onnx.wasm.wasmPaths = '/ort/';\n\nconst device = navigator.gpu ? 'webgpu' : 'wasm';\nconst dtype = device === 'webgpu' ? 'fp16' : 'q8';\nconst pipe = await mod.pipeline('image-classification', repo, { device, dtype });\nconst scores = await pipe(image);",
+          },
+          {
+            type: 'p',
+            text: '管线也有不好用的时候。做背景移除演示时，通用管线把 mask 先乘 255 转成 uint8 再放大，sigmoid 输出没顶到 0 和 1 两端，整个人就半透明。RMBG-1.4 的 config 里写的是 Segformer，BiRefNet 写的是 swin，照着解析会选错架构类。最后我们用 `model_type: \'custom\'` 和 `\'birefnet\'` 把两者钉成裸 ONNX 图，sigmoid、min-max、引导滤波、反溢色全部自己写，边缘才干净。这个演示页至今不走通用管线。',
+          },
+          { type: 'h2', text: '什么时候绕开管线，直接跑 ONNX 图' },
+          {
+            type: 'p',
+            text: '本站直接建 ORT 会话的有 Silero VAD、MI-GAN 图像修复、HT-Demucs 分轨和上面那两个抠图模型。共同点是输出要自己解释，音频区间、软 alpha、分离后的波形，都不是「取 top-1 标签」能解决的。Silero v5 的 ONNX 图我们用 onnxruntime-node 实测过：`input` 是 `[1, 576]`，等于 64 个历史样本加 512 个新样本（16 kHz 下 32 毫秒），LSTM `state` 是 `[2, 1, 128]` 并要从 `stateN` 逐帧反馈，还有一个 int64 标量的 `sr`。按老教程直接喂 512 个样本，概率会一直贴着 0.001。',
+          },
+          {
+            type: 'code',
+            label: '裸会话与 Silero v5 的输入契约',
+            text: "import * as ort from 'onnxruntime-web/wasm';\n\nort.env.wasm.numThreads = 1;   // 站点没有 COOP/COEP，只能单线程\nort.env.wasm.wasmPaths = '/ort/';\n\nconst session = await ort.InferenceSession.create(bytes, {\n  executionProviders: ['wasm'],\n  graphOptimizationLevel: 'disabled', // 大导出图上优化器会直接 abort\n});\n\nlet state = new ort.Tensor('float32', new Float32Array(256), [2, 1, 128]);\nconst sr = new ort.Tensor('int64', BigInt64Array.from([16000n]), []);\nconst res = await session.run({\n  input: new ort.Tensor('float32', frame576, [1, 576]),\n  state,\n  sr,\n});\nstate = res.stateN; // 下一帧接着用",
+          },
+          {
+            type: 'p',
+            text: '换 WebGPU 只要改导入路径和执行提供者数组。官方文档里几条注意事项比性能数字实用：很轻的模型用 WASM 反而二进制更小，graph capture 要求静态形状且所有 kernel 都在 WebGPU 上，留在 GPU 的张量得手动释放，不然显存一直涨。',
+          },
+          {
+            type: 'code',
+            label: '同一个权重切到 WebGPU 执行提供者',
+            text: "import * as ort from 'onnxruntime-web/webgpu';\n\nconst session = await ort.InferenceSession.create(bytes, {\n  executionProviders: ['webgpu', 'wasm'],\n});",
+          },
+          { type: 'h2', text: "device: 'webgpu' 之后发生了什么" },
+          {
+            type: 'p',
+            text: 'Transformers.js 的 `device: \'webgpu\'` 和 ORT 的 webgpu 执行提供者，最后都落到同一个 `navigator.gpu`。区别在算子 kernel 由谁给：ORT 把 ONNX 算子映射到预编译好的 WGSL kernel，WebLLM 和 MLC-LLM 则把模型提前用 TVM 编译成 web 运行时能直接吃的产物，配一个 OpenAI 风格的 chat 接口和 XGrammar 约束解码，专门伺候逐 token 生成。后者还有个好处，引擎跑在 Web Worker 里，解码不会卡住 UI。',
+          },
+          {
+            type: 'p',
+            text: '官方数字别照抄。Transformers.js v3 的公告写过 WebGPU 比 WASM 最多快 100 倍，那是小 encoder 上的上限；MLC 论文在 M3 Max、Chrome Canary 133、WebLLM 0.2.75 上测到 Llama-3.1-8B 约 41.1 tok/s、Phi-3.5-mini 约 71.1 tok/s，也是单台机器的厂商数据。本站结果栏只报这次实际下载的字节数和跑通的后端，不给速度承诺。',
+          },
+          {
+            type: 'p',
+            text: '真机上更常遇到的是 GPU 建图失败。我们在 `attemptLadder` 里排了四级：首选设备与精度，驱动编译不了 fp16 就同设备降 q8，再不行退到 wasm q8（免得把 90 MB 的 fp16 权重拖到 CPU 上），最后换一个更小的模型。`BiRefNet-lite-512` 标了 webgpuOnly，没 GPU 时整条退到 RMBG-1.4 的 q8 权重。GPU 失败会被记下来，同一会话里不再重试。',
+          },
+          {
+            type: 'code',
+            label: '降级阶梯（real.ts 的简化版）',
+            text: "const gpu = !!navigator.gpu;\nconst steps = [\n  { device: gpu ? 'webgpu' : 'wasm' },\n  ...(gpu ? [\n    { device: 'webgpu', dtype: 'q8' },\n    { device: 'wasm', dtype: 'q8' },\n  ] : []),\n  { repo: 'briaai/RMBG-1.4', dtype: 'q8' },\n];\nfor (const step of steps) {\n  try { return await load(step); }\n  catch (e) { if (isGpuFailure(e)) rememberGpuFailure(step); }\n}",
+          },
+          { type: 'h2', text: 'WebAssembly 这一层其实用得最多' },
+          {
+            type: 'p',
+            text: '所有浏览器都给 WASM，SIMD 也在，本站多数演示的最终落点就是它。除了 ORT 的 wasm 执行提供者，还有一批把整个任务编译好的库：Tesseract.js、PaddleOCR.js、EasyOCR.js 做 OCR，RNNoise 做降噪，MediaPipe Tasks 的人脸、姿态、手部、物体关键点走 XNNPACK。它们自带任务级 API 和自己的 WASM 资产，拿来就能用，代价是输出格式由对方定。',
+          },
+          {
+            type: 'p',
+            text: '部署时先卡住的不是算力，是文件。带 worker 资产的 SDK 必须和页面同源，挪到对象存储就加载不到 worker，PaddleOCR 那套我们只能整个自托管。EdgeOne Pages 按扩展名发 MIME，`.mjs` 会被发成 `application/octet-stream`，`.ts` 更离谱，是 `video/mp2t`；Chrome 对 ES module 和 module worker 强制校验 MIME，于是动态加载的 SDK 一律打成 `.js`，Turbopack 按源文件扩展名 emit 出来的 worker 文件也得在 postbuild 改名并修掉 chunk 里的引用。还有个更隐蔽的：平台没给 COOP/COEP，`crossOriginIsolated` 是 false，SharedArrayBuffer 拿不到，ORT 只能单线程，那些 pthread worker 分支全是死代码。上面代码里 `numThreads = 1` 就是这么来的。',
+          },
+          { type: 'h2', text: '还有几套本站没上的' },
+          {
+            type: 'ul',
+            items: [
+              'TensorFlow.js 有自己的模型格式和 layers API，WebGL 与 WebGPU 后端都在，从训模型开始就在 JS 里做比较顺；手上是 Hugging Face 的 ONNX 权重就得再转一道',
+              'wllama 把 llama.cpp 编到 WASM，GGUF 权重直接跑，CPU 上 SIMD，模型兼容性最好，但没有 GPU 加速',
+              'WebNN 是给 NPU 的整图 API，ORT 已经把它做成执行提供者，Chrome/Edge 里还得开 flag 或走 Origin Trial，那篇单独写过',
+              '近几个版本的 Chrome 内置了 Gemini Nano，`window.LanguageModel` 这类 API 连权重都不用自己下，只是可用设备和版本有限，模型也不能换',
+            ],
+          },
+          { type: 'h2', text: '新加一个任务时怎么定' },
+          {
+            type: 'table',
+            caption: '本站几个任务最后落在哪套栈上',
+            head: ['任务', '用的方案', '原因'],
+            rows: [
+              ['分类、嵌入、ASR、翻译', 'Transformers.js pipeline 加 ONNX 权重', '一条调用带完 tokenizer 与前后处理，device 和 dtype 各改一行就能换后端'],
+              ['抠图、VAD、音轨分离、图像修复', 'onnxruntime-web 裸会话', '软 alpha、语音区间、logits 的 sigmoid 都得自己算'],
+              ['人脸、姿态、手、物体关键点', 'MediaPipe Tasks', '任务级 API 和 WASM 资产现成，实时帧率稳'],
+              ['OCR、降噪', 'Tesseract.js / PaddleOCR.js / RNNoise', '成熟任务不值得复刻前后处理'],
+              ['聊天生成', '本站没上，WebLLM 或 MLC 更合适', '几 GB 权重首次下载，演示页等不起'],
+              ['常驻低功耗推理', 'WebNN 执行提供者，见专文', '要等 Chromium 之外也实现'],
+            ],
+          },
+          {
+            type: 'p',
+            text: '这几套栈在本站是并存的，同一个页面里可能 MediaPipe 出关键点、Transformers.js 跑分类、ORT 裸会话算 alpha。真要加新任务，先去目录里看有没有现成的 ONNX 权重和任务级管线，有就接上；输出需要自己解释，再考虑直接建会话。每次推理实际用了哪个后端、下了多少字节，结果栏里都写着，比任何选型表可靠。',
+          },
+          { type: 'links', items: [
+            { label: 'Transformers.js 文档', href: 'https://huggingface.co/docs/transformers.js/index' },
+            { label: 'ONNX Runtime Web · WebGPU 执行提供者文档', href: 'https://onnxruntime.ai/docs/tutorials/web/ep-webgpu.html' },
+            { label: 'WebLLM 项目文档', href: 'https://webllm.mlc.ai/' },
+            { label: 'MediaPipe Tasks Vision 文档', href: 'https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector/web_js' },
+            { label: '演示 · 语音活动检测（裸 ONNX 会话）', href: '/demos/audio/vad' },
+            { label: '演示 · 背景移除（自己写后处理）', href: '/demos/vision/background-removal' },
+            { label: '演示 · 姿态关键点（MediaPipe Tasks）', href: '/demos/real-time/pose' },
+            { label: '演示 · OCR（专用 WASM 库）', href: '/demos/vision/ocr' },
+            { label: '演示 · 图像分类（Transformers.js 管线）', href: '/demos/vision/image-classification' },
+            { label: '博客 · WebNN 现在能在浏览器里做什么', href: '/blog/webnn-browser-neural-network-inference' },
+            { label: '博客 · 在浏览器里跑大模型', href: '/blog/in-browser-llm-size-tradeoffs' },
+          ] },
+        ],
+      },
+      en: {
+        title: 'What Transformers.js, ONNX Runtime Web and WebGPU each do in a browser',
+        description:
+          'The demos on this site do not all use one runtime: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks, a few purpose-built WASM libraries, plus WebGPU and the WebNN EP. Notes on how they differ, from the code we actually shipped.',
+        blocks: [
+          {
+            type: 'p',
+            text: 'Open any demo on this site and the browser does roughly the same thing: download weights, turn an image or an audio clip into tensors, run one forward pass, draw the result back onto a canvas. For that one forward pass we have used five or six different setups. Some pages hand ONNX weights to Transformers.js, some open an onnxruntime-web session and assemble the inputs themselves, and some ship an SDK that someone else compiled to WASM. These are notes on how the wiring differs, plus a few deployment problems that blocked us along the way. None of them have anything to do with model accuracy, but they decide whether the page loads at all.',
+          },
+          { type: 'h2', text: 'These pieces sit at different layers' },
+          {
+            type: 'p',
+            text: 'Before comparing Transformers.js, ONNX and WebGPU side by side, it helps to notice they are not the same kind of thing. ONNX defines how weights are stored and what operators are called. onnxruntime-web is the thing that reads that file and executes it. Transformers.js wraps a task pipeline on top. WebGPU and WebAssembly only supply compute and know nothing about models. All four layers show up across the forty-odd demos here.',
+          },
+          {
+            type: 'table',
+            caption: 'The stack by layer, with what this site uses in the last column',
+            head: ['Layer', 'Examples', 'What it does', 'Here'],
+            rows: [
+              ['Model format', 'ONNX, GGUF, TFLite', 'Weight serialisation and operator names', 'Almost everything is ONNX'],
+              ['Inference runtime', 'onnxruntime-web, XNNPACK, TVM', 'Loads the graph, dispatches operators to CPU or GPU', 'ORT wasm and webgpu execution providers'],
+              ['Task-level wrapper', 'Transformers.js, MediaPipe Tasks, TensorFlow.js', 'Packs pre-processing, inference and post-processing into one call', 'pipeline() and FaceLandmarker'],
+              ['Browser hardware API', 'WebAssembly, WebGPU, WebNN', 'Supplies compute, does not parse models', 'numThreads, device and execution providers land here'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'When we pick one, the first questions are whether an ONNX export already exists, who writes the pre- and post-processing, and which chip the target browser can reach. Speed comes last, because the same weights on WASM and WebGPU are one configuration change apart.',
+          },
+          { type: 'h2', text: 'Transformers.js owns the whole pipeline' },
+          {
+            type: 'p',
+            text: 'One `pipeline()` call covers downloading weights, picking the tokenizer or processor, running inference and turning logits into labels. The project pins `@huggingface/transformers` 4.3.x. Its runtime is about 30 MB of ESM and is imported only on the first run. Each (repo, dtype, device) combination stays in an in-memory Map while the files live in Cache Storage, so opening the same model a second time reports zero downloaded bytes in the results panel.',
+          },
+          {
+            type: 'p',
+            text: 'Two things have to be pinned by hand. The onnxruntime-web WASM binaries, a couple dozen MB, need `env.backends.onnx.wasm.wasmPaths` pointed at a directory we host; leave it unset and they come from the jsDelivr CDN, which is slow from China. The model hub is similar: when huggingface.co is unreachable we probe once and switch to hf-mirror.com, otherwise the page sits on "downloading weights" forever with no error.',
+          },
+          {
+            type: 'code',
+            label: 'A trimmed version of how we load a pipeline',
+            text: "const mod = await import('@huggingface/transformers');\nmod.env.allowLocalModels = false;\nmod.env.backends.onnx.wasm.wasmPaths = '/ort/';\n\nconst device = navigator.gpu ? 'webgpu' : 'wasm';\nconst dtype = device === 'webgpu' ? 'fp16' : 'q8';\nconst pipe = await mod.pipeline('image-classification', repo, { device, dtype });\nconst scores = await pipe(image);",
+          },
+          {
+            type: 'p',
+            text: 'The wrapper also gets in the way sometimes. On the background-removal demo, the generic pipeline multiplies the mask by 255 and casts to uint8 before resizing. When the sigmoid output does not reach either end of 0..1, the subject turns semi-transparent. RMBG-1.4 ships a config that declares Segformer and BiRefNet declares swin, so the pipeline resolves to the wrong architecture class. We pinned both to plain ONNX graphs with `model_type: \'custom\'` and `\'birefnet\'`, then wrote the sigmoid, min-max, guided filter and colour decontamination ourselves. That demo still bypasses the generic pipeline.',
+          },
+          { type: 'h2', text: 'When we skip the pipeline and run the ONNX graph' },
+          {
+            type: 'p',
+            text: 'Silero VAD, MI-GAN inpainting, HT-Demucs source separation and both matting models open an ORT session directly. What they share is that the output needs interpreting: speech ranges, a soft alpha, separated waveforms, none of which is a top-1 label. We measured the Silero v5 graph with onnxruntime-node first. `input` is `[1, 576]`, which is 64 samples of history plus 512 new ones (32 ms at 16 kHz); the LSTM `state` is `[2, 1, 128]` and has to be fed back from `stateN` every frame; there is also an int64 scalar `sr`. Feed it 512 samples as the older tutorials do and the probability sits at 0.001 the whole way through.',
+          },
+          {
+            type: 'code',
+            label: 'A raw session and the Silero v5 input contract',
+            text: "import * as ort from 'onnxruntime-web/wasm';\n\nort.env.wasm.numThreads = 1;   // no COOP/COEP on this host, single thread only\nort.env.wasm.wasmPaths = '/ort/';\n\nconst session = await ort.InferenceSession.create(bytes, {\n  executionProviders: ['wasm'],\n  graphOptimizationLevel: 'disabled', // the optimiser aborts on large exported graphs\n});\n\nlet state = new ort.Tensor('float32', new Float32Array(256), [2, 1, 128]);\nconst sr = new ort.Tensor('int64', BigInt64Array.from([16000n]), []);\nconst res = await session.run({\n  input: new ort.Tensor('float32', frame576, [1, 576]),\n  state,\n  sr,\n});\nstate = res.stateN; // reuse on the next frame",
+          },
+          {
+            type: 'p',
+            text: 'Switching to WebGPU is an import path and an execution provider array. A few notes in the official docs matter more than the benchmarks: for very light models the WASM binary is smaller, graph capture needs static shapes with every kernel on WebGPU, and GPU-resident tensors must be disposed by hand or memory keeps climbing.',
+          },
+          {
+            type: 'code',
+            label: 'Same weights, WebGPU execution provider',
+            text: "import * as ort from 'onnxruntime-web/webgpu';\n\nconst session = await ort.InferenceSession.create(bytes, {\n  executionProviders: ['webgpu', 'wasm'],\n});",
+          },
+          { type: 'h2', text: "What happens after device: 'webgpu'" },
+          {
+            type: 'p',
+            text: 'The `device: \'webgpu\'` option in Transformers.js and the webgpu execution provider in ORT both end up at the same `navigator.gpu`. The difference is who supplies the operator kernels. ORT maps ONNX operators to prebuilt WGSL kernels. WebLLM and MLC-LLM compile the model ahead of time with TVM into artifacts their web runtime consumes, then add an OpenAI-shaped chat API and XGrammar-constrained decoding for token-by-token generation. Their engine runs in a Web Worker, so decoding does not block the UI.',
+          },
+          {
+            type: 'p',
+            text: 'Do not copy the headline numbers. The Transformers.js v3 announcement quotes up to 100x over WASM, a ceiling measured on small encoders. The MLC paper reports about 41.1 tokens/s for Llama-3.1-8B and 71.1 for Phi-3.5-mini on an M3 Max with Chrome Canary 133 and WebLLM 0.2.75, which is one machine and figures from the vendor itself. Our results panel reports the bytes actually downloaded and the backend that worked, and makes no speed claim.',
+          },
+          {
+            type: 'p',
+            text: 'On real hardware the more common failure is that the GPU cannot build the graph. `attemptLadder` has four steps: the preferred device and dtype, the same device at q8 when a driver cannot compile the fp16 graph, wasm at q8 so a 90 MB fp16 download does not land on a CPU pipeline, and finally a smaller model. `BiRefNet-lite-512` is marked webgpuOnly and falls all the way back to the q8 weights of RMBG-1.4. GPU failures are remembered so the same session stops retrying them.',
+          },
+          {
+            type: 'code',
+            label: 'The fallback ladder, simplified from real.ts',
+            text: "const gpu = !!navigator.gpu;\nconst steps = [\n  { device: gpu ? 'webgpu' : 'wasm' },\n  ...(gpu ? [\n    { device: 'webgpu', dtype: 'q8' },\n    { device: 'wasm', dtype: 'q8' },\n  ] : []),\n  { repo: 'briaai/RMBG-1.4', dtype: 'q8' },\n];\nfor (const step of steps) {\n  try { return await load(step); }\n  catch (e) { if (isGpuFailure(e)) rememberGpuFailure(step); }\n}",
+          },
+          { type: 'h2', text: 'WebAssembly is the layer we use most' },
+          {
+            type: 'p',
+            text: 'Every browser has WASM and SIMD is available, so most demos here end up on it. Alongside the ORT wasm provider there are libraries that compile a whole task: Tesseract.js, PaddleOCR.js and EasyOCR.js for OCR, RNNoise for denoising, and MediaPipe Tasks for face, pose, hand and object landmarks through XNNPACK. Each brings its own task-level API and its own WASM assets, which is convenient until you need an output shape it does not offer.',
+          },
+          {
+            type: 'p',
+            text: 'Deployment trips over files before compute. An SDK that ships worker assets has to be same-origin, so PaddleOCR is hosted with the page rather than on object storage. EdgeOne Pages assigns MIME types by extension: `.mjs` comes back as `application/octet-stream` and `.ts` as `video/mp2t`. Chrome validates MIME types strictly for ES modules and module workers, so every dynamically loaded SDK is packaged as `.js`, and the worker files Turbopack emits under their source extension get renamed in postbuild along with the chunk references. There is a quieter one too: without COOP/COEP the page is not cross-origin isolated, SharedArrayBuffer is unavailable, ORT stays single-threaded and those pthread worker branches are dead code. That is why `numThreads = 1` appears above.',
+          },
+          { type: 'h2', text: 'A few stacks we did not ship' },
+          {
+            type: 'ul',
+            items: [
+              'TensorFlow.js has its own model format and layers API with WebGL and WebGPU backends. It fits a project that trains in JS from the start; starting from ONNX weights on the Hub means another conversion',
+              'wllama compiles llama.cpp to WASM and runs GGUF weights directly, SIMD on CPU, the broadest model compatibility and no GPU acceleration',
+              'WebNN is the whole-graph API aimed at NPUs, already an execution provider in ORT, but still behind a flag or an Origin Trial in Chrome and Edge. There is a separate post on it',
+              'Recent Chrome versions ship Gemini Nano, exposed through APIs such as `window.LanguageModel`, so no weights to download at all, at the cost of limited devices and a model you cannot swap',
+            ],
+          },
+          { type: 'h2', text: 'How we decide for a new task' },
+          {
+            type: 'table',
+            caption: 'Where several of our tasks ended up',
+            head: ['Task', 'Stack', 'Why'],
+            rows: [
+              ['Classification, embeddings, ASR, translation', 'Transformers.js pipeline with ONNX weights', 'One call covers the tokenizer and post-processing; device and dtype are one line each'],
+              ['Matting, VAD, source separation, inpainting', 'Raw onnxruntime-web session', 'Soft alpha, speech ranges and sigmoid on logits all need custom handling'],
+              ['Face, pose, hand and object landmarks', 'MediaPipe Tasks', 'Task API and WASM assets ready to use, steady frame rates'],
+              ['OCR and denoising', 'Tesseract.js / PaddleOCR.js / RNNoise', 'Mature tasks, no reason to rebuild their pre-processing'],
+              ['Chat generation', 'Not shipped here; WebLLM or MLC fits better', 'Several GB on first load is too long for a demo page'],
+              ['Always-on low-power inference', 'WebNN execution provider, see the dedicated post', 'Waiting on implementations outside Chromium'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'These stacks coexist here. One page can take landmarks from MediaPipe, run classification through Transformers.js and compute an alpha in a raw ORT session. For a new task we check the catalogue first for an ONNX export and a task-level pipeline, and only open a session directly when the output needs its own interpretation. The results panel shows which backend ran and how many bytes were downloaded, which is more reliable than any comparison table.',
+          },
+          { type: 'links', items: [
+            { label: 'Transformers.js documentation', href: 'https://huggingface.co/docs/transformers.js/index' },
+            { label: 'ONNX Runtime Web · WebGPU execution provider', href: 'https://onnxruntime.ai/docs/tutorials/web/ep-webgpu.html' },
+            { label: 'WebLLM documentation', href: 'https://webllm.mlc.ai/' },
+            { label: 'MediaPipe Tasks Vision documentation', href: 'https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector/web_js' },
+            { label: 'Demo · Voice activity detection (raw ONNX session)', href: '/demos/audio/vad' },
+            { label: 'Demo · Background removal (custom post-processing)', href: '/demos/vision/background-removal' },
+            { label: 'Demo · Pose landmarks (MediaPipe Tasks)', href: '/demos/real-time/pose' },
+            { label: 'Demo · OCR (purpose-built WASM libraries)', href: '/demos/vision/ocr' },
+            { label: 'Demo · Image classification (Transformers.js pipeline)', href: '/demos/vision/image-classification' },
+            { label: 'Post · What WebNN can do in a browser today', href: '/blog/webnn-browser-neural-network-inference' },
+            { label: 'Post · Running an LLM in the browser', href: '/blog/in-browser-llm-size-tradeoffs' },
+          ] },
+        ],
+      },
+    },
+  },
+  {
     slug: 'detection-to-matte',
     date: '2026-11-07',
     tags: ['vision', 'detection', 'segmentation', 'background-removal'],
