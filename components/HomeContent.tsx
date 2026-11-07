@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Link, routing } from '@/i18n/routing';
 import { TAXONOMY } from '@/data/taxonomy';
 import { countModels, totalModels } from '@/data/models';
+import { sortedPosts, blogCategoryByKey } from '@/lib/data/blog';
 import { JsonLd } from './JsonLd';
 import { SITE_URL } from '@/lib/site';
 import { localizedUrl } from '@/lib/urls';
@@ -17,6 +18,9 @@ export async function HomeContent({ locale }: { locale: string }) {
   const c = await getTranslations({ locale, namespace: 'catalog' });
   const tMethod = await getTranslations({ locale, namespace: 'methodology' });
   const tSeo = await getTranslations({ locale, namespace: 'seo.home' });
+
+  const lang = locale as 'zh' | 'en';
+  const latestPosts = sortedPosts().slice(0, 3);
 
   const homeFaqs = [
     { q: tSeo('q1'), a: tSeo('a1') },
@@ -109,6 +113,39 @@ export async function HomeContent({ locale }: { locale: string }) {
         </ul>
       </section>
 
+      <section aria-labelledby="latest-posts" className="space-y-6">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 id="latest-posts" className="font-mono text-2xl">{t('latestTitle')}</h2>
+            <p className="mt-2 text-sm text-black/60">{t('latestLead')}</p>
+          </div>
+          <Link href="/blog" className="text-sm underline underline-offset-2 hover:opacity-60">
+            {t('latestAll')} →
+          </Link>
+        </div>
+        <ul className="grid gap-6 md:grid-cols-3">
+          {latestPosts.map((post) => {
+            const c = post.i18n[lang] ?? post.i18n.en;
+            const cat = blogCategoryByKey(post.category);
+            return (
+              <li key={post.slug} className="border-t-2 border-black pt-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-black/50">
+                  <span>{cat ? (cat.label[lang] ?? cat.label.en) : post.category}</span>
+                  <time dateTime={post.date}>{post.date}</time>
+                </div>
+                <h3 className="mt-2 font-semibold leading-snug">
+                  <Link href={`/blog/${post.slug}`} className="underline-offset-2 hover:underline">
+                    {c.title}
+                  </Link>
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-black/70 line-clamp-3">
+                  {c.description}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
 
       <section aria-labelledby="how-to-use" className="space-y-4">
         <h2 id="how-to-use" className="font-mono text-2xl">{tSeo('howTitle')}</h2>

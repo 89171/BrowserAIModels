@@ -13,6 +13,8 @@ import { APPLICATIONS } from '@/data/applications';
 import { SITE_URL } from '@/lib/site';
 import { TaskInsights } from '@/components/TaskInsights';
 import { hasDemo } from '@/lib/data/registry';
+import { postsForPath } from '@/lib/data/blog';
+import { RelatedPosts } from '@/components/RelatedPosts';
 import { taskKeywords } from '@/lib/seo';
 
 export function generateStaticParams() {
@@ -86,7 +88,9 @@ export default async function SubcategoryPage({
   const tNav = await getTranslations({ locale, namespace: 'nav' });
   const tDemos = await getTranslations({ locale, namespace: 'demos' });
   const tAny = await getTranslations({ locale });
+  const tBlog = await getTranslations({ locale, namespace: 'blog' });
   const pageUrl = `${SITE_URL}/${locale}/${cat.slug}/${sub.slug}`;
+  const taskPosts = postsForPath(`/${cat.slug}/${sub.slug}`);
 
   return (
     <div className="space-y-10">
@@ -151,6 +155,13 @@ export default async function SubcategoryPage({
         subcategory={sub.slug}
         models={models}
         pageUrl={pageUrl}
+      />
+
+      <RelatedPosts
+        posts={taskPosts}
+        locale={locale}
+        title={tBlog('taskRelatedTitle')}
+        allLabel={tBlog('relatedAll')}
       />
 
       <JsonLd

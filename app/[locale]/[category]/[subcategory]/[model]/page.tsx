@@ -12,7 +12,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { ModelTable } from '@/components/ModelTable';
 import { ModelInsights } from '@/components/ModelInsights';
 import { SITE_URL } from '@/lib/site';
-import { modelKeywords } from '@/lib/seo';
+import { modelKeywords, modelDescription, formatGib } from '@/lib/seo';
+import { weightDownloadBytes } from '@/lib/model-size';
 
 type Params = { locale: string; category: string; subcategory: string; model: string };
 
@@ -52,9 +53,21 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const path = `/${rest.category}/${rest.subcategory}/${entry.id}`;
   const url = localizedUrl(locale, path);
   const taskName = tSubs(rest.subcategory as 'classification');
+  const tCatalog = await getTranslations({ locale, namespace: 'catalog' });
+  // Short catalogue blurbs make thin snippets. Extend only the metadata with
+  // facts this page already renders; the visible intro stays verbatim.
+  const metaDescription = modelDescription(locale, {
+    name,
+    description,
+    taskName,
+    framework: fw(entry.framework),
+    size: formatGib(weightDownloadBytes(entry)),
+    evidence: tCatalog(entry.browserEvidence.status as 'tested'),
+    siblings: getModels(rest.category, rest.subcategory).length - 1,
+  });
   return {
     title: `${name} · ${taskName}`,
-    description,
+    description: metaDescription,
     keywords: modelKeywords(
       locale,
       name,
@@ -64,7 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       fw(entry.framework),
     ),
     alternates: { canonical: url, languages: languageAlternates(path) },
-    ...socialMetadata(locale, name, description, url),
+    ...socialMetadata(locale, name, metaDescription, url),
   };
 }
 

@@ -183,6 +183,89 @@ export function homeKeywords(locale: string): string[] {
   ];
 }
 
+/**
+ * Short catalogue blurbs make thin meta descriptions. When the source sentence is
+ * too short, append facts the page already renders instead of inventing copy.
+ * Everything here comes from the same entry the table shows.
+ */
+export function modelDescription(
+  locale: string,
+  o: {
+    name: string;
+    description: string;
+    taskName: string;
+    framework: string;
+    size?: string;
+    evidence: string;
+    siblings: number;
+  },
+): string {
+  const { name, description, taskName, framework, size, evidence, siblings } = o;
+  if (description.length >= (locale === 'zh' ? 60 : 100)) return description;
+  if (locale === 'zh') {
+    const withSize = size ? `，最小已知权重 ${size}` : '';
+    const compare = siblings
+      ? `同页可对比该任务的另外 ${siblings} 个条目与来源链接。`
+      : '同页附来源链接与许可信息。';
+    return `${description}目录把 ${name} 列在${taskName}下，运行时为 ${framework}${withSize}，${evidence}。${compare}`;
+  }
+  const withSize = size ? ` and a smallest known download of ${size}` : '';
+  const compare = siblings
+    ? ` The page also links sources and ${siblings} other entries for this task.`
+    : ' The page also lists its sources and licences.';
+  return `${description} The catalogue lists ${name} under ${taskName} with ${framework} as its runtime${withSize}. ${evidence}.${compare}`;
+}
+
+/**
+ * A few task blurbs are a single short clause. Extend the metadata only, with
+ * the model count the page already renders; the visible intro is untouched.
+ */
+export function demoTaskDescription(
+  locale: string,
+  description: string,
+  name: string,
+  modelCount: number,
+): string {
+  if (description.length >= (locale === 'zh' ? 35 : 80)) return description;
+  if (locale === 'zh') {
+    return `${description}${name} 演示可切换 ${modelCount} 个模型。`;
+  }
+  return `${description} The ${name} demo switches between ${modelCount} models.`;
+}
+
+export function blogKeywords(locale: string): string[] {
+  if (locale === 'zh') {
+    return [
+      '浏览器 AI 模型',
+      '浏览器端推理',
+      'WebGPU 推理',
+      'ONNX Runtime Web',
+      '模型权重体积',
+      '图像修复',
+      '背景移除',
+      '语音识别',
+      '视觉语言模型',
+      'RAG 检索',
+      'WebNN',
+      '模型实测笔记',
+    ];
+  }
+  return [
+    'browser AI models',
+    'client-side inference',
+    'WebGPU inference',
+    'ONNX Runtime Web',
+    'model download size',
+    'image restoration',
+    'background removal',
+    'speech recognition',
+    'vision language models',
+    'RAG retrieval',
+    'WebNN',
+    'model benchmark notes',
+  ];
+}
+
 export function demosKeywords(locale: string): string[] {
   if (locale === 'zh') {
     return [

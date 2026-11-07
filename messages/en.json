@@ -24,9 +24,20 @@
   },
   "blog": {
     "title": "Blog",
-    "intro": "Model notes and benchmark write-ups: the story behind every entry in the catalog.",
+    "intro": "Implementation notes on browser AI: weight sizes, inference runtimes, image restoration and inpainting, video repair, audio separation, VLMs and retrieval. Browse by topic or tag.",
     "readMore": "Read more",
-    "backToBlog": "Back to all posts"
+    "backToBlog": "Back to all posts",
+    "browseByTopic": "Browse by topic",
+    "allPosts": "All",
+    "countSuffix": " posts",
+    "tagLabel": "Tag",
+    "categoryLabel": "Category",
+    "filterByTagPrefix": "Filter by tag: ",
+    "filterByCategoryPrefix": "Show category: ",
+    "clearFilter": "Clear filter",
+    "relatedTitle": "Related reading",
+    "relatedAll": "All posts",
+    "taskRelatedTitle": "Read next"
   },
   "languages": {
     "label": "Language",
@@ -40,7 +51,10 @@
     "modelsCount": "{count} catalog entries · models, tools and applications",
     "aboutTitle": "Bring more AI tasks into the browser",
     "aboutLead": "The browser can be more than an entry point to an AI service: it can also run AI applications locally. With tools such as Transformers.js and ONNX Runtime Web, developers can bring text processing, image recognition and speech transcription to users’ devices, adding useful AI capabilities to web applications.",
-    "aboutBody": "Local inference allows some tasks to process inputs without sending them to a remote model service. It can reduce network round trips and cloud inference costs, and support offline use once model resources are available. This project brings together models, tools and application ideas to help developers discover suitable browser AI tasks and integrate them into everyday web applications. Actual support depends on the model, browser and device."
+    "aboutBody": "Local inference allows some tasks to process inputs without sending them to a remote model service. It can reduce network round trips and cloud inference costs, and support offline use once model resources are available. This project brings together models, tools and application ideas to help developers discover suitable browser AI tasks and integrate them into everyday web applications. Actual support depends on the model, browser and device.",
+    "latestTitle": "Latest posts",
+    "latestLead": "Numbers and snags written down after actually running the catalog models.",
+    "latestAll": "All posts"
   },
   "category": {
     "modelsCount": "{count, plural, one {# entry} other {# entries}}",

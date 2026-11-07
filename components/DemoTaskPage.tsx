@@ -5,6 +5,8 @@ import { demoModels } from '@/lib/demo-catalog';
 import { JsonLd } from '@/components/JsonLd';
 import { localizedUrl } from '@/lib/urls';
 import { SITE_URL } from '@/lib/site';
+import { postsForPath } from '@/lib/data/blog';
+import { RelatedPosts } from '@/components/RelatedPosts';
 
 type Props = {
   locale: string;
@@ -23,9 +25,13 @@ export async function DemoTaskPage({ locale, category, subcategory, model }: Pro
   const tCats = await getTranslations({ locale, namespace: 'categories' });
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
   const tNav = await getTranslations({ locale, namespace: 'nav' });
+  const tBlog = await getTranslations({ locale, namespace: 'blog' });
   const catName = tCats(category as 'text');
   const subName = tSubs(subcategory as 'classification');
   const taskUrl = localizedUrl(locale, `/demos/${category}/${subcategory}`);
+  // Deep links are noindex copies of the task page; keep their chrome identical
+  // except for the extra reading list, which belongs on the canonical task page.
+  const taskPosts = model ? [] : postsForPath(`/demos/${category}/${subcategory}`);
 
   return (
     <>
@@ -44,6 +50,16 @@ export async function DemoTaskPage({ locale, category, subcategory, model }: Pro
             {t('taskCatalog')} →
           </Link>
         </p>
+        {taskPosts.length > 0 && (
+          <div className="mt-10">
+            <RelatedPosts
+              posts={taskPosts}
+              locale={locale}
+              title={tBlog('taskRelatedTitle')}
+              allLabel={tBlog('relatedAll')}
+            />
+          </div>
+        )}
       </div>
 
       {/* The playground is a free, client-side application: say exactly that

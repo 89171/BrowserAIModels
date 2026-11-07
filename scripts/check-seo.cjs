@@ -233,10 +233,123 @@ for (const model of getModels('text', 'ner')) {
   }
 }
 
+// Site-wide snippet guard. A thin meta description is the usual reason a
+// catalogue page gets a rewritten or blank result; noindex deep links are
+// deliberately excluded because they never appear in results.
+let indexableCount = 0;
+{
+  const thin = [];
+  for (const file of fs.readdirSync(OUT, { recursive: true })) {
+    const rel = String(file);
+    if (!rel.endsWith('.html')) continue;
+    const source = fs.readFileSync(path.join(OUT, rel), 'utf8');
+    if (/name="robots" content="noindex/.test(source)) continue;
+    indexableCount++;
+    const desc = (source.match(/<meta name="description" content="([^"]*)"/) || [])[1];
+    // A Chinese sentence of 35 characters already carries a full snippet;
+    // an English one under 80 is usually a bare fragment.
+    const minimum = /^zh(?:[./]|$)/.test(rel) ? 35 : 80;
+    if (!desc || desc.length < minimum) thin.push(`${rel} (${desc ? desc.length : 0} chars)`);
+  }
+  if (thin.length) {
+    errors.push(`${thin.length} indexable pages have a thin or missing description, e.g. ${thin.slice(0, 5).join(', ')}`);
+  }
+}
+
+// Blog index: the article schema points at this page, so the reverse node and
+// the full post list have to be machine-readable too.
+{
+  const needs = [
+    '"@type":"Blog"',
+    '"@type":"ItemList"',
+    '"@type":"BreadcrumbList"',
+    '"@type":"BlogPosting"',
+  ];
+  for (const route of ['/zh/blog', '/en/blog']) {
+    const source = html(route);
+    if (!source) {
+      errors.push(`missing exported blog index: ${route}`);
+      continue;
+    }
+    for (const needle of needs) {
+      if (!source.includes(needle)) errors.push(`${route}: structured data lacks ${needle}`);
+    }
+    if (!/<meta name="keywords" content="[^"]{20,}"/.test(source)) {
+      errors.push(`${route}: keywords meta is missing`);
+    }
+    const desc = (source.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+    if (desc.length < 50) errors.push(`${route}: description is too short`);
+    if (!source.includes(`<meta property="og:description" content="${desc}"`)) {
+      errors.push(`${route}: og:description does not match the page description`);
+    }
+  }
+}
+
+// Article schema: authorship, publisher and breadcrumbs are the fields that
+// turn a plain BlogPosting into something a search engine can attribute.
+{
+  for (const locale of ['zh', 'en']) {
+    const route = `/${locale}/blog/vlm-in-browser-what-runs`;
+    const source = html(route);
+    if (!source) {
+      errors.push(`missing exported post: ${route}`);
+      continue;
+    }
+    for (const needle of [
+      '"@type":"BlogPosting"',
+      '"author"',
+      '"publisher"',
+      '"mainEntityOfPage"',
+      '"isPartOf"',
+      '"@type":"BreadcrumbList"',
+    ]) {
+      if (!source.includes(needle)) errors.push(`${route}: article schema lacks ${needle}`);
+    }
+    if (!/<meta property="og:type" content="article"/.test(source)) {
+      errors.push(`${route}: og:type is not article`);
+    }
+    if (!/<meta property="article:published_time"/.test(source)) {
+      errors.push(`${route}: article:published_time is missing`);
+    }
+  }
+}
+
+// Task pages are the site's main internal link surface. Posts should be
+// discoverable from the tasks they discuss, not just from the blog index.
+{
+  let linked = 0;
+  for (const file of fs.readdirSync(OUT, { recursive: true })) {
+    const rel = String(file);
+    if (!rel.endsWith('.html')) continue;
+    const source = fs.readFileSync(path.join(OUT, rel), 'utf8');
+    if (/name="robots" content="noindex/.test(source)) continue;
+    if (/href="\/(?:zh|en)\/blog\/[a-z0-9.-]+"/.test(source)) linked++;
+  }
+  if (linked < 60) {
+    errors.push(`only ${linked} indexable pages link to a blog post (expected at least 60)`);
+  }
+}
+
+// /en is a meta-refresh shell for static hosts; it must not compete with /.
+{
+  const source = html('/en');
+  if (source && !/name="robots" content="noindex/.test(source)) {
+    errors.push('/en: redirect shell should be noindex');
+  }
+}
+
+for (const route of ['404', '_not-found']) {
+  const file = path.join(OUT, `${route}.html`);
+  if (!fs.existsSync(file)) continue;
+  if (!/<title>[^<]{5,}<\/title>/.test(fs.readFileSync(file, 'utf8'))) {
+    errors.push(`${route}: title is missing`);
+  }
+}
+
 if (errors.length) {
   console.error(`check-seo: ${errors.length} problem(s)`);
   for (const error of errors) console.error(`  - ${error}`);
   process.exit(1);
 }
 
-console.log(`check-seo: ${expected.length} sitemap routes resolve, ${pages.length} pages carry metadata and structured data.`);
+console.log(`check-seo: ${expected.length} sitemap routes resolve, ${pages.length} key pages carry metadata and structured data, ${indexableCount} indexable pages have full snippets.`);

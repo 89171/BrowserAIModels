@@ -4,9 +4,17 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link, routing } from '@/i18n/routing';
-import { blogPosts, findPost, type BlogBlock } from '@/lib/data/blog';
+import {
+  blogPosts,
+  findPost,
+  relatedPosts,
+  blogCategoryByKey,
+  type BlogBlock,
+} from '@/lib/data/blog';
 import { localizedPath } from '@/lib/paths';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
+import { socialMetadata } from '@/lib/social';
+import { SITE_NAME, SITE_URL, SITE_DEFAULT_OG } from '@/lib/site';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -20,12 +28,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const post = findPost(slug);
   if (!post) return {};
-  const c = post.i18n[locale as 'zh' | 'en'] ?? post.i18n.en;
+  const lang = locale as 'zh' | 'en';
+  const c = post.i18n[lang] ?? post.i18n.en;
   const url = localizedUrl(locale, `/blog/${slug}`);
+  const category = blogCategoryByKey(post.category);
+  const social = socialMetadata(locale, c.title, c.description, url);
   return {
     title: c.title,
     description: c.description,
+    keywords: post.tags,
     alternates: { canonical: url, languages: languageAlternates(`/blog/${slug}`) },
+    ...social,
+    openGraph: {
+      ...social.openGraph,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [SITE_NAME],
+      ...(category ? { section: category.label[lang] ?? category.label.en } : {}),
+    },
   };
 }
 
@@ -153,8 +173,12 @@ export default async function BlogPostPage({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: 'blog' });
   const tNav = await getTranslations({ locale, namespace: 'nav' });
-  const c = post.i18n[locale as 'zh' | 'en'] ?? post.i18n.en;
+  const lang = locale as 'zh' | 'en';
+  const c = post.i18n[lang] ?? post.i18n.en;
   const pageUrl = localizedUrl(locale, `/blog/${slug}`);
+  const blogIndexPath = localizedPath(locale, '/blog');
+  const category = blogCategoryByKey(post.category);
+  const related = relatedPosts(slug);
 
   return (
     <div className="space-y-10">
@@ -180,10 +204,24 @@ export default async function BlogPostPage({ params }: Props) {
         <header className="border-b border-black pb-8">
           <h1 className="h-display text-3xl md:text-5xl leading-tight max-w-prose">{c.title}</h1>
           <p className="mt-4 text-sm text-black/60 max-w-prose">{c.description}</p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 font-mono text-xs text-black/50">
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-black/50">
             <time dateTime={post.date}>{post.date}</time>
+            {category && (
+              <a
+                href={`${blogIndexPath}#cat=${encodeURIComponent(post.category)}`}
+                className="border border-black/30 px-1.5 py-0.5 text-black/70 hover:bg-black hover:text-white"
+              >
+                {category.label[lang] ?? category.label.en}
+              </a>
+            )}
             {post.tags.map((tag) => (
-              <span key={tag}>#{tag}</span>
+              <a
+                key={tag}
+                href={`${blogIndexPath}#tag=${encodeURIComponent(tag)}`}
+                className="underline-offset-2 hover:text-black hover:underline"
+              >
+                #{tag}
+              </a>
             ))}
           </div>
         </header>
@@ -192,6 +230,44 @@ export default async function BlogPostPage({ params }: Props) {
           <Block key={i} block={block} locale={locale} />
         ))}
       </article>
+
+      {related.length > 0 && (
+        <section aria-labelledby="related-posts" className="space-y-4 border-t border-black pt-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <h2 id="related-posts" className="font-mono text-2xl">{t('relatedTitle')}</h2>
+            <Link href="/blog" className="text-sm underline underline-offset-2 hover:opacity-60">
+              {t('relatedAll')} →
+            </Link>
+          </div>
+          <ul className="divide-y divide-black/10 border-y border-black/10">
+            {related.map((item) => {
+              const rc = item.i18n[lang] ?? item.i18n.en;
+              const rcCategory = blogCategoryByKey(item.category);
+              return (
+                <li key={item.slug}>
+                  <Link
+                    href={`/blog/${item.slug}`}
+                    className="group block py-4 hover:opacity-70"
+                  >
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <h3 className="font-semibold">{rc.title}</h3>
+                      <time dateTime={item.date} className="font-mono text-xs text-black/50">
+                        {item.date}
+                      </time>
+                    </div>
+                    <p className="mt-1 text-sm text-black/70 max-w-prose">{rc.description}</p>
+                    {rcCategory && (
+                      <p className="mt-1.5 font-mono text-xs text-black/45">
+                        {rcCategory.label[lang] ?? rcCategory.label.en}
+                      </p>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       <p className="border-t border-black/10 pt-6 text-sm">
         <Link href="/blog" className="underline underline-offset-2 hover:opacity-60">
@@ -202,13 +278,66 @@ export default async function BlogPostPage({ params }: Props) {
       <JsonLd
         data={{
           '@context': 'https://schema.org',
-          '@type': 'BlogPosting',
-          headline: c.title,
-          description: c.description,
-          datePublished: post.date,
-          url: pageUrl,
-          keywords: post.tags.join(', '),
-          inLanguage: locale,
+          '@graph': [
+            {
+              '@type': 'BlogPosting',
+              '@id': `${pageUrl}#article`,
+              headline: c.title,
+              description: c.description,
+              datePublished: post.date,
+              url: pageUrl,
+              mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+              author: {
+                '@type': 'Organization',
+                name: SITE_NAME,
+                url: SITE_URL,
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: SITE_NAME,
+                url: SITE_URL,
+                logo: {
+                  '@type': 'ImageObject',
+                  url: `${SITE_URL}${SITE_DEFAULT_OG}`,
+                },
+              },
+              image: `${SITE_URL}${SITE_DEFAULT_OG}`,
+              isPartOf: {
+                '@type': 'Blog',
+                '@id': `${localizedUrl(locale, '/blog')}#blog`,
+                name: t('title'),
+                url: localizedUrl(locale, '/blog'),
+              },
+              keywords: post.tags.join(', '),
+              ...(category
+                ? { articleSection: category.label[lang] ?? category.label.en }
+                : {}),
+              inLanguage: locale,
+            },
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: tNav('home'),
+                  item: localizedUrl(locale),
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: t('title'),
+                  item: localizedUrl(locale, '/blog'),
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 3,
+                  name: c.title,
+                  item: pageUrl,
+                },
+              ],
+            },
+          ],
         }}
       />
     </div>

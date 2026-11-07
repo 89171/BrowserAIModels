@@ -7,7 +7,7 @@ import { DemoTaskPage } from '@/components/DemoTaskPage';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 import { socialMetadata } from '@/lib/social';
 import { demoModels } from '@/lib/demo-catalog';
-import { taskKeywords } from '@/lib/seo';
+import { taskKeywords, demoTaskDescription } from '@/lib/seo';
 
 type Params = { locale: string; category: string; subcategory: string };
 
@@ -24,16 +24,18 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const name = tSubs(subcategory as 'classification');
   const catName = tCats(category as 'text');
   const description = tSubs(`${subcategory}Desc` as 'classificationDesc');
+  const models = demoModels(category, subcategory);
+  const metaDescription = demoTaskDescription(locale, description, name, models.length);
   const url = localizedUrl(locale, `/demos/${category}/${subcategory}`);
   return {
     title: `${name} · ${catName}`,
-    description,
-    keywords: taskKeywords(locale, name, catName, demoModels(category, subcategory)),
+    description: metaDescription,
+    keywords: taskKeywords(locale, name, catName, models),
     alternates: {
       canonical: url,
       languages: languageAlternates(`/demos/${category}/${subcategory}`),
     },
-    ...socialMetadata(locale, `${name} · ${catName}`, description, url),
+    ...socialMetadata(locale, `${name} · ${catName}`, metaDescription, url),
   };
 }
 

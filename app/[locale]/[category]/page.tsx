@@ -32,7 +32,17 @@ export async function generateMetadata({
   const tCats = await getTranslations({ locale, namespace: 'categories' });
   const tSeo = await getTranslations({ locale, namespace: 'seo.category' });
   const name = tCats(cat.slug as 'text');
-  const desc = `${tCats(`${cat.slug}Desc` as 'textDesc')} ${tSeo('metaSuffix')}`;
+  const base = `${tCats(`${cat.slug}Desc` as 'textDesc')} ${tSeo('metaSuffix')}`.trim();
+  // Chinese descriptions are compact; add the two counts this page already
+  // renders so the snippet is not left at a single short sentence.
+  const entries = cat.subcategories.reduce(
+    (sum, sub) => sum + countModels(cat.slug, sub.slug),
+    0,
+  );
+  const desc =
+    locale === 'zh'
+      ? `${base} 本站收录 ${entries} 条条目，分在 ${cat.subcategories.length} 个任务下。`
+      : base;
   const url = localizedUrl(locale, `/${category}`);
   return {
     title: name,

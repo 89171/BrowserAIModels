@@ -24,9 +24,20 @@
   },
   "blog": {
     "title": "博客",
-    "intro": "模型解读与评测笔记：把目录里每个条目的来龙去脉讲清楚。",
+    "intro": "浏览器端 AI 的实现笔记：权重体积、推理运行时、图像修复与擦除、视频去水印、音频分轨、VLM 和检索。按主题或标签浏览。",
     "readMore": "阅读全文",
-    "backToBlog": "返回博客列表"
+    "backToBlog": "返回博客列表",
+    "browseByTopic": "按主题浏览",
+    "allPosts": "全部",
+    "countSuffix": " 篇",
+    "tagLabel": "标签",
+    "categoryLabel": "分类",
+    "filterByTagPrefix": "按标签筛选：",
+    "filterByCategoryPrefix": "只看分类：",
+    "clearFilter": "清除筛选",
+    "relatedTitle": "相关阅读",
+    "relatedAll": "查看全部文章",
+    "taskRelatedTitle": "延伸阅读"
   },
   "languages": {
     "label": "语言",
@@ -40,7 +51,10 @@
     "modelsCount": "共 {count} 条目录记录 · 包含模型、工具与应用",
     "aboutTitle": "让更多 AI 任务在浏览器中完成",
     "aboutLead": "浏览器不仅是 AI 服务的入口，也可以成为本地 AI 应用的运行环境。借助 Transformers.js、ONNX Runtime Web 等工具，开发者可以将文本处理、图像识别、语音转写等任务带到用户设备上，让网页具备更多智能能力。",
-    "aboutBody": "本地推理让部分任务无需将输入数据发送到远程模型服务，有机会减少网络往返和云端推理开销，并在模型资源准备就绪后支持离线使用。这个项目汇集相关模型、工具与应用思路，帮助开发者发现适合浏览器的 AI 任务，将能力融入日常 Web 应用；具体可用性仍取决于模型、浏览器和设备。"
+    "aboutBody": "本地推理让部分任务无需将输入数据发送到远程模型服务，有机会减少网络往返和云端推理开销，并在模型资源准备就绪后支持离线使用。这个项目汇集相关模型、工具与应用思路，帮助开发者发现适合浏览器的 AI 任务，将能力融入日常 Web 应用；具体可用性仍取决于模型、浏览器和设备。",
+    "latestTitle": "最新文章",
+    "latestLead": "把目录里的模型真正跑起来之后，记下来的数字和踩过的坑。",
+    "latestAll": "查看全部文章"
   },
   "category": {
     "modelsCount": "{count} 条记录",
