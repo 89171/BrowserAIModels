@@ -19,6 +19,8 @@ export type TaskFacts = {
   frameworks: { id: FrameworkId; count: number }[];
   /** Smallest verified download size across all variants, in bytes. */
   smallestBytes?: number;
+  /** How many entries have a verified download size (0 means all unknown). */
+  sizedEntries: number;
 };
 
 export function taskFacts(entries: ModelEntry[]): TaskFacts {
@@ -50,6 +52,7 @@ export function taskFacts(entries: ModelEntry[]): TaskFacts {
       .map(([id, count]) => ({ id, count }))
       .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id)),
     smallestBytes: sizes.length ? Math.min(...sizes) : undefined,
+    sizedEntries: sizes.length,
   };
 }
 
@@ -264,6 +267,52 @@ export function blogKeywords(locale: string): string[] {
     'WebNN',
     'model benchmark notes',
   ];
+}
+
+/**
+ * `<title>` is the only string a result page truncates. Keep the long, specific
+ * headline in the h1 and og:title, and shorten just this field so there is room
+ * for the site name the layout appends. These suffixes mirror `site.name` in
+ * messages/*.json; the post-build guard checks the rendered titles if either
+ * side changes.
+ */
+const TITLE_SUFFIX: Record<string, string> = {
+  zh: ' · Web AI 模型目录',
+  en: ' · Web AI Models',
+};
+export const TITLE_MAX_LENGTH = 60;
+
+export function compactTitle(title: string, locale = 'en'): string {
+  const suffix = TITLE_SUFFIX[locale] ?? TITLE_SUFFIX.en;
+  const budget = TITLE_MAX_LENGTH - suffix.length;
+  if (title.length <= budget) return title;
+  const window = title.slice(0, budget - 1);
+  // Drop a trailing ` · qualifier` whole rather than cutting it in half (a
+  // model page reads better as "Name…" than "Name · Audio event…"). Fall back
+  // to a word boundary, then to a plain character cut for Chinese titles.
+  const separator = window.lastIndexOf(' · ');
+  const space = window.lastIndexOf(' ');
+  const boundary =
+    separator > budget * 0.5 ? separator : space > budget * 0.6 ? space : -1;
+  const base = boundary > 0 ? window.slice(0, boundary) : window;
+  return `${base.replace(/[\s,;:·、，。—-]+$/, '')}…`;
+}
+
+/**
+ * Metadata-only expansion for the category landing pages. The visible intro
+ * keeps the category's own one-line description; this adds facts the page
+ * already renders so the snippet is not a bare fragment.
+ */
+export function blogCategoryDescription(
+  locale: string,
+  description: string,
+  postCount: number,
+): string {
+  if (description.length >= (locale === 'zh' ? 35 : 80)) return description;
+  if (locale === 'zh') {
+    return `${description}本分类共 ${postCount} 篇，按发布时间排列，标签可继续筛选。`;
+  }
+  return `${description} This section collects ${postCount} posts, ordered by publish date, with tags linking back to the full index.`;
 }
 
 export function demosKeywords(locale: string): string[] {

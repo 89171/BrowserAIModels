@@ -26,6 +26,7 @@ export async function DemoTaskPage({ locale, category, subcategory, model }: Pro
   const tSubs = await getTranslations({ locale, namespace: 'subcategories' });
   const tNav = await getTranslations({ locale, namespace: 'nav' });
   const tBlog = await getTranslations({ locale, namespace: 'blog' });
+  const tDemoSeo = await getTranslations({ locale, namespace: 'seo.demoTask' });
   const catName = tCats(category as 'text');
   const subName = tSubs(subcategory as 'classification');
   const taskUrl = localizedUrl(locale, `/demos/${category}/${subcategory}`);
@@ -70,7 +71,7 @@ export async function DemoTaskPage({ locale, category, subcategory, model }: Pro
           '@graph': [
             {
               '@type': 'WebApplication',
-              name: `${subName} · ${catName}`,
+              name: `${subName} · ${catName} · ${tDemoSeo('titleSuffix')}`,
               url: taskUrl,
               applicationCategory: subName,
               operatingSystem: 'Web browser',

@@ -42,7 +42,11 @@ export async function TaskInsights({ locale, category, subcategory, models, page
     { q: t('q1', { name }), a: t('a1', { name, ready: facts.ready }) },
     {
       q: t('q2', { name }),
-      a: size ? t('a2', { name, size }) : t('a2Unknown'),
+      a: !size
+        ? t('a2Unknown')
+        : facts.sizedEntries > 1
+          ? t('a2Multiple', { name, size, count: facts.sizedEntries })
+          : t('a2', { name, size }),
     },
     { q: t('q3', { name }), a: t('a3', { name }) },
     { q: tc('privacyQ'), a: tc('privacyA') },

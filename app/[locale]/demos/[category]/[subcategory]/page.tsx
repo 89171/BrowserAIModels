@@ -7,7 +7,7 @@ import { DemoTaskPage } from '@/components/DemoTaskPage';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 import { socialMetadata } from '@/lib/social';
 import { demoModels } from '@/lib/demo-catalog';
-import { taskKeywords, demoTaskDescription } from '@/lib/seo';
+import { taskKeywords, demoTaskDescription, compactTitle } from '@/lib/seo';
 
 type Params = { locale: string; category: string; subcategory: string };
 
@@ -26,16 +26,20 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const description = tSubs(`${subcategory}Desc` as 'classificationDesc');
   const models = demoModels(category, subcategory);
   const metaDescription = demoTaskDescription(locale, description, name, models.length);
+  const tDemoSeo = await getTranslations({ locale, namespace: 'seo.demoTask' });
+  // The catalogue task page uses the same task + category name. Say which page
+  // this is so the two do not compete for the same result snippet.
+  const pageTitle = `${name} · ${catName} · ${tDemoSeo('titleSuffix')}`;
   const url = localizedUrl(locale, `/demos/${category}/${subcategory}`);
   return {
-    title: `${name} · ${catName}`,
+    title: compactTitle(pageTitle, locale),
     description: metaDescription,
     keywords: taskKeywords(locale, name, catName, models),
     alternates: {
       canonical: url,
       languages: languageAlternates(`/demos/${category}/${subcategory}`),
     },
-    ...socialMetadata(locale, `${name} · ${catName}`, metaDescription, url),
+    ...socialMetadata(locale, pageTitle, metaDescription, url),
   };
 }
 

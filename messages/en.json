@@ -37,7 +37,10 @@
     "clearFilter": "Clear filter",
     "relatedTitle": "Related reading",
     "relatedAll": "All posts",
-    "taskRelatedTitle": "Read next"
+    "taskRelatedTitle": "Read next",
+    "otherTopics": "Other topics",
+    "viewCategory": "View category",
+    "categoryTagHint": "Tags link back to the blog index for further filtering"
   },
   "languages": {
     "label": "Language",
@@ -711,6 +714,30 @@
     "video-watermark-repair-hq": {
       "name": "Video watermark removal HD (LaMa)",
       "description": "The HD pass of the video watermark pipeline: the representative frame is inpainted with big-lama fp32 (~198 MB) instead of MI-GAN, trading ~7x slower inference for markedly better reconstruction of large watermarks and structures crossing the selection edge. Runs on the WASM execution provider only — LaMa deadlocks on WebGPU — and auto mode never selects it; users opt in explicitly."
+    },
+    "smolvlm-256m": {
+      "name": "SmolVLM 256M Instruct",
+      "description": "A 256M Idefics3 vision-language model that answers questions about an image instead of only producing a caption. It ships as three ONNX graphs (vision encoder, embed tokens, decoder) and this site loads the q4 tier."
+    },
+    "smoldocling-256m": {
+      "name": "SmolDocling 256M",
+      "description": "Turns a full page image straight into structured text, keeping tables and formulas as markup. Fine-tuned from SmolVLM-256M with the same three-graph ONNX layout. CDLA-Permissive-2.0."
+    },
+    "qwen3-0-6b": {
+      "name": "Qwen3 0.6B",
+      "description": "Qwen3 at 0.6B with browser-ready ONNX weights. The model card ships a WebGPU q4f16 example, and it sits a size class below the 1B chat checkpoints already listed here."
+    },
+    "distilbert-squad": {
+      "name": "DistilBERT (SQuAD)",
+      "description": "DistilBERT fine-tuned on SQuAD v1.1 for extractive QA. The answer is always a span of the passage, never newly written text. The cased build keeps letter case."
+    },
+    "distilbert-squad-uncased": {
+      "name": "DistilBERT uncased (SQuAD)",
+      "description": "The uncased, lowercased checkpoint for the same extractive QA task. Slightly different behaviour on English text; Chinese passages are not supported."
+    },
+    "owlvit-base": {
+      "name": "OWL-ViT Base",
+      "description": "Open-vocabulary detector: describe the target in text and it returns boxes with no retraining. This site loads the q4f16 build at ~121 MiB."
     }
   },
   "catalog": {
@@ -976,6 +1003,9 @@
     "simulated": "Simulated"
   },
   "seo": {
+    "demoTask": {
+      "titleSuffix": "Demo"
+    },
     "common": {
       "privacyQ": "Does running a model here upload my data?",
       "privacyA": "The demos on this site infer inside the tab, so inputs never reach a server. Weights and runtimes are fetched from a CDN on first use and then served from the browser cache.",
@@ -1001,6 +1031,7 @@
       "a1": "Yes. {ready} entries already carry browser evidence (tested here or an upstream example), so the approach works; whether it runs smoothly on your device depends on weight size, browser version and whether WebGPU is enabled.",
       "q2": "How large is the model for {name}?",
       "a2": "The smallest weight on record here is {size}; the other entries in this task have no verified size yet. Browser builds usually ship int8 or 4-bit quantised variants, downloaded once and reused from the HTTP cache or Cache Storage.",
+      "a2Multiple": "We verified the weight file sizes of {count} entries in this task; the smallest tier is {size}. Quantisation differs between entries, so the real download depends on the precision you pick. Files are reused from the HTTP cache or Cache Storage after the first download.",
       "a2Unknown": "Weight sizes for this task have not been verified yet. Browser builds usually ship int8 or 4-bit quantised variants, so confirm the real download size before committing.",
       "q3": "Which devices suit {name}?",
       "a3": "Any modern browser with WebAssembly is a starting point, and WebGPU usually makes it faster. Phones are tighter on memory, so run the demo once on the target device before deciding.",

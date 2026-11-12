@@ -37,7 +37,10 @@
     "clearFilter": "清除筛选",
     "relatedTitle": "相关阅读",
     "relatedAll": "查看全部文章",
-    "taskRelatedTitle": "延伸阅读"
+    "taskRelatedTitle": "延伸阅读",
+    "otherTopics": "其他主题",
+    "viewCategory": "查看该分类",
+    "categoryTagHint": "标签链接回博客列表，可继续筛选"
   },
   "languages": {
     "label": "语言",
@@ -711,6 +714,30 @@
     "video-watermark-repair-hq": {
       "name": "视频去水印工具·高清（LaMa）",
       "description": "视频去水印管线的高清档：代表帧改用 big-lama fp32（约 198 MB）补全，推理比 MI-GAN 慢约 7 倍，但对大面积水印、跨越选区边缘的结构重建明显更强。仅走 WASM 执行（LaMa 在 WebGPU 下会死锁），自动模式不会选用，需用户显式选装。"
+    },
+    "smolvlm-256m": {
+      "name": "SmolVLM 256M Instruct",
+      "description": "256M 参数的 Idefics3 视觉语言模型，可以按提问回答图片内容，而不只是生成一句描述。权重是 vision encoder、embed tokens、decoder 三个 ONNX 文件，本站加载 q4 档。"
+    },
+    "smoldocling-256m": {
+      "name": "SmolDocling 256M",
+      "description": "把整页文档图片直接转成带结构的文本，表格与公式按标记保留。基于 SmolVLM-256M 微调，权重同样是三件套 ONNX，许可 CDLA-Permissive-2.0。"
+    },
+    "qwen3-0-6b": {
+      "name": "Qwen3 0.6B",
+      "description": "Qwen3 的 0.6B 版本，onnx-community 提供完整 ONNX 权重，模型卡直接给出 WebGPU 加 q4f16 的加载方式。比目录里已有的 1B 级聊天模型小一档。"
+    },
+    "distilbert-squad": {
+      "name": "DistilBERT（SQuAD）",
+      "description": "在 SQuAD v1.1 上微调的抽取式问答模型，答案是原文里的一段，不会另写内容。cased 版本保留大小写。"
+    },
+    "distilbert-squad-uncased": {
+      "name": "DistilBERT（SQuAD，uncased）",
+      "description": "同一问答任务的 uncased 版本，输入统一转小写。英文语料上略有差别，不支持中文段落。"
+    },
+    "owlvit-base": {
+      "name": "OWL-ViT Base",
+      "description": "开放词表检测器：用文字描述要找的目标就能出框，不必重新训练。本站加载 q4f16 档，约 121 MiB。"
     }
   },
   "catalog": {
@@ -976,6 +1003,9 @@
     "simulated": "模拟"
   },
   "seo": {
+    "demoTask": {
+      "titleSuffix": "在线演示"
+    },
     "common": {
       "privacyQ": "在浏览器里运行会上传我的数据吗？",
       "privacyA": "本站演示的推理在标签页内完成，输入不会上传到服务器；权重与运行时首次需要从 CDN 下载，之后由浏览器缓存复用。",
@@ -1001,6 +1031,7 @@
       "a1": "可以。本目录已有 {ready} 条记录具备浏览器运行依据（本站实测或上游示例），说明这条路线成立；能否在你手上的设备流畅运行，取决于权重体积、浏览器版本以及是否启用 WebGPU。",
       "q2": "运行{name}要下载多大的模型？",
       "a2": "本目录记录到的最小权重是 {size}，同任务下其余条目尚未核查体积。浏览器端通常使用 int8 或 4-bit 量化版本，首次下载后由 HTTP 缓存或 Cache Storage 复用。",
+      "a2Multiple": "本目录已核查 {count} 条条目的权重文件字节数，最小的一档是 {size}。同一任务里的量化档不同，实际下载量要看所选精度；首次下载后由 HTTP 缓存或 Cache Storage 复用。",
       "a2Unknown": "本目录尚未核查这条任务下各条目的权重体积。浏览器端通常使用 int8 或 4-bit 量化版本，接入前建议先确认实际下载量。",
       "q3": "什么设备适合跑{name}？",
       "a3": "支持 WebAssembly 的现代浏览器都能起步，启用 WebGPU 时通常更快。移动端内存更紧张，建议先用演示在目标设备上跑一次再决定。",

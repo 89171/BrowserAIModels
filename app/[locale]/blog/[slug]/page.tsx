@@ -15,6 +15,7 @@ import { localizedPath } from '@/lib/paths';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 import { socialMetadata } from '@/lib/social';
 import { SITE_NAME, SITE_URL, SITE_DEFAULT_OG } from '@/lib/site';
+import { compactTitle } from '@/lib/seo';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -34,7 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = blogCategoryByKey(post.category);
   const social = socialMetadata(locale, c.title, c.description, url);
   return {
-    title: c.title,
+    // Keep the long, specific headline in the h1 and the social card; only the
+    // result-page title is shortened so the site name still fits.
+    title: compactTitle(c.title, locale),
     description: c.description,
     keywords: post.tags,
     alternates: { canonical: url, languages: languageAlternates(`/blog/${slug}`) },
@@ -178,6 +181,8 @@ export default async function BlogPostPage({ params }: Props) {
   const pageUrl = localizedUrl(locale, `/blog/${slug}`);
   const blogIndexPath = localizedPath(locale, '/blog');
   const category = blogCategoryByKey(post.category);
+  const categoryPath = `/blog/category/${post.category}`;
+  const categoryLabel = category ? (category.label[lang] ?? category.label.en) : undefined;
   const related = relatedPosts(slug);
 
   return (
@@ -195,6 +200,16 @@ export default async function BlogPostPage({ params }: Props) {
               {t('title')}
             </Link>
           </li>
+          {categoryLabel && (
+            <>
+              <li aria-hidden="true">/</li>
+              <li>
+                <Link href={categoryPath} className="underline underline-offset-2 hover:opacity-60">
+                  {categoryLabel}
+                </Link>
+              </li>
+            </>
+          )}
           <li aria-hidden="true">/</li>
           <li aria-current="page" className="truncate max-w-[16rem]">{c.title}</li>
         </ol>
@@ -206,12 +221,12 @@ export default async function BlogPostPage({ params }: Props) {
           <p className="mt-4 text-sm text-black/60 max-w-prose">{c.description}</p>
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-black/50">
             <time dateTime={post.date}>{post.date}</time>
-            {category && (
+            {categoryLabel && (
               <a
-                href={`${blogIndexPath}#cat=${encodeURIComponent(post.category)}`}
+                href={localizedPath(locale, categoryPath)}
                 className="border border-black/30 px-1.5 py-0.5 text-black/70 hover:bg-black hover:text-white"
               >
-                {category.label[lang] ?? category.label.en}
+                {categoryLabel}
               </a>
             )}
             {post.tags.map((tag) => (
@@ -329,9 +344,17 @@ export default async function BlogPostPage({ params }: Props) {
                   name: t('title'),
                   item: localizedUrl(locale, '/blog'),
                 },
+                ...(categoryLabel
+                  ? [{
+                      '@type': 'ListItem',
+                      position: 3,
+                      name: categoryLabel,
+                      item: localizedUrl(locale, categoryPath),
+                    }]
+                  : []),
                 {
                   '@type': 'ListItem',
-                  position: 3,
+                  position: categoryLabel ? 4 : 3,
                   name: c.title,
                   item: pageUrl,
                 },

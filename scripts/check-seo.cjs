@@ -52,6 +52,7 @@ function load(file) {
 const { TAXONOMY } = load('data/taxonomy.ts');
 const { getModels } = load('data/models.ts');
 const { allDemoPaths } = load('lib/data/registry.ts');
+const { blogCategories, blogPosts } = load('lib/data/blog.ts');
 
 function localized(locale, route) {
   if (locale === 'en' && (!route || route === '/')) return '/';
@@ -81,6 +82,13 @@ const expected = [];
 for (const locale of ['en', 'zh']) {
   expected.push(localized(locale, ''));
   expected.push(localized(locale, '/applications'), localized(locale, '/methodology'), localized(locale, '/demos'));
+  expected.push(localized(locale, '/blog'));
+  for (const category of blogCategories) {
+    expected.push(localized(locale, `/blog/category/${category.key}`));
+  }
+  for (const post of blogPosts) {
+    expected.push(localized(locale, `/blog/${post.slug}`));
+  }
   for (const { category, subcategory } of allDemoPaths()) {
     expected.push(localized(locale, `/demos/${category}/${subcategory}`));
   }
@@ -239,6 +247,10 @@ for (const model of getModels('text', 'ner')) {
 let indexableCount = 0;
 {
   const thin = [];
+  const longTitles = [];
+  const missingTitles = [];
+  const duplicateTitles = [];
+  const seenTitles = new Map();
   for (const file of fs.readdirSync(OUT, { recursive: true })) {
     const rel = String(file);
     if (!rel.endsWith('.html')) continue;
@@ -250,9 +262,74 @@ let indexableCount = 0;
     // an English one under 80 is usually a bare fragment.
     const minimum = /^zh(?:[./]|$)/.test(rel) ? 35 : 80;
     if (!desc || desc.length < minimum) thin.push(`${rel} (${desc ? desc.length : 0} chars)`);
+
+    const title = (source.match(/<title>([^<]*)<\/title>/) || [])[1];
+    if (!title || title.length < 5) {
+      missingTitles.push(rel);
+    } else {
+      if (title.length > 60) longTitles.push(`${rel} (${title.length} chars)`);
+      if (seenTitles.has(title)) {
+        duplicateTitles.push(`${rel} duplicates ${seenTitles.get(title)}`);
+      } else {
+        seenTitles.set(title, rel);
+      }
+    }
   }
   if (thin.length) {
     errors.push(`${thin.length} indexable pages have a thin or missing description, e.g. ${thin.slice(0, 5).join(', ')}`);
+  }
+  if (missingTitles.length) {
+    errors.push(`${missingTitles.length} indexable pages have no title, e.g. ${missingTitles.slice(0, 5).join(', ')}`);
+  }
+  if (longTitles.length) {
+    errors.push(`${longTitles.length} indexable pages have a title over 60 chars, e.g. ${longTitles.slice(0, 5).join(', ')}`);
+  }
+  if (duplicateTitles.length) {
+    errors.push(`${duplicateTitles.length} indexable pages repeat another page's title, e.g. ${duplicateTitles.slice(0, 5).join(', ')}`);
+  }
+}
+
+// Category landing pages are real routes, not hash states: assert the schema,
+// alternates and snippet on every one of them in both languages.
+{
+  for (const locale of ['zh', 'en']) {
+    for (const category of blogCategories) {
+      const route = localized(locale, `/blog/category/${category.key}`);
+      const source = html(route);
+      if (!source) {
+        errors.push(`missing exported blog category: ${route}`);
+        continue;
+      }
+      for (const needle of ['"@type":"CollectionPage"', '"@type":"ItemList"', '"@type":"BreadcrumbList"']) {
+        if (!source.includes(needle)) errors.push(`${route}: structured data lacks ${needle}`);
+      }
+      if (!/<link rel="canonical" href="https?:\/\/[^"]+"/.test(source)) {
+        errors.push(`${route}: canonical link is missing`);
+      }
+      if (!/hreflang="zh"/i.test(source) || !/hreflang="en"/i.test(source)) {
+        errors.push(`${route}: hreflang alternates are missing`);
+      }
+      const desc = (source.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+      if (desc.length < (locale === 'zh' ? 35 : 80)) errors.push(`${route}: description is too short`);
+    }
+  }
+}
+
+// Every prerendered demo task must be reachable from the demos index. Pages
+// that exist only in the sitemap are still orphans to a crawler following links.
+{
+  for (const locale of ['zh', 'en']) {
+    const source = html(localized(locale, '/demos'));
+    if (!source) {
+      errors.push(`missing exported demos index: ${localized(locale, '/demos')}`);
+      continue;
+    }
+    for (const { category, subcategory } of allDemoPaths()) {
+      const href = localized(locale, `/demos/${category}/${subcategory}`);
+      if (!source.includes(`href="${href}"`)) {
+        errors.push(`${localized(locale, '/demos')}: no link to ${href}`);
+      }
+    }
   }
 }
 

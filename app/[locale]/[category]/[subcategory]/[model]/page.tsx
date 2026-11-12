@@ -12,7 +12,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { ModelTable } from '@/components/ModelTable';
 import { ModelInsights } from '@/components/ModelInsights';
 import { SITE_URL } from '@/lib/site';
-import { modelKeywords, modelDescription, formatGib } from '@/lib/seo';
+import { modelKeywords, modelDescription, formatGib, compactTitle } from '@/lib/seo';
 import { weightDownloadBytes } from '@/lib/model-size';
 
 type Params = { locale: string; category: string; subcategory: string; model: string };
@@ -66,7 +66,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     siblings: getModels(rest.category, rest.subcategory).length - 1,
   });
   return {
-    title: `${name} · ${taskName}`,
+    title: compactTitle(`${name} · ${taskName}`, locale),
     description: metaDescription,
     keywords: modelKeywords(
       locale,

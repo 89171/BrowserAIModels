@@ -1041,6 +1041,114 @@ export const MODELS: CategoryModels = {
         "runtimeVersion": "@huggingface/transformers@4.3.0",
         "weightLicense": "apache-2-0"
       }
+    ],
+    "question-answering": [
+      {
+        "id": "distilbert-squad",
+        "nameKey": "models.distilbert-squad.name",
+        "descriptionKey": "models.distilbert-squad.description",
+        "name": "DistilBERT (SQuAD)",
+        "framework": "transformersjs",
+        "modelId": "Xenova/distilbert-base-cased-distilled-squad",
+        "description": "DistilBERT fine-tuned on SQuAD v1.1 for extractive question answering. The answer is a span of the passage.",
+        "docsUrl": "https://huggingface.co/Xenova/distilbert-base-cased-distilled-squad",
+        "kind": "model",
+        "tasks": [
+          "question-answering"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/distilbert-base-cased-distilled-squad",
+          "reviewedAt": "2026-11-08"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/distilbert-base-cased-distilled-squad",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/docs/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          }
+        ],
+        "naturalLanguages": [
+          "English"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Extractive QA"
+        ],
+        "variants": [
+          {
+            "id": "distilbert-squad-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 65811627
+          }
+        ],
+        "runtimeVersion": "@huggingface/transformers@4.3.1",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "codeLicense": "apache-2-0",
+        "weightLicense": "apache-2-0"
+      },
+      {
+        "id": "distilbert-squad-uncased",
+        "nameKey": "models.distilbert-squad-uncased.name",
+        "descriptionKey": "models.distilbert-squad-uncased.description",
+        "name": "DistilBERT uncased (SQuAD)",
+        "framework": "transformersjs",
+        "modelId": "Xenova/distilbert-base-uncased-distilled-squad",
+        "description": "The uncased, lowercased SQuAD v1.1 checkpoint for the same extractive question answering task.",
+        "docsUrl": "https://huggingface.co/Xenova/distilbert-base-uncased-distilled-squad",
+        "kind": "model",
+        "tasks": [
+          "question-answering"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/distilbert-base-uncased-distilled-squad",
+          "reviewedAt": "2026-11-08"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/distilbert-base-uncased-distilled-squad",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/docs/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          }
+        ],
+        "naturalLanguages": [
+          "English"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Extractive QA"
+        ],
+        "variants": [
+          {
+            "id": "distilbert-squad-uncased-q8",
+            "label": "q8",
+            "quantization": "q8",
+            "downloadBytes": 66983594
+          }
+        ],
+        "runtimeVersion": "@huggingface/transformers@4.3.1",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "codeLicense": "apache-2-0",
+        "weightLicense": "apache-2-0"
+      }
     ]
   },
   "llm": {
@@ -1512,6 +1620,84 @@ export const MODELS: CategoryModels = {
         "runtimeVersion": "@mlc-ai/web-llm@0.2.85",
         "weightLicense": "mit",
         "demoUrl": "https://chat.webllm.ai/"
+      },
+      {
+        "id": "qwen3-0-6b",
+        "nameKey": "models.qwen3-0-6b.name",
+        "descriptionKey": "models.qwen3-0-6b.description",
+        "name": "Qwen3 0.6B",
+        "framework": "transformersjs",
+        "modelId": "onnx-community/Qwen3-0.6B-ONNX",
+        "description": "Qwen3 at 0.6B parameters with browser-ready ONNX weights; the model card ships a WebGPU q4f16 example.",
+        "docsUrl": "https://huggingface.co/onnx-community/Qwen3-0.6B-ONNX",
+        "kind": "model",
+        "tasks": [
+          "chat"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/onnx-community/Qwen3-0.6B-ONNX",
+          "reviewedAt": "2026-11-08"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/onnx-community/Qwen3-0.6B-ONNX",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/Qwen/Qwen3-0.6B",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/docs/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          }
+        ],
+        "naturalLanguages": [
+          "English",
+          "Chinese"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Instruction following",
+          "Multilingual chat"
+        ],
+        "variants": [
+          {
+            "id": "qwen3-0-6b-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 569789750
+          },
+          {
+            "id": "qwen3-0-6b-int8",
+            "label": "int8",
+            "quantization": "int8",
+            "downloadBytes": 617687478
+          },
+          {
+            "id": "qwen3-0-6b-q4",
+            "label": "q4",
+            "quantization": "q4",
+            "downloadBytes": 919096585
+          },
+          {
+            "id": "qwen3-0-6b-fp16",
+            "label": "fp16",
+            "quantization": "fp16",
+            "downloadBytes": 1202829402
+          }
+        ],
+        "runtimeVersion": "@huggingface/transformers@4.3.1",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "codeLicense": "apache-2-0",
+        "weightLicense": "apache-2-0"
       }
     ],
     "structured-output": [
@@ -4499,7 +4685,13 @@ export const MODELS: CategoryModels = {
           "Brush mask input",
           "MI-GAN with LaMa fallback"
         ],
-        "variants": [],
+        "variants": [
+          {
+            "id": "image-object-eraser-weights",
+            "label": "MI-GAN ONNX",
+            "downloadBytes": 28079181
+          }
+        ],
         "runtimeVersion": "onnxruntime-web@1.21.0",
         "backends": [
           "webgpu",
@@ -4507,6 +4699,61 @@ export const MODELS: CategoryModels = {
         ],
         "demoBase": "https://toolgarden.xyz",
         "demoPath": "/image/erase"
+      }
+    ],
+    "zero-shot-detection": [
+      {
+        "id": "owlvit-base",
+        "nameKey": "models.owlvit-base.name",
+        "descriptionKey": "models.owlvit-base.description",
+        "name": "OWL-ViT Base",
+        "framework": "transformersjs",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "description": "Open-vocabulary object detector: describe the target in text and it returns boxes without retraining.",
+        "docsUrl": "https://huggingface.co/Xenova/owlvit-base-patch32",
+        "kind": "model",
+        "tasks": [
+          "zero-shot-detection"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/Xenova/owlvit-base-patch32",
+          "reviewedAt": "2026-11-08"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/Xenova/owlvit-base-patch32",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/docs/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          }
+        ],
+        "naturalLanguages": [
+          "English"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Open-vocabulary detection"
+        ],
+        "variants": [
+          {
+            "id": "owlvit-base-q4f16",
+            "label": "q4f16",
+            "quantization": "q4f16",
+            "downloadBytes": 127312570
+          }
+        ],
+        "runtimeVersion": "@huggingface/transformers@4.3.1",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "codeLicense": "apache-2-0",
+        "weightLicense": "apache-2-0"
       }
     ]
   },
@@ -6473,6 +6720,71 @@ export const MODELS: CategoryModels = {
         "codeLicense": "apache-2-0",
         "runtimeVersion": "@huggingface/transformers@4.3.0",
         "weightLicense": "mit"
+      },
+      {
+        "id": "smolvlm-256m",
+        "nameKey": "models.smolvlm-256m.name",
+        "descriptionKey": "models.smolvlm-256m.description",
+        "name": "SmolVLM 256M Instruct",
+        "framework": "transformersjs",
+        "modelId": "HuggingFaceTB/SmolVLM-256M-Instruct",
+        "description": "A 256M Idefics3 vision-language model that answers questions about an image instead of only captioning it, small enough for WebGPU in a browser tab.",
+        "docsUrl": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
+        "kind": "model",
+        "tasks": [
+          "vlm"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://github.com/huggingface/transformers.js-examples/tree/main/smolvlm-webgpu",
+          "reviewedAt": "2026-11-08"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://github.com/huggingface/transformers.js-examples/tree/main/smolvlm-webgpu",
+            "kind": "browser-example",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/docs/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          }
+        ],
+        "naturalLanguages": [
+          "English"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Visual question answering",
+          "Image captioning"
+        ],
+        "variants": [
+          {
+            "id": "smolvlm-256m-q4",
+            "label": "q4",
+            "quantization": "q4",
+            "downloadBytes": 263889326
+          },
+          {
+            "id": "smolvlm-256m-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1028498218
+          }
+        ],
+        "runtimeVersion": "@huggingface/transformers@4.3.1",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "codeLicense": "apache-2-0",
+        "weightLicense": "apache-2-0"
       }
     ],
     "clip": [
@@ -6948,6 +7260,76 @@ export const MODELS: CategoryModels = {
         "codeLicense": "apache-2-0",
         "runtimeVersion": "@huggingface/transformers@4.3.0",
         "weightLicense": "cc-by-4-0"
+      },
+      {
+        "id": "smoldocling-256m",
+        "nameKey": "models.smoldocling-256m.name",
+        "descriptionKey": "models.smoldocling-256m.description",
+        "name": "SmolDocling 256M",
+        "framework": "transformersjs",
+        "modelId": "docling-project/SmolDocling-256M-preview",
+        "description": "A 256M Idefics3 document model that converts a page image straight into structured text, keeping tables, formulas and reading order. CDLA-Permissive-2.0.",
+        "docsUrl": "https://huggingface.co/docling-project/SmolDocling-256M-preview",
+        "kind": "model",
+        "tasks": [
+          "document-understanding"
+        ],
+        "browserEvidence": {
+          "status": "upstream-example",
+          "url": "https://huggingface.co/spaces/callbacked/smoldocling256M-webgpu",
+          "reviewedAt": "2026-11-08"
+        },
+        "sources": [
+          {
+            "url": "https://huggingface.co/docling-project/SmolDocling-256M-preview",
+            "kind": "model-or-project",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/spaces/callbacked/smoldocling256M-webgpu",
+            "kind": "browser-example",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://arxiv.org/abs/2503.11576",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          },
+          {
+            "url": "https://huggingface.co/docs/transformers.js",
+            "kind": "documentation",
+            "reviewedAt": "2026-11-08"
+          }
+        ],
+        "naturalLanguages": [
+          "English"
+        ],
+        "programmingLanguages": [],
+        "capabilities": [
+          "Document to structured text",
+          "Table and formula markup"
+        ],
+        "variants": [
+          {
+            "id": "smoldocling-256m-q4",
+            "label": "q4",
+            "quantization": "q4",
+            "downloadBytes": 264221217
+          },
+          {
+            "id": "smoldocling-256m-fp32",
+            "label": "fp32",
+            "quantization": "fp32",
+            "downloadBytes": 1028830109
+          }
+        ],
+        "runtimeVersion": "@huggingface/transformers@4.3.1",
+        "backends": [
+          "webgpu",
+          "wasm"
+        ],
+        "codeLicense": "custom",
+        "weightLicense": "custom"
       }
     ]
   },
@@ -7918,7 +8300,13 @@ export const MODELS: CategoryModels = {
           "WebCodecs H.264 re-encode",
           "ffmpeg.wasm audio muxing"
         ],
-        "variants": [],
+        "variants": [
+          {
+            "id": "video-watermark-repair-weights",
+            "label": "MI-GAN ONNX",
+            "downloadBytes": 28079181
+          }
+        ],
         "runtimeVersion": "onnxruntime-web@1.21.0",
         "backends": [
           "webgpu",
@@ -7968,7 +8356,13 @@ export const MODELS: CategoryModels = {
           "WASM-only inference (WebGPU deadlock workaround)",
           "Structural reconstruction for large watermarks"
         ],
-        "variants": [],
+        "variants": [
+          {
+            "id": "video-watermark-repair-hq-weights",
+            "label": "big-lama fp32 ONNX",
+            "downloadBytes": 208044816
+          }
+        ],
         "runtimeVersion": "onnxruntime-web@1.21.0",
         "backends": [
           "wasm"

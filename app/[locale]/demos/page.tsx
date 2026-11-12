@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link, routing } from '@/i18n/routing';
 import { TAXONOMY } from '@/data/taxonomy';
-import { hasDemo } from '@/lib/data/registry';
+import { allDemoPaths } from '@/lib/data/registry';
 import { demoModels } from '@/lib/demo-catalog';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 import { socialMetadata } from '@/lib/social';
@@ -48,20 +48,39 @@ export default async function DemosIndexPage({ params }: Props) {
     { q: tc('privacyQ'), a: tc('privacyA') },
   ];
 
-  // Only tasks that actually ship a playground are listed; the catalogue keeps
-  // the rest (audio/vad) and their pages stay catalogue-only.
+  // Drive the list from the demo registry rather than the catalogue taxonomy.
+  // A few playgrounds (extractive QA, zero-shot detection) ship without a
+  // catalogue subcategory; listing only TAXONOMY children left those prerendered
+  // pages with no inbound link at all.
+  const demoPaths = allDemoPaths();
   const sections = TAXONOMY.map((cat) => ({
     slug: cat.slug,
     name: tCats(cat.slug as 'text'),
     desc: tCats(`${cat.slug}Desc` as 'textDesc'),
-    tasks: cat.subcategories
-      .filter((sub) => hasDemo(cat.slug, sub.slug))
-      .map((sub) => ({
-        slug: sub.slug,
-        name: tSubs(sub.slug as 'classification'),
-        count: demoModels(cat.slug, sub.slug).length,
+    tasks: demoPaths
+      .filter((path) => path.category === cat.slug)
+      .map(({ subcategory }) => ({
+        slug: subcategory,
+        name: tSubs(subcategory as 'classification'),
+        count: demoModels(cat.slug, subcategory).length,
       })),
   })).filter((section) => section.tasks.length > 0);
+
+  for (const category of new Set(demoPaths.map((path) => path.category))) {
+    if (sections.some((section) => section.slug === category)) continue;
+    sections.push({
+      slug: category,
+      name: tCats.has(category) ? tCats(category as 'text') : category,
+      desc: tCats.has(`${category}Desc`) ? tCats(`${category}Desc` as 'textDesc') : '',
+      tasks: demoPaths
+        .filter((path) => path.category === category)
+        .map(({ subcategory }) => ({
+          slug: subcategory,
+          name: tSubs.has(subcategory) ? tSubs(subcategory as 'classification') : subcategory,
+          count: demoModels(category, subcategory).length,
+        })),
+    });
+  }
 
   const totalDemos = sections.reduce((n, s) => n + s.tasks.length, 0);
 

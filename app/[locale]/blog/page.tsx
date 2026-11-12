@@ -57,6 +57,7 @@ export default async function BlogIndexPage({ params }: Props) {
     key: cat.key,
     label: cat.label[lang] ?? cat.label.en,
     description: cat.description[lang] ?? cat.description.en,
+    href: localizedPath(locale, `/blog/category/${cat.key}`),
   }));
   const labels: BlogBrowserLabels = {
     all: t('allPosts'),
@@ -68,6 +69,7 @@ export default async function BlogIndexPage({ params }: Props) {
     categoryLabel: t('categoryLabel'),
     filterByTagPrefix: t('filterByTagPrefix'),
     filterByCategoryPrefix: t('filterByCategoryPrefix'),
+    viewCategory: t('viewCategory'),
   };
 
   return (

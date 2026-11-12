@@ -16,6 +16,8 @@ export interface BlogBrowserCategory {
   key: string;
   label: string;
   description: string;
+  /** Static category landing page; the chip links there instead of using a hash. */
+  href: string;
 }
 
 /** Plain strings, not ICU templates: the caller can pass them straight to `t()`. */
@@ -29,6 +31,7 @@ export interface BlogBrowserLabels {
   categoryLabel: string;
   filterByTagPrefix: string;
   filterByCategoryPrefix: string;
+  viewCategory: string;
 }
 
 type Filter = { type: 'tag' | 'cat'; value: string } | null;
@@ -174,19 +177,20 @@ export function BlogBrowser({ posts, categories, labels }: Props) {
             <span className="opacity-60">{posts.length}</span>
           </button>
           {categories.map((cat) => {
+            // Categories have their own indexable pages. Hash filtering is
+            // still parsed for old shared links, but no longer produced here.
             const active = filter?.type === 'cat' && filter.value === cat.key;
             return (
-              <button
+              <a
                 key={cat.key}
-                type="button"
-                aria-pressed={active}
+                href={cat.href}
+                aria-current={active ? 'page' : undefined}
                 aria-label={labels.filterByCategoryPrefix + cat.label}
-                onClick={() => apply({ type: 'cat', value: cat.key })}
                 className={chipClass(active)}
               >
                 {cat.label}
                 <span className="opacity-60">{counts.get(cat.key) ?? 0}</span>
-              </button>
+              </a>
             );
           })}
         </div>
@@ -241,6 +245,12 @@ export function BlogBrowser({ posts, categories, labels }: Props) {
                     <span className="ml-3 text-sm text-black/40">{group.length}</span>
                   </h2>
                   <p className="mt-2 text-sm text-black/60">{cat.description}</p>
+                  <a
+                    href={cat.href}
+                    className="mt-2 inline-block font-mono text-xs text-black/50 underline-offset-2 hover:text-black hover:underline"
+                  >
+                    {labels.viewCategory} →
+                  </a>
                 </div>
                 <ul className="divide-y divide-black/10">
                   {group.map((post) => (

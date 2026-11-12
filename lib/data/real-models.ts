@@ -18,8 +18,10 @@ export interface RealModelSpec {
   /**
    * Transformers.js task name. Every value here must exist in
    * `node_modules/@huggingface/transformers/src/pipelines/` — that directory is
-   * the authoritative list of what the library actually implements. `mediapipe`
-   * is the exception: it runs via @mediapipe/tasks-vision, see `mp`.
+   * the authoritative list of what the library actually implements. Two
+   * exceptions bypass `pipeline()`: `mediapipe` (see `mp`) and
+   * `visual-question-answering`, which loads `AutoProcessor` +
+   * `AutoModelForVision2Seq` directly because Idefics3 has no packaged pipeline.
    */
   task:
     | 'mediapipe'
@@ -52,7 +54,10 @@ export interface RealModelSpec {
     | 'background-removal'
     | 'depth-estimation'
     | 'image-feature-extraction'
-    | 'document-question-answering';
+    | 'document-question-answering'
+    // Idefics3 / SmolVLM checkpoints have no ready-made pipeline in this
+    // runtime; `real.ts` loads AutoProcessor + AutoModelForVision2Seq directly.
+    | 'visual-question-answering';
   /** Custom ONNX graph to run when `task` is 'onnxruntime' (`repo` is then the model URL). */
   ort?: 'migan' | 'demucs' | 'lama';
   /** Demucs variant (4 or 6 stems). */
@@ -71,6 +76,10 @@ export interface RealModelSpec {
   webgpuOnly?: boolean;
   /** Checkpoint to run when WebGPU is missing, or when the primary load fails. */
   fallback?: { repo: string; dtype: string };
+  /** Instruction used by a visual-question-answering checkpoint when the demo has no free-text question. */
+  prompt?: string;
+  /** Generation budget for visual-question-answering checkpoints (default 256 tokens). */
+  maxNewTokens?: number;
   /** One sentence explaining what actually runs. */
   note: L;
   /** True when `repo` is the closest browser-ready stand-in, not the exact upstream checkpoint. */
@@ -1303,6 +1312,46 @@ export const REAL_MODELS: Record<string, RealModelSpec> = {
     note: {
       zh: '真实权重：MediaPipe Gesture Recognizer（手部检测 + 21 点关键点 + 手势分类，约 8 MB）。',
       en: 'Real weights: MediaPipe Gesture Recognizer (hand detector + 21 landmarks + gesture classifier, ~8 MB).',
+    },
+  },
+
+  /* ------------------------------------ 2026-11-08 additions ------------ */
+  'multimodal/vlm/smolvlm-256m': {
+    repo: 'HuggingFaceTB/SmolVLM-256M-Instruct',
+    task: 'visual-question-answering',
+    // q4 keeps fp32 activations. The official SmolVLM WebGPU example uses fp32,
+    // and q4f16 builds of Idefics3 can overflow to NaN in ORT's WebGPU kernels
+    // (microsoft/onnxruntime#26732) and emit a repeating-token loop instead of
+    // an answer. q4 is the smallest tier we can stand behind.
+    dtype: 'q4',
+    note: {
+      zh: '真实权重：SmolVLM 256M 按提问回答图片内容，而不是只生成一句描述。vision encoder、embed tokens、decoder 三个 ONNX 文件按 q4 档加载，合计约 252 MiB；不用更小的 q4f16，因为 fp16 激活在 WebGPU 下可能溢出成 NaN，输出退化成重复字符。',
+      en: 'Real weights: SmolVLM 256M answers your question about the image instead of only captioning it. Three ONNX graphs (vision encoder, embed tokens, decoder) load at q4, about 252 MiB in total. We skip the smaller q4f16 tier because fp16 activations can overflow to NaN on WebGPU and produce a repeating-token loop.',
+    },
+  },
+  'multimodal/document-understanding/smoldocling-256m': {
+    repo: 'docling-project/SmolDocling-256M-preview',
+    task: 'visual-question-answering',
+    // Browser builds of this checkpoint report q4f16 / fp16 / int8 as
+    // degenerate; q4 is the export that actually generates DocTags.
+    dtype: 'q4',
+    // The model card's full-conversion instruction. A whole page of DocTags
+    // needs far more than the 256-token budget used for short VQA answers.
+    prompt: 'Convert this page to docling.',
+    maxNewTokens: 1024,
+    note: {
+      zh: '真实权重：SmolDocling 256M 按模型卡的 Convert this page to docling. 指令，把整页读成 DocTags 标记，表格与公式按标记保留。与 SmolVLM 同为 Idefics3 三件套 ONNX，走 q4 档（约 252 MiB），生成预算 1024 token。',
+      en: "Real weights: SmolDocling 256M follows the model card's Convert this page to docling. instruction and emits DocTags for the whole page, with tables and formulas as markup. Same Idefics3 three-graph ONNX layout as SmolVLM, loaded at q4 (~252 MiB) with a 1024-token budget.",
+    },
+  },
+  'llm/chat/qwen3-0-6b': {
+    repo: 'onnx-community/Qwen3-0.6B-ONNX',
+    task: 'text-generation',
+    dtype: 'q4f16',
+    dtypeByDevice: { webgpu: 'q4f16', wasm: 'int8' },
+    note: {
+      zh: '真实权重：Qwen3 0.6B 逐 token 生成回复，模型卡给出的 WebGPU 档是 q4f16（约 543 MiB）；WASM 路径改走 int8。提示词沿用 Qwen 的 im_start 格式。',
+      en: 'Real weights: Qwen3 0.6B generates token by token. The WebGPU build from the model card is q4f16 (~543 MiB); the WASM path switches to int8. Prompts use the Qwen im_start format.',
     },
   },
 

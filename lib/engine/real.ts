@@ -186,11 +186,13 @@ async function loadPipeline({ spec, onProgress, forceDevice, forceDtype }: LoadO
       ? await loadMatte(mod, spec, matte, dtype, device, progress_callback)
       : spec.task === 'text-ranking'
         ? await loadReranker(mod, spec, dtype, device, progress_callback)
-        : await mod.pipeline(spec.task, spec.repo, {
-          dtype,
-          device,
-          progress_callback,
-        } as any);
+        : spec.task === 'visual-question-answering'
+          ? await loadVisualQA(mod, spec, dtype, device, progress_callback)
+          : await mod.pipeline(spec.task, spec.repo, {
+            dtype,
+            device,
+            progress_callback,
+          } as any);
     return {
       call: (input: unknown, ...args: unknown[]) => pipe(input, ...(args.length ? args : [{}])) as Promise<unknown>,
       repo: spec.repo,
@@ -571,6 +573,58 @@ export async function synthesiseSpeech(
   return { waveform, sampleRate: out.sampling_rate ?? 16000, meta: run };
 }
 
+/**
+ * Idefics3 / SmolVLM checkpoints have no `image-text-to-text` pipeline in this
+ * runtime, but `AutoModelForVision2Seq` does handle the architecture (see the
+ * model registry). Load processor + model directly and answer one question
+ * about one image. The result is cached like any other pipeline.
+ */
+async function loadVisualQA(
+  mod: Runtime,
+  spec: RealModelSpec,
+  dtype: string,
+  device: string,
+  progress_callback: (e: never) => void
+): Promise<Pipe> {
+  const processor = await mod.AutoProcessor.from_pretrained(spec.repo, { progress_callback });
+  const model = await mod.AutoModelForVision2Seq.from_pretrained(spec.repo, {
+    dtype,
+    device,
+    progress_callback,
+  });
+  const call = (async (input: unknown, ...args: unknown[]) => {
+    const image = await mod.load_image(String(input));
+    const question = typeof args[0] === 'string' ? args[0] : '';
+    const messages = [
+      {
+        role: 'user',
+        content: [
+          { type: 'image', image },
+          { type: 'text', text: question.trim() || 'Describe this image.' },
+        ],
+      },
+    ];
+    const text = processor.apply_chat_template(messages, { add_generation_prompt: true });
+    const inputs = await processor(text, [image]);
+    let output = '';
+    const streamer = new mod.TextStreamer(processor.tokenizer, {
+      skip_prompt: true,
+      skip_special_tokens: true,
+      callback_function: (chunk: string) => { output += chunk; },
+    });
+    await model.generate({
+      ...inputs,
+      do_sample: false,
+      repetition_penalty: 1.1,
+      max_new_tokens: spec.maxNewTokens ?? 256,
+      streamer,
+    });
+    return [{ generated_text: output.trim() }];
+  }) as Pipe;
+  call.dispose = async () => { await model.dispose?.(); };
+  return call;
+}
+
 /** Image captioning / OCR-style image reading via an image-to-text checkpoint. */
 export async function captionImage(
   imageSrc: string,
@@ -578,6 +632,20 @@ export async function captionImage(
 ): Promise<{ text: string; meta: LoadedRun }> {
   const run = await getRun(opts);
   const out = (await run.call(imageSrc)) as { generated_text?: string }[] | { generated_text?: string };
+  const list = Array.isArray(out) ? out : [out];
+  return { text: (list[0]?.generated_text ?? '').trim(), meta: run };
+}
+
+/** Visual question answering over one image with an Idefics3 checkpoint. */
+export async function answerImageQuestion(
+  imageSrc: string,
+  question: string,
+  opts: LoadOptions
+): Promise<{ text: string; meta: LoadedRun }> {
+  const run = await getRun(opts);
+  const out = (await run.call(imageSrc, question)) as
+    | { generated_text?: string }[]
+    | { generated_text?: string };
   const list = Array.isArray(out) ? out : [out];
   return { text: (list[0]?.generated_text ?? '').trim(), meta: run };
 }

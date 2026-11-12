@@ -72,6 +72,7 @@ import { miganInpaint } from './migan';
 import { separateReal } from './stems';
 import { removeVideoWatermark, type VideoRepairMethod } from './video-watermark';
 import {
+  answerImageQuestion,
   askDocument,
   captionImage,
   classifyText,
@@ -1244,6 +1245,16 @@ function documentQuestionFor(ctx: RunContext): string {
     : 'What are the key fields and totals on this document?';
 }
 
+/**
+ * Idefics3 checkpoints are instruction-tuned with a model-specific prompt
+ * (SmolDocling needs "Convert this page to docling." to emit DocTags). A demo's
+ * free-text question always wins over that default.
+ */
+function visualQuestionFor(ctx: RunContext, spec: { prompt?: string }): string {
+  if (ctx.fields.question?.trim()) return ctx.fields.question.trim();
+  return spec.prompt ?? documentQuestionFor(ctx);
+}
+
 const CHAT_SYSTEM = {
   zh: '你是一个严谨、简洁的助手，回答控制在 200 字以内。',
   en: 'You are a rigorous, concise assistant. Keep answers under 120 words.',
@@ -1601,6 +1612,23 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
             run: { call: async () => null, repo: spec.repo, dtype: spec.dtype, device: 'wasm', bytes: 0 },
           };
         }
+        if (spec.task === 'visual-question-answering') {
+          ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
+          const r = await answerImageQuestion(ctx.media.src, visualQuestionFor(ctx, spec), { spec, onProgress: report });
+          ctx.onPhase?.(ctx.locale === 'zh' ? '读取文档…' : 'Reading the document…');
+          const size = await mediaNaturalSize(ctx.media.src);
+          return {
+            payload: {
+              kind: 'ocr',
+              lines: r.text ? [{ text: r.text, x: 0, y: 0, w: 1, h: 1, conf: 0.9 }] : [],
+              text: r.text,
+              width: size.width,
+              height: size.height,
+              imageUrl: ctx.media.src,
+            },
+            run: r.meta,
+          };
+        }
         ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
         const isDoc = spec.task === 'document-question-answering';
         const r = isDoc
@@ -1645,6 +1673,15 @@ async function tryReal(ctx: RunContext): Promise<{ payload: DemoPayload; run: Lo
             }
           );
           ctx.onPhase?.(ctx.locale === 'zh' ? '生成回答…' : 'Generating…');
+          return { payload: { kind: 'chat', text: r.text || '—' }, run: r.meta };
+        }
+        if (spec.task === 'visual-question-answering') {
+          if (!ctx.media?.src) return null;
+          const question = (ctx.fields.question ?? '').trim() || spec.prompt ||
+            (ctx.locale === 'zh' ? '描述这张图片。' : 'Describe this image.');
+          ctx.onPhase?.(ctx.locale === 'zh' ? '准备权重…' : 'Preparing weights…');
+          const r = await answerImageQuestion(ctx.media.src, question, { spec, onProgress: report });
+          ctx.onPhase?.(ctx.locale === 'zh' ? '理解图像…' : 'Understanding the image…');
           return { payload: { kind: 'chat', text: r.text || '—' }, run: r.meta };
         }
         if (!ctx.media?.src) return null;

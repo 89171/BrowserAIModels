@@ -8,6 +8,7 @@ export const TAXONOMY: CategoryMeta[] = [
       { slug: 'ner' },
       { slug: 'translation' },
       { slug: 'summarization' },
+      { slug: 'question-answering' },
     ],
   },
   {
@@ -31,6 +32,7 @@ export const TAXONOMY: CategoryMeta[] = [
     subcategories: [
       { slug: 'image-classification' },
       { slug: 'detection' },
+      { slug: 'zero-shot-detection' },
       { slug: 'segmentation' },
       { slug: 'background-removal' },
       { slug: 'watermark-removal' },
