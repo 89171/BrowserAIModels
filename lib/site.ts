@@ -1,6 +1,10 @@
 export const SITE_NAME = 'Web AI Models';
 export const SITE_DEFAULT_OG = '/og.png';
 
+// AdSense 站点验证 / 结算用的发布商 ID。输出成
+// <meta name="google-adsense-account" content="...">，每个页面都要带。
+export const ADSENSE_ACCOUNT = 'ca-pub-2234306257256278';
+
 // Every canonical, hreflang, sitemap and robots URL is built from this. A placeholder
 // that survives into a production build points the whole site at a domain we do not
 // own, so refuse to build instead of emitting one.

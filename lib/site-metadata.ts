@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { localizedUrl, languageAlternates } from '@/lib/urls';
 import { socialMetadata } from '@/lib/social';
-import { SITE_NAME, SITE_URL } from '@/lib/site';
+import { SITE_NAME, SITE_URL, ADSENSE_ACCOUNT } from '@/lib/site';
 
 export async function siteMetadata(locale: string): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'site' });
@@ -28,6 +28,7 @@ export async function siteMetadata(locale: string): Promise<Metadata> {
       apple: '/apple-touch-icon.png',
     },
     manifest: '/manifest.webmanifest',
+    other: { 'google-adsense-account': ADSENSE_ACCOUNT },
   };
 }
 

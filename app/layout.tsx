@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { SITE_URL } from '@/lib/site';
+import { SITE_URL, ADSENSE_ACCOUNT } from '@/lib/site';
 import './globals.css';
 
 // The locale layout overrides all of these for real pages. This default only
@@ -10,6 +10,7 @@ export const metadata = {
   description:
     'This page is not available. Go back to Web AI Models, a catalogue of AI models, tools and demos that run in the browser.',
   robots: { index: false, follow: true },
+  other: { 'google-adsense-account': ADSENSE_ACCOUNT },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
