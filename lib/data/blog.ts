@@ -149,7 +149,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: 'Transformers.js、ONNX Runtime、WebGPU，在浏览器里怎么分工',
         description:
-          '本站演示页底下的推理栈不止一种：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks、几个专用 WASM 库，还有 WebGPU 和只在 Chromium 落地的 WebNN。同一页里可能三种一起跑。',
+          '这个站的演示页底下同时跑着好几种推理栈：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks，还有几个把任务整个编进 WASM 的库，同一页里可能三种一起上。这篇把各层分管什么讲清楚，再说说新加一个任务时我们怎么选。',
         blocks: [
           {
             type: 'p',
@@ -285,7 +285,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'What Transformers.js, ONNX Runtime Web and WebGPU each do in a browser',
         description:
-          'The demos on this site do not all use one runtime: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks, a few purpose-built WASM libraries, plus WebGPU and the WebNN EP. One page can run three of them at once.',
+          'The demos here run on several stacks at once: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks and a few libraries that compile a whole task to WASM. One page can use three of them together. This post sorts out which layer does what, and how we pick a stack for a new task.',
         blocks: [
           {
             type: 'p',
@@ -609,9 +609,9 @@ export const blogPosts: BlogPost[] = [
     tags: ['audio', 'asr', 'tts', 'voice-cloning'],
     i18n: {
       zh: {
-        title: '浏览器里的 ASR、TTS 与声音克隆',
+        title: '在浏览器里做语音识别、合成和声音克隆',
         description:
-          'audio 和 generative-audio 两个分类里，Whisper 系权重从 16.1 MiB 到 191 MiB，Kokoro 82M 是 121 MiB。能让标签页真跑起来的只有其中几档，首次下载还得等。',
+          '语音识别、合成、声音克隆，这三段在浏览器里各自有哪几个模型真能跑起来、要等多久？这篇按管线顺序捋一遍，顺带一段可以直接抄走的 Whisper 转写代码。',
         blocks: [
           {
             type: 'p',
@@ -688,9 +688,9 @@ export const blogPosts: BlogPost[] = [
         ],
       },
       en: {
-        title: 'ASR, TTS and voice cloning in a browser tab',
+        title: 'Speech recognition, synthesis and voice cloning in a browser tab',
         description:
-          'Our audio and generative-audio categories put Whisper-family weights between 16.1 MiB and 191 MiB, with Kokoro 82M at 121 MiB. Only some of them run in a tab, and the first download takes a while.',
+          'Which speech models actually run in a browser tab, and how long does each one keep you waiting? This walks the recognition, synthesis and cloning stages in pipeline order, with a Whisper transcription snippet you can copy as is.',
         blocks: [
           {
             type: 'p',
@@ -1107,7 +1107,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '浏览器里做 RAG，检索这半边怎么搭',
         description:
-          'search-rag 分类下有嵌入模型、交叉编码器和几个向量索引库。换过一次嵌入模型，索引得整个重建；向量出设备这一步没法省。',
+          'RAG 的检索半边可以整个放进标签页：嵌入模型、向量索引、交叉编码器重排。这篇讲三段怎么接、各自多大体积，以及为什么换嵌入模型就意味着整个索引推倒重建。',
         blocks: [
           {
             type: 'p',
@@ -1196,7 +1196,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Building the retrieval half of RAG in the browser',
         description:
-          'Our search-rag category has embedding models, cross-encoders and several vector index libraries. Swapping the embedding model cost us a full index rebuild, and the vectors cannot leave the device.',
+          'The whole retrieval half of RAG fits in a tab: an embedding model, a vector index and a cross-encoder reranker. How the three stages connect, what each one weighs, and why swapping the embedding model means rebuilding the index from scratch.',
         blocks: [
           {
             type: 'p',
@@ -1531,7 +1531,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '用 Silero VAD 在浏览器里切出语音区间',
         description:
-          'VAD 只判断哪几段有人在说话。接 Silero VAD 的 ONNX 权重时踩过几个坑，目录里另一个 pyannote-segmentation 在演示页上仍由 Silero 代跑。',
+          '语音活动检测只回答一个问题：哪几段音频里有人在说话。这篇讲为什么几乎所有语音管线都从它开始、Silero VAD 的 ONNX 输入契约哪里容易接错，以及演示页上三个滑杆分别管什么。',
         blocks: [
           {
             type: 'p',
@@ -1612,7 +1612,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Cutting speech ranges out of audio with Silero VAD',
         description:
-          'VAD only decides which ranges contain speech. Wiring up the Silero ONNX weights had a few traps, and the other model in our catalogue is run by Silero in the demo.',
+          'Voice activity detection answers a single question: which parts of the audio contain speech. Why nearly every speech pipeline starts with it, where the Silero ONNX input contract is easy to get wrong, and what the three sliders on the demo page control.',
         blocks: [
           {
             type: 'p',
@@ -1699,9 +1699,9 @@ export const blogPosts: BlogPost[] = [
     tags: ['document-understanding', 'ocr', 'multimodal'],
     i18n: {
       zh: {
-        title: '1.3B 参数的 OXR-1.0，三个文档解析榜单第一',
+        title: '文档解析模型 OXR-1.0：1.3B 参数，开源一周拿下三个榜单第一',
         description:
-          'SoMark 团队开源的文档解析模型 OXR-1.0，把 PDF 和文档图片解析成 Markdown/JSON 与版面坐标。OmniDocBench、olmOCR-Bench、DocParsingBench 三个榜单第一，单卡 100 页完整解析 101 秒。',
+          'SoMark 团队开源的文档解析模型，把 PDF 和文档图片解析成带版面坐标、按阅读顺序排好的 Markdown 或 JSON。这篇整理它的榜单成绩、RSI 训练流程，以及在线 Demo、免费 API 和本地部署三种接法。',
         blocks: [
           {
             type: 'p',
@@ -1711,7 +1711,7 @@ export const blogPosts: BlogPost[] = [
             type: 'p',
             text: 'OXR 支持文字、标题、表格、公式、化学方程式、化学结构式、代码块、印章等 13 类文档元素：表格输出为 HTML/Markdown（保留行列与单元格结构），公式按 LaTeX 输出，化学方程式用 mhchem 语法、化学结构式用 SMILES 表示，多栏报纸、论文与 A3 试卷按阅读顺序还原。',
           },
-          { type: 'h2', text: '三榜第一，速度也是第一梯队' },
+          { type: 'h2', text: '三个榜单第一，速度也排在最前面' },
           {
             type: 'p',
             text: '三个榜单考的东西不一样。OmniDocBench 覆盖多种文档和版式，连阅读顺序一起评；olmOCR-Bench 用具体检查项看关键文字和表格关系有没有保住；DocParsingBench 是 SoMark 团队自己开源的，针对真实业务文档。',
@@ -1734,10 +1734,10 @@ export const blogPosts: BlogPost[] = [
           {
             type: 'ul',
             items: [
-              'OXR 先解析无标签文档，产生候选结果；',
-              '通用多模态模型结合 rollout 评判，把错样本与弱样本找出来并归因；',
-              '相近原因由独立聚类模型归组；',
-              '通用多模态模型据此制定下一轮训练策略、定向准备数据，交给 OXR 继续训练与验证，循环往复。',
+              'OXR 先解析无标签文档，产生候选结果',
+              '通用多模态模型结合 rollout 评判，把错样本与弱样本找出来并归因',
+              '相近原因由独立聚类模型归组',
+              '通用多模态模型据此制定下一轮训练策略、定向准备数据，交给 OXR 继续训练与验证，然后循环往复',
             ],
           },
           {
@@ -1776,9 +1776,9 @@ export const blogPosts: BlogPost[] = [
         ],
       },
       en: {
-        title: 'OXR-1.0 tops three parsing benchmarks at 1.3B parameters',
+        title: 'OXR-1.0: a 1.3B document parser that topped three benchmarks in its first week',
         description:
-          'OXR-1.0, open-sourced by the SoMark team, parses PDFs and document images into Markdown/JSON with layout coordinates. It ranks #1 on OmniDocBench, olmOCR-Bench and DocParsingBench while parsing 100 pages in 101 seconds on a single GPU.',
+          'SoMark open-sourced a 1.3B document parser that turns PDFs and document images into Markdown or JSON with layout coordinates in reading order. This post rounds up its benchmark results, the RSI training loop behind it, and the three ways in: hosted demo, free API or Docker.',
         blocks: [
           {
             type: 'p',
@@ -1811,10 +1811,10 @@ export const blogPosts: BlogPost[] = [
           {
             type: 'ul',
             items: [
-              'OXR parses unlabelled documents to produce candidate results;',
-              'a general multimodal model judges the rollouts, finding and diagnosing error and weak samples;',
-              'an independent clustering model groups similar causes;',
-              'the general model then plans the next training round and prepares targeted data, and OXR trains and validates on it. Then the loop repeats.',
+              'OXR parses unlabelled documents to produce candidate results',
+              'a general multimodal model judges the rollouts, finding and diagnosing error and weak samples',
+              'an independent clustering model groups similar causes',
+              'the general model then plans the next training round and prepares targeted data, and OXR trains and validates on it before the loop repeats',
             ],
           },
           {
@@ -1861,9 +1861,9 @@ export const blogPosts: BlogPost[] = [
     tags: ['multimodal', 'vlm', 'image-to-text', 'clip', 'weights'],
     i18n: {
       zh: {
-        title: '四个 VLM 卡片，跑起来的是同一个图描述模型',
+        title: '四张 VLM 卡片，跑的都是同一个图描述模型',
         description:
-          '四个条目的最小档从 213 MiB 排到 2.7 GB，可点开哪一张，下载的却是同一份图像描述权重。提问框里的字没进模型，CLIP 那半边反倒跑的是真权重。',
+          'multimodal/vlm 分类下的四张卡片标称体积从 213 MiB 排到 2.7 GB，可不管点开哪张，下载的都是同一份 vit-gpt2 图描述权重，提问框里的字根本没进模型。这篇把替身策略说清楚，顺带讲隔壁 CLIP 为什么能跑真权重。',
         blocks: [
           {
             type: 'p',
@@ -1924,9 +1924,9 @@ export const blogPosts: BlogPost[] = [
         ],
       },
       en: {
-        title: 'Four VLM cards, one image-captioning checkpoint behind them',
+        title: 'Four VLM cards, one image-captioning checkpoint behind them all',
         description:
-          'The four entries under multimodal/vlm range from 213 MiB to 2.7 GB at their smallest tier, yet every card downloads the same image-captioning checkpoint. The words typed into the question box never reach the model, while the CLIP side of the category runs real weights.',
+          'The four cards under multimodal/vlm list sizes from 213 MiB to 2.7 GB, yet every one of them downloads the same vit-gpt2 captioning checkpoint, and the question you type never reaches a model. Here is how the substitutes work, and why the CLIP page next door runs real weights.',
         blocks: [
           {
             type: 'p',
@@ -1997,7 +1997,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '超分、去噪、去模糊，三页都接到了 Swin2SR 上',
         description:
-          '滑杆长得一样，是三页共用 `restoration` 一种输出。四张卡片接上权重之后，真实加载的仓库只有三个，全来自 Swin2SR 家族。深度那页反倒两张都跑自己的权重。',
+          '超分、图像恢复、图像增强三个演示页共用一套控件，接上真实权重后，四张名字不同的卡片实际加载的是三个仓库，全是 Swin2SR 家族的导出。这篇交代清楚替身关系，以及真实模式下那个点了没反应的 task 下拉。',
         blocks: [
           {
             type: 'p',
@@ -2062,7 +2062,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Super-resolution, denoising and deblurring all land on Swin2SR',
         description:
-          'The sliders look identical because all three pages share one `restoration` output kind. With real weights wired up, four differently named cards resolve to three repositories, all Swin2SR exports. The depth page is the odd one out: both of its cards run their own weights.',
+          'The super-resolution, restoration and enhancement demos share one set of controls, and with real weights wired up, four differently named cards resolve to three repositories, all Swin2SR exports. This post maps out the substitutes and explains the task selector that stops responding in real mode.',
         blocks: [
           {
             type: 'p',
@@ -2135,7 +2135,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '涂掉水印和擦掉路人，落到同一个 26.8 MiB 权重',
         description:
-          '三页的笔刷和滑杆几乎一样，真实权重也共用一份 MI-GAN ONNX。单图页的 LaMa 卡片退成替身，视频高清档却把那份 LaMa 权重真加载起来了。',
+          '去水印、物体擦除、局部重绘三页共用一套笔刷控件，真实权重也大多落到同一份 26.8 MiB 的 MI-GAN ONNX 上。唯一的例外是视频高清档，它真把 198 MiB 的 LaMa 跑了起来。',
         blocks: [
           {
             type: 'p',
@@ -2198,7 +2198,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Erasing a watermark and erasing a passer-by both end up at one 26.8 MiB checkpoint',
         description:
-          'The watermark, object removal and inpainting pages share the same brush and sliders, and they share one MI-GAN ONNX file for real weights. The LaMa card falls back to a substitute on the single-image page, while the HD pass on the video page actually loads that LaMa checkpoint.',
+          'The watermark, object-removal and inpainting pages share one set of brush controls, and their real weights mostly come down to the same 26.8 MiB MI-GAN ONNX. The exception is the video HD pass, which genuinely loads the 198 MiB LaMa checkpoint.',
         blocks: [
           {
             type: 'p',
@@ -2267,9 +2267,9 @@ export const blogPosts: BlogPost[] = [
     tags: ['video', 'webcodecs', 'inpainting', 'ffmpeg', 'temporal'],
     i18n: {
       zh: {
-        title: '8 秒视频去水印，时域中值比模型先用上',
+        title: '给视频去水印，先上场的不是模型，是时域中值',
         description:
-          '视频去水印页会在时间轴上取十几帧，看水印背后的画面动不动。动了直接求时域中值，静止才对一帧跑 MI-GAN，多数情况连权重都不用下。隔壁视频理解页的三张卡片只剩历史估值，能跑的是逐帧分类。',
+          '视频去水印页会先在时间轴上取十几帧，看水印背后的画面动不动：动了直接求时域中值，静止才对一帧跑 MI-GAN，多数情况连权重都不用下。这篇还讲了 WebCodecs 逐帧重编码和用 ffmpeg.wasm 把音轨接回去的细节。',
         blocks: [
           {
             type: 'p',
@@ -2331,9 +2331,9 @@ export const blogPosts: BlogPost[] = [
         ],
       },
       en: {
-        title: 'Removing a watermark from an 8-second clip: temporal median before any model',
+        title: 'Removing a video watermark: temporal median first, model second',
         description:
-          'The video watermark demo samples a dozen frames along the timeline to see whether the area behind the watermark moves. If it does, a temporal median rebuilds it and no weights are downloaded. A static background gets one MI-GAN inpaint on a representative frame. WebCodecs re-encodes the result at a fixed framerate, and the video understanding page still classifies sampled frames.',
+          'The video watermark demo samples a dozen frames and checks whether the background behind the watermark moves. If it does, a temporal median rebuilds it and nothing is downloaded; a static background gets a single MI-GAN inpaint. Also covered: re-encoding frame by frame with WebCodecs and muxing the audio back with ffmpeg.wasm.',
         blocks: [
           {
             type: 'p',
@@ -2403,9 +2403,9 @@ export const blogPosts: BlogPost[] = [
     tags: ['audio', 'source-separation', 'demucs', 'audio-classification', 'wasm'],
     i18n: {
       zh: {
-        title: '6 分钟上限、7.8 秒一段，HT-Demucs 在标签页里分轨',
+        title: '在标签页里跑 HT-Demucs 分轨：7.8 秒一段，上限 6 分钟',
         description:
-          '分轨跑在 Worker 里的裸 ONNX 上，整段音频拆成 7.8 秒的小块，重叠相加接起来。代码里的时长上限是累加器占内存逼出来的。声音分类那页卡片标的最小档和页面实际下载的 q8 文件对不上，2 轨伴奏是各轨求和凑出来的。',
+          '分轨跑的是 Worker 里的裸 ONNX 会话，音频切成 7.8 秒的重叠段再接回去，6 分钟的时长上限是累加器内存逼出来的。声音分类那页也有故事：卡片上标的最小档，和页面实际下载的 q8 文件对不上。',
         blocks: [
           {
             type: 'p',
@@ -2470,9 +2470,9 @@ export const blogPosts: BlogPost[] = [
         ],
       },
       en: {
-        title: 'A six-minute cap and 7.8-second chunks: HT-Demucs separating stems in a tab',
+        title: 'HT-Demucs stem separation in a tab: 7.8-second chunks and a six-minute cap',
         description:
-          'Stem separation runs a bare ONNX graph in a Worker, with the track cut into overlapping 7.8-second segments and joined back with overlap-add. The cap on duration comes from the accumulators each stem needs. The audio classification page has its own pair of numbers: the smallest tier printed on a card and the q8 file the page really downloads. Choosing 2 stems on the demo sums the other stems into one instrumental track.',
+          'Stem separation runs as a bare ONNX session in a Worker, cutting audio into overlapping 7.8-second segments and joining them back; the six-minute cap is forced by accumulator memory. The audio classification page has its own story: the smallest tier printed on the card is not the q8 file the page downloads.',
         blocks: [
           {
             type: 'p',
