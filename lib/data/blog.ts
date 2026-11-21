@@ -149,7 +149,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: 'Transformers.js、ONNX Runtime、WebGPU，在浏览器里怎么分工',
         description:
-          '这个站的演示页底下同时跑着好几种推理栈：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks，还有几个把任务整个编进 WASM 的库，同一页里可能三种一起上。这篇把各层分管什么讲清楚，再说说新加一个任务时我们怎么选。',
+          '这个站的演示页底下同时跑着好几种推理栈：Transformers.js 管线、onnxruntime-web 裸会话、MediaPipe Tasks，还有几个把任务整个编进 WASM 的库，同一页里可能三种一起上。把各层分管什么摆开，再说新加一个任务时我们怎么选。',
         blocks: [
           {
             type: 'p',
@@ -285,7 +285,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'What Transformers.js, ONNX Runtime Web and WebGPU each do in a browser',
         description:
-          'The demos here run on several stacks at once: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks and a few libraries that compile a whole task to WASM. One page can use three of them together. This post sorts out which layer does what, and how we pick a stack for a new task.',
+          'The demos here run on several stacks at once: Transformers.js pipelines, raw onnxruntime-web sessions, MediaPipe Tasks and a few libraries that compile a whole task to WASM. One page can use three of them together. Here is which layer does what, and how we pick a stack for a new task.',
         blocks: [
           {
             type: 'p',
@@ -611,7 +611,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '在浏览器里做语音识别、合成和声音克隆',
         description:
-          '语音识别、合成、声音克隆，这三段在浏览器里各自有哪几个模型真能跑起来、要等多久？这篇按管线顺序捋一遍，顺带一段可以直接抄走的 Whisper 转写代码。',
+          '语音识别、合成、声音克隆，这三段在浏览器里各自有哪几个模型真能跑起来、要等多久？下面按管线顺序捋一遍，顺带一段可以直接抄走的 Whisper 转写代码。',
         blocks: [
           {
             type: 'p',
@@ -690,7 +690,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Speech recognition, synthesis and voice cloning in a browser tab',
         description:
-          'Which speech models actually run in a browser tab, and how long does each one keep you waiting? This walks the recognition, synthesis and cloning stages in pipeline order, with a Whisper transcription snippet you can copy as is.',
+          'Which speech models actually run in a browser tab, and how long does each one keep you waiting? The recognition, synthesis and cloning stages, in pipeline order, with a Whisper transcription snippet you can copy as is.',
         blocks: [
           {
             type: 'p',
@@ -1107,7 +1107,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '浏览器里做 RAG，检索这半边怎么搭',
         description:
-          'RAG 的检索半边可以整个放进标签页：嵌入模型、向量索引、交叉编码器重排。这篇讲三段怎么接、各自多大体积，以及为什么换嵌入模型就意味着整个索引推倒重建。',
+          'RAG 的检索半边可以整个放进标签页：嵌入模型、向量索引、交叉编码器重排。三段怎么接、各自多大体积，以及为什么换嵌入模型就意味着整个索引推倒重建，都在下面。',
         blocks: [
           {
             type: 'p',
@@ -1531,7 +1531,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '用 Silero VAD 在浏览器里切出语音区间',
         description:
-          '语音活动检测只回答一个问题：哪几段音频里有人在说话。这篇讲为什么几乎所有语音管线都从它开始、Silero VAD 的 ONNX 输入契约哪里容易接错，以及演示页上三个滑杆分别管什么。',
+          '语音活动检测只回答一个问题：哪几段音频里有人在说话。为什么几乎所有语音管线都从它开始、Silero VAD 的 ONNX 输入契约哪里容易接错，以及演示页上三个滑杆分别管什么，下面一次说清。',
         blocks: [
           {
             type: 'p',
@@ -1699,13 +1699,13 @@ export const blogPosts: BlogPost[] = [
     tags: ['document-understanding', 'ocr', 'multimodal'],
     i18n: {
       zh: {
-        title: '文档解析模型 OXR-1.0：1.3B 参数，开源一周拿下三个榜单第一',
+        title: '把 PDF 解析成 Markdown，1.3B 的 OXR-1.0 是怎么做到的',
         description:
-          'SoMark 团队开源的文档解析模型，把 PDF 和文档图片解析成带版面坐标、按阅读顺序排好的 Markdown 或 JSON。这篇整理它的榜单成绩、RSI 训练流程，以及在线 Demo、免费 API 和本地部署三种接法。',
+          'OXR-1.0 只有 1.3B 参数，却在几个文档解析榜单上压过了更大的模型。下面拆它的 RSI 训练流程、可插拔的版面分析，以及在线 Demo、免费 API、本地部署三种接法。',
         blocks: [
           {
             type: 'p',
-            text: 'SoMark 团队（守扣科技）开源了文档解析模型 OXR（Optical Everything Recognition）。主模型 1.3B 参数，开源一周左右拿下三个公开文档解析基准的第一，GitHub 星标首周破千。PDF 和文档图片进去，出来的是 Markdown / JSON，每个内容块还带原页上的版面坐标，按阅读顺序排好。团队管这叫「Agent 友好数据」，意思是解析完不用再加工就能进知识库、RAG 或 Agent 流程。',
+            text: 'OXR（Optical Everything Recognition）是 SoMark 团队开源的文档解析模型，主模型 1.3B 参数。我们把它收进目录时注意到一个反常点：这个体积在文档解析里算小的，却在三个公开基准上拿了第一，GitHub 首周也破了千星。PDF 和文档图片进去，出来的是 Markdown / JSON，每个内容块带原页的版面坐标，按阅读顺序排好。团队管这叫「Agent 友好数据」，意思是解析完不用再加工，能直接进知识库、RAG 或 Agent 流程。',
           },
           {
             type: 'p',
@@ -1776,13 +1776,13 @@ export const blogPosts: BlogPost[] = [
         ],
       },
       en: {
-        title: 'OXR-1.0: a 1.3B document parser that topped three benchmarks in its first week',
+        title: 'How a 1.3B model turns a PDF into Markdown',
         description:
-          'SoMark open-sourced a 1.3B document parser that turns PDFs and document images into Markdown or JSON with layout coordinates in reading order. This post rounds up its benchmark results, the RSI training loop behind it, and the three ways in: hosted demo, free API or Docker.',
+          'OXR-1.0 is only 1.3B parameters, yet it beats larger models on several document-parsing benchmarks. Its RSI training loop, its pluggable layout analysis, and the three ways in: hosted demo, free API or Docker.',
         blocks: [
           {
             type: 'p',
-            text: 'The SoMark team has open-sourced OXR (Optical Everything Recognition), a document-parsing model whose main network is 1.3B parameters. Within about a week of release it took first place on three public parsing benchmarks and passed 1,000 GitHub stars. PDFs and document images come out as Markdown / JSON, with layout coordinates for each block on the original page, ordered by reading sequence. The team calls this agent-friendly data, meaning it can go straight into a knowledge base, a RAG pipeline or an agent without another processing step.',
+            text: 'The SoMark team open-sourced OXR, Optical Everything Recognition, a document parser whose main network is 1.3B parameters. We noticed something odd when adding it to the catalogue: that size is small for document parsing, yet it took first place on three public benchmarks and passed 1,000 GitHub stars in its first week. PDFs and document images come out as Markdown / JSON, with layout coordinates for each block on the original page, ordered by reading sequence. The team calls this agent-friendly data, meaning it can go straight into a knowledge base, a RAG pipeline or an agent without another processing step.',
           },
           {
             type: 'p',
@@ -1863,7 +1863,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '四张 VLM 卡片，跑的都是同一个图描述模型',
         description:
-          'multimodal/vlm 分类下的四张卡片标称体积从 213 MiB 排到 2.7 GB，可不管点开哪张，下载的都是同一份 vit-gpt2 图描述权重，提问框里的字根本没进模型。这篇把替身策略说清楚，顺带讲隔壁 CLIP 为什么能跑真权重。',
+          'multimodal/vlm 分类下的四张卡片标称体积从 213 MiB 排到 2.7 GB，可不管点开哪张，下载的都是同一份 vit-gpt2 图描述权重，提问框里的字根本没进模型。替身策略是怎么回事，隔壁 CLIP 又为什么能跑真权重，下面分开讲。',
         blocks: [
           {
             type: 'p',
@@ -1997,7 +1997,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '超分、去噪、去模糊，三页都接到了 Swin2SR 上',
         description:
-          '超分、图像恢复、图像增强三个演示页共用一套控件，接上真实权重后，四张名字不同的卡片实际加载的是三个仓库，全是 Swin2SR 家族的导出。这篇交代清楚替身关系，以及真实模式下那个点了没反应的 task 下拉。',
+          '超分、图像恢复、图像增强三个演示页共用一套控件，接上真实权重后，四张名字不同的卡片实际加载的是三个仓库，全是 Swin2SR 家族的导出。替身关系是什么，真实模式下那个点了没反应的 task 下拉又是怎么回事，下面交代。',
         blocks: [
           {
             type: 'p',
@@ -2062,7 +2062,7 @@ export const blogPosts: BlogPost[] = [
       en: {
         title: 'Super-resolution, denoising and deblurring all land on Swin2SR',
         description:
-          'The super-resolution, restoration and enhancement demos share one set of controls, and with real weights wired up, four differently named cards resolve to three repositories, all Swin2SR exports. This post maps out the substitutes and explains the task selector that stops responding in real mode.',
+          'The super-resolution, restoration and enhancement demos share one set of controls, and with real weights wired up, four differently named cards resolve to three repositories, all Swin2SR exports. Here is how the substitutes map out, and why the task selector stops responding in real mode.',
         blocks: [
           {
             type: 'p',
@@ -2269,7 +2269,7 @@ export const blogPosts: BlogPost[] = [
       zh: {
         title: '给视频去水印，先上场的不是模型，是时域中值',
         description:
-          '视频去水印页会先在时间轴上取十几帧，看水印背后的画面动不动：动了直接求时域中值，静止才对一帧跑 MI-GAN，多数情况连权重都不用下。这篇还讲了 WebCodecs 逐帧重编码和用 ffmpeg.wasm 把音轨接回去的细节。',
+          '视频去水印页会先在时间轴上取十几帧，看水印背后的画面动不动：动了直接求时域中值，静止才对一帧跑 MI-GAN，多数情况连权重都不用下。WebCodecs 逐帧重编码、用 ffmpeg.wasm 把音轨接回去的细节，也一并在这。',
         blocks: [
           {
             type: 'p',
